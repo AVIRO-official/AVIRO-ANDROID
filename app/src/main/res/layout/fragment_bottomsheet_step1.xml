@@ -1,0 +1,158 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
+
+    <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="5dp"
+        android:background="@drawable/bar_bottomsheet"
+        android:layout_marginStart="169dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:ignore="MissingConstraints"></LinearLayout>
+
+
+    <LinearLayout
+        android:id="@+id/veganTypeIcon"
+        android:layout_width="56dp"
+        android:layout_height="56dp"
+        android:layout_marginTop="30dp"
+        android:layout_marginStart="20dp"
+        android:orientation="horizontal"
+        android:background="@drawable/ic_vegantype_green"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/restaurantInfo"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="30dp"
+        android:orientation="vertical"
+        app:layout_constraintStart_toEndOf="@id/veganTypeIcon"
+        app:layout_constraintTop_toTopOf="parent">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:id="@+id/nameTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="러브얼스"
+            android:textSize="20sp"
+            android:textStyle="bold"
+            android:textColor="@color/Gray0"/>
+        <TextView
+            android:id="@+id/typeTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="5dp"
+            android:paddingTop="4dp"
+            android:textSize="15sp"
+            android:text="식당" />
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+
+        <LinearLayout
+            android:id="@+id/distanceIcon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:orientation="horizontal"
+            android:background="@drawable/ic_bottomsheet_loc">
+        </LinearLayout>
+        <TextView
+            android:id="@+id/distanceTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:text="TextView" />
+
+        <LinearLayout
+            android:id="@+id/numOfReviewIcon"
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:orientation="horizontal"
+            android:layout_marginStart="10dp"
+            android:background="@drawable/ic_bottomsheet_review">
+        </LinearLayout>
+        <TextView
+            android:id="@+id/numOfReviewTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginStart="4dp"
+            android:text="51개" />
+    </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/restaurantLoc"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="7dp"
+        android:layout_marginStart="91dp"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/restaurantInfo">
+
+        <TextView
+            android:id="@+id/locTxtView"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:text="부산광역시 수영구 광안로49번길..." />
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/etcBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dp"
+        android:layout_marginEnd="20dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/likeBtn"
+            android:layout_width="38dp"
+            android:layout_height="38dp"
+            android:padding="8dp"
+            android:orientation="horizontal">
+            <LinearLayout
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:orientation="horizontal"
+                android:background="@drawable/ic_bottomsheet_like_non">
+            </LinearLayout>
+        </LinearLayout>
+    <LinearLayout
+        android:id="@+id/shareBtn"
+        android:layout_width="38dp"
+        android:layout_height="38dp"
+        android:padding="8dp"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:orientation="horizontal"
+            android:background="@drawable/ic_bottomsheet_share">
+        </LinearLayout>
+    </LinearLayout>
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
