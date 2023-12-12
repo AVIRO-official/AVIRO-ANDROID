@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="DesignSurface">
+    <option name="filePathToZoomLevelMap">
+      <map>
+        <entry key="app/src/main/res/drawable/base_edittext_non.xml" value="0.1765" />
+        <entry key="app/src/main/res/drawable/base_edittext_right.xml" value="0.1765" />
+        <entry key="app/src/main/res/drawable/base_edittext_round_square_activate.xml" value="0.1685" />
+        <entry key="app/src/main/res/drawable/base_edittext_roundsquare_default.xml" value="0.216" />
+        <entry key="app/src/main/res/drawable/base_edittext_wrong.xml" value="0.1765" />
+        <entry key="app/src/main/res/drawable/base_mypage_menubar.xml" value="0.1685" />
+        <entry key="app/src/main/res/drawable/base_round_square.xml" value="0.216" />
+        <entry key="app/src/main/res/drawable/base_round_square_activate.xml" value="0.1765" />
+        <entry key="app/src/main/res/drawable/base_roundsquare.xml" value="0.216" />
+        <entry key="app/src/main/res/drawable/base_roundsquare_gray6.xml" value="0.207" />
+        <entry key="app/src/main/res/drawable/btn_gender_female_activate.xml" value="0.1765" />
+        <entry key="app/src/main/res/drawable/btn_gender_female_non.xml" value="0.1765" />
+        <entry key="app/src/main/res/drawable/btn_next_activate.xml" value="0.1685" />
+        <entry key="app/src/main/res/drawable/btn_next_non.xml" value="0.207" />
+        <entry key="app/src/main/res/drawable/btn_sign_terms_approve_activate.xml" value="0.1765" />
+        <entry key="app/src/main/res/drawable/btn_sign_terms_approve_non.xml" value="0.1765" />
+        <entry key="app/src/main/res/drawable/card_vegantype_green_default.xml" value="0.2635" />
+        <entry key="app/src/main/res/drawable/dot_guide_non.xml" value="0.1765" />
+        <entry key="app/src/main/res/drawable/ic_check_non.xml" value="0.242" />
+        <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.242" />
+        <entry key="app/src/main/res/drawable/ic_guide_register.xml" value="0.242" />
+        <entry key="app/src/main/res/drawable/ic_guide_review.xml" value="0.1765" />
+        <entry key="app/src/main/res/drawable/ic_guide_search.xml" value="0.2635" />
+        <entry key="app/src/main/res/drawable/ic_vegantype_green.xml" value="0.2635" />
+        <entry key="app/src/main/res/drawable/ic_vegantype_yellow.xml" value="0.1765" />
+        <entry key="app/src/main/res/drawable/selector_checkbox.xml" value="0.206" />
+        <entry key="app/src/main/res/drawable/text_guide_menu.xml" value="0.1765" />
+        <entry key="app/src/main/res/layout/activity_guide.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.22573749465583584" />
+        <entry key="app/src/main/res/layout/activity_main.xml" value="0.22573749465583584" />
+        <entry key="app/src/main/res/layout/activity_sign.xml" value="0.16075245831551946" />
+        <entry key="app/src/main/res/layout/activity_sign_nickname.xml" value="0.22573749465583584" />
+        <entry key="app/src/main/res/layout/activity_sign_option.xml" value="0.22573749465583584" />
+        <entry key="app/src/main/res/layout/activity_sign_terms.xml" value="0.22573749465583584" />
+        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.22573749465583584" />
+        <entry key="app/src/main/res/layout/activity_update.xml" value="0.16971893310546876" />
+        <entry key="app/src/main/res/layout/fragment_bottomsheet_step1.xml" value="0.17731481481481481" />
+        <entry key="app/src/main/res/layout/fragment_bottomsheet_step2.xml" value="0.17731481481481481" />
+        <entry key="app/src/main/res/layout/fragment_guide_menu.xml" value="0.17731481481481481" />
+        <entry key="app/src/main/res/layout/fragment_guide_register.xml" value="0.22573749465583584" />
+        <entry key="app/src/main/res/layout/fragment_guide_review.xml" value="0.19947916666666668" />
+        <entry key="app/src/main/res/layout/fragment_guide_search.xml" value="0.13265998517411948" />
+        <entry key="app/src/main/res/layout/fragment_map.xml" value="0.2228788518362178" />
+        <entry key="app/src/main/res/layout/fragment_mypage.xml" value="0.14583333333333334" />
+        <entry key="app/src/main/res/layout/fragment_register.xml" value="0.25" />
+        <entry key="app/src/main/res/layout/fragment_sign_complete.xml" value="0.1628901239846088" />
+        <entry key="app/src/main/res/layout/fragment_sign_nickname.xml" value="0.21248396750748183" />
+        <entry key="app/src/main/res/layout/fragment_sign_option.xml" value="0.10944848225737494" />
+        <entry key="app/src/main/res/layout/fragment_sign_terms.xml" value="0.22573749465583584" />
+      </map>
+    </option>
+  </component>
+  <component name="ExternalStorageConfigurationManager" enabled="true" />
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="11" project-jdk-type="JavaSDK" />
+</project>
