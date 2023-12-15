@@ -9,7 +9,7 @@
         <import type="androidx.core.content.ContextCompat"/>
         <variable
             name="viewmodel"
-            type="com.android.aviro.presentation.SignViewModel" />
+            type="com.android.aviro.presentation.sign.SignViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout

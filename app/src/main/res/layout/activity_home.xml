@@ -33,7 +33,8 @@
         android:background="@color/Gray7"
         app:itemIconSize="24dp"
         app:menu="@menu/bottom_nav_menu"
-        app:itemBackground="@color/Gray7"
-        app:itemIconTint="@color/Cobalt"/>
+        app:itemTextColor="@drawable/bottom_bar_color"
+        app:itemIconTint="@drawable/bottom_bar_color"
+        app:itemBackground="@drawable/bottom_bar_margin"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

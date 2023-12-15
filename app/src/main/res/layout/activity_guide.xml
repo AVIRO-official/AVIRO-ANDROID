@@ -1,10 +1,18 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.android.aviro.presentation.guide.GuideViewModel" />
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".presentation.Guide"
+    tools:context=".presentation.guide.Guide"
     android:background="@color/BG_Blue">
 
     <LinearLayout
@@ -21,7 +29,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginEnd = "9dp"
-            android:background="@drawable/dot_guide_non">
+            app:setDotDrawable="@{viewmodel.dot[0]}">
         </LinearLayout>
         <LinearLayout
             android:id="@+id/dot2"
@@ -29,7 +37,7 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginEnd = "9dp"
-            android:background="@drawable/dot_guide_non">
+            app:setDotDrawable="@{viewmodel.dot[1]}">
         </LinearLayout>
         <LinearLayout
             android:id="@+id/dot3"
@@ -37,14 +45,14 @@
             android:layout_height="wrap_content"
             android:orientation="horizontal"
             android:layout_marginEnd = "9dp"
-            android:background="@drawable/dot_guide_non">
+            app:setDotDrawable="@{viewmodel.dot[2]}">
         </LinearLayout>
         <LinearLayout
             android:id="@+id/dot4"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="horizontal"
-            android:background="@drawable/dot_guide_non">
+            app:setDotDrawable="@{viewmodel.dot[3]}">
         </LinearLayout>
     </LinearLayout>
 
@@ -56,3 +64,4 @@
     </androidx.viewpager2.widget.ViewPager2>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

@@ -1,12 +1,9 @@
-package com.android.aviro.presentation
+package com.android.aviro.presentation.sign
 
 import android.content.Intent
 import android.net.Uri
-import android.util.Log
 import android.view.View
-import androidx.core.content.ContextCompat.startActivity
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
+import android.widget.EditText
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -43,6 +40,10 @@ class SignViewModel : ViewModel() {
     val _nicknameNoticeTextColor= MutableLiveData<Int>()
     val nicknameNoticeTextColor : LiveData<Int>
         get() = _nicknameNoticeTextColor
+
+    val _birthdayText = MutableLiveData<String>()
+    val birthdayText : LiveData<String>
+        get() = _birthdayText
 
     private val _isAllTrue = MutableLiveData<Boolean>()
     val isAllTrue: LiveData<Boolean>
@@ -101,6 +102,18 @@ class SignViewModel : ViewModel() {
             }
         }
 
+    }
+
+
+    fun afterTextChanged(editable: EditText) {
+        val text = editable.toString()
+        if (text.length == 4 || text.length == 7) {
+            _birthdayText.value = "${text}" + "."
+
+        } else if (text.length == 10) {
+            // 생일 유효성 검증
+
+        }
     }
 
     fun onClickApprove(view : View) {

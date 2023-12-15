@@ -1,5 +1,6 @@
 package com.android.aviro.presentation
 
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import android.view.animation.Animation
@@ -47,4 +48,15 @@ object BindingAdapter {
 
         }
     }
+
+    @JvmStatic
+    @BindingAdapter("app:setDotDrawable")
+    fun setDotDrawable(view: View, isDot: Boolean) {
+        if (isDot) {
+            view.background = ContextCompat.getDrawable(view.context, R.drawable.dot_guide_select)
+        } else {
+            view.background = ContextCompat.getDrawable(view.context, R.drawable.dot_guide_non)
+        }
+    }
+
 }

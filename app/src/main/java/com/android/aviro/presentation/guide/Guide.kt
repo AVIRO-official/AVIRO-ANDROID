@@ -1,20 +1,17 @@
-package com.android.aviro.presentation
+package com.android.aviro.presentation.guide
 
-import android.R
 import android.os.Bundle
-import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.fragment.app.Fragment
-import androidx.viewpager.widget.ViewPager.OnPageChangeListener
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.android.aviro.databinding.ActivityGuideBinding
-import com.android.aviro.databinding.ActivityHomeBinding
 
 
 class Guide : AppCompatActivity() {
 
     private lateinit var binding: ActivityGuideBinding
+    //lateinit var ViewModel: GuideViewModel
 
     val frag1 = GuideSearchFragment()
     val frag2 = GuideRegisterFragment()
@@ -28,6 +25,8 @@ class Guide : AppCompatActivity() {
 
         binding = ActivityGuideBinding.inflate(layoutInflater)
         setContentView(binding.root)
+
+        //ViewModel = GuideViewModel()
 
         binding.viewPager.adapter = adapter
 

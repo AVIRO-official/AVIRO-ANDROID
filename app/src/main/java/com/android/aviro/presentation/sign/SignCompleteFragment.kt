@@ -1,4 +1,4 @@
-package com.android.aviro.presentation
+package com.android.aviro.presentation.sign
 
 import android.content.Intent
 import android.os.Bundle
@@ -7,9 +7,9 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
-import com.android.aviro.R
 import com.android.aviro.databinding.FragmentSignCompleteBinding
 import com.android.aviro.presentation.Home.Home
+import com.android.aviro.presentation.update.Update
 
 class SignCompleteFragment : Fragment() {
 

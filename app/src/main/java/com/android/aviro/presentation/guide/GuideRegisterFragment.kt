@@ -1,19 +1,17 @@
-package com.android.aviro.presentation
+package com.android.aviro.presentation.guide
 
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
-import com.android.aviro.databinding.FragmentGuideMenuBinding
+import com.android.aviro.databinding.FragmentGuideRegisterBinding
 
-class GuideMenuFragment : Fragment() {
+class GuideRegisterFragment : Fragment() {
 
-    private var _binding: FragmentGuideMenuBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
+    private var _binding: FragmentGuideRegisterBinding? = null
     private val binding get() = _binding!!
+    private lateinit var viewModel : GuideViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,8 +19,10 @@ class GuideMenuFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentGuideMenuBinding.inflate(inflater, container, false)
+        _binding = FragmentGuideRegisterBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        viewModel = GuideViewModel("register")
 
 
         return root
@@ -32,5 +32,4 @@ class GuideMenuFragment : Fragment() {
         super.onDestroyView()
         _binding = null
     }
-
 }

@@ -1,4 +1,4 @@
-package com.android.aviro.presentation
+package com.android.aviro.presentation.sign
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -7,13 +7,13 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.android.aviro.R
-import com.android.aviro.databinding.FragmentSignTermsBinding
+import com.android.aviro.databinding.FragmentSignOptionBinding
 
-class SignTermsFragment: Fragment() {
+class SignOptionFragment : Fragment() {
 
     private val sharedViewModel: SignViewModel by activityViewModels()
 
-    private var _binding: FragmentSignTermsBinding? = null
+    private var _binding: FragmentSignOptionBinding? = null
     private val binding get() = _binding!!
 
     override fun onCreateView(
@@ -22,23 +22,21 @@ class SignTermsFragment: Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentSignTermsBinding.inflate(inflater, container, false)
+        _binding = FragmentSignOptionBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         binding.viewmodel = sharedViewModel
-        binding.lifecycleOwner = this@SignTermsFragment
-
+        binding.lifecycleOwner = this@SignOptionFragment
         binding.nextBtn.setOnClickListener {
             parentFragmentManager.beginTransaction()
-                .replace(R.id.fragment_container_view, SignCompleteFragment())
-                .addToBackStack("SignCompleteFragment") // 백 스택에 추가
+                .replace(R.id.fragment_container_view, SignTermsFragment())
+                .addToBackStack("SignTermsFragment") // 백 스택에 추가
                 .commit()
         }
 
         binding.backBtn.setOnClickListener {
             requireActivity().onBackPressed()
         }
-
 
         return root
     }
@@ -48,4 +46,9 @@ class SignTermsFragment: Fragment() {
         _binding = null
     }
 
+
+
+
 }
+
+
