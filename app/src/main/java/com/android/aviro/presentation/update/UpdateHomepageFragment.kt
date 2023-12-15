@@ -1,6 +1,30 @@
-package com.android.aviro.presentation
+package com.android.aviro.presentation.update
 
+import android.os.Bundle
+import android.view.LayoutInflater
+import android.view.View
+import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import com.android.aviro.databinding.FragmentUpdateHomepageBinding
 
 class UpdateHomepageFragment : Fragment() {
+
+    //private val sharedViewModel: SignViewModel by activityViewModels()
+
+    private var _binding: FragmentUpdateHomepageBinding? = null
+    private val binding get() = _binding!!
+
+    override fun onCreateView(
+        inflater: LayoutInflater,
+        container: ViewGroup?,
+        savedInstanceState: Bundle?
+    ): View {
+
+        _binding = FragmentUpdateHomepageBinding.inflate(inflater, container, false)
+        val root: View = binding.root
+
+
+        return root
+    }
+
 }

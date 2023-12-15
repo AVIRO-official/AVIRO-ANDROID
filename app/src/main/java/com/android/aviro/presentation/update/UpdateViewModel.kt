@@ -1,4 +1,5 @@
-package com.android.aviro.presentation
+package com.android.aviro.presentation.update
 
 class UpdateViewModel {
+
 }
