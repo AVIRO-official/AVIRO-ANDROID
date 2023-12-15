@@ -1,14 +1,9 @@
-package com.android.aviro.presentation
+package com.android.aviro.presentation.sign
 
 import android.content.Intent
 import android.net.Uri
-import android.text.Editable
-import android.text.TextWatcher
-import android.util.Log
 import android.view.View
-import androidx.core.content.ContextCompat.startActivity
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
+import android.widget.EditText
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -110,7 +105,7 @@ class SignViewModel : ViewModel() {
     }
 
 
-    fun afterTextChanged(editable: Editable?) {
+    fun afterTextChanged(editable: EditText) {
         val text = editable.toString()
         if (text.length == 4 || text.length == 7) {
             _birthdayText.value = "${text}" + "."

@@ -1,4 +1,4 @@
-package com.android.aviro.presentation
+package com.android.aviro.presentation.sign
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -8,6 +8,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.android.aviro.R
 import com.android.aviro.databinding.FragmentSignTermsBinding
+
 
 class SignTermsFragment: Fragment() {
 
