@@ -1,4 +1,4 @@
 package com.android.aviro.presentation
 
-class UpdateHomepageFragment {
+class UpdateViewModel {
 }

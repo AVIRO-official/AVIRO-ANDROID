@@ -8,7 +8,7 @@
         <import type="androidx.core.content.ContextCompat"/>
         <variable
             name="viewmodel"
-            type="com.android.aviro.presentation.SignViewModel" />
+            type="com.android.aviro.presentation.sign.SignViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -75,9 +75,11 @@
                 android:ems="10"
                 android:inputType="date|textMultiLine|textNoSuggestions"
                 android:hint="0000.00.00"
+                android:text = "@{viewmodel.birthdayText}"
                 android:textSize="18sp"
                 android:textColor = "@color/Gray3"
-                android:background = "@drawable/base_edittext_roundsquare_default"/>
+                android:background = "@drawable/base_edittext_roundsquare_default"
+                android:onTextChanged="@{() -> viewmodel.afterTextChanged(editTextbirthday)}"/>
 
             <TextView
                 android:id="@+id/birthday_notice"

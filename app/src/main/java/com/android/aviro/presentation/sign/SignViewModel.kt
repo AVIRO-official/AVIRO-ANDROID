@@ -2,6 +2,8 @@ package com.android.aviro.presentation
 
 import android.content.Intent
 import android.net.Uri
+import android.text.Editable
+import android.text.TextWatcher
 import android.util.Log
 import android.view.View
 import androidx.core.content.ContextCompat.startActivity
@@ -43,6 +45,10 @@ class SignViewModel : ViewModel() {
     val _nicknameNoticeTextColor= MutableLiveData<Int>()
     val nicknameNoticeTextColor : LiveData<Int>
         get() = _nicknameNoticeTextColor
+
+    val _birthdayText = MutableLiveData<String>()
+    val birthdayText : LiveData<String>
+        get() = _birthdayText
 
     private val _isAllTrue = MutableLiveData<Boolean>()
     val isAllTrue: LiveData<Boolean>
@@ -101,6 +107,18 @@ class SignViewModel : ViewModel() {
             }
         }
 
+    }
+
+
+    fun afterTextChanged(editable: Editable?) {
+        val text = editable.toString()
+        if (text.length == 4 || text.length == 7) {
+            _birthdayText.value = "${text}" + "."
+
+        } else if (text.length == 10) {
+            // 생일 유효성 검증
+
+        }
     }
 
     fun onClickApprove(view : View) {
