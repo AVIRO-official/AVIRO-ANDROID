@@ -1,4 +1,4 @@
-package com.android.aviro.presentation
+package com.android.aviro.presentation.guide
 
 import android.os.Bundle
 import android.view.LayoutInflater
@@ -10,10 +10,8 @@ import com.android.aviro.databinding.FragmentGuideRegisterBinding
 class GuideRegisterFragment : Fragment() {
 
     private var _binding: FragmentGuideRegisterBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
+    private lateinit var viewModel : GuideViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -23,6 +21,8 @@ class GuideRegisterFragment : Fragment() {
 
         _binding = FragmentGuideRegisterBinding.inflate(inflater, container, false)
         val root: View = binding.root
+
+        viewModel = GuideViewModel("register")
 
 
         return root
