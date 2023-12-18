@@ -420,17 +420,41 @@
 
             <LinearLayout
                 android:id="@+id/aadMenuBtn"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
+                android:layout_width="match_parent"
+                android:layout_height="51dp"
+                android:layout_gravity="center"
                 android:layout_marginTop="20dp"
-                android:background="@drawable/btn_add_menu"
+                android:background="@drawable/border2cobalt_roundsquare30white"
                 android:orientation="vertical">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity= "center"
+                    android:padding="10dp"
+                    android:orientation="horizontal">
+                <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity= "center"
+                    android:background="@drawable/ic_adding"
+                    android:orientation="vertical">
+                </LinearLayout>
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity= "center"
+                    android:layout_marginStart="7dp"
+                    android:text="메뉴 정보 추가하기"
+                    android:textSize="16dp"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:textColor = "@color/Cobalt"/>
+
+            </LinearLayout>
             </LinearLayout>
 
-
-
-
         </LinearLayout>
+
     </LinearLayout>
     </ScrollView>
 
