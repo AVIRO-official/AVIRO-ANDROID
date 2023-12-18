@@ -5,13 +5,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.android.aviro.databinding.FragmentGuideMenuBinding
+import com.android.aviro.presentation.sign.SignViewModel
 
 class GuideMenuFragment : Fragment() {
 
+    private val sharedViewModel: GuideViewModel by activityViewModels()
+
     private var _binding: FragmentGuideMenuBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel : GuideViewModel
+    private lateinit var viewmodel : GuideViewModel
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -21,8 +25,6 @@ class GuideMenuFragment : Fragment() {
 
         _binding = FragmentGuideMenuBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        viewModel = GuideViewModel("menu")
 
 
         return root

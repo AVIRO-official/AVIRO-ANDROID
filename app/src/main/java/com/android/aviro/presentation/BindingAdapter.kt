@@ -1,16 +1,24 @@
 package com.android.aviro.presentation
 
+import android.annotation.SuppressLint
 import android.text.TextWatcher
 import android.util.Log
+import android.view.LayoutInflater
 import android.view.View
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.EditText
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
+import androidx.viewpager2.widget.ViewPager2
 import com.android.aviro.R
+import com.android.aviro.presentation.guide.Guide
+import com.android.aviro.presentation.guide.GuideMenuFragment
+import com.android.aviro.presentation.guide.GuidePagerAdapter
+import org.jetbrains.annotations.Nullable
 
 object BindingAdapter {
 
@@ -57,6 +65,20 @@ object BindingAdapter {
         } else {
             view.background = ContextCompat.getDrawable(view.context, R.drawable.dot_guide_non)
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:setPageChangeListener")
+    fun ViewPager2.setPageChangeListener(pageChangeListener: ViewPager2.OnPageChangeCallback) {
+        registerOnPageChangeCallback(pageChangeListener)
+    }
+
+
+    @JvmStatic
+    @BindingAdapter("app:adapter")
+    fun adapter(view: ViewPager2, guideAdapter : GuidePagerAdapter) {
+        view.adapter = guideAdapter
+
     }
 
 }

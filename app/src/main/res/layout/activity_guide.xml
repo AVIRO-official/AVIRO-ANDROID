@@ -3,10 +3,15 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools">
+
     <data>
         <variable
-            name="viewmodel"
-            type="com.android.aviro.presentation.guide.GuideViewModel" />
+        name="viewmodel"
+        type="com.android.aviro.presentation.guide.GuideViewModel" />
+        <variable
+            name="guideAdapter"
+            type="com.android.aviro.presentation.guide.GuidePagerAdapter" />
+
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -59,8 +64,9 @@
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/viewPager"
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
-
+        android:layout_height="match_parent"
+        app:adapter="@{viewmodel.adapter}"
+        app:setPageChangeListener="@{viewmodel.pageCallBack}">
     </androidx.viewpager2.widget.ViewPager2>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

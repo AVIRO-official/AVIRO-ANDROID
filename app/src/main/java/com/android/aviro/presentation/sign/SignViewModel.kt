@@ -16,7 +16,7 @@ import java.util.regex.Pattern
 
 class SignViewModel : ViewModel() {
 
-    // 회원가입 정보를 저장할 Entity
+    // 회원가입 정보를 저장할 entity
     val userDTO = User(-1,"","","",null,null, false)
 
     // 다음으로 버튼
@@ -69,6 +69,7 @@ class SignViewModel : ViewModel() {
 
     // 닉네임 조건 확인
     fun onTextChanged(s: CharSequence, start :Int, before : Int, count: Int) {
+
         _nicknameAccountText.value = "(${s.length}/8)"
 
         if(s.length == 0) {
