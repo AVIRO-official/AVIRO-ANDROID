@@ -1,16 +1,13 @@
-package com.android.aviro.presentation.Home
+package com.android.aviro.presentation.home
 
-import android.content.Intent
 import android.os.Bundle
 import com.google.android.material.bottomnavigation.BottomNavigationView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.navigation.findNavController
 import androidx.navigation.ui.AppBarConfiguration
-import androidx.navigation.ui.setupActionBarWithNavController
 import androidx.navigation.ui.setupWithNavController
 import com.android.aviro.R
 import com.android.aviro.databinding.ActivityHomeBinding
-import com.android.aviro.presentation.Splash
 
 class Home : AppCompatActivity() {
 

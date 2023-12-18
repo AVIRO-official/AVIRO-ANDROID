@@ -81,4 +81,24 @@ object BindingAdapter {
 
     }
 
+    @JvmStatic
+    @BindingAdapter("app:bgVeganType")
+    fun setVeganTypeBG(view: View, isSelected : Boolean) {
+        if (view.id == R.id.card_green) {
+            view.background = if (isSelected == true ) ContextCompat.getDrawable(view.context, R.drawable.card_vegantype_green) else ContextCompat.getDrawable(view.context, R.drawable.card_vegantype_green_default)
+        } else if (view.id == R.id.card_orange) {
+            view.background = if (isSelected == true) ContextCompat.getDrawable(view.context, R.drawable.card_vegantype_orange) else ContextCompat.getDrawable(view.context, R.drawable.card_vegantype_orange_default)
+        } else {
+            view.background = if (isSelected == true) ContextCompat.getDrawable(view.context, R.drawable.card_vegantype_yellow) else ContextCompat.getDrawable(view.context, R.drawable.card_vegantype_yellow_default)
+
+        }
+
+    }
+    @JvmStatic
+    @BindingAdapter("app:bgRadioBtn")
+    fun setRadioBtnBG(view: View, isSelected : Boolean) {
+        view.background = if (isSelected == true ) ContextCompat.getDrawable(view.context, R.drawable.checkbox_activate) else ContextCompat.getDrawable(view.context, R.drawable.checkbox_non)
+
+    }
+
 }
