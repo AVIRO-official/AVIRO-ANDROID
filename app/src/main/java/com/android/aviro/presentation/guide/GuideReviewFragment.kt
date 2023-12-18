@@ -6,15 +6,17 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import com.android.aviro.databinding.FragmentGuideReviewBinding
 import com.android.aviro.presentation.sign.Sign
 
 
 class GuideReviewFragment : Fragment() {
 
+
     private var _binding: FragmentGuideReviewBinding? = null
     private val binding get() = _binding!!
-    private lateinit var viewModel : GuideViewModel
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -24,8 +26,6 @@ class GuideReviewFragment : Fragment() {
 
         _binding = FragmentGuideReviewBinding.inflate(inflater, container, false)
         val root: View = binding.root
-
-        viewModel = GuideViewModel("review")
 
 
         _binding!!.startBtn.setOnClickListener {
