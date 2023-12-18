@@ -1,4 +1,4 @@
-package com.android.aviro.presentation.Home.ui.map
+package com.android.aviro.presentation.home.ui.map
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

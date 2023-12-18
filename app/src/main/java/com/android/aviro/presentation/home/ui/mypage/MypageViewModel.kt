@@ -1,4 +1,4 @@
-package com.android.aviro.presentation.Home.ui.mypage
+package com.android.aviro.presentation.home.ui.mypage
 
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData

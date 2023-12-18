@@ -8,8 +8,7 @@ import android.view.ViewGroup
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.android.aviro.databinding.FragmentSignCompleteBinding
-import com.android.aviro.presentation.Home.Home
-import com.android.aviro.presentation.update.Update
+import com.android.aviro.presentation.home.Home
 
 class SignCompleteFragment : Fragment() {
 
