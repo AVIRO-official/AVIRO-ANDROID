@@ -10,7 +10,6 @@
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -52,7 +51,7 @@
         android:text="등록하기"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/pretendard_semibold"
-        android:textColor="@color/Gray3"
+        app:registerBtnColor="@{viewmodel.onCheckedRegisterBtn}"
         android:textSize="18sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -110,39 +109,59 @@
 
                 <!--가게 주소 정보-->
                 <TextView
+                    android:id="@+id/addrsssTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/pretendard_bold"
                     android:text="가게 주소 정보"
                     android:textColor="@color/Gray0"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    app:visibilityChanged="@{viewmodel.restaurantAddress != null}"/>
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/addrsssBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
                     android:layout_weight="1"
-                    android:background="@drawable/register_searchbar"
-                    android:orientation="horizontal" />
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textSize="16sp"
+                    android:background="@drawable/base_roundsquare_gray6"
+                    android:text="@{viewmodel.restaurantAddress}"
+                    app:visibilityChanged="@{viewmodel.restaurantAddress != null}"/>
 
                 <!--가게 번호 정보-->
                 <TextView
+                    android:id="@+id/numberTitle"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/pretendard_bold"
                     android:text="가게 번호 정보"
                     android:textColor="@color/Gray0"
-                    android:textSize="18sp" />
+                    android:textSize="18sp"
+                    app:visibilityChanged="@{viewmodel.restaurantNumber != null}"/>
 
-                <LinearLayout
+                <TextView
+                    android:id="@+id/numberBox"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:layout_weight="1"
-                    android:background="@drawable/register_searchbar"
-                    android:orientation="horizontal"/>
+                    android:paddingStart="16dp"
+                    android:paddingEnd="16dp"
+                    android:paddingTop="12dp"
+                    android:paddingBottom="12dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textSize="16sp"
+                    android:background="@drawable/base_roundsquare_gray6"
+                    android:text="@{viewmodel.restaurantNumber}"
+                    app:visibilityChanged="@{viewmodel.restaurantNumber != null}"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -318,6 +337,7 @@
 
                 <!-- 3번째 덩어리 -->
                 <LinearLayout
+                    android:id="@+id/registerLayout3"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="16dp"
@@ -349,18 +369,23 @@
                         android:textColor="@color/Gray2"
                         android:textSize="13sp" />
 
+                    <!-- 메뉴 리스트 -->
+                    <LinearLayout
+                        android:id="@+id/menuList"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:orientation="vertical">
 
                     <!-- 메뉴 입력 / 삭제버튼 -->
                     <LinearLayout
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="20dp"
                         android:orientation="horizontal">
-
 
                         <!-- 메뉴 입력  -->
                         <LinearLayout
-                            android:layout_width="wrap_content"
+                            android:layout_width="0dp"
+                            android:layout_weight="1"
                             android:layout_height="wrap_content"
                             android:orientation="vertical">
 
@@ -425,10 +450,12 @@
 
                             <!-- 요청사항 -->
                             <LinearLayout
-                                android:layout_width="wrap_content"
+                                android:id="@+id/requestLayout"
+                                android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
                                 android:orientation="horizontal"
-                                android:layout_marginTop="10dp">
+                                android:layout_marginTop="10dp"
+                                app:visibilityChanged="@{viewmodel.veganTypeList[2]}">
                                 <CheckBox
                                     android:id="@+id/requestBox"
                                     android:layout_width="wrap_content"
@@ -437,7 +464,7 @@
 
                                 <EditText
                                     android:id="@+id/editTextRequest"
-                                    android:layout_width="wrap_content"
+                                    android:layout_width="0dp"
                                     android:layout_height="wrap_content"
                                     android:layout_weight="1"
                                     android:layout_marginStart="7dp"
@@ -456,17 +483,19 @@
 
                         </LinearLayout>
                         <!-- 메뉴 입력 끝 -->
-
                         <LinearLayout
                             android:id="@+id/cancelMenuBtn"
-                            android:layout_width="wrap_content"
-                            android:layout_height="wrap_content"
+                            android:layout_width="24dp"
+                            android:layout_height="24dp"
+                            android:layout_marginStart="7dp"
                             android:layout_gravity="center"
                             android:background="@drawable/ic_menu_cancel"
                             android:orientation="vertical"/>
-
                     </LinearLayout>
                     <!-- 메뉴 입력 / 삭제버튼 끝 -->
+
+                    </LinearLayout>
+                    <!-- 메뉴 리스트 끝 -->
 
                     <!-- 메뉴 추가 버튼 -->
                     <LinearLayout
@@ -503,15 +532,13 @@
                         </LinearLayout>
                         <!--메뉴 추가 버튼 끝 -->
 
+
                 </LinearLayout>
                 <!-- 3번째 덩어리 끝 -->
 
         </LinearLayout>
 
     </ScrollView>
-
-
-
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
