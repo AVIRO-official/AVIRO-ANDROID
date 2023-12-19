@@ -1,10 +1,14 @@
 package com.android.aviro.presentation.home.ui.register
 
 import android.os.Bundle
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import com.android.aviro.R
+import com.android.aviro.databinding.AddMenuLayoutBinding
 import com.android.aviro.databinding.FragmentRegisterBinding
 
 
@@ -31,6 +35,20 @@ class RegisterFragment : Fragment() {
         viewmodel = RegisterViewModel()
         binding.viewmodel = viewmodel
         binding.lifecycleOwner = this
+
+        binding.aadMenuBtn.setOnClickListener {
+
+            // 데이터 바인딩 인스턴스 생성
+            val binding_addMenu: AddMenuLayoutBinding = AddMenuLayoutBinding.inflate(inflater, container, false)
+
+            // 바인딩 클래스에 뷰모델 설정
+            binding_addMenu.viewmodel = this.viewmodel
+            binding_addMenu.lifecycleOwner = this
+
+            // 레이아웃을 LinearLayout에 추가
+            binding.menuList.addView(binding_addMenu.root)
+
+        }
 
 
         return root
