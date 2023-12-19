@@ -7,7 +7,7 @@
 
     <fragment
         android:id="@+id/MapFragment"
-        android:name="com.android.aviro.presentation.Home.ui.map.Map"
+        android:name="com.android.aviro.presentation.home.ui.map.Map"
         android:label="@string/map_fragment_label"
         tools:layout="@layout/fragment_map">
 <!--        <action-->
@@ -17,7 +17,7 @@
 
     <fragment
         android:id="@+id/MypageFragment"
-        android:name="com.android.aviro.presentation.Home.ui.mypage.MypageFragment"
+        android:name="com.android.aviro.presentation.home.ui.mypage.MypageFragment"
         android:label="@string/mypage_fragment_label"
         tools:layout="@layout/fragment_mypage">
 
@@ -27,7 +27,7 @@
     </fragment>
     <fragment
         android:id="@+id/RegisterFragment"
-        android:name="com.android.aviro.presentation.Home.ui.register.RegisterFragment"
+        android:name="com.android.aviro.presentation.home.ui.register.RegisterFragment"
         android:label="@string/register_fragment_label"
         tools:layout="@layout/fragment_register">
 
