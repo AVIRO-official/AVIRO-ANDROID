@@ -1,13 +1,17 @@
 package com.android.aviro.presentation
 
 import android.annotation.SuppressLint
+import android.graphics.Color
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
+import android.view.View.GONE
+import android.view.View.VISIBLE
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.EditText
+import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.fragment.app.FragmentActivity
@@ -100,5 +104,26 @@ object BindingAdapter {
         view.background = if (isSelected == true ) ContextCompat.getDrawable(view.context, R.drawable.checkbox_activate) else ContextCompat.getDrawable(view.context, R.drawable.checkbox_non)
 
     }
+
+    @JvmStatic
+    @BindingAdapter("app:visibilityChanged")
+    fun setVisibilityChanged(view: View, isVisible : Boolean) {
+        view.visibility = if (isVisible == true ) VISIBLE else GONE
+
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:registerBtnColor")
+    fun setregisterBtnColor(view: TextView, isNext : Boolean) {
+        if (isNext) {
+            view.setTextColor(ContextCompat.getColor(view.context,R.color.Cobalt))
+        } else {
+            view.setTextColor(ContextCompat.getColor(view.context,R.color.Gray3))
+
+        }
+
+
+    }
+
 
 }
