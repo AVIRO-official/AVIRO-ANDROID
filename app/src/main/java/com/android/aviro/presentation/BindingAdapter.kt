@@ -99,9 +99,14 @@ object BindingAdapter {
 
     }
     @JvmStatic
-    @BindingAdapter("app:bgRadioBtn")
-    fun setRadioBtnBG(view: View, isSelected : Boolean) {
-        view.background = if (isSelected == true ) ContextCompat.getDrawable(view.context, R.drawable.checkbox_activate) else ContextCompat.getDrawable(view.context, R.drawable.checkbox_non)
+    @BindingAdapter("app:bgCheckBox")
+    fun setCheckBoxBG(view: View, isSelected : Boolean) {
+        if (view.id == R.id.requestBox) {
+            view.background = if (isSelected == true ) ContextCompat.getDrawable(view.context, R.drawable.checkbox_yellow) else ContextCompat.getDrawable(view.context, R.drawable.checkbox_non)
+
+    } else {
+            view.background = if (isSelected == true ) ContextCompat.getDrawable(view.context, R.drawable.checkbox_blue) else ContextCompat.getDrawable(view.context, R.drawable.checkbox_non)
+        }
 
     }
 
@@ -121,9 +126,24 @@ object BindingAdapter {
             view.setTextColor(ContextCompat.getColor(view.context,R.color.Gray3))
 
         }
+    }
+    @JvmStatic
+    @BindingAdapter("app:setEditText")
+    fun setEditTextBG(view: EditText, isSelected : Boolean) {
+        if (isSelected) {
+            view.background = ContextCompat.getDrawable(view.context, R.drawable.base_roundsquare_gray6)
+            view.setHintTextColor(ContextCompat.getColor(view.context, R.color.Gray3))
+            view.isEnabled = true
+        } else {
+            view.background = ContextCompat.getDrawable(view.context, R.drawable.base_roundsquare_gray5)
+            view.setHintTextColor(ContextCompat.getColor(view.context, R.color.Gray0))
+            view.isEnabled = false
 
+        }
 
     }
+
+
 
 
 }

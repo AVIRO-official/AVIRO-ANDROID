@@ -1,6 +1,5 @@
-package com.android.aviro.presentation.Entity
+package com.android.aviro.presentation.entity
 
-import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 

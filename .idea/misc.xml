@@ -12,6 +12,7 @@
         <entry key="app/src/main/res/drawable/base_round_square.xml" value="0.216" />
         <entry key="app/src/main/res/drawable/base_round_square_activate.xml" value="0.1765" />
         <entry key="app/src/main/res/drawable/base_roundsquare.xml" value="0.216" />
+        <entry key="app/src/main/res/drawable/base_roundsquare_gray5.xml" value="0.193" />
         <entry key="app/src/main/res/drawable/base_roundsquare_gray6.xml" value="0.207" />
         <entry key="app/src/main/res/drawable/base_roundsquare_white.xml" value="0.2325" />
         <entry key="app/src/main/res/drawable/border2cobalt_roundsquare30white.xml" value="0.625" />
@@ -27,14 +28,19 @@
         <entry key="app/src/main/res/drawable/btn_sign_terms_approve_non.xml" value="0.1765" />
         <entry key="app/src/main/res/drawable/btn_start.xml" value="0.213" />
         <entry key="app/src/main/res/drawable/card_vegantype_green_default.xml" value="0.2635" />
+        <entry key="app/src/main/res/drawable/checkbox_activate.xml" value="0.197" />
+        <entry key="app/src/main/res/drawable/checkbox_non.xml" value="0.197" />
         <entry key="app/src/main/res/drawable/dot_guide_non.xml" value="0.1765" />
         <entry key="app/src/main/res/drawable/ic_check_non.xml" value="0.242" />
         <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.242" />
         <entry key="app/src/main/res/drawable/ic_guide_register.xml" value="0.242" />
         <entry key="app/src/main/res/drawable/ic_guide_review.xml" value="0.1765" />
         <entry key="app/src/main/res/drawable/ic_guide_search.xml" value="0.2635" />
+        <entry key="app/src/main/res/drawable/ic_search.xml" value="0.193" />
         <entry key="app/src/main/res/drawable/ic_vegantype_green.xml" value="0.2635" />
         <entry key="app/src/main/res/drawable/ic_vegantype_yellow.xml" value="0.1765" />
+        <entry key="app/src/main/res/drawable/map_searchbar.xml" value="0.194" />
+        <entry key="app/src/main/res/drawable/register_searchbar.xml" value="0.194" />
         <entry key="app/src/main/res/drawable/selector_checkbox.xml" value="0.206" />
         <entry key="app/src/main/res/drawable/text_guide_menu.xml" value="0.1765" />
         <entry key="app/src/main/res/layout/activity_guide.xml" value="0.25" />
@@ -46,6 +52,7 @@
         <entry key="app/src/main/res/layout/activity_sign_terms.xml" value="0.22573749465583584" />
         <entry key="app/src/main/res/layout/activity_splash.xml" value="0.22573749465583584" />
         <entry key="app/src/main/res/layout/activity_update.xml" value="0.19858856201171876" />
+        <entry key="app/src/main/res/layout/add_menu_layout.xml" value="0.25" />
         <entry key="app/src/main/res/layout/add_mnu_layout.xml" value="0.15177426250534418" />
         <entry key="app/src/main/res/layout/content_main.xml" value="0.12099187687045745" />
         <entry key="app/src/main/res/layout/fragment_bottomsheet_step1.xml" value="0.17731481481481481" />
@@ -56,10 +63,10 @@
         <entry key="app/src/main/res/layout/fragment_guide_search.xml" value="0.13265998517411948" />
         <entry key="app/src/main/res/layout/fragment_map.xml" value="0.2228788518362178" />
         <entry key="app/src/main/res/layout/fragment_mypage.xml" value="0.14583333333333334" />
-        <entry key="app/src/main/res/layout/fragment_register.xml" value="0.1526293287729799" />
+        <entry key="app/src/main/res/layout/fragment_register.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_sign_complete.xml" value="0.17979610750695088" />
         <entry key="app/src/main/res/layout/fragment_sign_nickname.xml" value="0.21248396750748183" />
-        <entry key="app/src/main/res/layout/fragment_sign_option.xml" value="0.13506317138671875" />
+        <entry key="app/src/main/res/layout/fragment_sign_option.xml" value="0.14640960693359373" />
         <entry key="app/src/main/res/layout/fragment_sign_terms.xml" value="0.22573749465583584" />
         <entry key="app/src/main/res/layout/fragment_update_homepage.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_update_loc.xml" value="0.165" />
