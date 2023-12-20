@@ -9,12 +9,20 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.aviro.R
-import com.android.aviro.presentation.Entity.User
+import com.android.aviro.domain.usecase.user.CreateSocialAccountUseCase
+import com.android.aviro.domain.usecase.user.CreateUserUseCase
+import com.android.aviro.presentation.entity.User
+import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.util.regex.Matcher
 import java.util.regex.Pattern
+import javax.inject.Inject
 
-class SignViewModel : ViewModel() {
+@HiltViewModel
+class SignViewModel @Inject constructor(
+    private val createSocialAccountUseCase: CreateSocialAccountUseCase,
+    private val createUserUseCase: CreateUserUseCase
+)  : ViewModel() {
 
     // 회원가입 정보를 저장할 entity
     val userDTO = User(-1,"","","",null,null, false)

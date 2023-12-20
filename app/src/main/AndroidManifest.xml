@@ -16,23 +16,27 @@
         android:theme="@style/Theme.AVIRO"
         tools:targetApi="31">
         <activity
-            android:name=".presentation.Home.Home"
+            android:name=".presentation.home.Home"
             android:exported="true"
             android:label="@string/title_activity_home" />
         <activity
-            android:name=".presentation.Guide"
+            android:name=".presentation.guide.Guide"
             android:exported="true" >
-        <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
         </activity>
         <activity
             android:name=".presentation.Splash"
             android:exported="true" >
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
         </activity>
         <activity
-            android:name=".presentation.Sign"
+            android:name=".presentation.sign.Sign"
+            android:exported="true" >
+        </activity>
+        <activity
+            android:name=".presentation.update.Update"
             android:exported="true" >
         </activity>
 

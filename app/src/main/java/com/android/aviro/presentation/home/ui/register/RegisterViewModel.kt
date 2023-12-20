@@ -20,6 +20,9 @@ class RegisterViewModel : ViewModel() {
     private val _restaurantNumber = MutableLiveData<String?>()
     val restaurantNumber: LiveData<String?> = _restaurantNumber
 
+    private val _isRequest = MutableLiveData<Boolean>()
+    val isRequest: LiveData<Boolean> = _isRequest
+
     private val _isNext = MutableLiveData<Boolean>()
     val isNext: LiveData<Boolean> = _isNext
 
@@ -28,6 +31,7 @@ class RegisterViewModel : ViewModel() {
         _veganTypeList.value = listOf(false, false, false)
         _radioCheckedList.value = listOf(false, false, false, false)
         _isNext.value = false
+        _isRequest.value = false
     }
 
     fun onClickGreen() {
@@ -65,6 +69,9 @@ class RegisterViewModel : ViewModel() {
 
     }
 
+    fun onClickRequestCheckBox() {
+        _isRequest.value = if (_isRequest.value == true)  false else true
+    }
 
     fun onCheckedRegisterBtn() : Boolean? {
 

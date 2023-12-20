@@ -7,19 +7,19 @@
 
     <fragment
         android:id="@+id/navigation_mypage"
-        android:name="com.android.aviro.presentation.Home.ui.mypage.MypageFragment"
+        android:name="com.android.aviro.presentation.home.ui.mypage.MypageFragment"
         android:label="@string/title_home"
         tools:layout="@layout/fragment_mypage" />
 
     <fragment
         android:id="@+id/navigation_map"
-        android:name="com.android.aviro.presentation.Home.ui.map.Map"
+        android:name="com.android.aviro.presentation.home.ui.map.Map"
         android:label="@string/title_dashboard"
         tools:layout="@layout/fragment_map" />
 
     <fragment
         android:id="@+id/navigation_register"
-        android:name="com.android.aviro.presentation.Home.ui.register.RegisterFragment"
+        android:name="com.android.aviro.presentation.home.ui.register.RegisterFragment"
         android:label="@string/title_notifications"
         tools:layout="@layout/fragment_guide_register" />
 </navigation>
