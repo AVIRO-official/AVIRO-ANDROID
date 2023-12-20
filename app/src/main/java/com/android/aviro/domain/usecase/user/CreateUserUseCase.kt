@@ -1,4 +1,4 @@
-package com.android.aviro.domain.usecase
+package com.android.aviro.domain.usecase.user
 
 import javax.inject.Inject
 
