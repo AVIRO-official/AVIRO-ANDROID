@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "456725340386",
+    "project_id": "aviro-4f81c",
+    "storage_bucket": "aviro-4f81c.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:456725340386:android:1f81b17985fb371700bebb",
+        "android_client_info": {
+          "package_name": "com.android.aviro"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDUAghDOtZm9vNArpgrUOBgjYA-Nqr0178"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

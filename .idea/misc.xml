@@ -67,12 +67,14 @@
         <entry key="app/src/main/res/layout/fragment_sign_complete.xml" value="0.17979610750695088" />
         <entry key="app/src/main/res/layout/fragment_sign_nickname.xml" value="0.21248396750748183" />
         <entry key="app/src/main/res/layout/fragment_sign_option.xml" value="0.14640960693359373" />
+        <entry key="app/src/main/res/layout/fragment_sign_social.xml" value="0.1608108108108108" />
         <entry key="app/src/main/res/layout/fragment_sign_terms.xml" value="0.22573749465583584" />
         <entry key="app/src/main/res/layout/fragment_update_homepage.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_update_loc.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_update_number.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_update_timetable.xml" value="0.25" />
         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.12099187687045745" />
+        <entry key="app/src/main/res/xml/network_security_config.xml" value="0.14324324324324325" />
       </map>
     </option>
   </component>

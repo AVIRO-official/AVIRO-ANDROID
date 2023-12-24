@@ -1,0 +1,5 @@
+[{
+  "relation": ["delegate_permission/common.handle_all_urls"],
+  "target" : { "namespace": "aviro.co.kr", "package_name": "com.android.aviro",
+    "sha256_cert_fingerprints": ["1F:8F:15:20:17:AF:A8:C8:2E:33:45:81:71:03:07:42:4F:EF:5D:D1:C4:CD:27:84:FC:B1:B6:14:92:C4:8E:1D"] }
+}]

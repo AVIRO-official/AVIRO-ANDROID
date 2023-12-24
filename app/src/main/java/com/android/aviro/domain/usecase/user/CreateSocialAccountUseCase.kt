@@ -1,4 +1,6 @@
 package com.android.aviro.domain.usecase.user
 
-class CreateSocialAccountUseCase {
+import javax.inject.Inject
+
+class CreateSocialAccountUseCase @Inject constructor() {
 }
