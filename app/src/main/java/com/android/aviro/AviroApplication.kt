@@ -1,4 +1,14 @@
 package com.android.aviro
 
-class AviroAppApplication {
+import android.app.Application
+import dagger.hilt.android.HiltAndroidApp
+
+
+@HiltAndroidApp
+class AviroApplication : Application() {
+
+    override fun onCreate() {
+        super.onCreate()
+
+    }
 }
