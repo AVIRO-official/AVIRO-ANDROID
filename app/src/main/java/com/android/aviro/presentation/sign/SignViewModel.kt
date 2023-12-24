@@ -74,6 +74,10 @@ class SignViewModel @Inject constructor(
         }
     }
 
+    fun onClickApple() {
+
+    }
+
 
     // 닉네임 조건 확인
     fun onTextChanged(s: CharSequence, start :Int, before : Int, count: Int) {
@@ -85,7 +89,6 @@ class SignViewModel @Inject constructor(
             _nicknameNoticeText.value = "이모지, 특수문자(-, _ 제외)를 사용할 수 없습니다."
             _nicknameNoticeTextColor.value = R.color.Gray2
             _isNext.value = null
-
 
         } else {
             // 허용 문자 조건
