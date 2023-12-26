@@ -3,7 +3,6 @@ plugins {
     id 'org.jetbrains.kotlin.android'
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
-    id 'com.google.gms.google-services'
 
 }
 
@@ -27,16 +26,32 @@ android {
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
 
         buildConfigField "String", "NAVER_CLIENT_ID", properties['naver.client_id']
-        buildConfigField "String", "MAVER_CLIENT_SECRET", properties['naver.client_secret']
+        buildConfigField "String", "NAVER_CLIENT_SECRET", properties['naver.client_secret']
+        buildConfigField "String", "SIGN_APPLE_REDIRECT_URL", properties['sign.apple_redirect_url']
+        buildConfigField "String", "SIGN_APPLE_RESPONSE_URL", properties['sign.apple_response_url']
 
         // 매니페스트
         manifestPlaceholders = [NAVER_CLIENT_ID : properties['naver.client_id']]
+        //manifestPlaceholders = [AWS_API_KEY_v0 : properties['aws.debug_api_key']]
+
     }
 
     buildTypes {
+        debug {
+            resValue "string", "naver_maps_api_key", "개발용 API KEY"
+            buildConfigField "String", "AWS_API_KEY_V0", properties['aws.debug_api_key']
+            manifestPlaceholders = [AWS_API_KEY_v0 : properties['aws.debug_api_key']]
+
+
+        }
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+
+            resValue "string", "naver_maps_api_key", "개발용 API KEY"
+            buildConfigField "String", "AWS_API_KEY_V0", properties['aws.release_api_key']
+            manifestPlaceholders = [AWS_API_KEY_v0 : properties['aws.release_api_key']]
+
         }
     }
     compileOptions {
@@ -99,7 +114,7 @@ dependencies {
 
     // Oauth
     implementation 'androidx.browser:browser:1.5.0'
-    implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
+    //implementation(platform("com.google.firebase:firebase-bom:32.7.0"))
     //implementation 'com.google.firebase:firebase-auth-ktx'
 
 

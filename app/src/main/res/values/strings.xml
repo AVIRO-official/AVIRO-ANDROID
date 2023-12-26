@@ -15,8 +15,6 @@
     <string name="apple_service_id">SeonghunJeon.VeganRestaurant.SignIn</string>
     <string name="github_service_id">f6178fe3483b5b5c528c</string>
 
-    <string name="sign_apple_redirect_url">https://ztktt5ocy9.execute-api.ap-northeast-2.amazonaws.com/dev/member/sign-up/redirect</string>
-    <string name="sign_apple_response_url">app://aviro.co.kr</string>
 
     <string name="lorem_ipsum">
         Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nam in scelerisque sem. Mauris

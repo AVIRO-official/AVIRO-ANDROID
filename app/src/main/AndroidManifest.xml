@@ -71,6 +71,10 @@
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="${NAVER_CLIENT_ID}" />
+        <meta-data
+            android:name="aviro.aws.v0.API_KEY"
+            android:value="${AWS_API_KEY_v0}"/>
+
     </application>
 
 </manifest>
