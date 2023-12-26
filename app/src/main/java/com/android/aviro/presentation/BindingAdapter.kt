@@ -55,10 +55,27 @@ object BindingAdapter {
                 R.drawable.btn_next_activate
             ) else ContextCompat.getDrawable(button.context, R.drawable.btn_next_non)
 
-        } else {
+        } else if (button.id == R.id.terms1 || button.id == R.id.terms2 || button.id == R.id.terms3 ){
             button.background = if (animateOnChange == true ) ContextCompat.getDrawable(button.context, R.drawable.ic_check_activate) else ContextCompat.getDrawable(button.context, R.drawable.ic_check_non)
 
+        } else if (button.id == R.id.male || button.id == R.id.female || button.id == R.id.others ) {
+            button.background = if (animateOnChange == true ) ContextCompat.getDrawable(button.context, R.drawable.base_edittext_round_square_activate) else ContextCompat.getDrawable(button.context, R.drawable.base_edittext_roundsquare_default)
+
+        } else if (button.id == R.id.editTextbirthday){
+            button.background = if (animateOnChange == true ) ContextCompat.getDrawable(button.context, R.drawable.base_edittext_right) else ContextCompat.getDrawable(button.context, R.drawable.base_edittext_wrong)
+
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter("android:textColor")
+    fun setTextColor(text: TextView, isChanged: Boolean) {
+        if(isChanged) {
+            text.setTextColor(ContextCompat.getColor(text.context, R.color.Gray7))
+        } else {
+            text.setTextColor(ContextCompat.getColor(text.context, R.color.Gray3))
+        }
+
     }
 
     @JvmStatic
