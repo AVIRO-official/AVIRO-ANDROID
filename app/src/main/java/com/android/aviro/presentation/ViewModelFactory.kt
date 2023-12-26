@@ -12,6 +12,7 @@ class ViewModelFactory(val createSocialAccountUseCase: CreateSocialAccountUseCas
     override fun <T : ViewModel> create(modelClass: Class<T>): T {
         return if (modelClass.isAssignableFrom(SignViewModel::class.java)) {
             SignViewModel(createSocialAccountUseCase,createUserUseCase) as T
+
         } else {
             throw IllegalArgumentException()
         }

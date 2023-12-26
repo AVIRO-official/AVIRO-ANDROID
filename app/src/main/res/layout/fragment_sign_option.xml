@@ -77,9 +77,9 @@
                 android:hint="0000.00.00"
                 android:text = "@{viewmodel.birthdayText}"
                 android:textSize="18sp"
-                android:textColor = "@color/Gray3"
-                android:background = "@drawable/base_edittext_roundsquare_default"
-                android:onTextChanged="@{() -> viewmodel.afterTextChanged(editTextbirthday)}"/>
+                android:textColor = "@color/Gray0"
+                android:background = "@{viewmodel.isVaildBirth}"
+                android:onTextChanged= "@{viewmodel::afterTextChanged}"/>
 
             <TextView
                 android:id="@+id/birthday_notice"
@@ -101,54 +101,58 @@
                 android:orientation="horizontal">
 
                 <LinearLayout
-                    android:id="@+id/genderBtn_male"
+                    android:id="@+id/male"
                     android:layout_width="match_parent"
                     android:layout_height="51dp"
                     android:layout_weight="1"
                     android:layout_marginEnd="10dp"
                     android:orientation="horizontal"
-                    android:background="@drawable/base_edittext_roundsquare_default">
+                    android:background="@{viewmodel.isGenderList[0]}"
+                    android:onClick="@{() -> viewmodel.onClickGender(male)}">
+
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:textSize="16sp"
-                        android:textColor="@color/Gray3"
+                        android:textColor="@{viewmodel.isGenderList[0]}"
                         android:fontFamily="@font/pretendard_semibold"
-                        android:text='남자' />
+                        android:text='남자'/>
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/genderBtn_female"
+                    android:id="@+id/female"
                     android:layout_width="match_parent"
                     android:layout_height="51dp"
                     android:layout_weight="1"
                     android:layout_marginEnd="10dp"
                     android:orientation="horizontal"
-                    android:background="@drawable/base_edittext_roundsquare_default" >
+                    android:background="@{viewmodel.isGenderList[1]}"
+                    android:onClick="@{() -> viewmodel.onClickGender(female)}">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:textSize="16sp"
-                        android:textColor="@color/Gray3"
+                        android:textColor="@{viewmodel.isGenderList[1]}"
                         android:fontFamily="@font/pretendard_semibold"
                         android:text='여자' />
                 </LinearLayout>
                 <LinearLayout
-                    android:id="@+id/genderBtn_others"
+                    android:id="@+id/others"
                     android:layout_width="match_parent"
                     android:layout_height="51dp"
                     android:layout_weight="1"
                     android:orientation="horizontal"
-                    android:background="@drawable/base_edittext_roundsquare_default">
+                    android:background="@{viewmodel.isGenderList[2]}"
+                    android:onClick="@{() -> viewmodel.onClickGender(others)}">
                     <TextView
                         android:layout_width="match_parent"
                         android:layout_height="match_parent"
                         android:gravity="center"
                         android:textSize="16sp"
-                        android:textColor="@color/Gray3"
+                        android:textColor="@{viewmodel.isGenderList[2]}"
                         android:fontFamily="@font/pretendard_semibold"
-                        android:text='기타' />
+                        android:text='기타'/>
                 </LinearLayout>
             </LinearLayout>
 

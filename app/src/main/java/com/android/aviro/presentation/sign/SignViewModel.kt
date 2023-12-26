@@ -4,6 +4,8 @@ import android.content.Intent
 import android.net.Uri
 import android.view.View
 import android.widget.EditText
+import android.widget.LinearLayout
+import androidx.core.content.ContextCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
@@ -14,6 +16,9 @@ import com.android.aviro.domain.usecase.user.CreateUserUseCase
 import com.android.aviro.presentation.entity.User
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
+import java.text.ParseException
+import java.text.SimpleDateFormat
+import java.util.*
 import java.util.regex.Matcher
 import java.util.regex.Pattern
 import javax.inject.Inject
@@ -53,14 +58,26 @@ class SignViewModel @Inject constructor(
     val birthdayText : LiveData<String>
         get() = _birthdayText
 
-    private val _isAllTrue = MutableLiveData<Boolean>()
-    val isAllTrue: LiveData<Boolean>
-        get() = _isAllTrue
+    private val _isVaildBirth = MutableLiveData<Boolean>()
+    val isVaildBirth: LiveData<Boolean>
+        get() = _isVaildBirth
+
+
+    // 성별
+    private val _isGenderList =  MutableLiveData<List<Boolean>>()
+    val isGenderList : LiveData<List<Boolean>>
+        get() = _isGenderList
+
+
 
     // 사용자 동의 약관
     private val _isApproveList =  MutableLiveData<List<Boolean>>() // 모두 true일때만 버튼 활성화
     val isApproveList : LiveData<List<Boolean>>
         get() = _isApproveList
+
+    private val _isAllTrue = MutableLiveData<Boolean>()
+    val isAllTrue: LiveData<Boolean>
+        get() = _isAllTrue
 
 
     init {
@@ -68,14 +85,11 @@ class SignViewModel @Inject constructor(
             _nicknameAccountText.value = "(0/8)"
             _nicknameNoticeText.value = "이모지, 특수문자(-, _ 제외)를 사용할 수 없습니다."
             _nicknameNoticeTextColor.value = R.color.Gray2
+            _isGenderList.value =  listOf(false, false, false)
             _isApproveList.value = listOf(false, false, false)
             _isAllTrue.value = false
             _isNext.value = null
         }
-    }
-
-    fun onClickApple() {
-
     }
 
 
@@ -113,19 +127,20 @@ class SignViewModel @Inject constructor(
 
             }
         }
-
     }
 
 
-    fun afterTextChanged(editable: EditText) {
-        val text = editable.toString()
-        if (text.length == 4 || text.length == 7) {
-            _birthdayText.value = "${text}" + "."
-
-        } else if (text.length == 10) {
-            // 생일 유효성 검증
+    fun afterTextChanged(s: CharSequence, start :Int, before : Int, count: Int) {
+        //val text = editable.toString()
+        if (s.length == 4 || s.length == 7) {
+            _birthdayText.value = "${s}" + "."
 
         }
+        /*else if (text.length == 10) {
+            // 생일 유효성 검증
+
+        }*/
+        _isVaildBirth.value = checkValidBirth(s.toString())
     }
 
     fun onClickApprove(view : View) {
@@ -164,6 +179,7 @@ class SignViewModel @Inject constructor(
 
     }
 
+
     fun checkDuplicate() : Boolean {
 
         return true
@@ -180,6 +196,41 @@ class SignViewModel @Inject constructor(
         }
 
         return false
+    }
+
+    fun checkValidBirth(birthday : String) : Boolean {
+        // 날짜 형식 지정
+        val dateFormat = SimpleDateFormat("yyyy.MM.dd")
+
+        // 날짜 파싱 시도
+        dateFormat.setLenient(false) // 엄격한 모드로 설정하여 잘못된 날짜를 거부
+
+        return try {
+            val parsedDate: Date = dateFormat.parse(birthday)
+            // 현재 날짜와 비교하여 미래의 날짜는 유효하지 않도록 검사
+            val currentDate = Date()
+            parsedDate.before(currentDate)
+        } catch (e: ParseException) {
+            // 날짜 파싱 중 오류 발생 시 유효하지 않은 날짜로 처리
+            false
+        }
+
+        true
+    }
+
+    fun onClickGender(view : View) {
+        val id = view.id
+        when(id) {
+             R.id.male -> {
+                _isGenderList.value =  listOf(true, false, false)
+            }
+            R.id.female -> {
+                _isGenderList.value =  listOf(false, true, false)
+            }
+            R.id.others -> {
+                _isGenderList.value =  listOf(false, false, true)
+            }
+        }
     }
 
     fun onLinkClick(view: View) {

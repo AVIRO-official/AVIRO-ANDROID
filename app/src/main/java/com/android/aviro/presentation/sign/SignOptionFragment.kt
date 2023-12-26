@@ -27,6 +27,7 @@ class SignOptionFragment : Fragment() {
 
         binding.viewmodel = sharedViewModel
         binding.lifecycleOwner = this@SignOptionFragment
+
         binding.nextBtn.setOnClickListener {
             parentFragmentManager.beginTransaction()
                 .replace(R.id.fragment_container_view, SignTermsFragment())
