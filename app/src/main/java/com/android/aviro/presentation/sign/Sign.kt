@@ -1,34 +1,30 @@
 package com.android.aviro.presentation.sign
 
-import android.annotation.SuppressLint
 import android.content.Intent
 import android.net.Uri
-import android.net.http.SslError
-import android.os.AsyncTask
-import android.os.Build
 import android.os.Bundle
 import android.util.Log
 import android.webkit.*
 import androidx.activity.viewModels
-import androidx.annotation.Nullable
-import androidx.annotation.RequiresApi
 import androidx.fragment.app.FragmentManager
 import androidx.fragment.app.FragmentTransaction
 import com.android.aviro.R
 import com.android.aviro.databinding.ActivitySignBinding
 import com.android.aviro.presentation.BaseActivity
 import dagger.hilt.android.AndroidEntryPoint
-import java.io.UnsupportedEncodingException
-import android.util.Base64
+import com.android.aviro.BuildConfig
 import java.util.*
 
 
 @AndroidEntryPoint
 class Sign : BaseActivity<ActivitySignBinding>(R.layout.activity_sign) {
 
-    //lateinit var binding: ActivitySignBinding
-    //lateinit var sharedViewModel: SignViewModel
-    val viewModel by viewModels<SignViewModel>()
+
+    //val viewModel by viewModels<SignViewModel>()
+    private val viewmodel: SignViewModel by viewModels() //뷰모델 의존성 주입
+
+    lateinit var fragmentManager: FragmentManager
+    lateinit var fragmentTransaction: FragmentTransaction
 
 
     // URL에 붙여서 애플 서버에 보낼 요청파라미터
@@ -78,8 +74,8 @@ class Sign : BaseActivity<ActivitySignBinding>(R.layout.activity_sign) {
         //sharedViewModel = SignViewModel()
         //sharedViewModel.lifecycleOwner = this@Sign
 
-        val fragmentManager: FragmentManager = supportFragmentManager
-        val fragmentTransaction: FragmentTransaction = fragmentManager.beginTransaction()
+        fragmentManager = supportFragmentManager
+        fragmentTransaction = fragmentManager.beginTransaction()
 
         fragmentTransaction
             .replace(R.id.fragment_container_view, SignSocialFragment())
@@ -108,15 +104,20 @@ class Sign : BaseActivity<ActivitySignBinding>(R.layout.activity_sign) {
             Log.d("codeParam","${codeParam}")
 
         }
-        finish()
+        //finish()
+        fragmentManager.beginTransaction()
+            .replace(R.id.fragment_container_view, SignNicknameFragment())
+            .addToBackStack("SignNicknameFragment") // 백 스택에 추가
+            .commit()
+
     }
 
 
     /* webview를 사용하게 되는 경우 */
 
     private fun createUrl(): String{
-        mClientId = getString(R.string.apple_service_id)
-        mRedirectUrl = getString(R.string.sign_apple_redirect_url)
+        mClientId = getString(R.string.apple_service_id) //getString(R.string.apple_service_id)
+        mRedirectUrl = "${BuildConfig.SIGN_APPLE_REDIRECT_URL}" //getString(R.string.sign_apple_redirect_url)
         return (mAuthEndpoint
                 + "?response_type=$mResponseType"
                 + "&response_mode=$mResponseMode"
@@ -133,7 +134,7 @@ class Sign : BaseActivity<ActivitySignBinding>(R.layout.activity_sign) {
         {
             val url = request?.url
 
-            if(url?.toString()?.contains(getString(R.string.sign_apple_response_url))==true)
+            if(url?.toString()?.contains("${BuildConfig.SIGN_APPLE_RESPONSE_URL}")==true)
             {
                 val stateParam = url?.getQueryParameter("state")
                 val idTokenParam = url?.getQueryParameter("id_token")
