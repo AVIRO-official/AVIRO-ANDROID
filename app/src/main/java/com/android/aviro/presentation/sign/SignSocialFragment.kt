@@ -12,6 +12,7 @@ import androidx.browser.customtabs.CustomTabsIntent
 import androidx.databinding.DataBindingUtil.setContentView
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import com.android.aviro.BuildConfig
 import com.android.aviro.R
 import com.android.aviro.databinding.FragmentSignSocialBinding
 import java.util.*
@@ -20,7 +21,6 @@ import java.util.*
 class SignSocialFragment : Fragment() {
 
     private val sharedViewModel: SignViewModel by activityViewModels()
-    //private lateinit var parent: Sign
 
     private val mAuthEndpoint = "https://appleid.apple.com/auth/authorize"
     private val mResponseType = "code%20id_token"
@@ -57,9 +57,8 @@ class SignSocialFragment : Fragment() {
 
 
     fun onClickApple() {
-        Log.d("애플","애플 로그인 버튼 클릭")
         mClientId = getString(R.string.apple_service_id)
-        mRedirectUrl = getString(R.string.sign_apple_redirect_url)
+        mRedirectUrl = "${BuildConfig.SIGN_APPLE_REDIRECT_URL}"
 
         val uri = Uri.parse(mAuthEndpoint
                 + "?response_type=$mResponseType"
