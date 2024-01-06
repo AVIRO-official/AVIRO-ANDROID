@@ -55,11 +55,14 @@
 │   │     └── DataSourceModule 
 │   └── entity
 │         ├── auth
-│         │    ├──
+│         │    ├── AuthRequestDTO
+│         │    └── AuthResponseDTO
 │         ├── member
-│         │    ├──
+│         │    ├── NicknameCheckRequest
+│         │    └── NicknameCheckResponse
 │         └── base
-│              ├── 
+│              ├── BaseResponse
+│              └── DataBodyResponse
 │
 ├── domain  (여러 레포지토리 사용할 수 있음)
 │   ├── repository (interface)
