@@ -6,3 +6,134 @@
 - 식당을 직접 추가하거나 삭제할 수 있습니다.
 - 메뉴의 요청사항을 따로 기입할 수 있습니다.
 - 식당의 후기를 작성해서 유저들끼리 정보를 공유할 수 있습니다.
+
+
+### Features
+0. 소셜 로그인 (애플) / 회원가입
+1. 비건 식당 맵
+2. 식당 정보 상세보기
+3. 가게 등록하기
+4. 후기 작성하기
+5. 마이페이지 / 챌린지
+6. 식당 정보 수정하기
+7. 비건 식당 검색하기
+8. 스플래시
+
+### Technology Stack
+* Tools : Android Studio Chipmunk
+* Language : Kotlin
+* Architecture Pattern : 안드로이드 권장 아키텍쳐 + MVVM 
+* Android Architecture Components(AAC)
+
+### Library
+* OKHTTP3
+* RETROFIT2
+* Apple Sign In
+* Naver Map
+* Realem
+* Hilt
+
+## Foldering
+```
+.
+├── data 
+│   ├── datasource
+│   │    ├── AuthDataSouDataSourceImp
+│   │    ├── AuthDataSouDataSource
+│   │    ├── MemberDataSouDataSourceImp
+│   │    └── MemberDataSouDataSource
+│   │
+│   ├── repository (구현부)
+│   │     ├── MemberRepositoryImp
+│   │     └── AuthRepositoryImp
+│   ├── api
+│   │     ├── MemberService
+│   │     └── AuthService 
+│   ├── di
+│   │     ├── ApiModule
+│   │     ├── RepositoryModule
+│   │     └── DataSourceModule 
+│   └── entity
+│         ├── auth
+│         │    ├──
+│         ├── member
+│         │    ├──
+│         └── base
+│              ├── 
+│
+├── domain  (여러 레포지토리 사용할 수 있음)
+│   ├── repository (interface)
+│   │     ├── MemberRepository
+│   │     └── AuthRepository
+│   │
+│   └── usecase 
+│         ├── auth 
+│         │    ├── Login 
+│         │    └── Logout
+│         ├── member 
+│         │    ├── CreateMemberUseCase 
+│         │    ├── GetMyInfoUseCase
+│         │    ├── LogoutUseCase
+│         │    ├── UpdateMyNicnameUseCase
+│         │    └── WithdrawUseCas
+│         ├── retaurant 
+│         │    ├── CreateRetaurantUseCase
+│         │    ├── UdateRetaurantUseCase 
+│         │    ├── GetRetaurantUseCase 
+│         │    ├── DeleteRetaurantUseCase
+│         │    ├── SearchRetaurantUseCase
+│         │    ├── BookmarkRetaurantUseCase
+│         │    ├── ReportRetaurantUseCase //신고하기
+│         │    └── ShareRetaurantUseCase
+│         ├── review
+│         │    ├── CreateReviewUseCase
+│         │    ├── UdateReviewUseCase
+│         │    ├── GetReviewUseCase
+│         │    ├── ReportReviewUseCase //신고하기
+│         │    └── DeleteReviewUseCase
+│         └── menu 
+│              ├── CreateMenuUseCase //카테고리 정보도 포함
+│              ├── UdateMenuUseCase
+│              ├── GetMenuUseCase
+│              └── DeleteMenuUseCase
+│
+│
+├── presentation (여러 유스케이스 사용할 수 있음)
+│   ├── ui 
+│   │   ├── splash
+│   │   │      ├── Splash
+│   │   │      └── SplashViewModel
+│   │   ├── gide
+│   │   │      ├── Guide 
+│   │   │      ├── GuideMenuFragment
+│   │   │      ├── GuidePagerAdapter
+│   │   │      ├── GuideRegisterFragment
+│   │   │      ├── GuideReviewFragment
+│   │   │      ├── GuideSearchFragment
+│   │   │      └── GuideViewModel
+│   │   ├── sign  
+│   │   │      ├── Sign 
+│   │   │      ├── SignSocialFragment
+│   │   │      ├── SignNicknameFragment
+│   │   │      ├── SignOptionFragment
+│   │   │      ├── SignTermsFragment
+│   │   │      ├── SignCompeletFragment
+│   │   │      └── SignViewModel
+│   │   │
+│   │   ├── home
+│   │   │      ├── map 
+│   │   │      ├── mypage
+│   │   │      ├── register
+│   │   │      └── Home
+│   │   │       
+│   │   ├── update
+│   │   │      ├── Update 
+│   │   │      ├── UpdateHomepageFragment
+│   │   │      ├── UpdateLocFragment
+│   │   │      ├── UpdateNumberFragment
+│   │   │      ├── UpdateTimetableFragment
+│   │   │      └── SignViewModel
+
+
+
+```
