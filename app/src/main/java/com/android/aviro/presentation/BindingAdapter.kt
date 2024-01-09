@@ -2,6 +2,7 @@ package com.android.aviro.presentation
 
 import android.annotation.SuppressLint
 import android.graphics.Color
+import android.text.Layout
 import android.text.TextWatcher
 import android.util.Log
 import android.view.LayoutInflater
@@ -68,6 +69,16 @@ object BindingAdapter {
     }
 
     @JvmStatic
+    @BindingAdapter("app:bgBirthdayEditText")
+    fun setBirthdayEditTextBG(edittext: EditText, state: String) {
+        when(state) {
+            "true" -> edittext.background = ContextCompat.getDrawable(edittext.context, R.drawable.base_edittext_right)
+            "false" -> edittext.background = ContextCompat.getDrawable(edittext.context, R.drawable.base_edittext_wrong)
+            "default" -> edittext.background = ContextCompat.getDrawable(edittext.context, R.drawable.base_edittext_roundsquare_default)
+        }
+    }
+
+    @JvmStatic
     @BindingAdapter("android:textColor")
     fun setTextColor(text: TextView, isChanged: Boolean) {
         if(isChanged) {
@@ -75,7 +86,16 @@ object BindingAdapter {
         } else {
             text.setTextColor(ContextCompat.getColor(text.context, R.color.Gray3))
         }
+    }
 
+    @JvmStatic
+    @BindingAdapter("app:textColorWR")
+    fun setTextColorWR(text: TextView, state: String) {
+        if (state == "false") {
+            text.setTextColor(ContextCompat.getColor(text.context, R.color.Warn_Red))
+        } else {
+            text.setTextColor(ContextCompat.getColor(text.context, R.color.Gray3))
+        }
     }
 
     @JvmStatic
@@ -159,8 +179,6 @@ object BindingAdapter {
         }
 
     }
-
-
 
 
 }

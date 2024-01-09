@@ -4,7 +4,6 @@ import com.android.aviro.BuildConfig
 import com.android.aviro.data.api.AuthService
 import com.android.aviro.data.api.MemberService
 import com.android.aviro.data.utils.ResultCallAdapterFactory
-import com.android.aviro.data.utils.SealedClassDeserializer
 import com.android.aviro.data.entity.auth.TokensResponseDTO
 import com.android.aviro.data.utils.HeaderInterceptor
 import com.google.gson.GsonBuilder

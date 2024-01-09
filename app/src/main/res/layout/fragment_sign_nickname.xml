@@ -74,7 +74,7 @@
                 android:textColor = "@color/Gray0"
                 android:background = "@drawable/base_edittext_non"
                 app:animated="@{viewmodel.isNext}"
-                android:onTextChanged="@{viewmodel::onTextChanged}" />
+                android:onTextChanged="@{() -> viewmodel.checkNickname(editTextNickName)}" />
 
 
             <LinearLayout
