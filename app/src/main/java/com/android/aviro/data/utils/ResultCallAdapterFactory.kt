@@ -1,4 +1,4 @@
-package com.android.aviro.data.api
+package com.android.aviro.data.utils
 
 import retrofit2.Call
 import retrofit2.CallAdapter

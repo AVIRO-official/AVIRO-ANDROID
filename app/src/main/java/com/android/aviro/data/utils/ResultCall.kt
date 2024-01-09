@@ -1,5 +1,6 @@
-package com.android.aviro.data.api
+package com.android.aviro.data.utils
 
+import android.util.Log
 import com.android.aviro.data.entity.base.BaseResponse
 import okhttp3.Request
 import okio.Timeout
@@ -12,6 +13,7 @@ class ResultCall<T>(private val call: Call<T>, private val retrofit: Retrofit) :
             override fun onResponse(call: Call<T>, response: Response<T>) {
 
                 if (response.isSuccessful) {
+                    Log.d("message","${response.body()}")
 
                     if (response.body() == null) {
                         callback.onResponse(
