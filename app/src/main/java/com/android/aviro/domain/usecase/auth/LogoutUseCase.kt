@@ -1,4 +1,4 @@
-package com.android.aviro.domain.usecase.member
+package com.android.aviro.domain.usecase.auth
 
 class LogoutUseCase {
 
