@@ -4,33 +4,36 @@ import android.content.Intent
 import android.net.Uri
 import android.view.View
 import android.widget.EditText
-import android.widget.LinearLayout
-import androidx.core.content.ContextCompat
-import androidx.lifecycle.LiveData
-import androidx.lifecycle.MutableLiveData
-import androidx.lifecycle.ViewModel
-import androidx.lifecycle.viewModelScope
+import androidx.lifecycle.*
 import com.android.aviro.R
-import com.android.aviro.domain.usecase.user.CreateSocialAccountUseCase
-import com.android.aviro.domain.usecase.user.CreateUserUseCase
-import com.android.aviro.presentation.entity.User
+import com.android.aviro.data.entity.auth.SignResponseDTO
+import com.android.aviro.data.entity.auth.TokensResponseDTO
+import com.android.aviro.data.entity.base.BaseResponse
+import com.android.aviro.domain.usecase.auth.AutoSignInUseCase
+import com.android.aviro.domain.usecase.auth.CreateTokensUseCase
+import com.android.aviro.domain.usecase.member.CreateMemberUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import java.text.ParseException
 import java.text.SimpleDateFormat
 import java.util.*
-import java.util.regex.Matcher
-import java.util.regex.Pattern
 import javax.inject.Inject
 
 @HiltViewModel
 class SignViewModel @Inject constructor(
-    private val createSocialAccountUseCase: CreateSocialAccountUseCase,
-    private val createUserUseCase: CreateUserUseCase
+    private val createTokensUseCase: CreateTokensUseCase,
+    private val autoSignInUseCase: AutoSignInUseCase,
+    private val createMemberUseCase: CreateMemberUseCase
 )  : ViewModel() {
 
-    // 회원가입 정보를 저장할 entity
-    val userDTO = User(-1,"","","",null,null, false)
+
+    var _isSign = MutableLiveData<Boolean>()
+    val isSign : LiveData<Boolean>
+        get() = _isSign
+
+    val _isSignUp = MutableLiveData<Boolean>()
+    val isSignUp : LiveData<Boolean>
+        get() = _isSignUp
 
     // 다음으로 버튼
     val _nextBtn = MutableLiveData<Int>()
@@ -41,6 +44,10 @@ class SignViewModel @Inject constructor(
     val _isNext = MutableLiveData<Boolean?>()
     val isNext : LiveData<Boolean?>
         get() = _isNext
+
+    val _nicknameText = MutableLiveData<String>()
+    val nicknameText : LiveData<String>
+        get() = _nicknameText
 
     val _nicknameAccountText = MutableLiveData<String>()
     val nicknameAccountText : LiveData<String>
@@ -54,20 +61,22 @@ class SignViewModel @Inject constructor(
     val nicknameNoticeTextColor : LiveData<Int>
         get() = _nicknameNoticeTextColor
 
-    val _birthdayText = MutableLiveData<String>()
-    val birthdayText : LiveData<String>
+    val _birthdayText = MutableLiveData<String?>()
+    val birthdayText : LiveData<String?>
         get() = _birthdayText
 
-    private val _isVaildBirth = MutableLiveData<Boolean>()
-    val isVaildBirth: LiveData<Boolean>
-        get() = _isVaildBirth
+    val _birthdayNoticeText = MutableLiveData<String>()
+    val birthdayNoticeText : LiveData<String>
+        get() = _birthdayNoticeText
 
+    private val _isVaildBirth = MutableLiveData<String>()
+    val isVaildBirth: LiveData<String>
+        get() = _isVaildBirth
 
     // 성별
     private val _isGenderList =  MutableLiveData<List<Boolean>>()
     val isGenderList : LiveData<List<Boolean>>
         get() = _isGenderList
-
 
 
     // 사용자 동의 약관
@@ -79,68 +88,151 @@ class SignViewModel @Inject constructor(
     val isAllTrue: LiveData<Boolean>
         get() = _isAllTrue
 
+    private val _errorLiveData = MutableLiveData<Map<Int, String>>()
+    val errorLiveData: LiveData<Map<Int, String>> get() = _errorLiveData
+
+    val errorMap = mutableMapOf<Int, String>()
+
 
     init {
+
         viewModelScope.launch {
+            _isSign.value = true
             _nicknameAccountText.value = "(0/8)"
             _nicknameNoticeText.value = "이모지, 특수문자(-, _ 제외)를 사용할 수 없습니다."
             _nicknameNoticeTextColor.value = R.color.Gray2
+            _birthdayNoticeText.value = "태어난 연도를 입력해주세요 (선택)"
+            _birthdayText.value = ""
             _isGenderList.value =  listOf(false, false, false)
             _isApproveList.value = listOf(false, false, false)
             _isAllTrue.value = false
             _isNext.value = null
+            _isVaildBirth.value = "default"
         }
+
+    }
+
+    fun checkSignUp(id_token : String, auth_code : String) {
+        viewModelScope.launch {
+            val response = createTokensUseCase(id_token, auth_code)
+            response.onSuccess {
+                when(it) {
+                    is TokensResponseDTO -> {
+                        if(it.isMember) {
+                            autoSignInUseCase.invoke()
+                        }
+                        _isSignUp.value = it.isMember
+                    }
+                    is BaseResponse -> {
+                        // 에러 메세지 팝업창 + 소셜 로그인 다시하기
+                        errorMap[it.statusCode] = it.message
+                        _errorLiveData.value = errorMap
+
+                        _isSign.value = true
+
+                    }
+                }
+
+            }.onFailure {
+
+            }
+
+        }
+
     }
 
 
     // 닉네임 조건 확인
-    fun onTextChanged(s: CharSequence, start :Int, before : Int, count: Int) {
+    fun checkNickname(editable : EditText) {
+        val text = editable.text.toString()
+        val id = editable.id
 
-        _nicknameAccountText.value = "(${s.length}/8)"
+        when(id) {
+            R.id.editTextNickName -> {
+                _nicknameAccountText.value = "(${text.length}/8)"
 
-        if(s.length == 0) {
-            _nicknameAccountText.value = "(0/8)"
-            _nicknameNoticeText.value = "이모지, 특수문자(-, _ 제외)를 사용할 수 없습니다."
-            _nicknameNoticeTextColor.value = R.color.Gray2
-            _isNext.value = null
+                viewModelScope.launch {
 
-        } else {
-            // 허용 문자 조건
-            if (checkCharacter(s)) {
-                // 닉네임 중복 확인
-                if (checkDuplicate()) {
-                    _nicknameNoticeText.value = "사용할 수 있는 닉네임이에요."
+                val response = createMemberUseCase.checkNickname(text)
+                response.onSuccess {
+                    if(it.statusCode == 200) {
+                        _nicknameNoticeText.value = it.message
+
+                        if(it.isValid!!) {
+                            _nicknameNoticeTextColor.value = R.color.Gray2
+                            _isNext.value = true
+                            _nicknameText.value = text
+                        } else {
+                            _nicknameNoticeTextColor.value = R.color.Warn_Red
+                            _isNext.value = false
+                        }
+                    } else {
+                        // 400 : 요청값 오류 500 : 서버 오류 처리 필요
+                        errorMap[it.statusCode] = it.message
+                        _errorLiveData.value = errorMap
+
+                        _nicknameNoticeText.value = "이모지, 특수문자(-, _ 제외)를 사용할 수 없습니다."
+                        _nicknameNoticeTextColor.value = R.color.Gray2
+                        _isNext.value = false
+                    }
+
+                }.onFailure {
+                    _nicknameNoticeText.value = "이모지, 특수문자(-, _ 제외)를 사용할 수 없습니다."
                     _nicknameNoticeTextColor.value = R.color.Gray2
-                    _isNext.value = true
-                    userDTO.nickname = s.toString()
-
-                } else {
-                    _nicknameNoticeText.value = "중복된 닉네임이에요. 다시 시도해주세요."
-                    _nicknameNoticeTextColor.value = R.color.Warn_Red
                     _isNext.value = false
                 }
-
-            } else {
-                _nicknameNoticeText.value = "이모지, 특수문자(-, _ 제외)를 사용할 수 없습니다."
-                _nicknameNoticeTextColor.value = R.color.Gray2
-                _isNext.value = false
+                }
 
             }
+
         }
+
+
     }
 
+    fun onTextChanged(s: CharSequence, start :Int, before : Int, count: Int) {
 
-    fun afterTextChanged(s: CharSequence, start :Int, before : Int, count: Int) {
-        //val text = editable.toString()
-        if (s.length == 4 || s.length == 7) {
-            _birthdayText.value = "${s}" + "."
+        val birth = s.toString()
+
+        if(birth.length == 5) {
+            val year = birth.substring(0, 4)
+            if(birth[4] != '.') {
+                _birthdayText.value = "$year.${birth[4]}"
+            }
+
+        } else if(birth.length == 8){
+            val year_month = birth.substring(0, 7)
+            if(birth[7] != '.') {
+                _birthdayText.value = "$year_month.${birth[7]}"
+            }
 
         }
-        /*else if (text.length == 10) {
-            // 생일 유효성 검증
 
-        }*/
-        _isVaildBirth.value = checkValidBirth(s.toString())
+
+        if (birth.length == 0) {
+            _isVaildBirth.value = "default"
+            _birthdayNoticeText.value = "태어난 연도를 입력해주세요 (선택)"
+        } else {
+
+            if(checkValidBirth(birth)) {
+                _isVaildBirth.value = "true"
+                _birthdayNoticeText.value = "태어난 연도를 입력해주세요 (선택)"
+            } else {
+                _isVaildBirth.value = "false"
+                _birthdayNoticeText.value = "올바른 형식으로 입력해주세요"
+            }
+
+        }
+
+
+    }
+
+    fun afterTextChanged(edittext: EditText) {
+        val text = edittext.text.toString()
+
+        edittext.setSelection(text.length)
+
+
     }
 
     fun onClickApprove(view : View) {
@@ -175,28 +267,10 @@ class SignViewModel @Inject constructor(
         }
 
         _isAllTrue.value = _isApproveList.value!!.all {it == true}
-        userDTO.marketingAgree = _isApproveList.value!!.all {it == true}
+        //userDTO.marketingAgree = _isApproveList.value!!.all {it == true}
 
     }
 
-
-    fun checkDuplicate() : Boolean {
-
-        return true
-
-    }
-
-    fun checkCharacter(nickname : CharSequence) : Boolean{
-        val regex = "^[a-zA-Z0-9가-힣-_]+\$"
-        val pattern: Pattern = Pattern.compile(regex)
-        val matcher: Matcher = pattern.matcher(nickname)
-
-        if(matcher.find()) {
-            return true
-        }
-
-        return false
-    }
 
     fun checkValidBirth(birthday : String) : Boolean {
         // 날짜 형식 지정
@@ -214,6 +288,7 @@ class SignViewModel @Inject constructor(
             // 날짜 파싱 중 오류 발생 시 유효하지 않은 날짜로 처리
             false
         }
+
 
         true
     }
@@ -251,6 +326,38 @@ class SignViewModel @Inject constructor(
 
         val intent = Intent(Intent.ACTION_VIEW, Uri.parse(websiteUrl))
         view.context.startActivity(intent)
+
+    }
+
+    suspend fun onClickStart() {
+
+        // 회원가입
+        val birth = birthdayText.toString().replace(".", "").toInt()
+        val nickname = nicknameText.toString()
+        val gender_bool = _isGenderList.value!!.mapIndexedNotNull { index, value ->
+            if (value) index else null
+        }
+        var gender = ""
+        when (gender_bool[0]) {
+            0 -> gender = "male"
+            1 -> gender = "female"
+            2 -> gender = "others"
+
+        }
+
+        val response = createMemberUseCase(nickname, birth, gender, marketingAgree = 1)
+        response.onSuccess {
+            when(it){
+                is SignResponseDTO -> {
+                    // 회원가입 성공 -> Home 화면으로
+                }
+                is BaseResponse -> {
+                    // 애플로그인부터 다시
+                    errorMap[it.statusCode] = it.message
+                    _errorLiveData.value = errorMap
+                }
+            }
+        }
 
     }
 

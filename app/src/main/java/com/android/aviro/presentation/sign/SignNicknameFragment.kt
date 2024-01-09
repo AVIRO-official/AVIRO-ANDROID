@@ -9,12 +9,14 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.android.aviro.R
 import com.android.aviro.databinding.FragmentSignNicknameBinding
+import com.android.aviro.databinding.FragmentSignSocialBinding
 
 class SignNicknameFragment : Fragment() {
 
     private val sharedViewModel: SignViewModel by activityViewModels()
 
-    private lateinit var binding : FragmentSignNicknameBinding
+    private var _binding: FragmentSignNicknameBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -22,7 +24,7 @@ class SignNicknameFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        binding = FragmentSignNicknameBinding.inflate(inflater, container, false)
+        _binding = FragmentSignNicknameBinding.inflate(inflater, container, false)
         val view = binding.root
 
         //sharedViewModel = SignViewModel()
@@ -46,6 +48,11 @@ class SignNicknameFragment : Fragment() {
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {
 
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
     }
 
 
