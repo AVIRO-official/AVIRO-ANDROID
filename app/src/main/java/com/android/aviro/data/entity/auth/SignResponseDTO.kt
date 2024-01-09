@@ -6,7 +6,7 @@ import kotlinx.parcelize.Parcelize
 
 
 @Parcelize
-data class SignInResponseDTO(
+data class SignResponseDTO(
 
     @SerializedName("userId")
     val userId : Int,

@@ -5,7 +5,8 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class SignInRequestDTO(
+data class
+SignRequestDTO(
 
     @SerializedName("refreshToken")
     val refreshToken : String,

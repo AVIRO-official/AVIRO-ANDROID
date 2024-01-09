@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class AuthRequestDTO(
+data class TokensRequestDTO(
 
     @SerializedName("identityToken")
     val id_token : String,
