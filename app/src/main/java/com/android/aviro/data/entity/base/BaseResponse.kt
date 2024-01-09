@@ -5,7 +5,7 @@ import kotlinx.parcelize.Parcelize
 import android.os.Parcelable
 
 @Parcelize
-data class ErrorResponse(
+data class BaseResponse(
     @SerializedName("statusCode")
     val statusCode: Int,
 
