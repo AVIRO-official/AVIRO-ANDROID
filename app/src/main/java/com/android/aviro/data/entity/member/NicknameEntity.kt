@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 @Parcelize
-data class NicknameCheckRequest(
+data class NicknameEntity(
     @SerializedName("nickname")
     val nickname: String,
 
