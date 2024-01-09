@@ -1,4 +1,4 @@
-package com.android.aviro.domain.usecase.user
+package com.android.aviro.domain.usecase.member
 
 class UpdateMyNicnameUseCase {
 }

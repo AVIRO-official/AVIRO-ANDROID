@@ -1,31 +1,24 @@
-package com.android.aviro.domain.usecase.user
+package com.android.aviro.domain.usecase.member
 
+import com.android.aviro.data.entity.member.NicknameEntity
+import com.android.aviro.data.entity.member.NicknameCheckResponse
+import com.android.aviro.data.repository.MemberRepositoryImp
 import javax.inject.Inject
 
 // 사용자 생성
-class CreateUserUseCase @Inject constructor ()
-{
+class CreateMemberUseCase @Inject constructor (
+    private val memberRepository: MemberRepositoryImp
+    ) {
 
-    // 기존 회원 아닌 경우 회원가입 수행
-    fun createUser() {
+    suspend operator fun invoke(nickname: String, birth : Int?, gender : String?, marketingAgree : Int) : Result<Any> {
+        return memberRepository.creatMember(nickname, birth, gender, marketingAgree)
 
     }
 
-    // 기존 회원인 경우 정보 가져옴
-    fun getUserInfo() : Boolean{
-        // refresh token 사용해서 정보 가져옴
-        /*
-        if(==400) { // 토큰 만료 및 회원x
+    suspend fun checkNickname(nickname : String) : Result<NicknameCheckResponse> {
+        return memberRepository.checkNickname(NicknameEntity(nickname))
 
-           return false
-
-        } else {
-          //사용자 정보 저장
-          return true
-        }
-
-         */
-        return false
     }
+
 
 }
