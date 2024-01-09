@@ -73,13 +73,16 @@
                 android:layout_height="51dp"
                 android:paddingStart = "20dp"
                 android:ems="10"
-                android:inputType="date|textMultiLine|textNoSuggestions"
+                android:inputType="date | textMultiLine|textNoSuggestions"
+                android:imeOptions="actionDone"
                 android:hint="0000.00.00"
                 android:text = "@{viewmodel.birthdayText}"
                 android:textSize="18sp"
                 android:textColor = "@color/Gray0"
-                android:background = "@{viewmodel.isVaildBirth}"
-                android:onTextChanged= "@{viewmodel::afterTextChanged}"/>
+                app:bgBirthdayEditText = "@{viewmodel.isVaildBirth}"
+                android:onTextChanged="@{viewmodel::onTextChanged}"
+                android:afterTextChanged="@{() -> viewmodel.afterTextChanged(editTextbirthday)}"/>
+            <!-- android:afterTextChanged="@{() -> viewmodel.afterTextChanged(editTextbirthday)}"-->
 
             <TextView
                 android:id="@+id/birthday_notice"
@@ -87,9 +90,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart = "10dp"
                 android:textSize="13sp"
+                app:textColorWR = "@{viewmodel.isVaildBirth}"
                 android:fontFamily="@font/pretendard_regular"
                 android:text='태어난 연도를 입력해주세요 (선택)' />
-
 
 
             <LinearLayout

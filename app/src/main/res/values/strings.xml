@@ -13,6 +13,8 @@
     <string name="terms3"><u>위치기반 서비스 이용약관 동의 (필수)</u></string>
 
     <string name="apple_service_id">SeonghunJeon.VeganRestaurant.SignIn</string>
+    <string name="apple_client_id">SeonghunJeon.VeganRestaurant</string>
+    <string name="apple_id">C4K2HXA435.SeonghunJeon.VeganRestaurant</string>
     <string name="github_service_id">f6178fe3483b5b5c528c</string>
 
 

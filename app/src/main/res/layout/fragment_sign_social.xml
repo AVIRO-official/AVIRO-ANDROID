@@ -5,13 +5,16 @@
     xmlns:tools="http://schemas.android.com/tools">
     <data>
         <import type="androidx.core.content.ContextCompat"/>
+        <import type="android.view.View"/>
         <variable
             name="viewmodel"
             type="com.android.aviro.presentation.sign.SignViewModel" />
     </data>
+
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
+
 
     <LinearLayout
         android:layout_width="wrap_content"
@@ -25,6 +28,15 @@
     </LinearLayout>
 
     <LinearLayout
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="30dp"
+        android:layout_marginEnd="64dp"
+        android:background="@drawable/ic_berry_signup"
+        app:layout_constraintBottom_toTopOf="@+id/appleBtn"
+        app:layout_constraintEnd_toEndOf="parent"></LinearLayout>
+
+    <LinearLayout
         android:id="@+id/appleBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -34,7 +46,26 @@
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintStart_toStartOf="parent"
+        android:enabled="@{viewmodel.isSign}">
     </LinearLayout>
+
+    <ProgressBar
+        android:id="@+id/login_progressBar"
+        android:gravity = "center"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:visibility="@{viewmodel.isSign? View.GONE: View.VISIBLE}"/>
+
+    <View
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#80000000"
+        android:visibility="@{viewmodel.isSign? View.GONE: View.VISIBLE}"/>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

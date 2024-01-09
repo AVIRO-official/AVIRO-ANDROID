@@ -30,8 +30,8 @@ class SignSocialFragment : Fragment() {
     private val mState = UUID.randomUUID().toString()
     private lateinit var mRedirectUrl : String
 
-
-    private lateinit var binding: FragmentSignSocialBinding
+    private var _binding: FragmentSignSocialBinding? = null
+    private val binding get() = _binding!!
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -39,7 +39,7 @@ class SignSocialFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        binding = FragmentSignSocialBinding.inflate(inflater, container, false)
+        _binding = FragmentSignSocialBinding.inflate(inflater, container, false)
         val view = binding.root
 
         binding.viewmodel = sharedViewModel
@@ -52,8 +52,10 @@ class SignSocialFragment : Fragment() {
         }
 
 
+
         return view
     }
+
 
 
     fun onClickApple() {
@@ -71,5 +73,12 @@ class SignSocialFragment : Fragment() {
         val customTabsIntent = CustomTabsIntent.Builder().build()
         customTabsIntent.launchUrl(requireContext(), uri)
     }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        _binding = null
+    }
+
+
 
 }
