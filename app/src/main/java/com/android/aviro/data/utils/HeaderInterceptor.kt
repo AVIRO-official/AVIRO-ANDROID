@@ -8,7 +8,7 @@ class HeaderInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response { //retrofit2, okhttp3
         val builder = chain.request().newBuilder()
-        builder.addHeader("Header", "${BuildConfig.AWS_API_HEADER}")
+        builder.addHeader("X-API-KEY", "${BuildConfig.AWS_API_HEADER}")
 
         return chain.proceed(builder.build())
     }
