@@ -1,4 +1,4 @@
-package com.android.aviro.data.entity
+package com.android.aviro.data.entity.restaurant
 
 import io.realm.kotlin.types.RealmObject
 import io.realm.kotlin.types.annotations.PrimaryKey
