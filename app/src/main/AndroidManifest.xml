@@ -4,6 +4,8 @@
     package="com.android.aviro">
 
     <uses-permission android:name="android.permission.INTERNET" />
+    <uses-permission android:name="android.permission.ACCESS_COARSE_LOCATION"/>  <!--네트워크로만 위치 측정-->
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION"/>  <!--GPS 센서를 사용하여 위치 측정-->
     <!--android:networkSecurityConfig="@xml/network_security_config"-->
 
     <application
@@ -29,17 +31,13 @@
         <activity
             android:name=".presentation.splash.Splash"
             android:exported="true">
-
         </activity>
 
         <activity
             android:name=".presentation.sign.Sign"
             android:exported="true"
             android:launchMode="singleTop">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
+
 
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
@@ -53,10 +51,19 @@
                 <data
                     android:scheme="aviro"
                     android:host="testcallback"/>
-
             </intent-filter>
 
         </activity>
+        <activity
+            android:name=".presentation.home.Home"
+            android:exported="true">
+            <intent-filter>
+            <action android:name="android.intent.action.MAIN" />
+            <category android:name="android.intent.category.LAUNCHER" />
+        </intent-filter>
+
+        </activity>
+
         <activity
             android:name=".presentation.update.Update"
             android:exported="true"></activity>
@@ -72,6 +79,7 @@
         <!-- android:scheme="kakao네이티브 앱 키" /> -->
         <!-- </intent-filter> -->
         <!-- </activity> -->
+
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"
             android:value="${NAVER_CLIENT_ID}" />

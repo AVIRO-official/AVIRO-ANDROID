@@ -4,8 +4,7 @@ plugins {
     id 'kotlin-kapt'
     id 'dagger.hilt.android.plugin'
     id 'kotlin-parcelize'
-    //id 'realm-android'
-
+    id 'io.realm.kotlin'
 }
 
 Properties properties = new Properties()
@@ -58,11 +57,11 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility JavaVersion.VERSION_1_8
+        sourceCompatibility JavaVersion.VERSION_1_8 // VERSION_11
         targetCompatibility JavaVersion.VERSION_1_8
     }
     kotlinOptions {
-        jvmTarget = '1.8'
+        jvmTarget = '1.8' //1.8 //11
     }
     buildFeatures {
         viewBinding true
@@ -76,6 +75,7 @@ android {
     kapt {
         correctErrorTypes = true
     }
+
 
 
 }
@@ -98,7 +98,7 @@ dependencies {
     //implementation 'com.squareup.retrofit2:retbuild:gradlerofit:2.9.0'
     //implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation 'com.squareup.retrofit2:retrofit:2.9.0'
-    implementation 'com.google.code.gson:gson:2.9.0'
+    implementation 'com.google.code.gson:gson:2.10'
     implementation 'com.squareup.retrofit2:converter-gson:2.9.0'
     implementation platform("com.squareup.okhttp3:okhttp-bom:4.9.0")
     implementation "com.squareup.okhttp3:okhttp"
@@ -106,16 +106,15 @@ dependencies {
 
 
     // Serialization
-    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.0'
+    implementation 'org.jetbrains.kotlinx:kotlinx-serialization-json:1.3.2'
 
     // Naver Map
     implementation("com.naver.maps:map-sdk:3.17.0")
+    implementation("com.google.android.gms:play-services-location:21.0.1")
 
     // Lottie
     implementation 'com.airbnb.android:lottie:5.0.2'
 
-    //implementation 'io.realm.kotlin:library-base:1.8.0'
-    //implementation 'io.realm.kotlin:library-sync:1.8.0'
 
     // Oauth
     implementation 'androidx.browser:browser:1.5.0'
@@ -130,6 +129,11 @@ dependencies {
     // DI
     implementation 'com.google.dagger:hilt-android:2.44'
     kapt 'com.google.dagger:hilt-android-compiler:2.44'
+    implementation 'androidx.hilt:hilt-navigation-fragment:1.0.0'
 
-
+    // Realm
+    implementation 'io.realm.kotlin:library-base:1.11.0'
+    implementation 'io.realm.kotlin:library-sync:1.11.0'// If using Device Sync
+    implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.7.0' // If using coroutines with the SDK
 }
+

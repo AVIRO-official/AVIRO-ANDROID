@@ -7,20 +7,20 @@ import android.view.View
 import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
+import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import com.android.aviro.R
 import com.android.aviro.databinding.AddMenuLayoutBinding
 import com.android.aviro.databinding.FragmentRegisterBinding
+import com.android.aviro.presentation.home.ui.mypage.MypageViewModel
 
 
 class RegisterFragment : Fragment() {
 
     private var _binding: FragmentRegisterBinding? = null
-
-    // This property is only valid between onCreateView and
-    // onDestroyView.
     private val binding get() = _binding!!
 
-    lateinit var viewmodel: RegisterViewModel
+    private val viewmodel: RegisterViewModel by hiltNavGraphViewModels(R.id.navigation_register)
+
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -32,7 +32,7 @@ class RegisterFragment : Fragment() {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
-        viewmodel = RegisterViewModel()
+        //viewmodel = RegisterViewModel()
         binding.viewmodel = viewmodel
         binding.lifecycleOwner = this
 

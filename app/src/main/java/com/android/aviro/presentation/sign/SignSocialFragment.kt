@@ -52,7 +52,6 @@ class SignSocialFragment : Fragment() {
         }
 
 
-
         return view
     }
 

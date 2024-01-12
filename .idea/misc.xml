@@ -44,7 +44,7 @@
         <entry key="app/src/main/res/drawable/selector_checkbox.xml" value="0.206" />
         <entry key="app/src/main/res/drawable/text_guide_menu.xml" value="0.1765" />
         <entry key="app/src/main/res/layout/activity_guide.xml" value="0.25" />
-        <entry key="app/src/main/res/layout/activity_home.xml" value="0.22573749465583584" />
+        <entry key="app/src/main/res/layout/activity_home.xml" value="0.1" />
         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22573749465583584" />
         <entry key="app/src/main/res/layout/activity_sign.xml" value="0.16075245831551946" />
         <entry key="app/src/main/res/layout/activity_sign_nickname.xml" value="0.22573749465583584" />

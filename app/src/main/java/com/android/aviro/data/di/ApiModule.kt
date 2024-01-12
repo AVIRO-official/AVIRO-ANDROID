@@ -3,6 +3,7 @@ package com.android.aviro.data.di
 import com.android.aviro.BuildConfig
 import com.android.aviro.data.api.AuthService
 import com.android.aviro.data.api.MemberService
+import com.android.aviro.data.api.RestaurantService
 import com.android.aviro.data.utils.ResultCallAdapterFactory
 import com.android.aviro.data.entity.auth.TokensResponseDTO
 import com.android.aviro.data.utils.HeaderInterceptor
@@ -26,12 +27,6 @@ class ApiModule {
     val logger = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BASIC  // 로그 레벨 BASIC
     }
-
-    val gson = GsonBuilder()
-        .registerTypeAdapter(TokensResponseDTO::class.java, SealedClassDeserializer(TokensResponseDTO::class.java))
-        // 다른 sealed class에 대해서도 동일한 방식으로 등록 가능
-        .create()
-
 
     @Provides
     @Singleton
@@ -70,5 +65,11 @@ class ApiModule {
     @Provides
     fun provideMemberService(retrofit: Retrofit): MemberService {
         return retrofit.create(MemberService::class.java)
+    }
+
+    @Singleton
+    @Provides
+    fun provideRestaurantService(retrofit: Retrofit): RestaurantService {
+        return retrofit.create(RestaurantService::class.java)
     }
 }
