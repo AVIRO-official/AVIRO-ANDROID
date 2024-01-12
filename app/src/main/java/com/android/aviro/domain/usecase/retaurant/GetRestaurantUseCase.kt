@@ -21,4 +21,5 @@ class GetRestaurantUseCase @Inject constructor (
     fun getMarker() : MarkerListEntity {
         return markerRepository.getMarker()
     }
+
 }
