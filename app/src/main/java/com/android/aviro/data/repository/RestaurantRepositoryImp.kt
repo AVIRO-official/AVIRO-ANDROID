@@ -1,69 +1,132 @@
 package com.android.aviro.data.repository
 
 import android.util.Log
-import com.android.aviro.R
-import com.android.aviro.data.datasource.marker.MarkerCacheDataSource
-import com.android.aviro.data.datasource.restaurant.RestaurantDataSource
+import com.android.aviro.data.datasource.marker.MarkerMemoryCacheDataSource
+import com.android.aviro.data.datasource.restaurant.RestaurantAviroDataSource
 import com.android.aviro.data.datasource.restaurant.RestaurantLocalDataSource
+import com.android.aviro.data.entity.base.DataBodyResponse
+import com.android.aviro.data.entity.base.MappingResult
 import com.android.aviro.data.entity.marker.MarkerEntity
+import com.android.aviro.data.entity.restaurant.ReataurantReponseDTO
 import com.android.aviro.data.entity.restaurant.RestaurantRequestDTO
 import com.android.aviro.domain.repository.RestaurantRepository
-import com.naver.maps.geometry.LatLng
-import com.naver.maps.map.overlay.Marker
-import com.naver.maps.map.overlay.OverlayImage
+import java.time.LocalDateTime
+import java.time.format.DateTimeFormatter
 import javax.inject.Inject
 
+
 class RestaurantRepositoryImp @Inject constructor (
-    private val restaurantDataSource: RestaurantDataSource,
+    private val restaurantAviroDataSource: RestaurantAviroDataSource,
     private val restaurantLocalDataSource: RestaurantLocalDataSource,
-    private val markerCacheDataSource: MarkerCacheDataSource
+    private val markerCacheDataSource: MarkerMemoryCacheDataSource
 ) : RestaurantRepository {
 
-    override suspend fun getRestaurant(request: RestaurantRequestDTO){
 
-        val CustomMarkerList = arrayListOf<MarkerEntity>()
+    // 어비로 서버로부터 데이터 불러와서 업데이트
+    override suspend fun getRestaurantLoc(x : String, y : String, wide : String, time : String, isInitMap : Boolean) : MappingResult { //List<MarkerEntity>?
 
-        // Local DB 초기화
-        if (!restaurantLocalDataSource.getRestaurant().isEmpty()) {
-            //Log.d("restaurantList", "${restaurantList}")
-            // Remote에서 가게 데이터 가져옴
-            val response = restaurantDataSource.getRestaurant(request)
+        var response :Result<DataBodyResponse<ReataurantReponseDTO>>
 
-            response.onSuccess {
-                //restaurantLocalDataSource.saveRestaurant(it.updatedPlace)
+        val realmData = restaurantLocalDataSource.getRestaurant()
+        val isRealmEmpty = realmData.isEmpty()
+        restaurantLocalDataSource.closeRealm()
 
-                // Maker 생성
-                val restaurantList = restaurantLocalDataSource.getRestaurant()
-                Log.d("restaurantList", "${restaurantList}")
-                restaurantList.map {
+        lateinit var  result : MappingResult
 
-                    var veganType = ""
+        if(isRealmEmpty) {
+            response =  restaurantAviroDataSource.getRestaurant(request = RestaurantRequestDTO(x, y, wide, time))
+        }else {
+            // 마커를 모두 다 가져와야 하는 경우와 그렇지 않은 경우로 나뉨
+            val current_time = LocalDateTime.now()
+            val formatter = DateTimeFormatter.ofPattern("yyyy-MM-dd HH:mm:ss")
+            val formatted = current_time.format(formatter)
+            response =  restaurantAviroDataSource.getRestaurant(request = RestaurantRequestDTO(x, y, wide, formatted))
+        }
 
-                    val marker = Marker()
-                    marker.position = LatLng(it.y, it.x)
+        response.onSuccess {
+            val code = it.statusCode
+            val data = it.data
+            if (code == 200 && data != null) {
+                // SUCCESS
+                // 데이터베이스 갱신 처리
+                if(isRealmEmpty){
+                    Log.d("가게데이터","첫 가게 데이터 초기화")
+                    restaurantLocalDataSource.saveRestaurant(data.updatedPlace!!) // Realm 초기화
+                    markerCacheDataSource.updateMarker(data.updatedPlace)
+                } else {
 
-                    if (it.allVegan) {
-                        marker.icon = OverlayImage.fromResource(R.drawable.marker_default_green)
-                        veganType = "green"
-                    } else if (it.someMenuVegan) {
-                        marker.icon =
-                            OverlayImage.fromResource(R.drawable.marker_default_orange)
-                        veganType = "orange"
-                    } else {
-                        marker.icon =
-                            OverlayImage.fromResource(R.drawable.marker_default_yellow)
-                        veganType = "yellow"
+                    if(markerCacheDataSource.getSize() == 0) {
+                        Log.d("가게데이터","첫 실행 이후 마커 데이터가 없어서 생성")
+                        val realmData = restaurantLocalDataSource.getRestaurant()
+                        realmData.map {
+                            markerCacheDataSource.createMarker(it)
+                        }
                     }
 
-                    val customMarker = MarkerEntity(it.placeId, veganType, marker)
-                    CustomMarkerList.add(customMarker)
-                }
+                    if(data.updatedPlace != null) {
+                        Log.d("가게데이터","업데이트 있음")
+                        restaurantLocalDataSource.updateRestaurant(data.updatedPlace)  // 업데이트 된 위치 데이터 Realm 반영
+                        // 업데이트 된 데이터 마커 객체에서 삭제하고 다시 생성
+                        //new_marker_list = markerCacheDataSource.updateMarker(data.updatedPlace) // 새로 생긴 데이터면 반환
+                    }
 
-                restaurantLocalDataSource.closeRealm()
-                markerCacheDataSource.saveMarker(CustomMarkerList)
+                    if(data.deletedPlace != null){
+                        Log.d("가게데이터","가게 삭제 있음")
+                        restaurantLocalDataSource.deleteRestaurant(data.deletedPlace)  // 삭제된 위치 데이터 Realm 반영
+                        markerCacheDataSource.deleteMarker(data.deletedPlace) // 캐시 반영
+                    }
+
+                }
+                result =  MappingResult.Success(it.statusCode, it.message, it.data)
+
+            } else {
+                // ERORR
+                when(code){
+                    400 -> result = MappingResult.Error(it.statusCode, it.message ?: "잘못된 요청값으로 인해 가게 데이터를 불러오지 못했습니다.\n잠시 후 다시 시도해주세요.")
+                    500 -> result = MappingResult.Error(it.statusCode, it.message ?: "서버 오류가 발생해 가게 데이터를 불러오지 못했습니다.\n잠시 후 다시 시도해주세요.")
+                    else -> result = MappingResult.Error(it.statusCode, it.message ?: "알 수 없는 오류가 발생해 가게 데이터를 불러오지 못했습니다.\n잠시 후 다시 시도해주세요.")
+                }
             }
+
+        }.onFailure {
+            // ERORR
+            result =  MappingResult.Error(0, it.message ?: "알 수 없는 오류가 발생해 가게 데이터를 불러오지 못했습니다.\n잠시 후 다시 시도해주세요.")
         }
-            //return CustomMarkerList
+       return result
+
         }
+
+    // 업데이트 이후 필요한 마커데이터만 가져옴
+    override fun getMarker(isInitMap : Boolean, reataurant_list : ReataurantReponseDTO) : List<MarkerEntity>? {
+        var new_marker_list : List<MarkerEntity>? = null
+        if(isInitMap) {
+            Log.d("가게데이터","모든 마커 그려줌")
+            new_marker_list = markerCacheDataSource.getAllMarker()
+        } else {
+            Log.d("가게데이터","업데이트된 마커 그려줌")
+            new_marker_list =
+                reataurant_list.updatedPlace?.let { markerCacheDataSource.updateMarker(it) } // 새로 생긴 데이터면 반환
+        }
+        return new_marker_list
+    }
+
+
+
+    // 키워드로 가게를 검색함
+    override suspend fun searchRestaurant() {
+
+
+
+
+    }
+
+    // 선택한 가게의 상세 정보를 불러옴
+    override suspend fun getRestaurantDetail() {
+
+
+    }
+
+
+
 
     }
