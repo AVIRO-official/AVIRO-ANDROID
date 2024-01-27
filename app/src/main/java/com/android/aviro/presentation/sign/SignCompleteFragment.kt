@@ -5,6 +5,7 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.activity.addCallback
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.android.aviro.databinding.FragmentSignCompleteBinding
@@ -31,8 +32,12 @@ class SignCompleteFragment : Fragment() {
             startActivity(next_activity)
         }
 
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner) {} // 뒤로가기 막기
+
         return root
     }
+
+
 
     override fun onDestroyView() {
         super.onDestroyView()
