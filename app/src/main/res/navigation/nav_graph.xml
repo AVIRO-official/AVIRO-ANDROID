@@ -16,10 +16,10 @@
     </fragment>
 
     <fragment
-        android:id="@+id/MypageFragment"
-        android:name="com.android.aviro.presentation.home.ui.mypage.MypageFragment"
+        android:id="@+id/ChallengeFragment"
+        android:name="com.android.aviro.presentation.home.ui.mypage.ChallengeFragment"
         android:label="@string/mypage_fragment_label"
-        tools:layout="@layout/fragment_mypage">
+        tools:layout="@layout/fragment_challenge">
 
        <!-- <action
             android:id="@+id/action_MypageFragment_to_RegisterFragment"

@@ -20,17 +20,16 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.AVIRO"
         tools:targetApi="31">
-        <activity
-            android:name=".presentation.splash.Hilt_Splash"
-            android:exported="true"
-            android:label="@string/title_activity_home" />
+
         <activity
             android:name=".presentation.guide.Guide"
             android:exported="true">
         </activity>
+
         <activity
             android:name=".presentation.splash.Splash"
             android:exported="true">
+
         </activity>
 
         <activity
@@ -38,6 +37,10 @@
             android:exported="true"
             android:launchMode="singleTop">
 
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
@@ -57,28 +60,26 @@
         <activity
             android:name=".presentation.home.Home"
             android:exported="true">
-            <intent-filter>
-            <action android:name="android.intent.action.MAIN" />
-            <category android:name="android.intent.category.LAUNCHER" />
-        </intent-filter>
+
 
         </activity>
 
         <activity
+            android:name=".presentation.home.ui.register.RegisterFragment"
+            android:exported="true">
+        </activity>
+
+        <activity
             android:name=".presentation.update.Update"
-            android:exported="true"></activity>
+            android:exported="true">
+        </activity>
+
+        <activity
+            android:name=".presentation.search.Search"
+            android:exported="true">
+        </activity>
 
 
-        <!-- <activity android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity" -->
-        <!-- android:exported="true"> -->
-        <!-- <intent-filter> -->
-        <!-- <action android:name="android.intent.action.VIEW" /> -->
-        <!-- <category android:name="android.intent.category.DEFAULT" /> -->
-        <!-- <category android:name="android.intent.category.BROWSABLE" /> -->
-        <!-- <data android:host="oauth" -->
-        <!-- android:scheme="kakao네이티브 앱 키" /> -->
-        <!-- </intent-filter> -->
-        <!-- </activity> -->
 
         <meta-data
             android:name="com.naver.maps.map.CLIENT_ID"

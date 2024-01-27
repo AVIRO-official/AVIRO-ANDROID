@@ -1,9 +1,54 @@
+
 <resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+
     <style name="Base.Theme.AVIRO" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
     </style>
 
     <style name="Theme.AVIRO" parent="Base.Theme.AVIRO" />
+    <style name="AVIRO.Dialog" parent="Theme.Material3.Light.NoActionBar"></style>
+
+    <!--Bottom Sheet-->
+
+
+    <!-- Base application theme. -->
+   <!-- <style name="Theme.AVIRO" parent="Theme.MaterialComponents.Light.NoActionBar">
+        &lt;!&ndash; Customize your light theme here. &ndash;&gt;
+        &lt;!&ndash; <item name="colorPrimary">@color/my_light_primary</item> &ndash;&gt;
+    </style>
+
+
+ <style name="AVIRO.Dialog" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/Gray0</item>
+        <item name="colorSecondary">@color/Gray0</item>
+        <item name="colorSurface">@color/Gray0</item>
+        <item name="colorOnSurface">@color/Gray0</item>
+     <item name="alertDialogStyle">@style/MaterialAlertDialog.App</item>
+
+ </style>
+
+    <style name="AVIRO.Dialog.Button" parent="Widget.Material3.Button.TextButton.Dialog" >
+        <item name="colorPrimary">@color/Keyword_Blue</item>
+        <item name="android:textColor">@color/Keyword_Blue</item>
+    </style>
+
+    &lt;!&ndash;Dialog Title Custom Style&ndash;&gt;
+    <style name="AVIRO.Dialog.Title.Text" parent="MaterialAlertDialog.Material3.Title.Text">
+        <item name="android:textColor">@color/Gray0</item>
+        <item name="materialAlertDialogTitleTextStyle">@style/MaterialAlertDialog.Material3.Title.Panel.CenterStacked</item>
+    </style>
+
+    <style name="MaterialAlertDialog.App" parent="MaterialAlertDialog.Material3">
+        <item name="shapeAppearance">@style/ShapeAppearance.App.MediumComponent</item>
+        <item name="shapeAppearanceOverlay">@null</item>
+    </style>
+
+    <style name="ShapeAppearance.App.MediumComponent" parent="ShapeAppearance.Material3.MediumComponent">
+        <item name="cornerFamily">cut</item>
+        <item name="cornerSize">8dp</item>
+    </style>
+-->
+
 </resources>
+
