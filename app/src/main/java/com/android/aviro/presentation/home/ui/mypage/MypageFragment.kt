@@ -11,17 +11,15 @@ import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.android.aviro.R
-import com.android.aviro.databinding.ActivityHomeBinding
-import com.android.aviro.databinding.ActivityMypageBinding
 import com.android.aviro.databinding.FragmentMypageBinding
 import com.android.aviro.databinding.FragmentRegisterBinding
 import com.android.aviro.presentation.home.ui.register.OnSwipeTouchListener
 import com.android.aviro.presentation.home.ui.register.RegisterViewModel
 
-class MypageActivity : Fragment() {
+class MypageFragment : Fragment() {
 
 
-    private var _binding: ActivityMypageBinding? = null
+    private var _binding: FragmentMypageBinding? = null
     private val binding get() = _binding!!
 
     // 이전 프래그먼트의 뷰모델을 가져와야 함 -> 아니면 그냥 새로은거 써도 될듯,,,
@@ -33,7 +31,7 @@ class MypageActivity : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = ActivityMypageBinding.inflate(inflater, container, false)
+        _binding = FragmentMypageBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         binding.viewmodel = viewmodel
@@ -42,7 +40,7 @@ class MypageActivity : Fragment() {
         binding.backBtn.setOnClickListener {
             val fragmentManager = parentFragmentManager.beginTransaction()
             fragmentManager.setCustomAnimations(R.anim.slide_left_enter, R.anim.slide_right_exit, R.anim.slide_right_enter, R.anim.slide_left_exit)
-            fragmentManager.remove(this@MypageActivity).commit()
+            fragmentManager.remove(this@MypageFragment).commit()
 
         }
 
@@ -53,7 +51,7 @@ class MypageActivity : Fragment() {
             override fun onSwipeRight() {
                 val fragmentManager = parentFragmentManager.beginTransaction()
                 fragmentManager.setCustomAnimations(R.anim.slide_left_enter, R.anim.slide_right_exit, R.anim.slide_right_enter, R.anim.slide_left_exit)
-                fragmentManager.remove(this@MypageActivity).commit()
+                fragmentManager.remove(this@MypageFragment).commit()
             }
         })
 

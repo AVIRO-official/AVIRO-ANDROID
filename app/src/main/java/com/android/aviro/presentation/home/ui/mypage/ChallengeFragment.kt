@@ -10,12 +10,12 @@ import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.android.aviro.R
-import com.android.aviro.databinding.FragmentMypageBinding
+import com.android.aviro.databinding.FragmentChallengeBinding
 import com.android.aviro.presentation.home.ui.map.MapViewModel
 
-class MypageFragment : Fragment() {
+class ChallengeFragment : Fragment() {
 
-    private var _binding: FragmentMypageBinding? = null
+    private var _binding: FragmentChallengeBinding? = null
     private val binding get() = _binding!!
 
     private val viewmodel: MypageViewModel by hiltNavGraphViewModels(R.id.navigation_mypage)
@@ -27,7 +27,7 @@ class MypageFragment : Fragment() {
         savedInstanceState: Bundle?
     ): View {
 
-        _binding = FragmentMypageBinding.inflate(inflater, container, false)
+        _binding = FragmentChallengeBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
         binding.viewmodel = viewmodel
@@ -41,7 +41,7 @@ class MypageFragment : Fragment() {
                 R.anim.slide_left_enter,   // 왼쪽에서 들어올 때의 애니메이션
                 R.anim.slide_right_exit      // 오른쪽으로 나갈 때의 애니메이션
             )
-            fragmentManager.replace(R.id.fragment_mypage_main, MypageActivity())
+            fragmentManager.replace(R.id.fragment_mypage_main, MypageFragment())
                 .addToBackStack("mypage_fragment")
                 .commit()
 
