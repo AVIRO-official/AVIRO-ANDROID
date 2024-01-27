@@ -1,6 +1,126 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
-             android:layout_width="match_parent"
-             android:layout_height="match_parent">
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.android.aviro.presentation.search.SearchViewModel" />
+    </data>
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:background="@color/Gray7">
 
-</androidx.constraintlayout.widget.ConstraintLayout>
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dp"
+        android:background="@color/Gray7"
+        app:visibilityChanged="@{!viewmodel.isSearching}">
+
+        <Button
+            android:id="@+id/back_btn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="start"
+            android:background="@drawable/ic_arrow_left"
+            android:orientation="horizontal"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="검색하기"
+            android:layout_gravity="center"
+            android:fontFamily="@font/pretendard_semibold"
+            android:textColor="@color/Gray0"
+            android:textSize="18sp"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintEnd_toEndOf="parent" />
+
+    </androidx.appcompat.widget.Toolbar>
+
+    <LinearLayout
+        android:id="@+id/mainLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/base_roundsquare_gray6"
+            android:orientation="horizontal">
+
+            <LinearLayout
+                android:id="@+id/search_bar_left_icon"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:background="@{viewmodel.isSearching}"
+                android:orientation="vertical" >
+                <Button
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:enabled="@{viewmodel.isSearching}"
+                    android:background="@null"
+                    android:onClick="@{() -> viewmodel.onClickBack()}"/>
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/EditTextSearchBar"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:background="@null"
+                android:fontFamily="@font/pretendard_medium"
+                android:hint="어디로 이동할까요?"
+                android:imeOptions="actionDone"
+                android:inputType="textMultiLine|textNoSuggestions"
+                android:textColor="@color/Gray2"
+                android:textSize="18sp"
+                android:onFocusChangeListener="@{(v, hasFocus) -> viewmodel.onEditTextFocusChanged(v, hasFocus)}"
+                android:afterTextChanged="@{() -> viewmodel.searchRestaurant(EditTextSearchBar)}"/>
+
+            <LinearLayout
+                android:id="@+id/searchbar_cancle_btn"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginBottom="15dp"
+                android:layout_marginEnd="16dp"
+                android:background="@drawable/ic_search_cancle"
+                android:orientation="vertical"
+                android:visibility="@{viewmodel.isSearching ? 0 : 8}"/>
+        </LinearLayout>
+
+        <!-- 검새 안내  -->
+        <!-- 이전 검색어  -->
+        <LinearLayout
+            android:id="@+id/includeLayout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:visibilityChanged="@{!viewmodel.isSearching}">
+        </LinearLayout>
+
+    </LinearLayout>
+
+</LinearLayout>
+</layout>

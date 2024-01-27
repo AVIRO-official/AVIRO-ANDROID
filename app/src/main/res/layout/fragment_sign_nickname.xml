@@ -59,7 +59,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/subTextView">
 
-
             <EditText
                 android:id="@+id/editTextNickName"
                 android:layout_width="match_parent"
@@ -73,7 +72,7 @@
                 android:textSize="18sp"
                 android:textColor = "@color/Gray0"
                 android:background = "@drawable/base_edittext_non"
-                app:animated="@{viewmodel.isNext}"
+                app:animated="@{viewmodel.isNicknameValid}"
                 android:onTextChanged="@{() -> viewmodel.checkNickname(editTextNickName)}" />
 
 
@@ -109,8 +108,8 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background = "@{viewmodel.isNext}"
-            android:enabled="@{viewmodel.isNext}"
+            android:background = "@{viewmodel.isNicknameValid}"
+            android:enabled="@{viewmodel.isNicknameValid}"
             android:layout_marginBottom="25dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
