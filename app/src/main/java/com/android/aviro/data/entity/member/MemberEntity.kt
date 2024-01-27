@@ -1,4 +1,4 @@
-package com.android.aviro.domain.entity
+package com.android.aviro.data.entity.member
 
 import android.os.Parcelable
 import com.google.gson.annotations.SerializedName
@@ -14,9 +14,9 @@ data class MemberEntity(
     val accessToken : String,
 
     @SerializedName("userId")
-    val userId : Int,
+    val userId : String,
     @SerializedName("userName")
-    val userName : String,
+    val userName : String?,
     @SerializedName("userEmail")
     val userEmail : String,
     @SerializedName("nickname")
