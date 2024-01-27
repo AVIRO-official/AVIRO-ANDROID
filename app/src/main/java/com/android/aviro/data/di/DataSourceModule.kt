@@ -4,17 +4,16 @@ import com.android.aviro.data.datasource.auth.AuthDataSource
 import com.android.aviro.data.datasource.auth.AuthDataSourceImp
 import com.android.aviro.data.datasource.datastore.DataStoreDataSource
 import com.android.aviro.data.datasource.datastore.DataStoreDataSourceImp
-import com.android.aviro.data.datasource.marker.MarkerCacheDataSource
-import com.android.aviro.data.datasource.marker.MarkerCacheDataSourceImp
+import com.android.aviro.data.datasource.marker.MarkerMemoryCacheDataSource
+import com.android.aviro.data.datasource.marker.MarkerMemoryCacheDataSourceImp
 import com.android.aviro.data.datasource.member.MemberDataSource
 import com.android.aviro.data.datasource.member.MemberDataSourceImp
-import com.android.aviro.data.datasource.restaurant.RestaurantDataSource
-import com.android.aviro.data.datasource.restaurant.RestaurantDataSourceImp
+import com.android.aviro.data.datasource.restaurant.RestaurantAviroDataSource
+import com.android.aviro.data.datasource.restaurant.RestaurantAviroDataSourceImp
 import com.android.aviro.data.datasource.restaurant.RestaurantLocalDataSource
 import com.android.aviro.data.datasource.restaurant.RestaurantLocalDataSourceImp
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
@@ -45,8 +44,8 @@ abstract class DataSourceModule {
     @Binds
     @Singleton
     abstract fun bindsRestaurantDataSource(
-        restaurant_remote_datasource: RestaurantDataSourceImp,
-    ): RestaurantDataSource
+        restaurant_remote_datasource: RestaurantAviroDataSourceImp,
+    ): RestaurantAviroDataSource
 
 
     @Binds
@@ -57,9 +56,9 @@ abstract class DataSourceModule {
 
     @Binds
     @Singleton
-    abstract fun bindsMarkerCacheDataSource(
-        marker_cache_datasource: MarkerCacheDataSourceImp,
-    ): MarkerCacheDataSource
+    abstract fun bindsMarkerMemoryCacheDataSource(
+        marker_memoryCache_datasource: MarkerMemoryCacheDataSourceImp,
+    ): MarkerMemoryCacheDataSource
 
 
 
