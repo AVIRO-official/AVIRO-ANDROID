@@ -2,92 +2,144 @@ package com.android.aviro.data.datasource.marker
 
 import android.content.Context
 import android.content.SharedPreferences
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import android.util.LruCache
+import androidx.annotation.UiThread
+import com.android.aviro.R
+import com.android.aviro.data.datasource.restaurant.RestaurantLocalDataSource
 import com.android.aviro.data.entity.marker.MarkerEntity
 import com.android.aviro.data.entity.marker.MarkerListEntity
-import com.google.gson.Gson
+import com.android.aviro.data.entity.restaurant.LocOfRestaurant
 import com.google.gson.GsonBuilder
-import com.google.gson.JsonArray
-import com.google.gson.JsonElement
-import com.google.gson.reflect.TypeToken
+import com.naver.maps.geometry.LatLng
+import com.naver.maps.map.overlay.Marker
+import com.naver.maps.map.overlay.OverlayImage
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.serialization.decodeFromString
-import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
-import kotlinx.serialization.json.buildJsonArray
-import org.json.JSONArray
-import java.io.*
 import javax.inject.Inject
 
-class MarkerCacheDataSourceImp @Inject constructor(
-    @ApplicationContext private val context: Context
-): MarkerCacheDataSource {
+class MarkerMemoryCacheDataSourceImp @Inject constructor(
+    private val restaurantLocalDataSource : RestaurantLocalDataSource
+): MarkerMemoryCacheDataSource {
 
-    private val PREF_NAME = "CustomMarkerPrefs"
-    private val KEY_CUSTOM_DATA = "CustomMarkerList"
+    private val maxMemory = (Runtime.getRuntime().maxMemory() / 1024).toInt()
+    private val cacheSize = maxMemory / 8 // 최대 메모리 크기의 1/8을 사용
+    private val memoryCache = LruCache<String, MarkerEntity>(cacheSize)
 
-    val gson = GsonBuilder().create()
+    /*
+    * 마커 데이터
+    * 1. 마커데이터 == 0 일 경우 새로 만들기
+    * 2. 마커 데이터 모두 반환하기
+    * 3. 마커 데이터 업데이트하기 -> 새롭게 생기는 데이터만 반환하기
+    * 4. 마커 데이터 제거하기
+    */
 
-    override fun saveMarker(custom_marker : List<MarkerEntity>) {
 
-        val prefs: SharedPreferences =
-            context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-        val editor = prefs.edit()
-
-        Log.d("custom_marker","${custom_marker}")
-        val list = MarkerListEntity(custom_marker)
-
-        val json = Json { ignoreUnknownKeys = true }
-        //val jsonString = gson.toJson(list) //json.encodeToString(list)
-/*
-        val marker_json_array = JsonArray()
-        custom_marker.forEach {
-            val marker_json_obj = gson.toJson(it, MarkerEntity::class.java)
-            //marker_json_array.put(marker_json_obj)
-            marker_json_array.add(marker_json_obj)
-        }
-
-        //val jsonArray = gson.toJsonTree(custom_marker, object : TypeToken<List<MarkerEntity>>() {}.type).asJsonArray
-        Log.d("marker_json_array","${marker_json_array}")
-
- */
-        editor.putString(KEY_CUSTOM_DATA, list.toString())
-        editor.apply()
-
+    override fun getSize() : Int {
+        return memoryCache.size()
     }
 
-    override fun getMarker() : MarkerListEntity {
+    override fun createMarker(updated_marker : LocOfRestaurant) : MarkerEntity {
+        val marker = Marker(LatLng(updated_marker.y, updated_marker.x))
+        var veganType = ""
 
-        val prefs: SharedPreferences =
-            context.getSharedPreferences(PREF_NAME, Context.MODE_PRIVATE)
-        val jsonString = prefs.getString(KEY_CUSTOM_DATA, null)
-
-        //val list = arrayListOf<MarkerListEntity>()
-
-        val jsonArray = gson.fromJson(jsonString, MarkerListEntity::class.java)
-        //val json = Json { ignoreUnknownKeys = true } // ignoreUnknownKeys를 사용하여 알 수 없는 속성을 무시
-        //val markerListEntity  = json.decodeFromString(MarkerListEntity.,jsonString!!)
-        Log.d("jsonArray","${jsonArray}")
-
-
-        /*
-
-        if (jsonArray != null) {
-            jsonArray.map {
-                custom_marker_list.add(Gson().fromJson(it, MarkerEntity::class.java))
-            }
+        if (updated_marker.allVegan) {
+            marker.icon = OverlayImage.fromResource(R.drawable.marker_default_green)
+            veganType = "green"
+        } else if (updated_marker.someMenuVegan) {
+            marker.icon =
+                OverlayImage.fromResource(R.drawable.marker_default_orange)
+            veganType = "orange"
         } else {
-            return emptyList()
+            marker.icon =
+                OverlayImage.fromResource(R.drawable.marker_default_yellow)
+            veganType = "yellow"
         }
-        Log.d("custom_marker_list","${custom_marker_list}")
 
-         */
+        val newMarker = MarkerEntity(updated_marker.placeId, veganType, marker)
+        memoryCache.put(updated_marker.placeId, newMarker)
 
-        return jsonArray
+        return newMarker // 생성한 마커 반환
+    }
+
+    // 화면에 표시하고 싶은 마커만 반환
+    override fun getAllMarker() : List<MarkerEntity> { // 그냥 모든 마커 다 불러옴
+        val custom_marker_list = arrayListOf<MarkerEntity>()
+        val allKeys = memoryCache.snapshot().keys
+
+        // 각 키에 대해 데이터 가져오기
+        for (key in allKeys) {
+            custom_marker_list.add(memoryCache.get(key))
+        }
+
+        return custom_marker_list
 
     }
 
-    override fun updateMarker() {
+    // 업데이트 된 아이들을 다시 그릴 필요가 있는지가 궁금함
+    override fun updateMarker(marker_id : List<LocOfRestaurant>) : List<MarkerEntity> {
+        Log.d("updated_marker_id","${marker_id}")
+
+        val new_marker_list = arrayListOf<MarkerEntity>()
+
+        marker_id.map {
+            val markerEntity = memoryCache.get(it.placeId)
+
+
+            if(markerEntity == null) {   // 업데이트 하려는 마커가 없음
+                new_marker_list.add(createMarker(it)) // 마커 새로 생성
+            } else {
+                Handler(Looper.getMainLooper()).post {
+                    markerEntity.marker.position = LatLng(it.y, it.x)
+
+                    if (it.allVegan) {
+                        markerEntity.marker.icon =
+                            OverlayImage.fromResource(R.drawable.marker_default_green)
+                        markerEntity.veganType = "green"
+                    } else if (it.someMenuVegan) {
+                        markerEntity.marker.icon =
+                            OverlayImage.fromResource(R.drawable.marker_default_orange)
+                        markerEntity.veganType = "orange"
+                    } else {
+                        markerEntity.marker.icon =
+                            OverlayImage.fromResource(R.drawable.marker_default_yellow)
+                        markerEntity.veganType = "yellow"
+                    }
+
+                    memoryCache.put(it.placeId, markerEntity)
+
+
+                }
+            }
+
+        }
+        return new_marker_list
 
     }
+
+    override fun deleteMarker(marker_id : List<String>) {
+        marker_id.map {
+            val markerEntity = memoryCache.get("4D51A05F-1A90-490D-85CF-9EA9D3B44464")
+
+            if(markerEntity != null) {
+                Log.d("deleteMarker","${markerEntity}")
+                // main thread에서만 가능
+                Handler(Looper.getMainLooper()).post {
+                    Log.d("deleteMarker","Lopper 실행")
+                    markerEntity.marker.map = null
+                } // 마커에 표시된 지도 객체 없애주기
+
+                memoryCache.remove(it)
+
+            }
+
+        }
+
+    }
+
+
+
+
 }
