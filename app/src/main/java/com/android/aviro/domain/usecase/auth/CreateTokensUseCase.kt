@@ -1,25 +1,37 @@
 package com.android.aviro.domain.usecase.auth
 
+import android.util.Log
+import com.android.aviro.data.entity.auth.SignResponseDTO
 import com.android.aviro.data.entity.auth.TokensResponseDTO
 import com.android.aviro.data.entity.base.BaseResponse
+import com.android.aviro.data.entity.base.DataBodyResponse
+import com.android.aviro.data.entity.base.MappingResult
 import com.android.aviro.domain.repository.AuthRepository
 import com.android.aviro.domain.repository.MemberRepository
 import javax.inject.Inject
 
 class CreateTokensUseCase  @Inject constructor (
-    private val authRepository: AuthRepository
+    private val authRepository: AuthRepository,
+    private val memberRepository: MemberRepository
 ) {
-
-    suspend operator fun invoke(id_token : String, auth_code : String) : Result<Any> {
+    suspend operator fun invoke(
+        id_token: String,
+        auth_code: String
+    ): MappingResult { //Result<DataBodyResponse<TokensResponseDTO>>
         val response = authRepository.getTokensFromRemote(id_token, auth_code)
-        response.onSuccess {
-            when(it) {
-                // 소셜 토큰 저장
-                is TokensResponseDTO -> authRepository.saveTokenToLocal(it.accessToken, it.refreshToken)
-            }
 
+        when(response){
+            is MappingResult.Success<*> -> {
+                response.let {
+                    val data = it.data as TokensResponseDTO
+                    authRepository.saveTokenToLocal(data.accessToken, data.refreshToken)
+                    memberRepository.saveMemberInfoToLocal("user_id", data.userId)
+                }
+            }
+            is MappingResult.Error -> {}
         }
         return response
+
 
     }
 }
