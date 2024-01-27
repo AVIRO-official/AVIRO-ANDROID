@@ -28,6 +28,8 @@ android {
 
         buildConfigField "String", "NAVER_CLIENT_ID", properties['naver.client_id']
         buildConfigField "String", "NAVER_CLIENT_SECRET", properties['naver.client_secret']
+        buildConfigField "String", "KAKAO_RESTAPI_KEY", properties['kakao.rest_api_key']
+        buildConfigField "String", "KAKAO_RESTAPI_URL", properties['kakao.rest_api_url']
         buildConfigField "String", "SIGN_APPLE_REDIRECT_URL", properties['sign.apple_redirect_url']
         buildConfigField "String", "SIGN_APPLE_RESPONSE_URL", properties['sign.apple_response_url']
         buildConfigField "String", "AWS_API_HEADER", properties['aws.api_header']
@@ -50,7 +52,7 @@ android {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
 
-            resValue "string", "naver_maps_api_key", "개발용 API KEY"
+            resValue "string", "naver_maps_api_key", "배포용 API KEY"
             buildConfigField "String", "AWS_API_KEY_V1", properties['aws.release_api_key']
             manifestPlaceholders = [AWS_API_KEY_V1 : properties['aws.release_api_key']]
 
@@ -84,7 +86,7 @@ dependencies {
 
     implementation 'androidx.core:core-ktx:1.12.0'
     implementation 'androidx.appcompat:appcompat:1.6.1'
-    implementation 'com.google.android.material:material:1.5.0-alpha04'
+    implementation 'com.google.android.material:material:1.12.0-alpha02'
     implementation 'androidx.constraintlayout:constraintlayout:2.1.4'
     implementation 'androidx.navigation:navigation-fragment-ktx:2.7.5'
     implementation 'androidx.navigation:navigation-ui-ktx:2.7.5'

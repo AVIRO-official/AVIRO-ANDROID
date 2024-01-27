@@ -4,6 +4,7 @@ import android.content.Intent
 import android.net.Uri
 import android.os.Bundle
 import android.util.Log
+import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -15,6 +16,7 @@ import androidx.fragment.app.activityViewModels
 import com.android.aviro.BuildConfig
 import com.android.aviro.R
 import com.android.aviro.databinding.FragmentSignSocialBinding
+import com.google.android.material.dialog.MaterialAlertDialogBuilder
 import java.util.*
 
 
@@ -50,6 +52,21 @@ class SignSocialFragment : Fragment() {
         binding.appleBtn.setOnClickListener {
             onClickApple()
         }
+
+        // 에러 팝업
+        sharedViewModel.errorLiveData.observe(this, androidx.lifecycle.Observer{
+            if(it != null) {
+                MaterialAlertDialogBuilder(ContextThemeWrapper(requireContext(), R.style.AVIRO_Dialog))
+                    .setTitle("Error")
+                    .setMessage(it)
+                    .setPositiveButton("확인") { dialog, which ->
+                        // 권한 설정 거부
+                        // 위치 추적 없이 구동
+                        dialog.cancel()
+                    }
+                    .show()
+            }
+        })
 
 
         return view

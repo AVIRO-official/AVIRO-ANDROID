@@ -9,7 +9,7 @@ import kotlinx.parcelize.Parcelize
 data class SignResponseDTO(
 
     @SerializedName("userId")
-    val userId : Int,
+    val userId : String,
     @SerializedName("userName")
     val userName : String,
     @SerializedName("userEmail")

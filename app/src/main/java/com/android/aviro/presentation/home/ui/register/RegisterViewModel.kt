@@ -1,5 +1,6 @@
 package com.android.aviro.presentation.home.ui.register
 
+import android.widget.LinearLayout
 import android.widget.RadioGroup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
@@ -19,6 +20,9 @@ class RegisterViewModel : ViewModel() {
 
     private val _restaurantNumber = MutableLiveData<String?>()
     val restaurantNumber: LiveData<String?> = _restaurantNumber
+
+    private val _menuList = MutableLiveData<List<LinearLayout>>()
+    val menuList: LiveData<List<LinearLayout>> = _menuList
 
     private val _isRequest = MutableLiveData<Boolean>()
     val isRequest: LiveData<Boolean> = _isRequest

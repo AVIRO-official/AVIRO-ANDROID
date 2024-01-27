@@ -6,10 +6,10 @@
     app:startDestination="@+id/navigation_map">
 
     <fragment
-        android:id="@+id/navigation_mypage"
-        android:name="com.android.aviro.presentation.home.ui.mypage.MypageFragment"
+        android:id="@+id/navigation_challenge"
+        android:name="com.android.aviro.presentation.home.ui.mypage.ChallengeFragment"
         android:label="@string/title_home"
-        tools:layout="@layout/fragment_mypage" />
+        tools:layout="@layout/fragment_challenge" />
 
     <fragment
         android:id="@+id/navigation_map"

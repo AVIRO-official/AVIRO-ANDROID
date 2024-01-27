@@ -1,0 +1,97 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.android.aviro.presentation.search.SearchViewModel" />
+    </data>
+
+<LinearLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:id="@+id/search_store"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:layout_marginHorizontal="20dp"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:orientation="horizontal"
+            android:background="@drawable/ic_search_tutorial_store"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="원하는 가게를 찾고 싶을 때"
+                android:textColor="@color/Gray3"
+                android:fontFamily="@font/pretendard_medium"
+                android:textSize="14sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="‘가게 이름’을 검색해보세요"
+                android:textColor="@color/Gray1"
+                android:fontFamily="@font/pretendard_bold"
+                android:textSize="16sp"/>
+        </LinearLayout>
+        </LinearLayout>
+
+    <View
+        android:background="@color/Gray5"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:paddingStart = "10dp"
+        android:paddingEnd = "10dp"
+        android:layout_marginHorizontal="20dp"/>
+
+    <LinearLayout
+        android:id="@+id/search_subway"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:layout_marginHorizontal="20dp"
+        android:orientation="horizontal">
+        <LinearLayout
+            android:layout_width="28dp"
+            android:layout_height="28dp"
+            android:orientation="horizontal"
+            android:background="@drawable/ic_search_tutorial_subway"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:orientation="vertical">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="원하는 지역으로 이동하고 싶을 때"
+            android:textColor="@color/Gray3"
+            android:fontFamily="@font/pretendard_medium"
+            android:textSize="14sp"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="‘지역명’ 또는 ‘지하철역명’을 검색해보세요"
+            android:textColor="@color/Gray1"
+            android:fontFamily="@font/pretendard_bold"
+            android:textSize="16sp"/>
+    </LinearLayout>
+    </LinearLayout>
+
+    </LinearLayout>
+</layout>

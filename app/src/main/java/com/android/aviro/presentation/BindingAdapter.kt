@@ -1,11 +1,7 @@
 package com.android.aviro.presentation
 
-import android.annotation.SuppressLint
-import android.graphics.Color
-import android.text.Layout
-import android.text.TextWatcher
-import android.util.Log
-import android.view.LayoutInflater
+import android.content.res.ColorStateList
+import android.graphics.PorterDuff
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -14,16 +10,12 @@ import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
+import androidx.core.view.ViewCompat
 import androidx.databinding.BindingAdapter
-import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.FragmentManager
-import androidx.fragment.app.FragmentTransaction
 import androidx.viewpager2.widget.ViewPager2
 import com.android.aviro.R
-import com.android.aviro.presentation.guide.Guide
-import com.android.aviro.presentation.guide.GuideMenuFragment
 import com.android.aviro.presentation.guide.GuidePagerAdapter
-import org.jetbrains.annotations.Nullable
+import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 object BindingAdapter {
 
@@ -56,7 +48,7 @@ object BindingAdapter {
                 R.drawable.btn_next_activate
             ) else ContextCompat.getDrawable(button.context, R.drawable.btn_next_non)
 
-        } else if (button.id == R.id.terms1 || button.id == R.id.terms2 || button.id == R.id.terms3 ){
+        } else if (button.id == R.id.approveBtn1 || button.id == R.id.approveBtn2 || button.id == R.id.approveBtn3 ){
             button.background = if (animateOnChange == true ) ContextCompat.getDrawable(button.context, R.drawable.ic_check_activate) else ContextCompat.getDrawable(button.context, R.drawable.ic_check_non)
 
         } else if (button.id == R.id.male || button.id == R.id.female || button.id == R.id.others ) {
@@ -65,8 +57,51 @@ object BindingAdapter {
         } else if (button.id == R.id.editTextbirthday){
             button.background = if (animateOnChange == true ) ContextCompat.getDrawable(button.context, R.drawable.base_edittext_right) else ContextCompat.getDrawable(button.context, R.drawable.base_edittext_wrong)
 
+      /*  } else if (button.id == R.id.favorites_floatingButton){
+            button.background = if (animateOnChange == true ) ContextCompat.getDrawable(button.context, R.drawable.ic_floating_favorite_active) else ContextCompat.getDrawable(button.context, R.drawable.ic_floating_favorite_default)
+*/
+        } else if (button.id == R.id.search_bar_left_icon){
+            button.background = if (animateOnChange == true ) ContextCompat.getDrawable(button.context, R.drawable.ic_arrow_left) else ContextCompat.getDrawable(button.context, R.drawable.ic_search)
+
         }
     }
+
+    @JvmStatic
+    @BindingAdapter("android:src")
+    fun setSrc(button: FloatingActionButton, isFavorite: Boolean) {
+        if (button.id == R.id.favorites_floatingButton) {
+           if (isFavorite) {
+                val drawableResId = R.drawable.ic_floating_favorite_active
+                button.setImageResource(drawableResId)
+            } else {
+               val drawableResId = R.drawable.ic_floating_favorite_default
+                button.setImageResource(drawableResId)
+            }
+        }
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:dynamicTint")
+    fun setDynamicTint(view: FloatingActionButton, isFavorite: Boolean) {
+        val color = ContextCompat.getColor(view.context, if (isFavorite) R.color.Cobalt else R.color.Gray1)
+        view.setColorFilter(color, PorterDuff.Mode.SRC_IN)
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:tint")
+    fun setTint(button: FloatingActionButton, isFavorite: Boolean) {
+        if (button.id == R.id.favorites_floatingButton) {
+            val colorResId = if (isFavorite) {
+                R.color.Cobalt
+            } else {
+                R.color.Gray1
+            }
+            val color = ContextCompat.getColor(button.context, colorResId)
+            button.foregroundTintList = ColorStateList.valueOf(color) //setBackgroundTintList
+        }
+
+    }
+
 
     @JvmStatic
     @BindingAdapter("app:bgBirthdayEditText")

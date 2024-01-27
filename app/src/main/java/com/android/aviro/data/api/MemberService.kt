@@ -2,10 +2,10 @@ package com.android.aviro.data.api
 
 import com.android.aviro.data.entity.auth.SignResponseDTO
 import com.android.aviro.data.entity.base.DataBodyResponse
-import com.android.aviro.data.entity.member.NicknameEntity
-import com.android.aviro.data.entity.member.NicknameCheckResponse
-import com.android.aviro.domain.entity.MemberEntity
+import com.android.aviro.data.entity.member.*
+import com.android.aviro.data.entity.member.MemberEntity
 import retrofit2.http.Body
+import retrofit2.http.GET
 import retrofit2.http.POST
 
 interface MemberService {
@@ -19,4 +19,14 @@ interface MemberService {
     suspend fun createMember(
         @Body new_member: MemberEntity
     ): Result<DataBodyResponse<SignResponseDTO>>
+
+    @GET("mypage/count")
+    suspend fun getCount(
+        @Body user_id: UserIdEntity
+    ): Result<DataBodyResponse<MyInfoCountResponse>>
+
+    @POST("member/challenge/level")
+    suspend fun getChallengeLevel(
+        @Body user_id: UserIdEntity
+    ): Result<MyInfoLevelResponse>
 }

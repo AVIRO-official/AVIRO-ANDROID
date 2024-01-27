@@ -130,7 +130,7 @@
                         android:onClick="@{() -> viewmodel.onLinkClick(terms1)}"
                         android:paddingTop="8dp"
                         android:paddingBottom="8dp"
-                        android:text="@string/terms2"
+                        android:text="@string/terms1"
                         android:textColor="@color/Gray0"
                         android:textSize="14sp" />
 
@@ -195,7 +195,7 @@
             </LinearLayout>
 
         </LinearLayout>
-
+        <!--가입버튼-->
         <LinearLayout
             android:id = "@+id/nextBtn"
             android:layout_width="wrap_content"
@@ -203,6 +203,7 @@
             android:orientation="vertical"
             android:enabled="@{viewmodel.isAllTrue}"
             android:background = "@{viewmodel.isAllTrue}"
+            android:onClick = "@{() -> viewmodel.onClickSignUp()}"
             android:layout_marginBottom="25dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"

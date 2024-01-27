@@ -2,6 +2,7 @@ package com.android.aviro.data.di
 
 import com.android.aviro.BuildConfig
 import com.android.aviro.data.api.AuthService
+import com.android.aviro.data.api.KakaoService
 import com.android.aviro.data.api.MemberService
 import com.android.aviro.data.api.RestaurantService
 import com.android.aviro.data.utils.ResultCallAdapterFactory
@@ -16,13 +17,15 @@ import okhttp3.OkHttpClient
 import okhttp3.logging.HttpLoggingInterceptor
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
+import javax.inject.Qualifier
 import javax.inject.Singleton
 
 @Module
 @InstallIn(SingletonComponent::class)
 class ApiModule {
 
-    val BASE_URL = BuildConfig.AWS_API_KEY_V1
+    val AVIRO_BASE_URL = BuildConfig.AWS_API_KEY_V1
+    val KAKAO_BASE_URL = BuildConfig.KAKAO_RESTAPI_URL
 
     val logger = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BASIC  // 로그 레벨 BASIC
@@ -37,39 +40,70 @@ class ApiModule {
     fun provideClient(): OkHttpClient {
         return OkHttpClient.Builder()
             .addInterceptor(logger)
-            .addNetworkInterceptor(HeaderInterceptor())
+            .addNetworkInterceptor(HeaderInterceptor()) //aws, kakao 다르게 설정
             .build()
-
     }
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class AviroRetrofit
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class KakaoRetrofit
 
 
     @Singleton
     @Provides
-    fun provideRetrofit(client : OkHttpClient, resultCallAdapterFactory: ResultCallAdapterFactory): Retrofit {
+    @AviroRetrofit
+    fun provideAviroRetrofit(client : OkHttpClient, resultCallAdapterFactory: ResultCallAdapterFactory): Retrofit { //AWS
         return Retrofit.Builder()
             .client(client)
-            .baseUrl(BASE_URL)
+            .baseUrl(AVIRO_BASE_URL)
             .addConverterFactory(GsonConverterFactory.create()) //gson
             .addCallAdapterFactory(resultCallAdapterFactory)
             .build()
     }
 
+    @Singleton
+    @Provides
+    @KakaoRetrofit
+    fun provideRetrofitKakao(client : OkHttpClient, resultCallAdapterFactory: ResultCallAdapterFactory): Retrofit {
+        return Retrofit.Builder()
+            .client(client)
+            .baseUrl(KAKAO_BASE_URL)
+            .addConverterFactory(GsonConverterFactory.create()) //gson
+            .addCallAdapterFactory(resultCallAdapterFactory)
+            .build()
+    }
+
+
+
+
     // 싱글톤으로 auth api 인스턴스를 생성
     @Singleton
     @Provides
-    fun provideAuthService(retrofit: Retrofit): AuthService {
-        return retrofit.create(AuthService::class.java)
+    fun provideAuthService(@ApiModule.AviroRetrofit aviroRetrofit: Retrofit): AuthService {
+        return aviroRetrofit.create(AuthService::class.java)
     }
 
     @Singleton
     @Provides
-    fun provideMemberService(retrofit: Retrofit): MemberService {
-        return retrofit.create(MemberService::class.java)
+    fun provideMemberService(@ApiModule.AviroRetrofit aviroRetrofit: Retrofit): MemberService {
+        return aviroRetrofit.create(MemberService::class.java)
     }
 
     @Singleton
     @Provides
-    fun provideRestaurantService(retrofit: Retrofit): RestaurantService {
-        return retrofit.create(RestaurantService::class.java)
+    fun provideRestaurantService(@ApiModule.AviroRetrofit aviroRetrofit: Retrofit): RestaurantService {
+        return aviroRetrofit.create(RestaurantService::class.java)
     }
+
+    @Singleton
+    @Provides
+    fun provideKakaoService(@ApiModule.KakaoRetrofit kakaoRetrofit : Retrofit): KakaoService {
+        return kakaoRetrofit.create(KakaoService::class.java)
+    }
+
+
 }

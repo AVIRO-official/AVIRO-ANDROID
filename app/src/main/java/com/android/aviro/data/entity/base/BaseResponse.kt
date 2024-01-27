@@ -10,5 +10,5 @@ data class BaseResponse(
     val statusCode: Int,
 
     @SerializedName("message")
-    val message: String
+    var message: String
 ) : Parcelable

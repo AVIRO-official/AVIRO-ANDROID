@@ -8,9 +8,10 @@ import io.realm.kotlin.query.RealmResults
 interface RestaurantLocalDataSource {
 
     fun saveRestaurant(RestaurantList : List<LocOfRestaurant>)
-    fun updateRestaurant()
-    fun deleteRestaurant()
+    fun updateRestaurant(update_list : List<LocOfRestaurant>)
+    fun deleteRestaurant(delete_list : List<String>)
     fun getRestaurant() : List<LocOfRestaurant>
+    fun getRestaurantId() : List<String>
     fun closeRealm()
 
 

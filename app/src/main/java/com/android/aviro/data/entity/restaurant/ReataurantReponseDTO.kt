@@ -10,9 +10,9 @@ data class ReataurantReponseDTO(
     val amount: Int,
 
     @SerializedName("deletedPlace")
-    val deletedPlace: List<String>,
+    val deletedPlace: List<String>?,
 
     @SerializedName("updatedPlace")
-    val updatedPlace: List<LocOfRestaurant>,
+    val updatedPlace: List<LocOfRestaurant>?,
 
     )

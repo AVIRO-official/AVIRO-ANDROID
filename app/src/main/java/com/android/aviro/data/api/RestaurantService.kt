@@ -20,4 +20,5 @@ interface RestaurantService {
         @Query("time") time : String
 
     ): Result<DataBodyResponse<ReataurantReponseDTO>>
+
 }

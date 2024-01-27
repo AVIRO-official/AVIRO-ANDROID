@@ -1,18 +1,14 @@
 package com.android.aviro.data.di
 
 import com.android.aviro.data.repository.AuthRepositoryImp
-import com.android.aviro.data.repository.MarkerRepositoryImp
 import com.android.aviro.data.repository.MemberRepositoryImp
 import com.android.aviro.data.repository.RestaurantRepositoryImp
 import com.android.aviro.domain.repository.AuthRepository
-import com.android.aviro.domain.repository.MarkerRepository
 import com.android.aviro.domain.repository.MemberRepository
 import com.android.aviro.domain.repository.RestaurantRepository
 import dagger.Binds
 import dagger.Module
-import dagger.Provides
 import dagger.hilt.InstallIn
-import dagger.hilt.android.components.ActivityComponent
 import dagger.hilt.components.SingletonComponent
 import javax.inject.Singleton
 
@@ -40,11 +36,6 @@ abstract class RepositoryModule {
         restaurant_repository: RestaurantRepositoryImp,
     ): RestaurantRepository
 
-    @Binds
-    @Singleton
-    abstract fun bindsMarkerRepository(
-        marker_repository: MarkerRepositoryImp,
-    ): MarkerRepository
 
 
 

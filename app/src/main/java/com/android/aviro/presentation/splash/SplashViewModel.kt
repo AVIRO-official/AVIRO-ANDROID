@@ -5,24 +5,38 @@ import android.content.Context
 import android.content.Context.MODE_PRIVATE
 import android.util.Log
 import androidx.datastore.preferences.preferencesDataStore
+import androidx.lifecycle.LiveData
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.android.aviro.data.entity.base.MappingResult
 import com.android.aviro.domain.repository.AuthRepository
 import com.android.aviro.domain.repository.MemberRepository
 import com.android.aviro.domain.usecase.auth.AutoSignInUseCase
+import com.android.aviro.domain.usecase.auth.CreateTokensUseCase
+import com.android.aviro.domain.usecase.auth.GetTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.async
 import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
+import java.io.IOException
 import javax.inject.Inject
 
 
 @HiltViewModel
 class SplashViewModel @Inject constructor (
+    private val getTokenUseCase: GetTokenUseCase,
+    private val createTokensUseCase: CreateTokensUseCase,
     private val autoSignInUseCase: AutoSignInUseCase,
     @ApplicationContext private val context: Context
 ) : ViewModel() {
 
+    val _isSignIn = MutableLiveData<Boolean>()
+    val isSignIn: LiveData<Boolean>
+        get() = _isSignIn
 
     // 최초 앱실행인지 확인 -> sharedPref
     fun isFirstStartApp() : Boolean {
@@ -37,20 +51,29 @@ class SplashViewModel @Inject constructor (
         return firstRun
     }
 
-
-
     // 자동로그인
-    fun isSignIn(): Boolean {
-        var isSign = false
-        viewModelScope.launch() {
-            // 로그인 성공 여부 반환
-            isSign = autoSignInUseCase.invoke()
+     fun isSignIn()  {
+        viewModelScope.launch {
+                    val token = getTokenUseCase()
+                    if (token != null) { // token 존재 -> 자동 로그인 시도
+                        autoSignInUseCase(token).let {
+                            when(it){
+                                is MappingResult.Success<*> -> _isSignIn.value = true
+                                is MappingResult.Error -> {
+                                    _isSignIn.value = false
+                                }
+                            }
+
+                        }
+                    } else { // token 없음
+                        _isSignIn.value = false
+                    }
+
+
+            }
 
         }
 
-        return isSign
-
-    }
+     }
 
 
-}

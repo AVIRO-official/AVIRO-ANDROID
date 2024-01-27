@@ -1,6 +1,7 @@
 package com.android.aviro.data.datasource.datastore
 
 import android.content.Context
+import android.util.Log
 import androidx.datastore.preferences.core.edit
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.datastore.preferences.preferencesDataStore
@@ -25,6 +26,7 @@ class DataStoreDataSourceImp @Inject constructor (
 
     override suspend fun writeDataStore(key: String, value: String) {
         val dataStoreKey = stringPreferencesKey(key)
+        Log.d("writeDataStore","${dataStoreKey}")
         context.dataStore.edit {
             it[dataStoreKey] = value
         }

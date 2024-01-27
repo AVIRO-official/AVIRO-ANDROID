@@ -4,6 +4,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
+        <import type="androidx.core.content.ContextCompat"/>
         <variable
             name="viewmodel"
             type="com.android.aviro.presentation.home.ui.map.MapViewModel" />
@@ -11,69 +12,128 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+  <!--  <androidx.constraintlayout.widget.ConstraintLayout
+        android:id="@+id/constraintLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">-->
     <!-- 검색창 -->
     <LinearLayout
+        android:id="@+id/searchBar"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/map_searchbar"
-        android:orientation="vertical"
-        android:elevation="10dp"
-        android:layout_marginTop="35dp"
         android:layout_marginStart="16dp"
+        android:layout_marginTop="35dp"
         android:layout_marginEnd="16dp"
-        app:layout_constraintTop_toTopOf="parent"
+        android:background="@drawable/map_searchbar"
+        android:elevation="10dp"
+        android:orientation="vertical"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"></LinearLayout>
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"></LinearLayout>
 
-    <androidx.fragment.app.FragmentContainerView
-        android:id="@+id/map_fragment"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:name="com.naver.maps.map.MapFragment">
-    </androidx.fragment.app.FragmentContainerView>
     <!--androidx.fragment.app.FragmentContainerView
     android:name="com.naver.maps.map.MapFragment"-->
 
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/favorites_floatingButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginEnd="21dp"
-        android:layout_marginBottom="10dp"
-        android:elevation="10dp"
-        android:padding="12dp"
-        android:src="@drawable/ic_floating_favorite"
-        android:theme="@style/Theme.Material3.DayNight"
-        app:backgroundTint="@color/Gray7"
-        app:fabCustomSize="48dp"
-        app:fabSize="mini"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@+id/favorites_floatingButton"
-        app:tint="@color/Gray1"
-        tools:ignore="NotSibling">
+    <androidx.fragment.app.FragmentContainerView
+        android:id="@+id/map_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+    </androidx.fragment.app.FragmentContainerView>
 
-    </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
-    <com.google.android.material.floatingactionbutton.FloatingActionButton
-        android:id="@+id/location_floatingButton"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="21dp"
-        android:layout_marginBottom="20dp"
-        android:elevation="10dp"
-        android:padding="12dp"
-        android:src="@drawable/ic_floating_location"
-        android:theme="@style/Theme.Material3.DayNight"
-        app:backgroundTint="@color/Gray7"
-        app:fabCustomSize="48dp"
-        app:fabSize="mini"
-        app:layout_constraintBottom_toBottomOf="@id/map_fragment"
+
+    <androidx.coordinatorlayout.widget.CoordinatorLayout
+        android:id="@+id/bottom_sheet_coordinatorLayout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/favorites_floatingButton"
-        app:tint="@color/Gray1"></com.google.android.material.floatingactionbutton.FloatingActionButton>
+        app:layout_constraintStart_toStartOf="parent">
+
+        <FrameLayout
+            android:id="@+id/conteudo"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:layout_insetEdge="bottom"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"/>
+
+        <!--<LinearLayout
+            android:id="@+id/favorites_floatingLayout"
+            android:layout_width="48dp"
+            android:layout_height="48dp"
+            android:padding="12dp"
+            android:layout_marginEnd="21dp"
+            android:layout_marginTop="10dp"
+            android:background="@drawable/base_roundsquare_white_15"
+            android:onClick = "@{viewmodel::onClickFavorite}"
+            app:layout_anchor="@+id/location_floatingButton"
+            app:layout_anchorGravity="right|top">
+            <LinearLayout
+                android:id="@+id/favorites_floatingButton"
+                android:layout_width="24dp"
+                android:layout_height="24dp"
+                android:layout_marginTop="20dp"
+                android:background="@{viewmodel.isFavorite}"
+                android:orientation="vertical"/>
+        </LinearLayout>-->
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/favorites_floatingButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginRight="21dp"
+            android:layout_marginBottom="80dp"
+            android:elevation="10dp"
+            android:padding="12dp"
+            android:onClick = "@{viewmodel::onClickFavorite}"
+            android:src="@{viewmodel.isFavorite}"
+            android:theme="@style/Theme.Material3.DayNight"
+            app:rippleColor="@android:color/transparent"
+            app:backgroundTint="@color/Gray7"
+            app:fabCustomSize="48dp"
+            app:fabSize="mini"
+            app:dynamicTint="@{viewmodel.isFavorite}"
+            app:layout_behavior="com.google.android.material.floatingactionbutton.FloatingActionButton$Behavior"
+            app:layout_anchor="@+id/conteudo"
+            app:layout_anchorGravity="right|bottom">
+        </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+                android:id="@+id/location_floatingButton"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginRight="21dp"
+                android:layout_marginBottom="20dp"
+                android:elevation="10dp"
+                android:padding="12dp"
+                android:src="@drawable/ic_floating_location_default"
+                android:theme="@style/Theme.Material3.DayNight"
+                app:backgroundTint="@color/Gray7"
+                app:fabCustomSize="48dp"
+                app:fabSize="mini"
+                app:tint="@color/Gray1"
+                app:layout_behavior="com.google.android.material.floatingactionbutton.FloatingActionButton$Behavior"
+                app:layout_anchor="@+id/conteudo"
+                app:layout_anchorGravity="right|bottom">
+            </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+            <LinearLayout
+            android:id="@+id/bottom_sheet_layout"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:behavior_hideable="true"
+            app:behavior_draggable="false"
+            app:behavior_peekHeight="166dp"
+            app:layout_insetEdge="bottom"
+            app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+                <include
+                    android:id="@+id/bottom_sheet"
+                    layout="@layout/fragment_bottomsheet_step1"></include>
+            </LinearLayout>
+
+    </androidx.coordinatorlayout.widget.CoordinatorLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

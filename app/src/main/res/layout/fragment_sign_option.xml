@@ -73,7 +73,7 @@
                 android:layout_height="51dp"
                 android:paddingStart = "20dp"
                 android:ems="10"
-                android:inputType="date | textMultiLine|textNoSuggestions"
+                android:inputType="number"
                 android:imeOptions="actionDone"
                 android:hint="0000.00.00"
                 android:text = "@{viewmodel.birthdayText}"

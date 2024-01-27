@@ -2,10 +2,11 @@
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
-
+<!--
     <fragment
         android:id="@+id/nav_host_fragment_activity_home"
         android:name="androidx.navigation.fragment.NavHostFragment"
@@ -16,9 +17,19 @@
         app:layout_constraintBottom_toTopOf="@+id/nav_view"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:navGraph="@navigation/mobile_navigation" />
-    <!--androidx.navigation.fragment.NavHostFragment-->
+        app:layout_constraintTop_toTopOf="parent"/>-->
+    <!--androidx.navigation.fragment.NavHostFragment
+    app:navGraph="@navigation/mobile_navigation"-->
+
+    <androidx.viewpager2.widget.ViewPager2
+        android:id="@+id/home_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_marginBottom="0dp"
+        app:layout_constraintBottom_toTopOf="@+id/nav_view"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"/>
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
@@ -36,5 +47,6 @@
         app:itemTextColor="@drawable/bottom_bar_color"
         app:itemIconTint="@drawable/bottom_bar_color"
         app:itemBackground="@drawable/bottom_bar_margin"/>
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
