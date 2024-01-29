@@ -18,7 +18,6 @@ import com.android.aviro.presentation.home.ui.register.RegisterViewModel
 
 class MypageFragment : Fragment() {
 
-
     private var _binding: FragmentMypageBinding? = null
     private val binding get() = _binding!!
 
