@@ -20,6 +20,7 @@ import com.android.aviro.R
 import com.android.aviro.databinding.ActivityHomeBinding
 import com.android.aviro.presentation.guide.Guide
 import com.android.aviro.presentation.home.ui.map.Map
+import com.android.aviro.presentation.home.ui.mypage.ChallengeFragment
 import com.android.aviro.presentation.home.ui.mypage.MypageFragment
 import com.android.aviro.presentation.home.ui.register.OnSwipeTouchListener
 import com.android.aviro.presentation.home.ui.register.RegisterFragment
@@ -34,7 +35,7 @@ class Home : FragmentActivity() {
 
     val frag1 = Map()
     val frag2 = RegisterFragment()
-    val frag3 = MypageFragment()
+    val frag3 = ChallengeFragment()
 
     val fragList = arrayOf(frag1, frag2, frag3)
 
