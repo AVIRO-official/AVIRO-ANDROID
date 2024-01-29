@@ -2,10 +2,9 @@ package com.android.aviro.data.repository
 
 import com.android.aviro.data.datasource.datastore.DataStoreDataSource
 import com.android.aviro.data.datasource.member.MemberDataSource
+import com.android.aviro.data.entity.base.DataBodyResponse
 import com.android.aviro.data.entity.base.MappingResult
-import com.android.aviro.data.entity.member.NicknameEntity
-import com.android.aviro.data.entity.member.NicknameCheckResponse
-import com.android.aviro.data.entity.member.MemberEntity
+import com.android.aviro.data.entity.member.*
 import com.android.aviro.domain.repository.MemberRepository
 import javax.inject.Inject
 
@@ -61,16 +60,15 @@ class MemberRepositoryImp @Inject constructor (
         return memberDataSource.checkNickname(nickname)
     }
 
-    override fun getCount(userId : String) {
-
-
-    }
-
-    override fun getChallengeLevel(userId : String) {
+    override suspend fun getCount(userId : String) : Result<DataBodyResponse<MyInfoCountResponse>> {
+        return memberDataSource.getActivityCount(userId)
 
     }
 
+    override suspend fun getChallengeLevel(userId : String) : Result<MyInfoLevelResponse> {
+       return memberDataSource.getChallengeLevel(userId)
 
+    }
 
 
 }

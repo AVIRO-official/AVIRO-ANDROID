@@ -21,12 +21,12 @@ class MemberDataSourceImp @Inject constructor (
         }
 
 
-    suspend override fun getActivityCount(requet : UserIdEntity) : Result<DataBodyResponse<MyInfoCountResponse>> {
+    suspend override fun getActivityCount(requet : String) : Result<DataBodyResponse<MyInfoCountResponse>> {
         return memberService.getCount(requet)
 
     }
 
-    suspend override fun getChallengeLevel(requet : UserIdEntity) : Result<MyInfoLevelResponse> {
+    suspend override fun getChallengeLevel(requet : String) : Result<MyInfoLevelResponse> {
         return memberService.getChallengeLevel(requet)
 
     }

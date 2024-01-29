@@ -7,6 +7,7 @@ import com.android.aviro.data.entity.member.MemberEntity
 import retrofit2.http.Body
 import retrofit2.http.GET
 import retrofit2.http.POST
+import retrofit2.http.Query
 
 interface MemberService {
 
@@ -22,11 +23,11 @@ interface MemberService {
 
     @GET("mypage/count")
     suspend fun getCount(
-        @Body user_id: UserIdEntity
+        @Query("userId") user_id: String //UserIdEntity
     ): Result<DataBodyResponse<MyInfoCountResponse>>
 
-    @POST("member/challenge/level")
+    @GET("mypage/challenge/level")
     suspend fun getChallengeLevel(
-        @Body user_id: UserIdEntity
+        @Query("userId") user_id : String //UserIdEntity
     ): Result<MyInfoLevelResponse>
 }
