@@ -8,12 +8,12 @@
             type="com.android.aviro.presentation.home.ui.register.RegisterViewModel" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
-
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
     <!-- 메뉴 입력 / 삭제버튼 -->
     <LinearLayout
+        android:id="@+id/menuItemLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginTop="20dp"
@@ -63,12 +63,12 @@
                         android:layout_marginStart="7dp"
                         android:background="@drawable/base_roundsquare_gray6"
                         android:fontFamily="@font/pretendard_medium"
+                        android:hint="가격"
                         android:inputType="number"
                         android:paddingStart="16dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="16dp"
                         android:paddingBottom="12dp"
-                        android:hint="가격"
                         android:textColor="@color/Gray3"
                         android:textSize="18sp" />
 
@@ -93,15 +93,15 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:orientation="horizontal"
-                android:layout_marginTop="10dp"
-                app:visibilityChanged="@{viewmodel.veganTypeList[2]}">
+                android:layout_marginTop="10dp">
+                <!--app:visibilityChanged="@{viewmodel.veganTypeList[2]}"-->
                 <CheckBox
                     android:id="@+id/requestBox"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:button="@null"
-                    android:onClick="@{() -> viewmodel.onClickRequestCheckBox()}"
-                    app:bgCheckBox="@{viewmodel.isRequest}" />
+                    android:button="@null" />
+                <!--android:onClick="@{() -> viewmodel.onClickRequestCheckBox()}"
+                    app:bgCheckBox="@{viewmodel.isRequest}"-->
 
                 <EditText
                     android:id="@+id/editTextRequest"
@@ -116,8 +116,8 @@
                     android:paddingEnd="16dp"
                     android:paddingBottom="12dp"
                     android:hint="계란 빼달라고 요청하기"
-                    android:textSize="18sp"
-                    app:setEditText="@{viewmodel.isRequest}"/>
+                    android:textSize="18sp"/>
+                <!--app:setEditText="@{viewmodel.isRequest}"-->
             </LinearLayout>
             <!-- 요청사항 끝 -->
 
@@ -127,11 +127,11 @@
         <LinearLayout
             android:id="@+id/cancelMenuBtn"
             android:layout_width="24dp"
-            android:layout_height="24dp"
-            android:layout_marginStart="7dp"
+            android:layout_height="wrap_content"
             android:layout_gravity="center"
+            android:layout_marginStart="7dp"
             android:background="@drawable/ic_menu_cancel"
-            android:orientation="vertical"/>
+            android:orientation="vertical" />
 
     </LinearLayout>
     <!-- 메뉴 입력 / 삭제버튼 끝 -->

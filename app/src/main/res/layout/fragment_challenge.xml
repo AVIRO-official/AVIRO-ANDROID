@@ -78,30 +78,32 @@
                 android:textSize = "32sp"
                 android:fontFamily="@font/pretendard_semibold"
                 tools:ignore="HardcodedText" />
-            <LinearLayout
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:orientation="horizontal">
+
+            <RelativeLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content">
 
                 <TextView
                     android:id="@+id/subTitleTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_gravity="center"
+                    android:layout_centerVertical="true"
+                    android:layout_centerHorizontal="true"
+                    android:fontFamily="@font/pretendard_semibold"
                     android:text="챌린지"
                     android:textColor="@color/Gray0"
-                    android:textSize = "32sp"
-                    android:fontFamily="@font/pretendard_semibold"
-                    tools:ignore="HardcodedText"/>
+                    android:textSize="32sp"
+                    tools:ignore="HardcodedText" />
                 <Button
                     android:id="@+id/infoBtn"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
+                    android:layout_toEndOf="@id/subTitleTextView"
+                    android:layout_centerVertical="true"
                     android:layout_marginStart="8dp"
-                    android:layout_gravity="center"
                     android:background="@drawable/ic_info"/>
 
-            </LinearLayout>
+            </RelativeLayout>
 
 
             <TextView
@@ -110,7 +112,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_gravity="center"
-                android:text="큐티러블리어도러"
+                android:text="@{viewmodel.nickname}"
                 android:textColor="@color/Gray0"
                 android:textSize = "20sp"
                 android:fontFamily="@font/pretendard_semibold"
@@ -176,7 +178,7 @@
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/pretendard_bold"
                 android:gravity="center"
-                android:text="8개"
+                android:text="@{viewmodel.registerAmount.toString() + '개'}"
                 android:textColor="@color/Gray0"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -210,7 +212,7 @@
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/pretendard_bold"
                 android:gravity="center"
-                android:text="8개"
+                android:text="@{viewmodel.reviewAmount.toString() + '개'}"
                 android:textColor="@color/Gray0"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -246,7 +248,7 @@
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/pretendard_bold"
                 android:gravity="center"
-                android:text="8개"
+                android:text="@{viewmodel.bookmarkAmount.toString() + '개'}"
                 android:textColor="@color/Gray0"
                 android:textSize="20sp" />
         </LinearLayout>
