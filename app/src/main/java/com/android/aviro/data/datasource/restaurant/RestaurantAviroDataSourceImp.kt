@@ -1,13 +1,18 @@
 package com.android.aviro.data.datasource.restaurant
 
+import com.android.aviro.data.api.KakaoService
 import com.android.aviro.data.api.RestaurantService
 import com.android.aviro.data.entity.base.DataBodyResponse
 import com.android.aviro.data.entity.restaurant.ReataurantReponseDTO
 import com.android.aviro.data.entity.restaurant.RestaurantRequestDTO
+import com.android.aviro.data.entity.restaurant.SearchRestaurantResponse
+import dagger.Provides
 import javax.inject.Inject
 
+
 class RestaurantAviroDataSourceImp @Inject constructor (
-    private val restaurantService: RestaurantService
+    private val restaurantService: RestaurantService,
+    private val kakaoService: KakaoService
 ) : RestaurantAviroDataSource {
 
     override suspend fun getRestaurant(request : RestaurantRequestDTO) : Result<DataBodyResponse<ReataurantReponseDTO>>  {
@@ -26,4 +31,9 @@ class RestaurantAviroDataSourceImp @Inject constructor (
          */
         }
 
+    override suspend fun getSearchedRestaurant(keyword : String, x : String, y : String, page : Int, size : Int, sort : String) : Result<SearchRestaurantResponse> {
+        return kakaoService.searchRestaurant(keyword, x, y, page, size, sort)
     }
+
+    }
+
