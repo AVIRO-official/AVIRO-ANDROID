@@ -77,7 +77,7 @@
         <entry key="app/src/main/res/layout/fragment_guide_review.xml" value="0.19947916666666668" />
         <entry key="app/src/main/res/layout/fragment_guide_search.xml" value="0.13265998517411948" />
         <entry key="app/src/main/res/layout/fragment_map.xml" value="0.125" />
-        <entry key="app/src/main/res/layout/fragment_mypage.xml" value="0.30786773090079816" />
+        <entry key="app/src/main/res/layout/fragment_mypage.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_register.xml" value="0.125" />
         <entry key="app/src/main/res/layout/fragment_sign_complete.xml" value="0.17979610750695088" />
         <entry key="app/src/main/res/layout/fragment_sign_nickname.xml" value="0.21248396750748183" />
@@ -89,7 +89,7 @@
         <entry key="app/src/main/res/layout/fragment_update_number.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_update_timetable.xml" value="0.25" />
         <entry key="app/src/main/res/layout/search_restaurant.xml" value="0.16106350866661884" />
-        <entry key="app/src/main/res/layout/search_restaurant_item.xml" value="0.22573749465583584" />
+        <entry key="app/src/main/res/layout/search_restaurant_item.xml" value="0.165" />
         <entry key="app/src/main/res/layout/search_tutorial.xml" value="0.22573749465583584" />
         <entry key="app/src/main/res/layout/search_word.xml" value="0.25632781982421876" />
         <entry key="app/src/main/res/layout/searched_restaurant_item.xml" value="0.165" />

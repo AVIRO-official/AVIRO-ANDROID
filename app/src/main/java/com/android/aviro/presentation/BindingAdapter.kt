@@ -2,6 +2,7 @@ package com.android.aviro.presentation
 
 import android.content.res.ColorStateList
 import android.graphics.PorterDuff
+import android.util.Log
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -12,9 +13,12 @@ import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.databinding.BindingAdapter
+import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.android.aviro.R
+import com.android.aviro.data.entity.restaurant.SearchEntity
 import com.android.aviro.presentation.guide.GuidePagerAdapter
+import com.android.aviro.presentation.search.SearchAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
 object BindingAdapter {
@@ -215,5 +219,15 @@ object BindingAdapter {
 
     }
 
+    @JvmStatic
+    @BindingAdapter("app:items")
+    fun setList(recyclerView: RecyclerView, items: List<SearchEntity>?) {
+        items?.let { // items 이 null이 아니면
+            // 어댑터에 아이템 셋팅
+            Log.d("BindingAdapter","${items}")
+            //recyclerView.adapter = SearchAdapter(items)
+            (recyclerView.adapter as SearchAdapter).searchedList = items
+        }
+    }
 
 }

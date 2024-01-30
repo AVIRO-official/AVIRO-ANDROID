@@ -3,7 +3,7 @@
     <string name="action_settings">Settings</string>
     <!-- Strings used for fragments for navigation -->
     <string name="map_fragment_label">홈</string>
-    <string name="mypage_fragment_label">마이페이지</string>
+    <string name="mypage_fragment_label">챌린지</string>
     <string name="register_fragment_label">등록하기</string>
     <string name="next">Next</string>
     <string name="previous">Previous</string>
