@@ -2,6 +2,8 @@ package com.android.aviro.data.di
 
 import com.android.aviro.data.datasource.auth.AuthDataSource
 import com.android.aviro.data.datasource.auth.AuthDataSourceImp
+import com.android.aviro.data.datasource.challenge.ChallengeDataSource
+import com.android.aviro.data.datasource.challenge.ChallengeDataSourceImp
 import com.android.aviro.data.datasource.datastore.DataStoreDataSource
 import com.android.aviro.data.datasource.datastore.DataStoreDataSourceImp
 import com.android.aviro.data.datasource.marker.MarkerMemoryCacheDataSource
@@ -60,6 +62,11 @@ abstract class DataSourceModule {
         marker_memoryCache_datasource: MarkerMemoryCacheDataSourceImp,
     ): MarkerMemoryCacheDataSource
 
+    @Binds
+    @Singleton
+    abstract fun bindsChallengeDataSource(
+        challenge_datasource: ChallengeDataSourceImp,
+    ): ChallengeDataSource
 
 
 }

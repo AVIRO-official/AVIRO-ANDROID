@@ -5,21 +5,26 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
+import android.widget.Toast.LENGTH_SHORT
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.lifecycle.ViewModelProvider
 import com.android.aviro.R
 import com.android.aviro.databinding.FragmentChallengeBinding
 import com.android.aviro.presentation.home.ui.map.MapViewModel
+import dagger.hilt.android.AndroidEntryPoint
 
+@AndroidEntryPoint
 class ChallengeFragment : Fragment() {
 
     private var _binding: FragmentChallengeBinding? = null
     private val binding get() = _binding!!
 
-    private val viewmodel: MypageViewModel by hiltNavGraphViewModels(R.id.navigation_mypage)
-    //private val viewmodel: MypageViewModel by viewModels()
+    //private val viewmodel: MypageViewModel by hiltNavGraphViewModels(R.id.navigation_mypage)
+    private val viewmodel: MypageViewModel by viewModels()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -46,6 +51,12 @@ class ChallengeFragment : Fragment() {
                 .commit()
 
         }
+
+        viewmodel.errorLiveData.observe(this, androidx.lifecycle.Observer {
+            if(it != null) {
+                Toast.makeText(requireContext(), it, LENGTH_SHORT).show()
+            }
+        })
 
 
         return root

@@ -56,7 +56,8 @@
         android:text="등록하기"
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/pretendard_semibold"
-        app:registerBtnColor="@{viewmodel.onCheckedRegisterBtn}"
+        android:onClick="@{() -> viewmodel.onClickRegister()}"
+        app:registerBtnColor="@{viewmodel.isRegisterEnabled}"
         android:textSize="18sp"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"/>
@@ -399,129 +400,11 @@
                         android:layout_height="wrap_content"
                         android:orientation="vertical">
 
+
                         <!-- 메뉴 입력 / 삭제버튼 -->
-                        <LinearLayout
-                            android:layout_width="match_parent"
-                            android:layout_height="wrap_content"
-                            android:layout_marginTop="20dp"
-                            android:orientation="horizontal"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintEnd_toStartOf="parent">
 
-                            <!-- 메뉴 입력  -->
-                            <LinearLayout
-                                android:layout_width="0dp"
-                                android:layout_weight="1"
-                                android:layout_height="wrap_content"
-                                android:orientation="vertical">
-
-                                <!-- 메뉴 이름/가격  -->
-                                <LinearLayout
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal">
-
-                                    <EditText
-                                        android:id="@+id/editTextMenu"
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:background="@drawable/base_roundsquare_gray6"
-                                        android:fontFamily="@font/pretendard_medium"
-                                        android:inputType="textPersonName"
-                                        android:paddingStart="16dp"
-                                        android:paddingTop="12dp"
-                                        android:paddingEnd="16dp"
-                                        android:paddingBottom="12dp"
-                                        android:hint="메뉴 이름"
-                                        android:textColor="@color/Gray3"
-                                        android:textSize="18sp" />
-
-                                    <RelativeLayout
-                                        android:layout_width="match_parent"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1">
-
-                                        <EditText
-                                            android:id="@+id/editTextPrice"
-                                            android:layout_width="match_parent"
-                                            android:layout_height="wrap_content"
-                                            android:layout_marginStart="7dp"
-                                            android:background="@drawable/base_roundsquare_gray6"
-                                            android:fontFamily="@font/pretendard_medium"
-                                            android:inputType="number"
-                                            android:paddingStart="16dp"
-                                            android:paddingTop="12dp"
-                                            android:paddingEnd="16dp"
-                                            android:paddingBottom="12dp"
-                                            android:hint="가격"
-                                            android:textColor="@color/Gray3"
-                                            android:textSize="18sp" />
-
-                                        <Button
-                                            android:id="@+id/buttonInsideEditText"
-                                            android:layout_width="24dp"
-                                            android:layout_height="24dp"
-                                            android:layout_alignTop="@id/editTextPrice"
-                                            android:layout_alignEnd="@id/editTextPrice"
-                                            android:layout_alignBottom="@id/editTextPrice"
-                                            android:layout_marginEnd="7dp"
-                                            android:layout_marginTop="10.5dp"
-                                            android:layout_marginBottom="10.5dp"
-                                            android:background="@drawable/ic_price_dot" />
-                                    </RelativeLayout>
-                                </LinearLayout>
-                                <!-- 메뉴 이름/가격 끝 -->
-
-                                <!-- 요청사항 -->
-                                <LinearLayout
-                                    android:id="@+id/requestLayout"
-                                    android:layout_width="match_parent"
-                                    android:layout_height="wrap_content"
-                                    android:orientation="horizontal"
-                                    android:layout_marginTop="10dp"
-                                    app:visibilityChanged="@{viewmodel.veganTypeList[2]}">
-                                    <CheckBox
-                                        android:id="@+id/requestBox"
-                                        android:layout_width="wrap_content"
-                                        android:layout_height="wrap_content"
-                                        android:button="@null"
-                                        android:onClick="@{() -> viewmodel.onClickRequestCheckBox()}"
-                                        app:bgCheckBox="@{viewmodel.isRequest}" />
-
-                                    <EditText
-                                        android:id="@+id/editTextRequest"
-                                        android:layout_width="0dp"
-                                        android:layout_height="wrap_content"
-                                        android:layout_weight="1"
-                                        android:layout_marginStart="7dp"
-                                        android:fontFamily="@font/pretendard_medium"
-                                        android:inputType="textPersonName"
-                                        android:paddingStart="16dp"
-                                        android:paddingTop="12dp"
-                                        android:paddingEnd="16dp"
-                                        android:paddingBottom="12dp"
-                                        android:hint="계란 빼달라고 요청하기"
-                                        android:textSize="18sp"
-                                        app:setEditText="@{viewmodel.isRequest}"/>
-                                </LinearLayout>
-                                <!-- 요청사항 끝 -->
-
-                            </LinearLayout>
-                            <!-- 메뉴 입력 끝 -->
-
-                            <LinearLayout
-                                android:id="@+id/cancelMenuBtn"
-                                android:layout_width="24dp"
-                                android:layout_height="24dp"
-                                android:layout_marginStart="7dp"
-                                android:layout_gravity="center"
-                                android:background="@drawable/ic_menu_cancel"
-                                android:orientation="vertical"/>
-
-                        </LinearLayout>
                         <!-- 메뉴 입력 / 삭제버튼 끝 -->
+
 
                     </LinearLayout>
                     <!-- 메뉴 리스트 끝 -->

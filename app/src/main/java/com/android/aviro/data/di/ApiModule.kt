@@ -1,14 +1,10 @@
 package com.android.aviro.data.di
 
 import com.android.aviro.BuildConfig
-import com.android.aviro.data.api.AuthService
-import com.android.aviro.data.api.KakaoService
-import com.android.aviro.data.api.MemberService
-import com.android.aviro.data.api.RestaurantService
+import com.android.aviro.data.api.*
 import com.android.aviro.data.utils.ResultCallAdapterFactory
-import com.android.aviro.data.entity.auth.TokensResponseDTO
-import com.android.aviro.data.utils.HeaderInterceptor
-import com.google.gson.GsonBuilder
+import com.android.aviro.data.utils.AviroHeaderInterceptor
+import com.android.aviro.data.utils.KakaoHeaderInterceptor
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -35,14 +31,14 @@ class ApiModule {
     @Singleton
     fun providesResultCallAdapterFactory(): ResultCallAdapterFactory = ResultCallAdapterFactory()
 
-    @Singleton
-    @Provides
-    fun provideClient(): OkHttpClient {
-        return OkHttpClient.Builder()
-            .addInterceptor(logger)
-            .addNetworkInterceptor(HeaderInterceptor()) //aws, kakao 다르게 설정
-            .build()
-    }
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class AviroClient
+
+    @Qualifier
+    @Retention(AnnotationRetention.BINARY)
+    annotation class KakaoClient
 
     @Qualifier
     @Retention(AnnotationRetention.BINARY)
@@ -52,11 +48,31 @@ class ApiModule {
     @Retention(AnnotationRetention.BINARY)
     annotation class KakaoRetrofit
 
+    @Singleton
+    @Provides
+    @AviroClient
+    fun provideAviroClient(): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(logger)
+            .addNetworkInterceptor(AviroHeaderInterceptor()) //aws, kakao 다르게 설정
+            .build()
+    }
+
+    @Singleton
+    @Provides
+    @KakaoClient
+    fun provideKakaoClient(): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(logger)
+            .addNetworkInterceptor(KakaoHeaderInterceptor()) //aws, kakao 다르게 설정
+            .build()
+    }
+
 
     @Singleton
     @Provides
     @AviroRetrofit
-    fun provideAviroRetrofit(client : OkHttpClient, resultCallAdapterFactory: ResultCallAdapterFactory): Retrofit { //AWS
+    fun provideAviroRetrofit(@ApiModule.AviroClient client : OkHttpClient, resultCallAdapterFactory: ResultCallAdapterFactory): Retrofit { //AWS
         return Retrofit.Builder()
             .client(client)
             .baseUrl(AVIRO_BASE_URL)
@@ -68,7 +84,7 @@ class ApiModule {
     @Singleton
     @Provides
     @KakaoRetrofit
-    fun provideRetrofitKakao(client : OkHttpClient, resultCallAdapterFactory: ResultCallAdapterFactory): Retrofit {
+    fun provideKakaoRetrofit(@ApiModule.KakaoClient client : OkHttpClient, resultCallAdapterFactory: ResultCallAdapterFactory): Retrofit {
         return Retrofit.Builder()
             .client(client)
             .baseUrl(KAKAO_BASE_URL)
@@ -76,7 +92,6 @@ class ApiModule {
             .addCallAdapterFactory(resultCallAdapterFactory)
             .build()
     }
-
 
 
 
@@ -92,6 +107,13 @@ class ApiModule {
     fun provideMemberService(@ApiModule.AviroRetrofit aviroRetrofit: Retrofit): MemberService {
         return aviroRetrofit.create(MemberService::class.java)
     }
+
+    @Singleton
+    @Provides
+    fun provideChallengeService(@ApiModule.AviroRetrofit aviroRetrofit: Retrofit): ChallengeService {
+        return aviroRetrofit.create(ChallengeService::class.java)
+    }
+
 
     @Singleton
     @Provides

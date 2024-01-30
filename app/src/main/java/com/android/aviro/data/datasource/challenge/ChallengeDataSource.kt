@@ -1,10 +1,8 @@
-package com.android.aviro.domain.repository
+package com.android.aviro.data.datasource.challenge
 
 import com.android.aviro.data.entity.challenge.ChallengeInfoResponse
 
-interface ChallengeRepository {
+interface ChallengeDataSource {
 
     suspend fun getChallengeInfo() : Result<ChallengeInfoResponse>
-    fun getChallengeComment()
-
 }

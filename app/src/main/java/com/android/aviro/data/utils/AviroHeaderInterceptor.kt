@@ -4,7 +4,7 @@ import com.android.aviro.BuildConfig
 import okhttp3.Interceptor
 import okhttp3.Response
 
-class HeaderInterceptor : Interceptor {
+class AviroHeaderInterceptor : Interceptor {
 
     override fun intercept(chain: Interceptor.Chain): Response { //retrofit2, okhttp3
         val builder = chain.request().newBuilder()

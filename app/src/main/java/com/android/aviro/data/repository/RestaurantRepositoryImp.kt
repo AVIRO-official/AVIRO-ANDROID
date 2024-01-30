@@ -9,6 +9,7 @@ import com.android.aviro.data.entity.base.MappingResult
 import com.android.aviro.data.entity.marker.MarkerEntity
 import com.android.aviro.data.entity.restaurant.ReataurantReponseDTO
 import com.android.aviro.data.entity.restaurant.RestaurantRequestDTO
+import com.android.aviro.data.entity.restaurant.SearchRestaurantResponse
 import com.android.aviro.domain.repository.RestaurantRepository
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -113,10 +114,8 @@ class RestaurantRepositoryImp @Inject constructor (
 
 
     // 키워드로 가게를 검색함
-    override suspend fun searchRestaurant() {
-
-
-
+    override suspend fun searchRestaurant(keyword : String, x : String, y : String, page : Int, size : Int, sort : String) :Result<SearchRestaurantResponse> {
+        return restaurantAviroDataSource.getSearchedRestaurant(keyword, x, y, page, size, sort)
 
     }
 

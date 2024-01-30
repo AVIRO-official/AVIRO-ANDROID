@@ -9,6 +9,6 @@ interface MemberDataSource {
 
     suspend fun checkNickname(nickname : NicknameEntity) :  Result<NicknameCheckResponse>
     suspend fun creatMember(newMember : MemberEntity) : Result<DataBodyResponse<SignResponseDTO>> // Result<Any>
-    suspend fun getActivityCount(requet : UserIdEntity) : Result<DataBodyResponse<MyInfoCountResponse>>
-    suspend fun getChallengeLevel(requet : UserIdEntity) : Result<MyInfoLevelResponse>
+    suspend fun getActivityCount(requet : String) : Result<DataBodyResponse<MyInfoCountResponse>>
+    suspend fun getChallengeLevel(requet : String) : Result<MyInfoLevelResponse>
 }

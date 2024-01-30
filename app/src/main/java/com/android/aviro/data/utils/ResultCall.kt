@@ -7,6 +7,7 @@ import okhttp3.Request
 import okio.Timeout
 import retrofit2.*
 import java.io.IOException
+import java.net.UnknownHostException
 
 // 네트워크 응답 에러
 class ResultCall<T>(private val call: Call<T>, private val retrofit: Retrofit) : Call<Result<T>> {
@@ -97,7 +98,7 @@ class ResultCall<T>(private val call: Call<T>, private val retrofit: Retrofit) :
             // 서버 통신 중 에러가 나서 제대로 된 응답조차 받지 못한 상황 (예외처리 하는게 아니라 success로 감싸서 안내를 띄운다)
             override fun onFailure(call: Call<T>, t: Throwable) {
                 val message = when (t) {
-                    is IOException -> "인터넷 연결이 끊겼습니다.\n인터넷 연결을 확인해주세요."
+                    is IOException -> "인터넷 연결을 확인해주세요."
                     is HttpException -> "알 수 없는 오류가 발생했어요."
                     else -> t.localizedMessage
                 }
