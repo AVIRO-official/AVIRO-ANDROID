@@ -126,7 +126,6 @@ class RegisterFragment : Fragment()  {
         })
 
         viewmodel.veganTypeList.observe(this, androidx.lifecycle.Observer {
-
             if(it.get(2) == true) {
                 if (it.get(1) == true) {
                     //Log.d("veganTypeList","${it}")
