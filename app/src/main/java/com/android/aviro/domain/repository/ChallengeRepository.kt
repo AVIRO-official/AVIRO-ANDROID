@@ -1,8 +1,10 @@
 package com.android.aviro.domain.repository
 
+import com.android.aviro.data.entity.challenge.ChallengeInfoResponse
+
 interface ChallengeRepository {
 
-    fun getChallengePeriode()
+    suspend fun getChallengeInfo() : Result<ChallengeInfoResponse>
     fun getChallengeComment()
 
 }
