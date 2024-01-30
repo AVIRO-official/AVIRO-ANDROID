@@ -133,12 +133,11 @@ class SignViewModel @Inject constructor(
                when(it){
                    is MappingResult.Success<*> -> {
                        val data = it.data as TokensResponseDTO
+                        if(data.isMember) { // 회원임
+                           autoSignIn() // 가져온 토큰으로 자동 로그인 완료 해야 함
+                       }
                        _isSignUp.value = !(data.isMember)
-                      /* if(data.isMember) { // 회원임
-                           //autoSignIn() // 가져온 토큰으로 자동 로그인 완료 해야 함
-                       } else {
-                           _isSignUp.value = true
-                       }*/
+
                    }
                    is MappingResult.Error -> _errorLiveData.value = it.message
 
@@ -148,7 +147,6 @@ class SignViewModel @Inject constructor(
 
     }
 
-    /*
     fun autoSignIn() {
         viewModelScope.launch {
             val token = getTokenUseCase()
@@ -167,7 +165,6 @@ class SignViewModel @Inject constructor(
 
         }
     }
-     */
 
 
     // 닉네임 조건 확인
