@@ -1,9 +1,11 @@
 package com.android.aviro.data.di
 
 import com.android.aviro.data.repository.AuthRepositoryImp
+import com.android.aviro.data.repository.ChallengeRepositoryImp
 import com.android.aviro.data.repository.MemberRepositoryImp
 import com.android.aviro.data.repository.RestaurantRepositoryImp
 import com.android.aviro.domain.repository.AuthRepository
+import com.android.aviro.domain.repository.ChallengeRepository
 import com.android.aviro.domain.repository.MemberRepository
 import com.android.aviro.domain.repository.RestaurantRepository
 import dagger.Binds
@@ -35,6 +37,13 @@ abstract class RepositoryModule {
     abstract fun bindsRestaurantRepository(
         restaurant_repository: RestaurantRepositoryImp,
     ): RestaurantRepository
+
+    @Binds
+    @Singleton
+    abstract fun bindsChallengeRepository(
+        challenge_repository: ChallengeRepositoryImp,
+    ): ChallengeRepository
+
 
 
 
