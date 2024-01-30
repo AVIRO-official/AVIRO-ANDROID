@@ -61,7 +61,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="20dp"
                 android:layout_gravity="center"
-                android:text="큐티러블리어도러"
+                android:text="@{viewmodel.challengePeriod}"
                 android:textColor="@color/Gray2"
                 android:textSize = "17sp"
                 android:fontFamily="@font/pretendard_medium"
@@ -73,7 +73,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="8dp"
                 android:layout_gravity="center"
-                android:text="2024 비거뉴어리"
+                android:text="@{viewmodel.challengeTitle}"
                 android:textColor="@color/Gray0"
                 android:textSize = "32sp"
                 android:fontFamily="@font/pretendard_semibold"
@@ -87,8 +87,7 @@
                     android:id="@+id/subTitleTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:layout_centerVertical="true"
-                    android:layout_centerHorizontal="true"
+                    android:layout_centerInParent="true"
                     android:fontFamily="@font/pretendard_semibold"
                     android:text="챌린지"
                     android:textColor="@color/Gray0"
@@ -131,7 +130,33 @@
                     android:layout_height="210dp"
                     android:layout_marginTop="84dp"
                     android:background="@drawable/base_roundsquare_gray6_11"
-                    android:orientation="vertical" />
+                    android:orientation="vertical" >
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="87dp"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/pretendard_semibold"
+                        android:textColor="@color/Gray0"
+                        android:textSize="17sp"
+                        android:text="TextView" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="6dp"
+                        android:layout_gravity="center"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:textColor="@color/Gray2"
+                        android:textSize="15sp"
+                        android:text="" />
+                    <ProgressBar
+                        android:id="@+id/progressBar"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content" />
+
+                </LinearLayout>
                 <LinearLayout
                     android:layout_width="150dp"
                     android:layout_height="150dp"
@@ -178,7 +203,7 @@
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/pretendard_bold"
                 android:gravity="center"
-                android:text="@{viewmodel.registerAmount.toString() + '개'}"
+                android:text="@{viewmodel.registerAmount + '개'}"
                 android:textColor="@color/Gray0"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -212,7 +237,7 @@
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/pretendard_bold"
                 android:gravity="center"
-                android:text="@{viewmodel.reviewAmount.toString() + '개'}"
+                android:text="@{viewmodel.reviewAmount + '개'}"
                 android:textColor="@color/Gray0"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -248,7 +273,7 @@
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/pretendard_bold"
                 android:gravity="center"
-                android:text="@{viewmodel.bookmarkAmount.toString() + '개'}"
+                android:text="@{viewmodel.bookmarkAmount + '개'}"
                 android:textColor="@color/Gray0"
                 android:textSize="20sp" />
         </LinearLayout>
