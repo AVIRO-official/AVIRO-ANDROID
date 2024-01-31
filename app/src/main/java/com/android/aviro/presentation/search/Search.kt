@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
+import androidx.core.view.isVisible
 import androidx.lifecycle.Observer
 import androidx.recyclerview.widget.LinearLayoutManager
+import androidx.recyclerview.widget.RecyclerView
 import com.android.aviro.data.entity.restaurant.SearchEntity
 import com.android.aviro.databinding.ActivitySearchBinding
 import dagger.hilt.android.AndroidEntryPoint
@@ -27,10 +29,29 @@ class Search : AppCompatActivity() {
 
         binding.searchRecyclerview.adapter = SearchAdapter()
 
-        binding.backBtn.setOnClickListener {
-           finish()
-        }
+        binding.searchRecyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
+            override fun onScrolled(recyclerView: RecyclerView, dx: Int, dy: Int) {
+                super.onScrolled(recyclerView, dx, dy)
 
+                // 다음페이지 존재 여부 확인
+                if(viewmodel.isEnd == true) return;
+
+                // 아직 로딩중인지 확인
+                if (viewmodel._isProgress.value == false) { // 아직 로딩중이면 호출 x
+                    // 스크롤이 끝에 도달했는지 확인
+                    if (binding.searchRecyclerview.canScrollVertically(-1)) {
+                        Log.d("searchRecyclerview", "스크롤 끝에 도달함!!")
+                        viewmodel.currentPage++
+                        viewmodel.nextList()
+                    }
+                }
+            }
+
+        })
+
+        binding.backBtn.setOnClickListener {
+            finish()
+        }
 
     }
 }
