@@ -45,6 +45,28 @@
                 android:fontFamily="@font/pretendard_medium"
                 android:textColor="@color/Gray0"
                 android:textSize="15sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:orientation="vertical">
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="휴식시간"
+                android:layout_marginBottom="5dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:textColor="@color/Gray0"
+                android:textSize="15sp"
+                android:visibility="gone"/>
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:text="입력해주세요"
+                android:fontFamily="@font/pretendard_medium"
+                android:textColor="@color/Gray2"
+                android:textSize="15sp" />
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -63,6 +85,28 @@
                 android:fontFamily="@font/pretendard_medium"
                 android:textColor="@color/Gray0"
                 android:textSize="15sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="휴식시간"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textColor="@color/Gray0"
+                    android:textSize="15sp"
+                    android:visibility="gone"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="입력해주세요"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textColor="@color/Gray2"
+                    android:textSize="15sp" />
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -81,6 +125,28 @@
                 android:fontFamily="@font/pretendard_medium"
                 android:textColor="@color/Gray0"
                 android:textSize="15sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="휴식시간"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textColor="@color/Gray0"
+                    android:textSize="15sp"
+                    android:visibility="gone"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="입력해주세요"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textColor="@color/Gray2"
+                    android:textSize="15sp" />
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -99,6 +165,28 @@
                 android:fontFamily="@font/pretendard_medium"
                 android:textColor="@color/Gray0"
                 android:textSize="15sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="휴식시간"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textColor="@color/Gray0"
+                    android:textSize="15sp"
+                    android:visibility="gone"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="입력해주세요"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textColor="@color/Gray2"
+                    android:textSize="15sp" />
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -117,6 +205,28 @@
                 android:fontFamily="@font/pretendard_medium"
                 android:textColor="@color/Gray0"
                 android:textSize="15sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="휴식시간"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textColor="@color/Gray0"
+                    android:textSize="15sp"
+                    android:visibility="gone"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="입력해주세요"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textColor="@color/Gray2"
+                    android:textSize="15sp" />
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -135,6 +245,28 @@
                 android:fontFamily="@font/pretendard_medium"
                 android:textColor="@color/Gray0"
                 android:textSize="15sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="휴식시간"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textColor="@color/Gray0"
+                    android:textSize="15sp"
+                    android:visibility="gone"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="입력해주세요"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textColor="@color/Gray2"
+                    android:textSize="15sp" />
+            </LinearLayout>
         </LinearLayout>
         <LinearLayout
             android:layout_width="match_parent"
@@ -153,6 +285,28 @@
                 android:fontFamily="@font/pretendard_medium"
                 android:textColor="@color/Gray0"
                 android:textSize="15sp" />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="30dp"
+                android:orientation="vertical">
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="휴식시간"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textColor="@color/Gray0"
+                    android:textSize="15sp"
+                    android:visibility="gone"/>
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:text="입력해주세요"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textColor="@color/Gray2"
+                    android:textSize="15sp" />
+            </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 

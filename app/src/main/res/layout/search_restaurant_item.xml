@@ -8,20 +8,13 @@
             type="com.android.aviro.data.entity.restaurant.SearchEntity" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
     android:paddingTop="15dp"
     android:paddingBottom="15dp">
-
-    <!--<LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:orientation="horizontal"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">-->
 
         <LinearLayout
             android:id="@+id/typeIcon"
@@ -68,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:fontFamily="@font/pretendard_regular"
-            android:text="@{search_item.distance}"
+            android:text="@{search_item.distance + `KM`}"
             android:textColor="@color/Gray2"
             android:textSize="14sp"
             app:layout_constraintTop_toTopOf="parent"

@@ -40,21 +40,30 @@ class SearchViewModel @Inject constructor(
     private val _isPreSearched = MutableLiveData<Boolean>()
     val isPreSearched: LiveData<Boolean> = _isPreSearched
 
+    val _isProgress = MutableLiveData<Boolean>()
+    var isProgress : LiveData<Boolean> = _isProgress
+
     private val _SearchedPlaceList = MutableLiveData<List<SearchEntity>>() // 가게 리스트
     var SearchedPlaceList : LiveData<List<SearchEntity>> = _SearchedPlaceList
 
+    private val _item = MutableLiveData<ItemAdapter>() // 가게 리스트
+    var item : LiveData<ItemAdapter> = _item
+
     private var searchedKeyword  = ""
+    var currentPage  = 1
+    var isEnd  = true
+
+    //var item = ItemAdapter.Item(null, null)
 
     init {
         _isSearching.value = false //검색중 아님
         _isPreSearched.value = !prefs.all.isEmpty()
-        _SearchedPlaceList.value =  listOf(
-            SearchEntity("","우리마트","3","121","123","","","",
-                "이촌동","","url","010")
-        )
+        _isProgress.value = false
+
     }
 
     fun initList() {
+        _isProgress.value = true
         viewModelScope.launch {
             Log.d("keyword","${searchedKeyword}")
             val response = searchRestaurantUseCase.getSearchedRestaurantList(
@@ -67,21 +76,37 @@ class SearchViewModel @Inject constructor(
             )
             Log.d("response","${response}")
             response.onSuccess {
-                Log.d("response","${it.documents}")
+                Log.d("response","${it.documents.size}")
                 _SearchedPlaceList.value = it.documents
+                _item.value = ItemAdapter(_SearchedPlaceList.value!!, true)
+                isEnd = it.meta.is_end
             }
+            _isProgress.value = false
         }
-        /*
-        // 응답 결과는 메타 데이터까지 모두 갖고 있는 형태
-        searchRestaurantUseCase.
-        repository.list { plantList ->
-            _plantList.postValue(plantList)
-        }
-         */
     }
 
     // usecase 응답 결과의 isEnd == false 일 경우, 다음 리스트 불러와 합침
     fun nextList() {
+        _isProgress.value = true
+        viewModelScope.launch {
+            val response = searchRestaurantUseCase.getSearchedRestaurantList(
+                searchedKeyword,
+                "127.03596593951177",
+                "37.5071726244927",
+                currentPage,
+                15,
+                "accuracy"
+            )
+
+            response.onSuccess {
+                val mergedPlants = _SearchedPlaceList.value!!.toMutableList()
+                    .apply { addAll(it.documents) }
+                _SearchedPlaceList.value = mergedPlants
+                _item.value = ItemAdapter(_SearchedPlaceList.value!!, false)
+            }
+            _isProgress.value = false
+        }
+
         /*
         val currentPlantList = plantList.value ?: return
         repository.next(currentPlantList) { palntList ->
@@ -93,6 +118,7 @@ class SearchViewModel @Inject constructor(
         }
 
          */
+
     }
 
     // 실제 remote 통해 검색한 경우에만 저장
@@ -127,6 +153,7 @@ class SearchViewModel @Inject constructor(
             imm.hideSoftInputFromWindow(view.windowToken, 0)
             // remote 검색 요청
             searchedKeyword = keyword
+            currentPage = 1
             storeSearchedWord(keyword)
             initList()
             return true

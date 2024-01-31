@@ -91,7 +91,7 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:background="@null"
+                android:background="@android:color/transparent"
                 android:fontFamily="@font/pretendard_medium"
                 android:hint="어디로 이동할까요?"
                 android:imeOptions="actionDone"
@@ -272,10 +272,13 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:items="@{viewmodel.searchedPlaceList}"
+                app:items="@{viewmodel.item}"
                 app:visibilityChanged="@{viewmodel.isSearching}"/>
 
+
         </ScrollView>
+
+
 
     </LinearLayout>
 

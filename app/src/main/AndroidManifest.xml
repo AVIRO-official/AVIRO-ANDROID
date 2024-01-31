@@ -29,7 +29,6 @@
         <activity
             android:name=".presentation.splash.Splash"
             android:exported="true">
-
         </activity>
 
         <activity
@@ -39,7 +38,6 @@
 
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
-
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
 
@@ -52,6 +50,7 @@
             </intent-filter>
 
         </activity>
+
         <activity
             android:name=".presentation.home.Home"
             android:exported="true">
