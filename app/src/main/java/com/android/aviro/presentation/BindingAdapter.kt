@@ -18,6 +18,7 @@ import androidx.viewpager2.widget.ViewPager2
 import com.android.aviro.R
 import com.android.aviro.data.entity.restaurant.SearchEntity
 import com.android.aviro.presentation.guide.GuidePagerAdapter
+import com.android.aviro.presentation.search.ItemAdapter
 import com.android.aviro.presentation.search.SearchAdapter
 import com.google.android.material.floatingactionbutton.FloatingActionButton
 
@@ -221,12 +222,24 @@ object BindingAdapter {
 
     @JvmStatic
     @BindingAdapter("app:items")
-    fun setList(recyclerView: RecyclerView, items: List<SearchEntity>?) {
+    fun setList(recyclerView: RecyclerView, items:ItemAdapter?) { //List<SearchEntity>?
         items?.let { // items 이 null이 아니면
             // 어댑터에 아이템 셋팅
-            Log.d("BindingAdapter","${items}")
-            //recyclerView.adapter = SearchAdapter(items)
-            (recyclerView.adapter as SearchAdapter).searchedList = items
+            // 기존 검색 리스트 삭제 (완전히 새로운 키워드 들어올때만)
+                if (items.isNewKeyword == true) {
+                    Log.d("BindingAdapter","isNewKeyword")
+                    recyclerView.removeAllViews()
+                    (recyclerView.adapter as SearchAdapter).searchedList = items.itemList as MutableList<SearchEntity>
+                } else {
+                    Log.d("BindingAdapter", "add")
+                    val currentPosition = (recyclerView.adapter as SearchAdapter).itemCount
+                    (recyclerView.adapter as SearchAdapter).searchedList!!.addAll(items.itemList)
+                    (recyclerView.adapter as SearchAdapter).notifyItemRangeInserted(
+                        currentPosition,
+                        items.itemList.size
+                    )
+                }
+
         }
     }
 

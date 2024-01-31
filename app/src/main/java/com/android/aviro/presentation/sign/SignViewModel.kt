@@ -144,7 +144,6 @@ class SignViewModel @Inject constructor(
                    }
                }
            }
-
     }
 
     fun autoSignIn() {

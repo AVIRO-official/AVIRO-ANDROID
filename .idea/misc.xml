@@ -84,7 +84,7 @@
         <entry key="app/src/main/res/layout/fragment_sign_option.xml" value="0.18978118896484375" />
         <entry key="app/src/main/res/layout/fragment_sign_social.xml" value="0.1608108108108108" />
         <entry key="app/src/main/res/layout/fragment_sign_terms.xml" value="0.125" />
-        <entry key="app/src/main/res/layout/fragment_update_homepage.xml" value="0.165" />
+        <entry key="app/src/main/res/layout/fragment_update_homepage.xml" value="0.1" />
         <entry key="app/src/main/res/layout/fragment_update_loc.xml" value="0.165" />
         <entry key="app/src/main/res/layout/fragment_update_number.xml" value="0.25" />
         <entry key="app/src/main/res/layout/fragment_update_timetable.xml" value="0.25" />
