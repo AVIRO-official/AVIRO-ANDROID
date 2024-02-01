@@ -95,13 +95,6 @@ class Map : Fragment(), OnMapReadyCallback {
         binding.viewmodel = viewmodel
         binding.lifecycleOwner = this
 
-        binding.searchBar.setOnClickListener {
-            val searchIntent = Intent(requireContext(), Search::class.java)
-            startActivity(searchIntent)
-            //getActivity()!!.overridePendingTransition(R.anim.expand_bottom, R.anim.expand_top);
-
-        }
-
         val bottomSheet = binding.bottomSheetLayout
         val persistenetBottomSheet = BottomSheetBehavior.from(bottomSheet)
         persistenetBottomSheet.state = STATE_HIDDEN
@@ -160,6 +153,19 @@ class Map : Fragment(), OnMapReadyCallback {
             //binding.locationFloatingButton.setBackgroundResource(R.drawable.ic_floating_location)
             checkOnOffGPS()
         }
+
+
+        binding.searchBar.setOnClickListener {
+            val searchIntent = Intent(requireContext(), Search::class.java)
+            val centerPostion = naver_map!!.cameraPosition
+            val centerLatLng = centerPostion.target
+            searchIntent.putExtra("NaverMapOfX", centerLatLng.longitude)
+            searchIntent.putExtra("NaverMapOfY",  centerLatLng.latitude)
+            startActivity(searchIntent)
+
+
+        }
+
 
     }
 

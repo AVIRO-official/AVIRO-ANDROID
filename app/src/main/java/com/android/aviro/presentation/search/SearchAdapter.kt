@@ -1,16 +1,14 @@
 package com.android.aviro.presentation.search
 
-import android.util.Log
 import android.view.LayoutInflater
-import android.view.View
 import android.view.ViewGroup
 import androidx.recyclerview.widget.RecyclerView
-import com.android.aviro.data.entity.restaurant.SearchEntity
 import com.android.aviro.databinding.SearchRestaurantItemBinding
+import com.android.aviro.domain.entity.SearchedRestaurantItem
 
 class SearchAdapter(): RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() { //val items : List<SearchEntity>
 
-    var searchedList : MutableList<SearchEntity>? = null // 이게 변경되면 기존거 다 제거하고 반영하는건가?
+    var searchedList : MutableList<SearchedRestaurantItem>? = null // 이게 변경되면 기존거 다 제거하고 반영하는건가?
 
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): SearchViewHolder {
@@ -33,7 +31,7 @@ class SearchAdapter(): RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() { 
 
     // 뷰홀더 클래스
     class SearchViewHolder private constructor(val binding: SearchRestaurantItemBinding) : RecyclerView.ViewHolder(binding.root) {
-        fun bind(item: SearchEntity) {
+        fun bind(item: SearchedRestaurantItem) {
             binding.searchItem = item // 가게 데이터 한 줄 레이아웃에 사용될 데이터 Entity 데이터바인딩
             //아이템의 정보 어비로 서버로 보내서 비건 유형 알아오기
             //binding.searchItem.x

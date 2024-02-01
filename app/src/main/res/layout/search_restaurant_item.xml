@@ -5,7 +5,7 @@
     <data>
         <variable
             name="search_item"
-            type="com.android.aviro.data.entity.restaurant.SearchEntity" />
+            type="com.android.aviro.domain.entity.SearchedRestaurantItem" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/item"
@@ -17,12 +17,12 @@
     android:paddingBottom="15dp">
 
         <LinearLayout
-            android:id="@+id/typeIcon"
+            android:id="@+id/placeVeganTypeIcon"
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:orientation="horizontal"
             android:layout_marginTop="3dp"
-            android:background="@drawable/ic_pin_type_default"
+            app:placeVeganTypeIcon="@{search_item.veganType}"
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"/>
 
@@ -32,13 +32,13 @@
         android:layout_marginStart="10dp"
         android:orientation="vertical"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/typeIcon">
+        app:layout_constraintStart_toEndOf="@+id/placeVeganTypeIcon">
 
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="@{search_item.place_name}"
+            android:text="@{search_item.placeName}"
             android:textColor="@color/Gray0"
             android:textSize = "18sp"
             android:fontFamily="@font/pretendard_medium"/>
@@ -48,7 +48,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
-            android:text="@{search_item.address_name}"
+            android:text="@{search_item.placeAddress}"
             android:textColor="@color/Gray3"
             android:textSize = "15sp"
             android:fontFamily="@font/pretendard_regular"/>
@@ -61,7 +61,7 @@
             android:layout_height="wrap_content"
             android:layout_gravity="end"
             android:fontFamily="@font/pretendard_regular"
-            android:text="@{search_item.distance + `KM`}"
+            android:text="@{search_item.distance}"
             android:textColor="@color/Gray2"
             android:textSize="14sp"
             app:layout_constraintTop_toTopOf="parent"

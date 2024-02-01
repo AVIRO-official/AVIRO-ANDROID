@@ -1,22 +1,25 @@
 package com.android.aviro.presentation.search
 
+import android.Manifest
 import android.content.Context
 import android.content.Context.INPUT_METHOD_SERVICE
-import android.text.Editable
+import android.content.Context.LOCATION_SERVICE
+import android.content.pm.PackageManager
+import android.location.Location
+import android.location.LocationManager
 import android.util.Log
 import android.view.KeyEvent
 import android.view.View
-import android.view.inputmethod.EditorInfo
 import android.view.inputmethod.InputMethodManager
 import android.widget.EditText
-import androidx.appcompat.app.AppCompatActivity
-import androidx.core.content.ContextCompat.getSystemService
+import androidx.core.app.ActivityCompat
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.aviro.R
-import com.android.aviro.data.entity.restaurant.SearchEntity
+import com.android.aviro.data.entity.restaurant.Document
+import com.android.aviro.domain.entity.SearchedRestaurantItem
 import com.android.aviro.domain.usecase.retaurant.SearchRestaurantUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
@@ -43,23 +46,51 @@ class SearchViewModel @Inject constructor(
     val _isProgress = MutableLiveData<Boolean>()
     var isProgress : LiveData<Boolean> = _isProgress
 
-    private val _SearchedPlaceList = MutableLiveData<List<SearchEntity>>() // 가게 리스트
-    var SearchedPlaceList : LiveData<List<SearchEntity>> = _SearchedPlaceList
+    private val _SearchedPlaceList = MutableLiveData<List<SearchedRestaurantItem>>() // 가게 리스트
+    var SearchedPlaceList : LiveData<List<SearchedRestaurantItem>> = _SearchedPlaceList
+
+    val _SrotingLocation = MutableLiveData<SortingLocEntity>() // 현재 정령할 기준을 담음
+    var SrotingLocation : LiveData<SortingLocEntity> = _SrotingLocation
+
+    private val _SortLocText = MutableLiveData<String>()
+    var SortLocText : LiveData<String> = _SortLocText
+
+    private val _SortAccText = MutableLiveData<String>()
+    var SortAccText : LiveData<String> = _SortAccText
 
     private val _item = MutableLiveData<ItemAdapter>() // 가게 리스트
     var item : LiveData<ItemAdapter> = _item
 
+    var centerOfMapX : String? = null
+    var centerOfMapY : String? = null
     private var searchedKeyword  = ""
     var currentPage  = 1
     var isEnd  = true
 
-    //var item = ItemAdapter.Item(null, null)
 
     init {
         _isSearching.value = false //검색중 아님
         _isPreSearched.value = !prefs.all.isEmpty()
         _isProgress.value = false
 
+        _SortLocText.value = "내위치중심"
+        _SortAccText.value = "정확도순"
+
+    }
+
+    fun getCurrentGPSLoc(): Location? {
+        val manager = context.getSystemService(LOCATION_SERVICE) as LocationManager
+        if(manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+           // 위치 기준
+            if (ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(context, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED ) {
+
+                return manager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
+            }
+
+        }
+        // 맵 기준
+        return null
     }
 
     fun initList() {
@@ -68,22 +99,35 @@ class SearchViewModel @Inject constructor(
             Log.d("keyword","${searchedKeyword}")
             val response = searchRestaurantUseCase.getSearchedRestaurantList(
                 searchedKeyword,
-                "127.03596593951177",
-                "37.5071726244927",
+                _SrotingLocation.value!!.x,
+                _SrotingLocation.value!!.y,
                 1,
                 15,
-                "accuracy"
+                _SrotingLocation.value!!.sort
             )
-            Log.d("response","${response}")
             response.onSuccess {
-                Log.d("response","${it.documents.size}")
-                _SearchedPlaceList.value = it.documents
-                _item.value = ItemAdapter(_SearchedPlaceList.value!!, true)
                 isEnd = it.meta.is_end
+
+                // 카테고리 필터링
+                val placeList = mutableListOf<Document>()
+                it.documents.map {
+                    if(it.category_group_code == "CE7" || it.category_group_code == "FD6" || it.category_group_code == "SW8" ||
+                        it.category_group_code == "AT4" || it.category_group_code == "PO3") {
+                        placeList.add(it)
+                    }
+                }
+
+                // 어비로 서버로 다시 보내서 비건 유형 확인
+                searchRestaurantUseCase.getSearchedRestaurantVeganList(placeList).onSuccess {
+                    _SearchedPlaceList.value = it
+                    _item.value = ItemAdapter(true,_SearchedPlaceList.value!!,it.size)
+                }.onFailure {  }
+
             }
             _isProgress.value = false
         }
     }
+
 
     // usecase 응답 결과의 isEnd == false 일 경우, 다음 리스트 불러와 합침
     fun nextList() {
@@ -91,33 +135,40 @@ class SearchViewModel @Inject constructor(
         viewModelScope.launch {
             val response = searchRestaurantUseCase.getSearchedRestaurantList(
                 searchedKeyword,
-                "127.03596593951177",
-                "37.5071726244927",
+                _SrotingLocation.value!!.x,
+                _SrotingLocation.value!!.y,
                 currentPage,
                 15,
-                "accuracy"
+                _SrotingLocation.value!!.sort
             )
 
+            // 카카오에서 검색 결과 못 받아오는 경우 처리
             response.onSuccess {
-                val mergedPlants = _SearchedPlaceList.value!!.toMutableList()
-                    .apply { addAll(it.documents) }
-                _SearchedPlaceList.value = mergedPlants
-                _item.value = ItemAdapter(_SearchedPlaceList.value!!, false)
+                isEnd = it.meta.is_end
+
+                // 카테고리 필터링
+                val placeList = mutableListOf<Document>()
+                it.documents.map {
+                    if(it.category_group_code == "CE7" || it.category_group_code == "FD6" || it.category_group_code == "SW8" ||
+                        it.category_group_code == "AT4" || it.category_group_code == "PO3") {
+                        placeList.add(it)
+                    }
+                }
+
+                // 어비로 서버로 다시 보내서 비건 유형 확인 (실패하면 그냥 defualt 값으로)
+                searchRestaurantUseCase.getSearchedRestaurantVeganList(placeList).onSuccess {
+                    val mergedPlants = _SearchedPlaceList.value!!.toMutableList()
+                        .apply { addAll(it) }
+                    _SearchedPlaceList.value = mergedPlants
+                    _item.value = ItemAdapter(false,_SearchedPlaceList.value!!,it.size)
+
+                }.onFailure {
+                    // 카카오에서 검색 결과 못 받아오는 경우 처리
+                }
+
             }
             _isProgress.value = false
         }
-
-        /*
-        val currentPlantList = plantList.value ?: return
-        repository.next(currentPlantList) { palntList ->
-            // 기존 list와 다음 list를 더해줍니다.
-            val mergedPlants = currenPlantList.plants.toMutableList()
-                .apply { addAll(plantList.plants) }
-            plantList.plants = mergedPlants
-            _plantList.postValue(plantList)
-        }
-
-         */
 
     }
 
@@ -161,6 +212,30 @@ class SearchViewModel @Inject constructor(
         return false
 
 
+    }
+
+    fun onClickLocSort(view: View) {
+        // 내 위치 기준 // 맵 기준
+        _SortLocText.value = if(_SortLocText.value == "내 위치 중심") "지도 중심" else "내위치중심"
+        getCurrentGPSLoc()?.let {
+            _SrotingLocation.value!!.x = getCurrentGPSLoc()!!.longitude.toString()
+            _SrotingLocation.value!!.y = getCurrentGPSLoc()!!.latitude.toString()
+        } ?: run {
+            _SrotingLocation.value!!.x = centerOfMapX.toString()
+            _SrotingLocation.value!!.y = centerOfMapY.toString()
+        }
+
+        // 리사이클러뷰 다 제거하고 다시 호출
+        initList()
+    }
+
+    fun onClickAccSort(view: View) {
+        // 정확도 기준  // 거리순 기준
+        _SortAccText.value = if(_SrotingLocation.value!!.sort == "accuracy") "거리순" else "정확도순"
+        _SrotingLocation.value!!.sort = if(_SrotingLocation.value!!.sort == "accuracy") "distance" else "accuracy"
+
+        // 리사이클러뷰 다 제거하고 다시 호출
+        initList()
     }
 
     // 검색바 뒤로가기

@@ -11,12 +11,13 @@ import android.view.animation.AnimationUtils
 import android.widget.EditText
 import android.widget.TextView
 import androidx.core.content.ContextCompat
-import androidx.core.view.ViewCompat
 import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.android.aviro.R
-import com.android.aviro.data.entity.restaurant.SearchEntity
+import com.android.aviro.data.entity.restaurant.VeganType
+import com.android.aviro.domain.entity.SearchedRestaurantItem
+import com.android.aviro.domain.entity.VeganOptions
 import com.android.aviro.presentation.guide.GuidePagerAdapter
 import com.android.aviro.presentation.search.ItemAdapter
 import com.android.aviro.presentation.search.SearchAdapter
@@ -62,9 +63,6 @@ object BindingAdapter {
         } else if (button.id == R.id.editTextbirthday){
             button.background = if (animateOnChange == true ) ContextCompat.getDrawable(button.context, R.drawable.base_edittext_right) else ContextCompat.getDrawable(button.context, R.drawable.base_edittext_wrong)
 
-      /*  } else if (button.id == R.id.favorites_floatingButton){
-            button.background = if (animateOnChange == true ) ContextCompat.getDrawable(button.context, R.drawable.ic_floating_favorite_active) else ContextCompat.getDrawable(button.context, R.drawable.ic_floating_favorite_default)
-*/
         } else if (button.id == R.id.search_bar_left_icon){
             button.background = if (animateOnChange == true ) ContextCompat.getDrawable(button.context, R.drawable.ic_arrow_left) else ContextCompat.getDrawable(button.context, R.drawable.ic_search)
 
@@ -188,6 +186,23 @@ object BindingAdapter {
     }
 
     @JvmStatic
+    @BindingAdapter("app:placeVeganTypeIcon")
+    fun setVeganTypeIconBG(view: View, type : VeganOptions) {
+       if(type.allVegan == true) {
+           view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_pin_type_green)
+       } else if(type.someMenuVegan == true) {
+           view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_pin_type_orange)
+       } else if(type.ifRequestVegan == true) {
+            view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_pin_type_yellow)
+       } else {
+           view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_pin_type_default)
+       }
+
+
+    }
+
+
+    @JvmStatic
     @BindingAdapter("app:visibilityChanged")
     fun setVisibilityChanged(view: View, isVisible : Boolean) {
         view.visibility = if (isVisible == true ) VISIBLE else GONE
@@ -222,22 +237,28 @@ object BindingAdapter {
 
     @JvmStatic
     @BindingAdapter("app:items")
-    fun setList(recyclerView: RecyclerView, items:ItemAdapter?) { //List<SearchEntity>?
+    fun setList(recyclerView: RecyclerView, items:ItemAdapter?) { // items는 모든 아이템
         items?.let { // items 이 null이 아니면
             // 어댑터에 아이템 셋팅
             // 기존 검색 리스트 삭제 (완전히 새로운 키워드 들어올때만)
                 if (items.isNewKeyword == true) {
                     Log.d("BindingAdapter","isNewKeyword")
                     recyclerView.removeAllViews()
-                    (recyclerView.adapter as SearchAdapter).searchedList = items.itemList as MutableList<SearchEntity>
+                    (recyclerView.adapter as SearchAdapter).searchedList = items.itemList as MutableList<SearchedRestaurantItem>
                 } else {
+                    // 동기화 잘 되는지 확인
                     Log.d("BindingAdapter", "add")
-                    val currentPosition = (recyclerView.adapter as SearchAdapter).itemCount
-                    (recyclerView.adapter as SearchAdapter).searchedList!!.addAll(items.itemList)
+                    // 현재 포지션 밑으로 추가해서 달아야 함
+                    val currentPosition = (recyclerView.adapter as SearchAdapter).itemCount // 현재 15개 존재
+                    Log.d("BindingAdapter currentPosition", "${currentPosition}")
+
+                    (recyclerView.adapter as SearchAdapter).searchedList!!.addAll(items.itemList.slice(currentPosition..items.itemList.size-1))
+                    Log.d("BindingAdapter newPosition", "${items.itemList.size}")
+
                     (recyclerView.adapter as SearchAdapter).notifyItemRangeInserted(
-                        currentPosition,
-                        items.itemList.size
-                    )
+                        currentPosition, // 새로 삽입될 포지션
+                        items.addingCount // 삽입된 아이템의 개수
+                     )
                 }
 
         }
