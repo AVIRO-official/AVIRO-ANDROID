@@ -2,13 +2,12 @@ package com.android.aviro.data.entity.restaurant
 
 import com.google.gson.annotations.SerializedName
 
-data class VeganTypeResponse (
+data class VeganOfSearchingResponse (
 
         @SerializedName("statusCode")
         val statusCode : Int,
         @SerializedName("body")
         val body : List<VeganType>,
-
 
         )
 

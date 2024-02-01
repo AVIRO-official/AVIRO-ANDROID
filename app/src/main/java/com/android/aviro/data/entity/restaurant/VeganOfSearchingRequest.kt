@@ -2,7 +2,7 @@ package com.android.aviro.data.entity.restaurant
 
 import com.google.gson.annotations.SerializedName
 
-data class VeganTypeRequest(
+data class VeganOfSearchingRequest(
     @SerializedName("placeArray")
     val placeArray : List<PlaceInfo>
 

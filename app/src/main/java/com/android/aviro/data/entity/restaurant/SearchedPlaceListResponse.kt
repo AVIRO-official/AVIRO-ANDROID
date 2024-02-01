@@ -3,7 +3,7 @@ package com.android.aviro.data.entity.restaurant
 import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
-data class SearchRestaurantResponse (
+data class SearchedPlaceListResponse (
         @SerializedName("id")
         val id : String,
         @SerializedName("meta")

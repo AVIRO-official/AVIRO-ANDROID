@@ -7,9 +7,9 @@ import com.android.aviro.data.datasource.restaurant.RestaurantLocalDataSource
 import com.android.aviro.data.entity.base.DataBodyResponse
 import com.android.aviro.data.entity.base.MappingResult
 import com.android.aviro.data.entity.marker.MarkerEntity
-import com.android.aviro.data.entity.restaurant.ReataurantReponseDTO
-import com.android.aviro.data.entity.restaurant.RestaurantRequestDTO
-import com.android.aviro.data.entity.restaurant.SearchRestaurantResponse
+import com.android.aviro.data.entity.restaurant.*
+import com.android.aviro.domain.entity.SearchedRestaurantItem
+import com.android.aviro.domain.entity.VeganOptions
 import com.android.aviro.domain.repository.RestaurantRepository
 import java.time.LocalDateTime
 import java.time.format.DateTimeFormatter
@@ -114,8 +114,39 @@ class RestaurantRepositoryImp @Inject constructor (
 
 
     // 키워드로 가게를 검색함
-    override suspend fun searchRestaurant(keyword : String, x : String, y : String, page : Int, size : Int, sort : String) :Result<SearchRestaurantResponse> {
+    override suspend fun searchRestaurant(keyword : String, x : String, y : String, page : Int, size : Int, sort : String) :Result<SearchedPlaceListResponse> {
         return restaurantAviroDataSource.getSearchedRestaurant(keyword, x, y, page, size, sort)
+
+    }
+
+    // 검색한 가게들의 비건 유형을 받아옴
+    override suspend fun getVeganTypeOfSearching(SearchedPlaceRawList : List<Document>) : Result<List<SearchedRestaurantItem>> {
+        val placeArray = mutableListOf<PlaceInfo>()
+        val result = mutableListOf<SearchedRestaurantItem>()
+
+        SearchedPlaceRawList.map {
+            val info = PlaceInfo(it.place_name, it.x.toDouble(), it.y.toDouble())
+            placeArray.add(info)
+
+            // SearchedRestaurantItem 형태로 바꿔줌
+            result.add(SearchedRestaurantItem(null, it.place_name, it.road_address_name, it.distance, it.x, it.y, VeganOptions(false, false, false)))
+        }
+
+        val request = VeganOfSearchingRequest(placeArray)
+        restaurantAviroDataSource.getVeganTypeOfSearching(request).onSuccess {
+            if(it.statusCode == 200) {
+                // 등록되어 있는 가게만 반환
+                it.body.map {
+                    if (it.index in result.indices) {
+                        result[it.index].placeId = it.placeId
+                        result[it.index].veganType.allVegan = it.allVegan
+                        result[it.index].veganType.someMenuVegan = it.someMenuVegan
+                        result[it.index].veganType.ifRequestVegan = it.ifRequestVegan
+                    }
+                }
+            }
+        }
+        return Result.success(result)
 
     }
 

@@ -1,6 +1,6 @@
 package com.android.aviro.data.api
 
-import com.android.aviro.data.entity.restaurant.SearchRestaurantResponse
+import com.android.aviro.data.entity.restaurant.SearchedPlaceListResponse
 import retrofit2.http.GET
 import retrofit2.http.Query
 
@@ -16,5 +16,5 @@ interface KakaoService {
         @Query("size") size : Int, // 한 페이지에 보여질 문서의 개수
         @Query("sort") sort : String,  //Enum("accuracy", "distance")
 
-    ) : Result<SearchRestaurantResponse>
+    ) : Result<SearchedPlaceListResponse>
 }
