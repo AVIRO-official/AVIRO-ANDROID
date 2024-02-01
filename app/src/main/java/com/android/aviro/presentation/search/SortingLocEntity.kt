@@ -1,4 +1,7 @@
 package com.android.aviro.presentation.search
 
-class SortingLocEntity {
-}
+data class SortingLocEntity(
+    var x : String,
+    var y : String,
+    var sort : String
+)

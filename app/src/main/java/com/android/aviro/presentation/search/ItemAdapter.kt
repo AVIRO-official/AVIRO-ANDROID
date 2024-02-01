@@ -1,9 +1,11 @@
 package com.android.aviro.presentation.search
 
-import com.android.aviro.data.entity.restaurant.SearchEntity
+import com.android.aviro.domain.entity.SearchedRestaurantItem
 
 data class ItemAdapter (
 
-    var itemList: List<SearchEntity>,
-    var isNewKeyword: Boolean
+    var isNewKeyword: Boolean,
+    var itemList: List<SearchedRestaurantItem>,
+    var addingCount : Int
+
 )
