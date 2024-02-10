@@ -1,4 +1,4 @@
 package com.android.aviro.domain.usecase.retaurant
 
-class CreateRestaurant {
+class CreateRestaurantUseCase {
 }

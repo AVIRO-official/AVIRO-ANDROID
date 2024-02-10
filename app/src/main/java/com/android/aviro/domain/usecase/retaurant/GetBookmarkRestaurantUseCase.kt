@@ -10,7 +10,7 @@ import com.android.aviro.domain.repository.RestaurantRepository
 import javax.inject.Inject
 
 
-class GetBookmarkRestaurant @Inject constructor (
+class GetBookmarkRestaurantUseCase @Inject constructor (
     private val restaurantRepository: RestaurantRepository,
     private val memberRepository : MemberRepository
 ){
