@@ -124,6 +124,7 @@
         </LinearLayout>
         <!-- 메뉴 입력 끝 -->
 
+        <!-- 메뉴 입력 / 삭제버튼 -->
         <LinearLayout
             android:id="@+id/cancelMenuBtn"
             android:layout_width="24dp"
