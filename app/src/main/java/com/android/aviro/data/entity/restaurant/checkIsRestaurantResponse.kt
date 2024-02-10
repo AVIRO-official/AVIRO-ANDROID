@@ -1,3 +1,13 @@
 package com.android.aviro.data.entity.restaurant
 
-data class checkIsRestaurantResponse()
+import com.google.gson.annotations.SerializedName
+
+data class checkIsRestaurantResponse(
+
+    @SerializedName("statusCode")
+    val statusCode: Int,
+
+    @SerializedName("registered")
+    val registered: Boolean
+)
+

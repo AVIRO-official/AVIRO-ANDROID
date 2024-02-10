@@ -9,6 +9,7 @@ interface MarkerMemoryCacheDataSource {
 
     fun getSize() : Int
     fun getAllMarker() : List<MarkerEntity>?
+    fun getMarker(key_list : List<String>) : List<MarkerEntity>
     fun createMarker(updated_marker : LocOfRestaurant) : MarkerEntity
     fun updateMarker(marker_id : List<LocOfRestaurant>) : List<MarkerEntity>
     fun deleteMarker(marker_id : List<String>)

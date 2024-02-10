@@ -1,3 +1,17 @@
 package com.android.aviro.data.entity.member
 
-data class NicknameUpdateRequest()
+import android.os.Parcelable
+import com.google.gson.annotations.SerializedName
+import kotlinx.parcelize.Parcelize
+
+
+@Parcelize
+data class NicknameUpdateRequest(
+
+    @SerializedName("userId")
+    val userId: String,
+
+    @SerializedName("nickname")
+    val nickname: String,
+
+    ): Parcelable

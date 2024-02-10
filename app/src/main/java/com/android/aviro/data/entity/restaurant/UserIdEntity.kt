@@ -1,3 +1,9 @@
 package com.android.aviro.data.entity.restaurant
 
-data class UserIdEntity()
+import com.google.gson.annotations.SerializedName
+import kotlinx.serialization.Serializer
+
+data class UserIdEntity(
+    @SerializedName("userId")
+    val userId: String
+)

@@ -1,4 +1,11 @@
 package com.android.aviro.data.entity.restaurant
 
-class RestaurantReview {
-}
+import com.android.aviro.domain.entity.ReviewEntity
+import com.google.gson.annotations.SerializedName
+
+data class RestaurantReview (
+
+        @SerializedName("commentArray")
+        val commentArray: List<ReviewEntity>
+
+        )

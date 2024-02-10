@@ -2,6 +2,7 @@ package com.android.aviro.data.datasource.member
 
 import com.android.aviro.data.api.MemberService
 import com.android.aviro.data.entity.auth.SignResponseDTO
+import com.android.aviro.data.entity.base.BaseResponse
 import com.android.aviro.data.entity.base.DataBodyResponse
 import com.android.aviro.data.entity.member.*
 import com.android.aviro.data.entity.member.MemberEntity
@@ -21,14 +22,24 @@ class MemberDataSourceImp @Inject constructor (
         }
 
 
-    suspend override fun getActivityCount(requet : String) : Result<DataBodyResponse<MyInfoCountResponse>> {
-        return memberService.getCount(requet)
+    suspend override fun getActivityCount(request : String) : Result<DataBodyResponse<MyInfoCountResponse>> {
+        return memberService.getCount(request)
 
     }
 
-    suspend override fun getChallengeLevel(requet : String) : Result<MyInfoLevelResponse> {
-        return memberService.getChallengeLevel(requet)
+    suspend override fun getChallengeLevel(request : String) : Result<MyInfoLevelResponse> {
+        return memberService.getChallengeLevel(request)
 
     }
+
+    suspend override fun deleteMember(refresh_token : String) : Result<BaseResponse> {
+        return memberService.deleteUser(refresh_token)
+
+    }
+
+    suspend override fun updateNickname(request : NicknameUpdateRequest) : Result<BaseResponse> {
+        return memberService.updateNickname(request)
+    }
+
 
     }

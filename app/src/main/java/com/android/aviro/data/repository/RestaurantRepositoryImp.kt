@@ -97,7 +97,7 @@ class RestaurantRepositoryImp @Inject constructor (
 
         }
 
-    // 업데이트 이후 필요한 마커데이터만 가져옴
+    // 업데이트 이후 필요한 마커데이터만 가져옴 (화면에 새로 그려줄 마커)
     override fun getMarker(isInitMap : Boolean, reataurant_list : ReataurantReponseDTO) : List<MarkerEntity>? {
         var new_marker_list : List<MarkerEntity>? = null
         if(isInitMap) {
@@ -111,6 +111,11 @@ class RestaurantRepositoryImp @Inject constructor (
         return new_marker_list
     }
 
+    // 마커 데이터만 필요한 마커
+    override fun getMarkerForBookmark() : List<MarkerEntity>? { //bookmark_list : List<String>
+        //return markerCacheDataSource.getMarker(bookmark_list)
+        return markerCacheDataSource.getAllMarker()
+    }
 
 
     // 키워드로 가게를 검색함
@@ -150,13 +155,30 @@ class RestaurantRepositoryImp @Inject constructor (
 
     }
 
-    // 선택한 가게의 상세 정보를 불러옴
-    override suspend fun getRestaurantDetail() {
-
-
+    override suspend fun getBookmarkRestaurant(userId : String) : Result<BookmarkResponse> {
+        return restaurantAviroDataSource.getBookmarkRestaurant(userId) //UserIdEntity(userId)
     }
 
+    // 선택한 가게의 상세 정보를 불러옴
+    override suspend fun getRestaurantSummary(placeId : String) : MappingResult {
+        val response =  restaurantAviroDataSource.getRestaurantSummary(placeId)
 
+        lateinit var  result : MappingResult
+        response.onSuccess {
+            val code = it.statusCode
+            val data = it.data
+            if(code == 200 && data != null) {
+                result =  MappingResult.Success(it.statusCode, it.message, it.data)
+            } else {
+                result =  MappingResult.Error(it.statusCode, it.message)
+            }
+
+        }.onFailure {
+            result =  MappingResult.Error(0, it.message)
+        }
+
+        return result
+    }
 
 
     }
