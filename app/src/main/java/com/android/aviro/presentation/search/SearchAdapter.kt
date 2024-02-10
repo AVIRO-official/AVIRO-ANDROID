@@ -22,12 +22,9 @@ class SearchAdapter(): RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() { 
         // 가게 데이터 하나를 홀더에 셋팅해줄 때마다 그 레이아웃에 사용될 데이터 Entity가 있다면 그걸 데이터바인딩 해준다
 
     }
+
     override fun getItemCount() = searchedList?.size ?: 0
 
-    fun addItem() {
-
-
-    }
 
     // 뷰홀더 클래스
     class SearchViewHolder private constructor(val binding: SearchRestaurantItemBinding) : RecyclerView.ViewHolder(binding.root) {
@@ -42,7 +39,7 @@ class SearchAdapter(): RecyclerView.Adapter<SearchAdapter.SearchViewHolder>() { 
             }
 
             //binding.viewmodel = viewModel  // 뷰모델 데이터 바이딩
-            binding.executePendingBindings()
+            //binding.executePendingBindings()
         }
 
         companion object {

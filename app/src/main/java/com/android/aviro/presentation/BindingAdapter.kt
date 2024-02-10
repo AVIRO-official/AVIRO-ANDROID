@@ -9,6 +9,7 @@ import android.view.View.VISIBLE
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
 import android.widget.EditText
+import android.widget.ImageView
 import android.widget.TextView
 import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
@@ -21,7 +22,9 @@ import com.android.aviro.domain.entity.VeganOptions
 import com.android.aviro.presentation.guide.GuidePagerAdapter
 import com.android.aviro.presentation.search.ItemAdapter
 import com.android.aviro.presentation.search.SearchAdapter
+import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
+import java.net.URL
 
 object BindingAdapter {
 
@@ -51,14 +54,14 @@ object BindingAdapter {
         } else if (button.id == R.id.nextBtn ) {
             button.background = if (animateOnChange == true) ContextCompat.getDrawable(
                 button.context,
-                R.drawable.btn_next_activate
-            ) else ContextCompat.getDrawable(button.context, R.drawable.btn_next_non)
+                R.drawable.base_roundsquare_cobalt_30//btn_next_activate
+            ) else ContextCompat.getDrawable(button.context, R.drawable.base_roundsquare_gray6_30) //btn_next_non
 
         } else if (button.id == R.id.approveBtn1 || button.id == R.id.approveBtn2 || button.id == R.id.approveBtn3 ){
             button.background = if (animateOnChange == true ) ContextCompat.getDrawable(button.context, R.drawable.ic_check_activate) else ContextCompat.getDrawable(button.context, R.drawable.ic_check_non)
 
         } else if (button.id == R.id.male || button.id == R.id.female || button.id == R.id.others ) {
-            button.background = if (animateOnChange == true ) ContextCompat.getDrawable(button.context, R.drawable.base_edittext_round_square_activate) else ContextCompat.getDrawable(button.context, R.drawable.base_edittext_roundsquare_default)
+            button.background = if (animateOnChange == true ) ContextCompat.getDrawable(button.context, R.drawable.base_roundsquare_cobalt_30) else ContextCompat.getDrawable(button.context, R.drawable.base_roundsquare_gray6_30)
 
         } else if (button.id == R.id.editTextbirthday){
             button.background = if (animateOnChange == true ) ContextCompat.getDrawable(button.context, R.drawable.base_edittext_right) else ContextCompat.getDrawable(button.context, R.drawable.base_edittext_wrong)
@@ -112,7 +115,7 @@ object BindingAdapter {
         when(state) {
             "true" -> edittext.background = ContextCompat.getDrawable(edittext.context, R.drawable.base_edittext_right)
             "false" -> edittext.background = ContextCompat.getDrawable(edittext.context, R.drawable.base_edittext_wrong)
-            "default" -> edittext.background = ContextCompat.getDrawable(edittext.context, R.drawable.base_edittext_roundsquare_default)
+            "default" -> edittext.background = ContextCompat.getDrawable(edittext.context, R.drawable.base_roundsquare_gray6_30)
         }
     }
 
@@ -126,15 +129,40 @@ object BindingAdapter {
         }
     }
 
+
     @JvmStatic
     @BindingAdapter("app:textColorWR")
-    fun setTextColorWR(text: TextView, state: String) {
+    fun setTextColorByString(text: TextView, state: String) {
         if (state == "false") {
             text.setTextColor(ContextCompat.getColor(text.context, R.color.Warn_Red))
         } else {
             text.setTextColor(ContextCompat.getColor(text.context, R.color.Gray3))
         }
     }
+
+    @JvmStatic
+    @BindingAdapter("app:textColor")
+    fun setTextColorByBool(view: TextView, isValid: Boolean?) {
+        val id = view.id
+        if(id == R.id.nickname_notice) {
+            val is_valid = isValid ?: true
+            if (!is_valid) {
+                view.setTextColor(ContextCompat.getColor(view.context, R.color.Warn_Red))
+            } else {
+                view.setTextColor(ContextCompat.getColor(view.context, R.color.Gray2))
+            }
+        } else if(id == R.id.changeTextView || id == R.id.nextTextView) {
+            if (isValid == true) {
+                view.setTextColor(ContextCompat.getColor(view.context, R.color.Gray7))
+            } else {
+                view.setTextColor(ContextCompat.getColor(view.context, R.color.Gray3))
+            }
+        }
+
+
+    }
+
+
 
     @JvmStatic
     @BindingAdapter("app:setDotDrawable")
@@ -171,8 +199,22 @@ object BindingAdapter {
             view.background = if (isSelected == true) ContextCompat.getDrawable(view.context, R.drawable.card_vegantype_yellow) else ContextCompat.getDrawable(view.context, R.drawable.card_vegantype_yellow_default)
 
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:bgVeganType2")
+    fun setVeganTypeBG2(view: View, type : String?) {
+        type?.let {
+            when(type) {
+                "green" -> view.background =ContextCompat.getDrawable(view.context, R.drawable.ic_vegantype_box_green)
+                "orange" -> view.background =ContextCompat.getDrawable(view.context, R.drawable.ic_vegantype_box_orange)
+                "yellow" -> view.background =ContextCompat.getDrawable(view.context, R.drawable.ic_vegantype_box_yellow)
+            }
+        }
 
     }
+
+
     @JvmStatic
     @BindingAdapter("app:bgCheckBox")
     fun setCheckBoxBG(view: View, isSelected : Boolean) {
@@ -239,28 +281,31 @@ object BindingAdapter {
     @BindingAdapter("app:items")
     fun setList(recyclerView: RecyclerView, items:ItemAdapter?) { // items는 모든 아이템
         items?.let { // items 이 null이 아니면
-            // 어댑터에 아이템 셋팅
-            // 기존 검색 리스트 삭제 (완전히 새로운 키워드 들어올때만)
-                if (items.isNewKeyword == true) {
-                    Log.d("BindingAdapter","isNewKeyword")
-                    recyclerView.removeAllViews()
-                    (recyclerView.adapter as SearchAdapter).searchedList = items.itemList as MutableList<SearchedRestaurantItem>
-                } else {
-                    // 동기화 잘 되는지 확인
-                    Log.d("BindingAdapter", "add")
-                    // 현재 포지션 밑으로 추가해서 달아야 함
-                    val currentPosition = (recyclerView.adapter as SearchAdapter).itemCount // 현재 15개 존재
-                    Log.d("BindingAdapter currentPosition", "${currentPosition}")
+            // 검색 새로 함
+            if (items.isNewKeyword == true) {
+                recyclerView.removeAllViews() // 기존 검색 리스트 삭제
+                (recyclerView.adapter as SearchAdapter).searchedList = items.itemList as MutableList<SearchedRestaurantItem>
 
-                    (recyclerView.adapter as SearchAdapter).searchedList!!.addAll(items.itemList.slice(currentPosition..items.itemList.size-1))
-                    Log.d("BindingAdapter newPosition", "${items.itemList.size}")
+            }
+            // 무한 스크롤
+            else {
+                val currentPosition = (recyclerView.adapter as SearchAdapter).itemCount // 현재 아이템 총 갯수
+                // 리사이클러 어댑터의 아이텝 리스트에 추가
+                (recyclerView.adapter as SearchAdapter).searchedList!!.addAll(items.itemList.slice(currentPosition..items.itemList.size-1))
+                // 새로 들어온 아이템 홀더에서 바인딩 하도록 notify
+                (recyclerView.adapter as SearchAdapter).notifyItemRangeInserted(
+                    currentPosition, // 새로 삽입될 포지션
+                    items.addingCount // 삽입된 아이템의 개수
+                )
+            }
+        }
+    }
 
-                    (recyclerView.adapter as SearchAdapter).notifyItemRangeInserted(
-                        currentPosition, // 새로 삽입될 포지션
-                        items.addingCount // 삽입된 아이템의 개수
-                     )
-                }
-
+    @JvmStatic
+    @BindingAdapter("app:imageUrl")
+    fun setImage(view: View, image_url : URL?) {
+        image_url?.let {
+            Glide.with(view.context).load(image_url).into(view as ImageView)
         }
     }
 

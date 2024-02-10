@@ -93,8 +93,6 @@ class AuthRepositoryImp @Inject constructor(
     }
 
     override suspend fun removeTokens() {
-        // remote 제거
-        authDataSource.removeTokens(dataStoreDataSource.readDataStore("refresh_token")!!)
         // local 제거
         dataStoreDataSource.removeDataStore("access_token")
         dataStoreDataSource.removeDataStore("refresh_token")

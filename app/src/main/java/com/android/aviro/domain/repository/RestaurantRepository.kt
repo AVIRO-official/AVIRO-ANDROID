@@ -9,8 +9,11 @@ interface RestaurantRepository {
 
     suspend fun getRestaurantLoc(x : String, y : String, wide : String, time : String, isInitMap : Boolean) : MappingResult
     fun getMarker(isInitMap : Boolean, reataurant_list : ReataurantReponseDTO) : List<MarkerEntity>?
-    suspend fun getRestaurantDetail()
+    fun getMarkerForBookmark() : List<MarkerEntity>? //bookmark_list : List<String>
+    suspend fun getRestaurantSummary(placeId : String) : MappingResult
     suspend fun searchRestaurant(keyword : String, x : String, y : String, page : Int, size : Int, sort : String) : Result<SearchedPlaceListResponse>
     suspend fun getVeganTypeOfSearching(request : List<Document>) : Result<List<SearchedRestaurantItem>>
+    suspend fun getBookmarkRestaurant(userId : String) : Result<BookmarkResponse>
+
 
 }

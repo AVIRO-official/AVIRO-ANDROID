@@ -29,12 +29,20 @@ class RestaurantAviroDataSourceImp @Inject constructor (
          */
         }
 
+    override suspend fun getRestaurantSummary(placeId : String) : Result<DataBodyResponse<RestaurantSummary>> {
+        return restaurantService.getRestaurantSummary(placeId)
+    }
+
     override suspend fun getSearchedRestaurant(keyword : String, x : String, y : String, page : Int, size : Int, sort : String) : Result<SearchedPlaceListResponse> {
         return kakaoService.searchRestaurant(keyword, x, y, page, size, sort)
     }
 
     override suspend fun getVeganTypeOfSearching(request : VeganOfSearchingRequest) : Result<VeganOfSearchingResponse> {
         return restaurantService.getVeganOfPlace(request)
+    }
+
+    override suspend fun getBookmarkRestaurant(request : String) : Result<BookmarkResponse> { //UserIdEntity
+        return restaurantService.getBookmarkList(request)
     }
 
     }

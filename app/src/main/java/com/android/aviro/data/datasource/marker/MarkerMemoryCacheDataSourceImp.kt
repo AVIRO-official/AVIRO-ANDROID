@@ -7,6 +7,7 @@ import android.os.Looper
 import android.util.Log
 import android.util.LruCache
 import androidx.annotation.UiThread
+import androidx.lifecycle.LifecycleCoroutineScope
 import com.android.aviro.R
 import com.android.aviro.data.datasource.restaurant.RestaurantLocalDataSource
 import com.android.aviro.data.entity.marker.MarkerEntity
@@ -17,6 +18,9 @@ import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
 import dagger.hilt.android.qualifiers.ApplicationContext
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.launch
 import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
@@ -34,6 +38,7 @@ class MarkerMemoryCacheDataSourceImp @Inject constructor(
     * 2. 마커 데이터 모두 반환하기
     * 3. 마커 데이터 업데이트하기 -> 새롭게 생기는 데이터만 반환하기
     * 4. 마커 데이터 제거하기
+    * 5. 마커 필터링 하기 (즐찾, 카테고리) -> 선택된 애들만 남기고 필요하면 이미지 바꿔주기, 아닌 애들은 null 처리 해주기 (다시 그려줄때마다 반환)
     */
 
 
@@ -64,19 +69,6 @@ class MarkerMemoryCacheDataSourceImp @Inject constructor(
         return newMarker // 생성한 마커 반환
     }
 
-    // 화면에 표시하고 싶은 마커만 반환
-    override fun getAllMarker() : List<MarkerEntity> { // 그냥 모든 마커 다 불러옴
-        val custom_marker_list = arrayListOf<MarkerEntity>()
-        val allKeys = memoryCache.snapshot().keys
-
-        // 각 키에 대해 데이터 가져오기
-        for (key in allKeys) {
-            custom_marker_list.add(memoryCache.get(key))
-        }
-
-        return custom_marker_list
-
-    }
 
     // 업데이트 된 아이들을 다시 그릴 필요가 있는지가 궁금함
     override fun updateMarker(marker_id : List<LocOfRestaurant>) : List<MarkerEntity> {
@@ -87,10 +79,30 @@ class MarkerMemoryCacheDataSourceImp @Inject constructor(
         marker_id.map {
             val markerEntity = memoryCache.get(it.placeId)
 
-
             if(markerEntity == null) {   // 업데이트 하려는 마커가 없음
                 new_marker_list.add(createMarker(it)) // 마커 새로 생성
             } else {
+                CoroutineScope(Dispatchers.Main).launch {
+                    markerEntity.marker.position = LatLng(it.y, it.x)
+
+                    if (it.allVegan) {
+                        markerEntity.marker.icon =
+                            OverlayImage.fromResource(R.drawable.marker_default_green)
+                        markerEntity.veganType = "green"
+                    } else if (it.someMenuVegan) {
+                        markerEntity.marker.icon =
+                            OverlayImage.fromResource(R.drawable.marker_default_orange)
+                        markerEntity.veganType = "orange"
+                    } else {
+                        markerEntity.marker.icon =
+                            OverlayImage.fromResource(R.drawable.marker_default_yellow)
+                        markerEntity.veganType = "yellow"
+                    }
+
+                    // 참조되어 있으면 굳이 필요없을지도...?
+                    memoryCache.put(it.placeId, markerEntity)
+                }
+                /*
                 Handler(Looper.getMainLooper()).post {
                     markerEntity.marker.position = LatLng(it.y, it.x)
 
@@ -112,6 +124,8 @@ class MarkerMemoryCacheDataSourceImp @Inject constructor(
 
 
                 }
+
+                 */
             }
 
         }
@@ -119,17 +133,48 @@ class MarkerMemoryCacheDataSourceImp @Inject constructor(
 
     }
 
+    // 화면에 표시하고 싶은 마커만 반환
+    override fun getAllMarker() : List<MarkerEntity> { // 그냥 모든 마커 다 불러옴
+        val custom_marker_list = arrayListOf<MarkerEntity>()
+        val allKeys = memoryCache.snapshot().keys
+
+        // 각 키에 대해 데이터 가져오기
+        for (key in allKeys) {
+            custom_marker_list.add(memoryCache.get(key))
+        }
+
+        return custom_marker_list
+
+    }
+
+    override fun getMarker(key_list : List<String>) : List<MarkerEntity> {
+        val custom_marker_list = arrayListOf<MarkerEntity>()
+        // key에 대응하는 마커가 없는 경우 -> 일관성 무너진 것
+        key_list.map { key ->
+            custom_marker_list.add(memoryCache.get(key))
+        }
+
+        return custom_marker_list
+    }
+
     override fun deleteMarker(marker_id : List<String>) {
         marker_id.map {
-            val markerEntity = memoryCache.get("4D51A05F-1A90-490D-85CF-9EA9D3B44464")
+            val markerEntity = memoryCache.get(it) //"4D51A05F-1A90-490D-85CF-9EA9D3B44464"
 
             if(markerEntity != null) {
                 Log.d("deleteMarker","${markerEntity}")
                 // main thread에서만 가능
+                CoroutineScope(Dispatchers.Main).launch {
+                    Log.d("deleteMarker","Lopper 실행")
+                    markerEntity.marker.map = null
+                }
+                // 마커에 표시된 지도 객체 없애주기
+                /*
                 Handler(Looper.getMainLooper()).post {
                     Log.d("deleteMarker","Lopper 실행")
                     markerEntity.marker.map = null
-                } // 마커에 표시된 지도 객체 없애주기
+                }
+                 */
 
                 memoryCache.remove(it)
 
@@ -138,8 +183,6 @@ class MarkerMemoryCacheDataSourceImp @Inject constructor(
         }
 
     }
-
-
 
 
 }

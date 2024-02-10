@@ -1,10 +1,14 @@
 package com.android.aviro.data.repository
 
+import com.android.aviro.data.api.MemberService
+import com.android.aviro.data.datasource.auth.AuthDataSource
 import com.android.aviro.data.datasource.datastore.DataStoreDataSource
 import com.android.aviro.data.datasource.member.MemberDataSource
+import com.android.aviro.data.entity.base.BaseResponse
 import com.android.aviro.data.entity.base.DataBodyResponse
 import com.android.aviro.data.entity.base.MappingResult
 import com.android.aviro.data.entity.member.*
+import com.android.aviro.domain.repository.AuthRepository
 import com.android.aviro.domain.repository.MemberRepository
 import javax.inject.Inject
 
@@ -60,6 +64,10 @@ class MemberRepositoryImp @Inject constructor (
         return memberDataSource.checkNickname(nickname)
     }
 
+    suspend override fun updateNickname(request : NicknameUpdateRequest) : Result<BaseResponse> {
+        return memberDataSource.updateNickname(request)
+    }
+
     override suspend fun getCount(userId : String) : Result<DataBodyResponse<MyInfoCountResponse>> {
         return memberDataSource.getActivityCount(userId)
 
@@ -70,5 +78,17 @@ class MemberRepositoryImp @Inject constructor (
 
     }
 
+    // 유저 정보 삭제 (로그아웃, 탈퇴)
+    override suspend fun removeMemberInfoFromLocal() {
+        // 유저 정보 제거
+        dataStoreDataSource.removeDataStore("user_id")
+        dataStoreDataSource.removeDataStore("user_name")
+        dataStoreDataSource.removeDataStore("user_email")
+        dataStoreDataSource.removeDataStore("nickname")
+    }
+
+    override suspend fun deleteMember(refresh_token : String) : Result<BaseResponse> {
+         return memberDataSource.deleteMember(refresh_token)
+    }
 
 }

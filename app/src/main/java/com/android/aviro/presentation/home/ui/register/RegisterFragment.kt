@@ -1,32 +1,19 @@
 package com.android.aviro.presentation.home.ui.register
 
-import android.annotation.SuppressLint
-import android.app.Activity
 import android.content.Context
-import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
 import android.util.Log
 import android.view.*
-import android.view.animation.AnimationUtils
-import android.widget.ArrayAdapter
-import android.widget.LinearLayout
-import androidx.activity.viewModels
-import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 import androidx.core.view.size
-import androidx.databinding.DataBindingUtil
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
-import androidx.hilt.navigation.fragment.hiltNavGraphViewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.android.aviro.R
 import com.android.aviro.databinding.*
-import com.android.aviro.presentation.entity.MenuEntity
-import com.android.aviro.presentation.home.Home
-import com.android.aviro.presentation.home.ui.mypage.MypageViewModel
-import com.google.android.material.bottomsheet.BottomSheetBehavior
+import com.android.aviro.domain.entity.MenuEntity
 import java.util.*
 import kotlin.collections.HashMap
 

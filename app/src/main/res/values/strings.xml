@@ -12,6 +12,8 @@
     <string name="terms2"><u>개인정보 수집 및 이용 동의 (필수)</u></string>
     <string name="terms3"><u>위치기반 서비스 이용약관 동의 (필수)</u></string>
 
+    <string name="challenge_tree">%1$s 님의 나무</string>
+
     <string name="apple_service_id">SeonghunJeon.VeganRestaurant.SignIn</string>
     <string name="apple_client_id">SeonghunJeon.VeganRestaurant</string>
     <string name="apple_id">C4K2HXA435.SeonghunJeon.VeganRestaurant</string>

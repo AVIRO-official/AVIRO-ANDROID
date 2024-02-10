@@ -4,10 +4,21 @@
     <style name="Base.Theme.AVIRO" parent="Theme.AppCompat.Light.NoActionBar">
         <!-- Customize your light theme here. -->
         <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="bottomSheetDialogTheme">@style/AppBottomSheetDialogTheme</item>
     </style>
 
     <style name="Theme.AVIRO" parent="Base.Theme.AVIRO" />
     <style name="AVIRO.Dialog" parent="Theme.Material3.Light.NoActionBar"></style>
+
+    <style name="AppBottomSheetDialogTheme"
+        parent="Theme.Design.Light.BottomSheetDialog">
+        <item name="bottomSheetStyle">@style/AppModalStyle</item>
+    </style>
+
+    <style name="AppModalStyle"
+        parent="Widget.Design.BottomSheet.Modal">
+        <item name="android:background">@drawable/base_top_roundsquare_white_30</item>
+    </style>
 
     <!--Bottom Sheet-->
 

@@ -11,7 +11,7 @@ import dagger.hilt.android.AndroidEntryPoint
 @AndroidEntryPoint
 class Search : AppCompatActivity() {
 
-    private lateinit var binding:ActivitySearchBinding
+    private lateinit var binding: ActivitySearchBinding
 
     private val viewmodel: SearchViewModel by viewModels()
 
@@ -59,9 +59,11 @@ class Search : AppCompatActivity() {
                 }
 
             }
-
         })
 
+        binding.searchbarCancleBtn.setOnClickListener {
+            binding.EditTextSearchBar.text = null
+        }
 
 
         binding.backBtn.setOnClickListener {

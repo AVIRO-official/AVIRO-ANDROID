@@ -11,41 +11,18 @@
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
-    android:id="@+id/fragment_mypage_main"
+    android:id="@+id/fragment_challenge_main"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/Gray7"
     tools:context=".presentation.home.ui.mypage.MypageFragment">
 
-        <androidx.appcompat.widget.Toolbar
-            android:id="@+id/toolbar"
-            android:layout_width="match_parent"
-            android:layout_height="60dp"
-            android:background="@color/Gray7"
-            tools:ignore="MissingConstraints">
-            <TextView
-                android:id="@+id/titleTextView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:text="챌린지"
-                android:textColor="@color/Gray0"
-                android:textSize="18sp"
-                android:textStyle="bold">
-            </TextView>
-            <TextView
-                android:id="@+id/mypageBtn"
-                android:layout_width="24dp"
-                android:layout_height="24dp"
-                android:layout_gravity="end"
-                android:layout_marginEnd="16dp"
-                android:background="@drawable/ic_mypage"
-                android:textSize="18sp"
-                app:layout_constraintTop_toTopOf="parent"
-                app:layout_constraintEnd_toEndOf="parent"/>
-        </androidx.appcompat.widget.Toolbar>
-
-
+    <ScrollView
+        android:id="@+id/challeng_scroll"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
 
         <LinearLayout
             android:id="@+id/linearLayout1"
@@ -53,7 +30,39 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@color/Gray7"
-            app:layout_constraintTop_toBottomOf="@+id/toolbar">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@+id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@color/Gray7"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+
+                <TextView
+                    android:id="@+id/titleTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:text="챌린지"
+                    android:textColor="@color/Gray0"
+                    android:textSize="18sp"
+                    android:textStyle="bold"/>
+                <TextView
+                    android:id="@+id/mypageBtn"
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:layout_gravity="end"
+                    android:layout_marginEnd="16dp"
+                    android:background="@drawable/ic_mypage"
+                    android:textSize="18sp"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintTop_toTopOf="parent" />
+            </androidx.appcompat.widget.Toolbar>
+
+
 
             <TextView
                 android:id="@+id/periodTextView"
@@ -93,17 +102,17 @@
                     android:textColor="@color/Gray0"
                     android:textSize="32sp"
                     tools:ignore="HardcodedText" />
+
                 <Button
                     android:id="@+id/infoBtn"
                     android:layout_width="20dp"
                     android:layout_height="20dp"
-                    android:layout_toEndOf="@id/subTitleTextView"
                     android:layout_centerVertical="true"
                     android:layout_marginStart="8dp"
+                    android:layout_toEndOf="@id/subTitleTextView"
                     android:background="@drawable/ic_info"/>
 
             </RelativeLayout>
-
 
             <TextView
                 android:id="@+id/nicknameTextView"
@@ -111,7 +120,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_gravity="center"
-                android:text="@{viewmodel.nickname}"
+                android:text="@{@string/challenge_tree(viewmodel.nickname)}"
                 android:textColor="@color/Gray0"
                 android:textSize = "20sp"
                 android:fontFamily="@font/pretendard_semibold"
@@ -135,12 +144,12 @@
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:layout_marginTop="87dp"
+                        android:layout_marginTop="83dp"
                         android:layout_gravity="center"
                         android:fontFamily="@font/pretendard_semibold"
                         android:textColor="@color/Gray0"
                         android:textSize="17sp"
-                        android:text="TextView" />
+                        android:text="@{viewmodel.challengeRank}"/>
                     <TextView
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -149,20 +158,51 @@
                         android:fontFamily="@font/pretendard_medium"
                         android:textColor="@color/Gray2"
                         android:textSize="15sp"
-                        android:text="" />
+                        android:text="@{viewmodel.challengeLevel}" />
                     <ProgressBar
                         android:id="@+id/progressBar"
-                        style="?android:attr/progressBarStyleHorizontal"
                         android:layout_width="match_parent"
-                        android:layout_height="wrap_content" />
+                        android:layout_height="6dp"
+                        android:layout_marginTop="20dp"
+                        android:layout_marginStart="16dp"
+                        android:layout_marginEnd="16dp"
+                        android:max="@{viewmodel.challengeLevelInfo.pointForNext}"
+                        android:progress="@{viewmodel.challengeLevelInfo.point}"
+                        style="?android:attr/progressBarStyleHorizontal"
+                        android:progressDrawable="@drawable/challenge_progressbar" />
+                    <!--viewmodel.challengeLevelInfo.pointForNext
+                    @{viewmodel.challengeLevelInfo.point}-->
 
-                </LinearLayout>
                 <LinearLayout
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="5dp"
+                    android:layout_gravity="end"
+                    android:orientation="horizontal" >
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:textColor="@color/Cobalt"
+                        android:textSize="15sp"
+                        android:text="@{viewmodel.challengeMyPoint}" />
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginEnd="16dp"
+                        android:fontFamily="@font/pretendard_medium"
+                        android:textColor="@color/Gray3"
+                        android:textSize="15sp"
+                        android:text="@{viewmodel.challengeNextPoint}"/>
+                </LinearLayout>
+                </LinearLayout>
+                <ImageView
                     android:layout_width="150dp"
                     android:layout_height="150dp"
                     android:layout_gravity="center_horizontal"
                     android:background="@drawable/frame_challenge_circle"
-                    android:orientation="vertical" />
+                    android:orientation="vertical"
+                    app:imageUrl="@{viewmodel.challengeLevelInfo.image}"/>
             </FrameLayout>
 
             <!-- 나의 활동 -->
@@ -203,7 +243,7 @@
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/pretendard_bold"
                 android:gravity="center"
-                android:text="@{viewmodel.registerAmount + '개'}"
+                android:text="@{viewmodel.registerAmount}"
                 android:textColor="@color/Gray0"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -237,7 +277,7 @@
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/pretendard_bold"
                 android:gravity="center"
-                android:text="@{viewmodel.reviewAmount + '개'}"
+                android:text="@{viewmodel.reviewAmount}"
                 android:textColor="@color/Gray0"
                 android:textSize="20sp" />
         </LinearLayout>
@@ -273,12 +313,13 @@
                 android:layout_gravity="center_horizontal"
                 android:fontFamily="@font/pretendard_bold"
                 android:gravity="center"
-                android:text="@{viewmodel.bookmarkAmount + '개'}"
+                android:text="@{viewmodel.bookmarkAmount}"
                 android:textColor="@color/Gray0"
                 android:textSize="20sp" />
         </LinearLayout>
     </LinearLayout>
         </LinearLayout>
+    </ScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

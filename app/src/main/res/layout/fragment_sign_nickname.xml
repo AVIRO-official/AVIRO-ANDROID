@@ -12,7 +12,8 @@
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:background="@color/Gray7">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -25,10 +26,10 @@
             android:id="@+id/mainTextView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="반가워요!\n닉네임을 정해주세요."
             android:textAppearance="@style/TextAppearance.AppCompat.Body1"
             android:textColor="@color/Cobalt"
             android:fontFamily="@font/pretendard_bold"
+            android:text="반가워요!\n닉네임을 정해주세요."
             android:textSize="24sp"
             android:layout_marginStart="30dp"
             android:layout_marginTop="20dp"
@@ -83,21 +84,22 @@
                 android:orientation="horizontal">
                 <TextView
                     android:id="@+id/nickname_notice"
-                    android:layout_width="wrap_content"
+                    android:layout_width="0dp"
                     android:layout_height="wrap_content"
+                    android:layout_weight="1"
                     android:layout_marginStart="10dp"
                     android:textSize="13sp"
                     android:fontFamily="@font/pretendard_regular"
-                    android:textColor="@{viewmodel.nicknameNoticeTextColor}"
+                    app:textColor="@{viewmodel.isNicknameValid}"
                     android:text='@{viewmodel.nicknameNoticeText}' />
                 <TextView
-                    android:id="@+id/nickname_account"
+                    android:id="@+id/nickname_count"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="26dp"
                     android:textSize="13sp"
                     android:fontFamily="@font/pretendard_regular"
-                    android:text='@{viewmodel.nicknameAccountText}'/>
+                    android:text='@{viewmodel.nicknameCountText}'/>
 
             </LinearLayout>
 
@@ -105,16 +107,28 @@
 
         <LinearLayout
             android:id="@+id/nextBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
             android:orientation="vertical"
+            android:layout_marginBottom="25dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
             android:background = "@{viewmodel.isNicknameValid}"
             android:enabled="@{viewmodel.isNicknameValid}"
-            android:layout_marginBottom="25dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            tools:ignore="MissingConstraints"></LinearLayout>
+            tools:ignore="MissingConstraints">
+            <TextView
+                android:id="@+id/nextTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="다음으로"
+                android:fontFamily="@font/pretendard_semibold"
+                android:textSize="18sp"
+                app:textColor="@{viewmodel.isNicknameValid}" />
+        </LinearLayout>
         <!--android:onClick="@{() -> viewmodel.onClick(nextBtn)}"-->
 
 

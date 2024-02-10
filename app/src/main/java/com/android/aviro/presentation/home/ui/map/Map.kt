@@ -15,6 +15,7 @@ import android.view.*
 import android.view.View.GONE
 import android.view.View.VISIBLE
 import androidx.core.app.ActivityCompat
+import androidx.core.content.ContextCompat
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.viewModels
 import androidx.lifecycle.Observer
@@ -94,22 +95,46 @@ class Map : Fragment(), OnMapReadyCallback {
 
         binding.viewmodel = viewmodel
         binding.lifecycleOwner = this
+        binding.bottomSheet.viewmodel = viewmodel
 
         val bottomSheet = binding.bottomSheetLayout
+        // bottomSheet로부터 bottomSheet 동작을 제어할 수 있는 Behavior 추출
         val persistenetBottomSheet = BottomSheetBehavior.from(bottomSheet)
+
+
         persistenetBottomSheet.state = STATE_HIDDEN
+        binding.mapFragment.setBottomSheetBehavior(persistenetBottomSheet)
         gestureDetector = GestureDetector(context, GestureListener())
 
         binding.bottomSheetLayout.setOnTouchListener { _, event ->
             gestureDetector.onTouchEvent(event)
         }
 
+        viewmodel.selectedMarker.observe(this, androidx.lifecycle.Observer {
+            // 검색바 텍스트 설정
+            if(it == null){
+                binding.searchbarTextView.text = "어디로 이동할까요?"
+                binding.searchbarTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.Gray3))
+            } else {
 
-    viewmodel.selectedMarker.observe(this, androidx.lifecycle.Observer {
-            viewmodel._isShowBottomSheetTab.value = false
-            persistenetBottomSheet.state = STATE_COLLAPSED
-            step = 1
+                viewmodel.getRestaurantSummary()
+                // 바텀시트 UP
+                viewmodel._isShowBottomSheetTab.value = false
+                persistenetBottomSheet.state = STATE_COLLAPSED
+                step = 1
+
+            }
         })
+
+        viewmodel.selectedItemSummary.observe(this, androidx.lifecycle.Observer {
+            it?.let {
+                binding.searchbarTextView.text = it.title
+                binding.searchbarTextView.setTextColor(ContextCompat.getColor(requireContext(), R.color.Gray1))
+            }
+        })
+
+
+
 
 
         return root
@@ -162,8 +187,6 @@ class Map : Fragment(), OnMapReadyCallback {
             searchIntent.putExtra("NaverMapOfX", centerLatLng.longitude)
             searchIntent.putExtra("NaverMapOfY",  centerLatLng.latitude)
             startActivity(searchIntent)
-
-
         }
 
 
@@ -279,21 +302,12 @@ class Map : Fragment(), OnMapReadyCallback {
 
     }
 
-    override fun onPause() {
-        Log.d("프래그먼트 생명주기","onPause")
-        super.onPause()
-    }
-
-    override fun onStop() {
-        Log.d("프래그먼트 생명주기","onStop")
-        super.onStop()
-
-    }
 
     override fun onDestroyView() {
         super.onDestroyView()
 
         Log.d("프래그먼트 생명주기", "onDestroyView")
+        viewmodel.removeBookmark()
         _binding = null
         naver_map = null
     }
@@ -301,8 +315,6 @@ class Map : Fragment(), OnMapReadyCallback {
     override fun onDestroy() {
         Log.d("프래그먼트 생명주기", "onDestroy")
         super.onDestroy()
-
-
     }
 
     private inner class GestureListener : GestureDetector.SimpleOnGestureListener() {

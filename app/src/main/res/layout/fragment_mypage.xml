@@ -12,10 +12,10 @@
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
-
+    android:id="@+id/fragment_mypage_main"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
-
+    android:layout_height="match_parent"
+    android:background="@color/Gray7">
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -78,7 +78,7 @@
         </LinearLayout>
 
         <LinearLayout
-            android:id="@+id/manubar_question"
+            android:id="@+id/menubar_question"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -93,7 +93,7 @@
                 android:text="문의사항" />
         </LinearLayout>
         <LinearLayout
-            android:id="@+id/manubar_insta"
+            android:id="@+id/menubar_insta"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
@@ -123,7 +123,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/base_mypage_menubar">
+            android:background="@drawable/base_mypage_menubar"
+            android:onClick="@{(v) -> viewmodel.onLinkClick(v)}">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -139,7 +140,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/base_mypage_menubar">
+            android:background="@drawable/base_mypage_menubar"
+            android:onClick="@{(v) -> viewmodel.onLinkClick(v)}">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -155,7 +157,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/base_mypage_menubar">
+            android:background="@drawable/base_mypage_menubar"
+            android:onClick="@{(v) -> viewmodel.onLinkClick(v)}">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -171,7 +174,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/base_mypage_menubar">
+            android:background="@drawable/base_mypage_menubar"
+            android:onClick="@{(v) -> viewmodel.onLinkClick(v)}">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
@@ -187,7 +191,8 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:background="@drawable/base_mypage_menubar">
+            android:background="@drawable/base_mypage_menubar"
+            android:onClick="@{(v) -> viewmodel.onLinkClick(v)}">
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

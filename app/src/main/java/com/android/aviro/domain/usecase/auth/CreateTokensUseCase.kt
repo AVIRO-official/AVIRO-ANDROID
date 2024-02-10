@@ -1,14 +1,13 @@
 package com.android.aviro.domain.usecase.auth
 
-import android.util.Log
-import com.android.aviro.data.entity.auth.SignResponseDTO
+
 import com.android.aviro.data.entity.auth.TokensResponseDTO
-import com.android.aviro.data.entity.base.BaseResponse
-import com.android.aviro.data.entity.base.DataBodyResponse
 import com.android.aviro.data.entity.base.MappingResult
 import com.android.aviro.domain.repository.AuthRepository
 import com.android.aviro.domain.repository.MemberRepository
 import javax.inject.Inject
+
+
 
 class CreateTokensUseCase  @Inject constructor (
     private val authRepository: AuthRepository,

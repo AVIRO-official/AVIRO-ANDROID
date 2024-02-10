@@ -23,5 +23,9 @@ class GetRestaurantUseCase @Inject constructor (
         return restaurantRepository.getMarker(isInitMap, reataurant_list)
     }
 
+    fun getMarker() : List<MarkerEntity>? { //bookmark_list : List<String>
+        return restaurantRepository.getMarkerForBookmark() //bookmark_list
+    }
+
 
 }

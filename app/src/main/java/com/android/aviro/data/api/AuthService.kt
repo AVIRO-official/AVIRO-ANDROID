@@ -4,6 +4,7 @@ import com.android.aviro.data.entity.auth.SignRequestDTO
 import com.android.aviro.data.entity.auth.SignResponseDTO
 import com.android.aviro.data.entity.auth.TokensResponseDTO
 import com.android.aviro.data.entity.auth.TokensRequestDTO
+import com.android.aviro.data.entity.base.BaseResponse
 import com.android.aviro.data.entity.base.DataBodyResponse
 import retrofit2.http.Body
 import retrofit2.http.POST

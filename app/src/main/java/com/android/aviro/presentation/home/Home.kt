@@ -64,6 +64,7 @@ class Home : FragmentActivity() {
         binding.homePager.isUserInputEnabled = false
 
 
+
         binding.navView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.navigation_map -> {

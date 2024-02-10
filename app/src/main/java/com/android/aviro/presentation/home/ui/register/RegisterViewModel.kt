@@ -1,14 +1,13 @@
 package com.android.aviro.presentation.home.ui.register
 
 import android.util.Log
-import android.view.MenuItem
 import android.widget.RadioGroup
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.android.aviro.R
-import com.android.aviro.presentation.entity.MenuEntity
+import com.android.aviro.domain.entity.MenuEntity
 
 class RegisterViewModel : ViewModel() {
 

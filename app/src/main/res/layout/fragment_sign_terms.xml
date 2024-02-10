@@ -80,7 +80,7 @@
                 android:paddingBottom="10dp"
                 android:orientation="vertical"
                 android:textColor = "@color/Gray3"
-                android:background = "@drawable/base_edittext_roundsquare_default">
+                android:background = "@drawable/base_roundsquare_gray6_30">
 
                 <LinearLayout
                     android:layout_width="wrap_content"
@@ -198,17 +198,29 @@
         <!--가입버튼-->
         <LinearLayout
             android:id = "@+id/nextBtn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="match_parent"
+            android:layout_height="51dp"
             android:orientation="vertical"
+            android:layout_marginBottom="25dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginEnd="20dp"
+            android:gravity="center"
             android:enabled="@{viewmodel.isAllTrue}"
             android:background = "@{viewmodel.isAllTrue}"
             android:onClick = "@{() -> viewmodel.onClickSignUp()}"
-            android:layout_marginBottom="25dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             tools:ignore="MissingConstraints">
+            <TextView
+                android:id="@+id/nextTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:gravity="center"
+                android:text="다음으로"
+                android:fontFamily="@font/pretendard_semibold"
+                android:textSize="18sp"
+                app:textColor="@{viewmodel.isAllTrue}"/>
         </LinearLayout>
 
     </androidx.constraintlayout.widget.ConstraintLayout>

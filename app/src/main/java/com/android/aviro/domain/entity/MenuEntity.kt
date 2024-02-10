@@ -1,4 +1,4 @@
-package com.android.aviro.presentation.entity
+package com.android.aviro.domain.entity
 
 import com.google.gson.annotations.SerializedName
 import com.naver.maps.map.overlay.Marker
