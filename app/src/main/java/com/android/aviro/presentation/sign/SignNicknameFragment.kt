@@ -11,7 +11,7 @@ import com.android.aviro.R
 import com.android.aviro.databinding.FragmentSignNicknameBinding
 import com.android.aviro.databinding.FragmentSignSocialBinding
 
-class SignNicknameFragment : Fragment() {
+class SignNicknameFragment() : Fragment() {
 
     private val sharedViewModel: SignViewModel by activityViewModels()
 

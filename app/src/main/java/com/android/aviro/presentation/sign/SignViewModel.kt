@@ -35,7 +35,6 @@ class SignViewModel @Inject constructor(
     @ApplicationContext private val context: Context
 )  : ViewModel() {
 
-
     var _isSignIn = MutableLiveData<Boolean>()
     val isSignIn : LiveData<Boolean>
         get() = _isSignIn
@@ -49,35 +48,28 @@ class SignViewModel @Inject constructor(
     val nextBtn : LiveData<Int>
         get() = _nextBtn
 
-    // 다음으로 넘어가도 되는지 확인
-    val _isNicknameValid = MutableLiveData<Boolean>()
-    val isNicknameValid : LiveData<Boolean>
-        get() = _isNicknameValid
+
 
     // 다음으로 넘어가도 되는지 확인
     val _isComplete = MutableLiveData<Boolean>()
     val isComplete : LiveData<Boolean>
         get() = _isComplete
 
-    val _nicknameText = MutableLiveData<String>()
-    val nicknameText : LiveData<String>
-        get() = _nicknameText
 
-    val _nicknameAccountText = MutableLiveData<String>()
-    val nicknameAccountText : LiveData<String>
-        get() = _nicknameAccountText
+    val _nicknameText = MutableLiveData<String>()
+    val nicknameText : LiveData<String> = _nicknameText
+
+    val _nicknameCountText = MutableLiveData<String>()
+    val nicknameCountText : LiveData<String> = _nicknameCountText
 
     val _nicknameNoticeText = MutableLiveData<String>()
-    val nicknameNoticeText : LiveData<String>
-        get() = _nicknameNoticeText
+    val nicknameNoticeText : LiveData<String> = _nicknameNoticeText
 
-    val _nicknameNoticeTextColor= MutableLiveData<Int>()
-    val nicknameNoticeTextColor : LiveData<Int>
-        get() = _nicknameNoticeTextColor
+    val _isNicknameValid = MutableLiveData<Boolean?>()
+    val isNicknameValid : LiveData<Boolean?> = _isNicknameValid
 
     val _birthdayText = MutableLiveData<String?>()
-    val birthdayText : LiveData<String?>
-        get() = _birthdayText
+    val birthdayText : LiveData<String?> = _birthdayText
 
     val _birthdayNoticeText = MutableLiveData<String>()
     val birthdayNoticeText : LiveData<String>
@@ -105,23 +97,22 @@ class SignViewModel @Inject constructor(
     val errorLiveData: LiveData<String?> get() = _errorLiveData
 
 
-
     init {
-
-        viewModelScope.launch {
             _isSignIn.value = true
-            _nicknameAccountText.value = "(0/8)"
-            _nicknameNoticeText.value = "이모지, 특수문자(-, _ 제외)를 사용할 수 없습니다."
-            _nicknameNoticeTextColor.value = R.color.Gray2
-            _birthdayNoticeText.value = "태어난 연도를 입력해주세요 (선택)"
+            _nicknameCountText.postValue("(0/8)")
+            _nicknameNoticeText.postValue("이모지, 특수문자(-, _ 제외)를 사용할 수 없습니다.")
+            _isNicknameValid.postValue(null)
+
+            _birthdayNoticeText.postValue("태어난 연도를 입력해주세요 (선택)")
             _birthdayText.value = null
+
             _isGenderList.value =  listOf(false, false, false)
             _isApproveList.value = listOf(false, false, false)
+
             _isAllTrue.value = false
             //_isNicknameValid.value = false
             _isVaildBirth.value = "default"
             _isComplete.value = false
-        }
     }
 
     // 사용자 로그인
@@ -135,12 +126,13 @@ class SignViewModel @Inject constructor(
                        val data = it.data as TokensResponseDTO
                         if(data.isMember) { // 회원임
                            autoSignIn() // 가져온 토큰으로 자동 로그인 완료 해야 함
-                       }
-                       _isSignUp.value = !(data.isMember)
+                       } else {
+                            _isSignUp.value = true
+                        }
 
                    }
                    is MappingResult.Error -> _errorLiveData.value = it.message
-
+                   else -> {}
                    }
                }
            }
@@ -158,6 +150,7 @@ class SignViewModel @Inject constructor(
                         _errorLiveData.value = it.message // 애플로그인 이후 자동로그인 해야 하는데 안 되는 경우
                         //_isSignIn.value = false
                     }
+                    else -> {}
                 }
 
             }
@@ -172,7 +165,7 @@ class SignViewModel @Inject constructor(
         val id = editable.id
         when(id) {
             R.id.editTextNickName -> {
-                _nicknameAccountText.value = "(${text.length}/8)"
+                _nicknameCountText.value = "(${text.length}/8)"
 
                 viewModelScope.launch {
                 val response = createMemberUseCase.checkNickname(text)
@@ -181,11 +174,11 @@ class SignViewModel @Inject constructor(
                         _nicknameNoticeText.value = it.message
 
                         if(it.isValid!!) {
-                            _nicknameNoticeTextColor.value = R.color.Gray2
+                            //_nicknameNoticeTextColor.value = R.color.Gray2
                             _isNicknameValid.value = true
                             _nicknameText.value = text
                         } else {
-                            _nicknameNoticeTextColor.value = R.color.Warn_Red
+                            //_nicknameNoticeTextColor.value = R.color.Warn_Red
                             _isNicknameValid.value = false
                         }
 
@@ -194,13 +187,13 @@ class SignViewModel @Inject constructor(
                         _errorLiveData.value = it.message
 
                         _nicknameNoticeText.value = "이모지, 특수문자(-, _ 제외)를 사용할 수 없습니다."
-                        _nicknameNoticeTextColor.value = R.color.Gray2
+                        //_nicknameNoticeTextColor.value = R.color.Gray2
                         _isNicknameValid.value = false
                     }
 
                 }.onFailure {
                     _nicknameNoticeText.value = "이모지, 특수문자(-, _ 제외)를 사용할 수 없습니다."
-                    _nicknameNoticeTextColor.value = R.color.Gray2
+                    //_nicknameNoticeTextColor.value = R.color.Gray2
                     _isNicknameValid.value = false
                 }
                 }
@@ -248,10 +241,7 @@ class SignViewModel @Inject constructor(
 
     fun afterTextChanged(edittext: EditText) {
         val text = edittext.text.toString()
-
         edittext.setSelection(text.length)
-
-
     }
 
     fun onClickApprove(view : View) {
@@ -262,7 +252,6 @@ class SignViewModel @Inject constructor(
                 _isApproveList.value = _isApproveList.value?.mapIndexed { index, value ->
                     if (index == 0) !value else value
                 }
-
             }
             R.id.approveBtn2 -> {
                 _isApproveList.value = _isApproveList.value?.mapIndexed { index, value ->
@@ -282,11 +271,9 @@ class SignViewModel @Inject constructor(
                 }
 
             }
-
         }
 
         _isAllTrue.value = _isApproveList.value!!.all {it == true}
-        //userDTO.marketingAgree = _isApproveList.value!!.all {it == true}
 
     }
 
@@ -368,7 +355,6 @@ class SignViewModel @Inject constructor(
                         //val data = it.data as SignResponseDTO
                         // 성공시 complete 화면 띄우기
                         _isComplete.value = true
-
                     }
                     is MappingResult.Error -> {
                         // 회원가입 실패 -> 다시 누르게? 처음부터 다시?
@@ -381,8 +367,8 @@ class SignViewModel @Inject constructor(
                             500 -> _errorLiveData.value = it.message
                         }
                          */
-
                     }
+                    else -> {}
                 }
             }
 
