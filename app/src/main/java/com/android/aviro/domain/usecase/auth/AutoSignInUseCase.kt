@@ -16,12 +16,12 @@ class AutoSignInUseCase @Inject constructor ( // 사용자에게는 소셜 로�
 
     // 자동로그인
     suspend operator fun invoke(token: String): MappingResult { //Result<DataBodyResponse<SignResponseDTO>> { //DataBodyResponse<SignResponseDTO> 보내거나 BaseRespomse
-        //val token = authRepository.getTokensFromLocal()
         val response = authRepository.requestSignIn(token)
         when(response){
             is MappingResult.Success<*> -> {
                 response.let {
                     val data = it.data as SignResponseDTO
+                    // 로그인 성공시 유저 정보를 저장
                     memberRepository.saveMemberInfoToLocal("user_id",data.userId)
                     memberRepository.saveMemberInfoToLocal("user_name",data.userName)
                     memberRepository.saveMemberInfoToLocal("user_email",data.userEmail)
