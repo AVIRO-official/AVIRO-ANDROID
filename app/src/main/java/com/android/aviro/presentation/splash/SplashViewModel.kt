@@ -55,7 +55,7 @@ class SplashViewModel @Inject constructor (
      fun isSignIn()  {
         viewModelScope.launch {
                     val token = getTokenUseCase()
-                    if (token != null) { // token 존재 -> 자동 로그인 시도
+                    if (token != null) {
                         autoSignInUseCase(token).let {
                             when(it){
                                 is MappingResult.Success<*> -> _isSignIn.value = true

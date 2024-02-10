@@ -93,6 +93,7 @@ class SearchViewModel @Inject constructor(
         return null
     }
 
+    /* 수정사항 : 가게 검색과 비건 유형 매칭 로직을 UseCase에서 한 번에 처리 (뷰모델에서는 완성된 결과 데이터만 반환 해주세요) */
     fun initList() {
         _isProgress.value = true
         viewModelScope.launch {
@@ -210,9 +211,9 @@ class SearchViewModel @Inject constructor(
             return true
         }
         return false
-
-
     }
+
+
 
     fun onClickLocSort(view: View) {
         // 내 위치 기준 // 맵 기준
@@ -243,11 +244,6 @@ class SearchViewModel @Inject constructor(
         //_isSearching.value = false
         val editText = view.rootView.findViewById<EditText>(R.id.EditTextSearchBar)
         onEditTextFocusChanged(editText,false)
-
-    }
-
-    // 검색중인 단어 제거
-    fun onClickCancleBtn() {
 
     }
 

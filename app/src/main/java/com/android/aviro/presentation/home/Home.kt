@@ -63,9 +63,6 @@ class Home : FragmentActivity() {
         binding.homePager.registerOnPageChangeCallback(PageChangeCallback())
         binding.homePager.isUserInputEnabled = false
 
-        binding.homePager.setOnClickListener {
-            Log.d("homePager","homePager")
-        }
 
 
         binding.navView.setOnItemSelectedListener {
