@@ -1,12 +1,10 @@
 package com.android.aviro.domain.usecase.auth
 
-import com.android.aviro.data.entity.auth.SignResponseDTO
-import com.android.aviro.data.entity.auth.TokensResponseDTO
-import com.android.aviro.data.entity.base.DataBodyResponse
-import com.android.aviro.data.entity.base.MappingResult
+import com.android.aviro.data.model.auth.SignInResponse
+import com.android.aviro.domain.entity.auth.Sign
+import com.android.aviro.domain.entity.base.MappingResult
 import com.android.aviro.domain.repository.AuthRepository
 import com.android.aviro.domain.repository.MemberRepository
-import kotlinx.coroutines.*
 import javax.inject.Inject
 
 class AutoSignInUseCase @Inject constructor ( // 사용자에게는 소셜 로그인의 기능만 제공하면 됨
@@ -20,10 +18,11 @@ class AutoSignInUseCase @Inject constructor ( // 사용자에게는 소셜 로�
         when(response){
             is MappingResult.Success<*> -> {
                 response.let {
-                    val data = it.data as SignResponseDTO
+                    val data = it.data as Sign
                     // 로그인 성공시 유저 정보를 저장
                     memberRepository.saveMemberInfoToLocal("user_id",data.userId)
-                    memberRepository.saveMemberInfoToLocal("user_name",data.userName)
+                    data.userName
+                    data.userName?.let { it1 -> memberRepository.saveMemberInfoToLocal("user_name", it1) }
                     memberRepository.saveMemberInfoToLocal("user_email",data.userEmail)
                     memberRepository.saveMemberInfoToLocal("nickname",data.nickname)
                 }
