@@ -8,10 +8,10 @@ import android.view.View
 import android.widget.EditText
 import androidx.lifecycle.*
 import com.android.aviro.R
-import com.android.aviro.data.entity.auth.SignResponseDTO
-import com.android.aviro.data.entity.auth.TokensResponseDTO
-import com.android.aviro.data.entity.base.BaseResponse
-import com.android.aviro.data.entity.base.MappingResult
+import com.android.aviro.data.model.auth.TokenResponse
+import com.android.aviro.domain.entity.auth.Tokens
+import com.android.aviro.domain.entity.base.MappingResult
+import com.android.aviro.domain.entity.member.NicknameValidation
 import com.android.aviro.domain.repository.MemberRepository
 import com.android.aviro.domain.usecase.auth.AutoSignInUseCase
 import com.android.aviro.domain.usecase.auth.CreateTokensUseCase
@@ -123,7 +123,7 @@ class SignViewModel @Inject constructor(
            createTokensUseCase(id_token, auth_code).let {
                when(it){
                    is MappingResult.Success<*> -> {
-                       val data = it.data as TokensResponseDTO
+                       val data = it.data as Tokens
                         if(data.isMember) { // 회원임
                            autoSignIn() // 가져온 토큰으로 자동 로그인 완료 해야 함
                        } else {
@@ -138,9 +138,10 @@ class SignViewModel @Inject constructor(
            }
     }
 
+    // 애플로그인 하고 바로 수행
     fun autoSignIn() {
         viewModelScope.launch {
-            val token = getTokenUseCase()
+            val token = getTokenUseCase().get(0).get("refresh_token")
             // 갑자기 통신 장애 등 발생할 수는 있음
             autoSignInUseCase(token!!).let {
                 when(it){
@@ -168,36 +169,20 @@ class SignViewModel @Inject constructor(
                 _nicknameCountText.value = "(${text.length}/8)"
 
                 viewModelScope.launch {
-                val response = createMemberUseCase.checkNickname(text)
-                response.onSuccess {
-                    if(it.statusCode == 200) {
-                        _nicknameNoticeText.value = it.message
-
-                        if(it.isValid!!) {
-                            //_nicknameNoticeTextColor.value = R.color.Gray2
-                            _isNicknameValid.value = true
-                            _nicknameText.value = text
-                        } else {
-                            //_nicknameNoticeTextColor.value = R.color.Warn_Red
-                            _isNicknameValid.value = false
+                createMemberUseCase.checkNickname(text).let {
+                    when(it) {
+                        is MappingResult.Success<*> -> {
+                            val data = it.data as NicknameValidation
+                            _isNicknameValid.value = data.isValid
+                            _nicknameNoticeText.value = data.message
                         }
-
-                    } else {
-                        // 400 : 요청값 오류 500 : 서버 오류
-                        _errorLiveData.value = it.message
-
-                        _nicknameNoticeText.value = "이모지, 특수문자(-, _ 제외)를 사용할 수 없습니다."
-                        //_nicknameNoticeTextColor.value = R.color.Gray2
-                        _isNicknameValid.value = false
+                        is MappingResult.Error -> {
+                            _errorLiveData.value = it.message
+                        }
                     }
-
-                }.onFailure {
-                    _nicknameNoticeText.value = "이모지, 특수문자(-, _ 제외)를 사용할 수 없습니다."
-                    //_nicknameNoticeTextColor.value = R.color.Gray2
-                    _isNicknameValid.value = false
-                }
                 }
 
+                }
             }
 
         }
@@ -348,7 +333,7 @@ class SignViewModel @Inject constructor(
         }
 
         viewModelScope.launch {
-            createMemberUseCase(nickname, birth, gender, marketingAgree = 1).let {
+            createMemberUseCase(nickname, birth, gender, marketingAgree = true).let { it ->
                 when (it) {
                     is MappingResult.Success<*> -> {
                         Log.d("Sign","회원가입 성공")

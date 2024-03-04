@@ -2,46 +2,30 @@ package com.android.aviro.data.datasource.restaurant
 
 import com.android.aviro.data.api.KakaoService
 import com.android.aviro.data.api.RestaurantService
-import com.android.aviro.data.entity.base.DataBodyResponse
-import com.android.aviro.data.entity.restaurant.*
-import dagger.Provides
+import com.android.aviro.data.model.base.DataResponse
+import com.android.aviro.data.model.restaurant.*
+import com.android.aviro.data.model.search.RestaurantVeganTypeRequest
 import javax.inject.Inject
 
 
 class RestaurantAviroDataSourceImp @Inject constructor (
-    private val restaurantService: RestaurantService,
-    private val kakaoService: KakaoService
+    private val restaurantService: RestaurantService
 ) : RestaurantAviroDataSource {
 
-    override suspend fun getRestaurant(request : RestaurantRequestDTO) : Result<DataBodyResponse<ReataurantReponseDTO>>  {
+    override suspend fun getRestaurant(request : ReataurantListRequest) : Result<DataResponse<ReataurantListReponse>>  {
         return restaurantService.getRestaurant(request.x,request.y,request.wide,request.time)
-        /*
-        response.onSuccess {
-            val data = it.data
-            if (data != null) {
-                return Result.success(it.data)
-            }
-        }.onFailure {
-            return Result.failure(IllegalStateException("알 수 없는 오류가 발생했습니다."))
-        }
-        return Result.failure(IllegalStateException("알 수 없는 오류가 발생했습니다."))
-
-         */
         }
 
-    override suspend fun getRestaurantSummary(placeId : String) : Result<DataBodyResponse<RestaurantSummary>> {
+    override suspend fun getRestaurantSummary(placeId : String) : Result<DataResponse<RestaurantSummaryResponse>> {
         return restaurantService.getRestaurantSummary(placeId)
     }
 
-    override suspend fun getSearchedRestaurant(keyword : String, x : String, y : String, page : Int, size : Int, sort : String) : Result<SearchedPlaceListResponse> {
-        return kakaoService.searchRestaurant(keyword, x, y, page, size, sort)
-    }
 
-    override suspend fun getVeganTypeOfSearching(request : VeganOfSearchingRequest) : Result<VeganOfSearchingResponse> {
+    override suspend fun getVeganTypeOfSearching(request : RestaurantVeganTypeRequest) : Result<DataResponse<RestaurantVeganTypeResponse>> {
         return restaurantService.getVeganOfPlace(request)
     }
 
-    override suspend fun getBookmarkRestaurant(request : String) : Result<BookmarkResponse> { //UserIdEntity
+    override suspend fun getBookmarkRestaurant(request : String) : Result<DataResponse<BookmarkResponse>> { //UserIdEntity
         return restaurantService.getBookmarkList(request)
     }
 

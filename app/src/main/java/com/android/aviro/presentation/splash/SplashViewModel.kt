@@ -1,28 +1,18 @@
 package com.android.aviro.presentation.splash
 
-import android.annotation.SuppressLint
 import android.content.Context
 import android.content.Context.MODE_PRIVATE
-import android.util.Log
-import androidx.datastore.preferences.preferencesDataStore
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
-import com.android.aviro.data.entity.base.MappingResult
-import com.android.aviro.domain.repository.AuthRepository
-import com.android.aviro.domain.repository.MemberRepository
+import com.android.aviro.domain.entity.base.MappingResult
 import com.android.aviro.domain.usecase.auth.AutoSignInUseCase
 import com.android.aviro.domain.usecase.auth.CreateTokensUseCase
 import com.android.aviro.domain.usecase.auth.GetTokenUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import dagger.hilt.android.qualifiers.ApplicationContext
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.async
-import kotlinx.coroutines.flow.collect
 import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import java.io.IOException
 import javax.inject.Inject
 
 
@@ -54,7 +44,7 @@ class SplashViewModel @Inject constructor (
     // 자동로그인
      fun isSignIn()  {
         viewModelScope.launch {
-                    val token = getTokenUseCase()
+                    val token = getTokenUseCase().get(0).get("refresh_token")
                     if (token != null) {
                         autoSignInUseCase(token).let {
                             when(it){

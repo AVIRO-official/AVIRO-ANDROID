@@ -1,13 +1,9 @@
 package com.android.aviro.data.utils
 
-import android.util.Log
-import com.android.aviro.data.entity.base.BaseResponse
-import com.android.aviro.data.entity.base.DataBodyResponse
 import okhttp3.Request
 import okio.Timeout
 import retrofit2.*
 import java.io.IOException
-import java.net.UnknownHostException
 
 // 네트워크 응답 에러
 class ResultCall<T>(private val call: Call<T>, private val retrofit: Retrofit) : Call<Result<T>> {

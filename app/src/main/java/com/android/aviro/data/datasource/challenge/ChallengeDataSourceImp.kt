@@ -1,8 +1,8 @@
 package com.android.aviro.data.datasource.challenge
 
-import com.android.aviro.data.api.AuthService
 import com.android.aviro.data.api.ChallengeService
-import com.android.aviro.data.entity.challenge.ChallengeInfoResponse
+import com.android.aviro.data.model.base.DataResponse
+import com.android.aviro.data.model.challenge.ChallengeInfoResponse
 import javax.inject.Inject
 
 class ChallengeDataSourceImp @Inject constructor(
@@ -10,7 +10,7 @@ class ChallengeDataSourceImp @Inject constructor(
 ) : ChallengeDataSource {
 
     // 챌린지 기간, 이름
-    override suspend fun getChallengeInfo() : Result<ChallengeInfoResponse> {
+    override suspend fun getChallengeInfo() : Result<DataResponse<ChallengeInfoResponse>> {
         return challengeService.getChallengeInfo()
     }
 }

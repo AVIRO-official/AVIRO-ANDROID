@@ -29,6 +29,7 @@ class Update : AppCompatActivity() {
         setupViewPager(binding.viewPager, binding.tabLayout)
 
     }
+
     private fun setupViewPager(viewPager: ViewPager2, tabLayout: TabLayout) {
         val adapter = object : FragmentStateAdapter(this) {
             override fun getItemCount(): Int {

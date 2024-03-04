@@ -2,7 +2,6 @@ package com.android.aviro.presentation
 
 import android.content.res.ColorStateList
 import android.graphics.PorterDuff
-import android.util.Log
 import android.view.View
 import android.view.View.GONE
 import android.view.View.VISIBLE
@@ -16,11 +15,10 @@ import androidx.databinding.BindingAdapter
 import androidx.recyclerview.widget.RecyclerView
 import androidx.viewpager2.widget.ViewPager2
 import com.android.aviro.R
-import com.android.aviro.data.entity.restaurant.VeganType
 import com.android.aviro.domain.entity.SearchedRestaurantItem
 import com.android.aviro.domain.entity.VeganOptions
 import com.android.aviro.presentation.guide.GuidePagerAdapter
-import com.android.aviro.presentation.search.ItemAdapter
+import com.android.aviro.presentation.entity.ItemAdapter
 import com.android.aviro.presentation.search.SearchAdapter
 import com.bumptech.glide.Glide
 import com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -279,7 +277,7 @@ object BindingAdapter {
 
     @JvmStatic
     @BindingAdapter("app:items")
-    fun setList(recyclerView: RecyclerView, items:ItemAdapter?) { // items는 모든 아이템
+    fun setList(recyclerView: RecyclerView, items: ItemAdapter?) { // items는 모든 아이템
         items?.let { // items 이 null이 아니면
             // 검색 새로 함
             if (items.isNewKeyword == true) {
