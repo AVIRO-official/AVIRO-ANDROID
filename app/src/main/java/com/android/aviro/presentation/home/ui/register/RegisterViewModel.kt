@@ -7,7 +7,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import com.android.aviro.R
-import com.android.aviro.domain.entity.MenuEntity
+import com.android.aviro.data.model.menu.MenuDTO
 
 class RegisterViewModel : ViewModel() {
 
@@ -24,8 +24,8 @@ class RegisterViewModel : ViewModel() {
     val restaurantNumber: LiveData<String?> = _restaurantNumber
 
     // 메뉴 id로 MenuItem 저장
-    var _menuList = MutableLiveData<HashMap<String, MenuEntity>>()
-    var menuList: LiveData<HashMap<String, MenuEntity>> = _menuList
+    var _menuList = MutableLiveData<HashMap<String, MenuDTO>>()
+    var menuList: LiveData<HashMap<String, MenuDTO>> = _menuList
     //private val menuList : Map<String, MenuItem> = HashMap<String, MenuItem>()
 
     private val _isRequest = MutableLiveData<Boolean>()

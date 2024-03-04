@@ -10,13 +10,11 @@ class WithdrawUseCas  @Inject constructor ( // 사용자에게는 소셜 로그�
 ) {
 
     suspend fun invoke() {
-        val refresh_token = authRepository.getTokensFromLocal()
+        val refresh_token = authRepository.getTokensFromLocal()[0].get("refresh_token")
 
         // remote에서 제거 // 유저 정보 제거
         memberRepository.deleteMember(refresh_token!!)
         // 로컬에서 제거
         authRepository.removeTokens()
-
-
     }
 }

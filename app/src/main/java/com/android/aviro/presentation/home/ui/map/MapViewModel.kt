@@ -7,10 +7,13 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.android.aviro.R
-import com.android.aviro.data.entity.base.MappingResult
-import com.android.aviro.data.entity.marker.MarkerEntity
-import com.android.aviro.data.entity.restaurant.ReataurantReponseDTO
-import com.android.aviro.data.entity.restaurant.RestaurantSummary
+import com.android.aviro.data.model.marker.MarkerDAO
+import com.android.aviro.data.model.restaurant.ReataurantListReponse
+import com.android.aviro.data.model.restaurant.RestaurantSummaryResponse
+import com.android.aviro.domain.entity.base.MappingResult
+import com.android.aviro.domain.entity.marker.MarkerOfMap
+import com.android.aviro.domain.entity.restaurant.BookMark
+import com.android.aviro.domain.entity.restaurant.RestaurantSummary
 import com.android.aviro.domain.usecase.retaurant.GetBookmarkRestaurantUseCase
 import com.android.aviro.domain.usecase.retaurant.GetRestaurantDetailUseCase
 import com.android.aviro.domain.usecase.retaurant.GetRestaurantUseCase
@@ -35,9 +38,6 @@ class MapViewModel @Inject constructor (
     val isChange : LiveData<Boolean>
         get() = _isChange
 
-    var _markerList = MutableLiveData<List<MarkerEntity>?>() // 화면에 새로 그릴 마커 리스트
-    val markerList : LiveData<List<MarkerEntity>?>
-        get() = _markerList
 
     /*
     var _updatedMarkerList = MutableLiveData<List<MarkerEntity>>()
@@ -45,9 +45,12 @@ class MapViewModel @Inject constructor (
         get() = _updatedMarkerList
 
      */
+    var _markerList = MutableLiveData<List<MarkerOfMap>?>() // 화면에 새로 그릴 마커 리스트
+    val markerList : LiveData<List<MarkerOfMap>?>
+        get() = _markerList
 
-    var _bookmarkList = MutableLiveData<List<String>>()
-    val bookmarkList : LiveData<List<String>>
+    var _bookmarkList = MutableLiveData<List<String>?>()
+    val bookmarkList : LiveData<List<String>?>
         get() = _bookmarkList
 
     var _isAppRunning = MutableLiveData<Boolean>()
@@ -58,8 +61,8 @@ class MapViewModel @Inject constructor (
     val isFavorite : LiveData<Boolean>
         get() = _isFavorite
 
-    var _selectedMarker = MutableLiveData<MarkerEntity?>()
-    val selectedMarker : LiveData<MarkerEntity?>
+    var _selectedMarker = MutableLiveData<MarkerOfMap?>()
+    val selectedMarker : LiveData<MarkerOfMap?>
         get() = _selectedMarker
 
     var _selectedItemSummary = MutableLiveData<RestaurantSummary?>()
@@ -69,6 +72,18 @@ class MapViewModel @Inject constructor (
     var _isShowBottomSheetTab = MutableLiveData<Boolean>()
     val isShowBottomSheetTab : LiveData<Boolean>
         get() = _isShowBottomSheetTab
+
+    var _BottomSheetStep1 = MutableLiveData<Boolean>()
+    val BottomSheetStep1 : LiveData<Boolean>
+        get() = _BottomSheetStep1
+
+    var _BottomSheetStep3 = MutableLiveData<Boolean>()
+    val BottomSheetStep3 : LiveData<Boolean>
+        get() = _BottomSheetStep3
+
+    var _BottomSheetState = MutableLiveData<Int>()
+    val BottomSheetState : LiveData<Int>
+        get() = _BottomSheetState
 
     private val _errorLiveData = MutableLiveData<String?>()
     val errorLiveData: LiveData<String?> get() = _errorLiveData
@@ -87,127 +102,131 @@ class MapViewModel @Inject constructor (
             _isShowBottomSheetTab.value = false
             _selectedMarker.value = null
             _selectedItemSummary.value = null
+            _BottomSheetStep1.value = true
+            _BottomSheetStep3.value = false
+            _BottomSheetState.value = 0
         }
     }
 
-    fun setNaverMap(naver_map : NaverMap) {
-        _naverMap.postValue(naver_map)
-    }
+
 
     // 맵 객체가 새로 생길때 호출 됩니다
     fun updateMap(naver_map : NaverMap, initMap : Boolean) {
-        Log.d("Map","맵 초기화")
-        setNaverMap(naver_map)
+        _naverMap.value = naver_map
         viewModelScope.launch {
                 // 모드 마커 데이터 다 가져와야 함
-                getRestaurantUseCase("0.0", "0.0", "100", "", initMap).let {
+                getRestaurantUseCase(initMap, "0.0", "0.0", "100", "").let {
                     when (it) {
                         is MappingResult.Success<*> -> {
-                            val data = it.data as ReataurantReponseDTO
-                            //Log.d("Map","${data}")
-                            val new_marker_list =
-                                getRestaurantUseCase.getMarker(initMap, data) // 동기 처리
-                            //_markerList.value.a
-                            if (new_marker_list != null) {
+                            if (it.data != null) {
                                 // 즐겨찾기 누르고 있는 상태인 경우
                                 // 즐겨찾기 누르고 있지 않은 경우
-                                drawBasicMarker(naver_map, new_marker_list)
+                                //val data = it.data as List<MarkerOfMap>
+                                _markerList.value = it.data as List<MarkerOfMap>
+                                drawBasicMarker(naver_map, _markerList.value!!)
                             }
-
                         }
                         is MappingResult.Error -> {
                             _errorLiveData.value = it.message
-
                         }
+                        else -> {}
                     }
                 }
             }
         }
 
     // 기본 마커 그림
-    fun drawBasicMarker(naver_map : NaverMap, newMarker : List<MarkerEntity>) {
-        newMarker.map { markerEntity ->
-            markerEntity.marker.map = naver_map
+    fun drawBasicMarker(naver_map : NaverMap, newMarker : List<MarkerOfMap>) {
+        newMarker.map { markerOfMap ->
+            markerOfMap.marker.map = naver_map
 
             // 클릭했을 때
-            markerEntity.marker.setOnClickListener {
-                when (markerEntity.veganType) {
-                    "green" -> markerEntity.marker.icon =
+            markerOfMap.marker.setOnClickListener {
+                when (markerOfMap.veganType) {
+                    "green" -> markerOfMap.marker.icon =
                         OverlayImage.fromResource(R.drawable.marker_default_select_green)
-                    "orange" -> markerEntity.marker.icon =
+                    "orange" -> markerOfMap.marker.icon =
                         OverlayImage.fromResource(R.drawable.marker_default_select_orange)
-                    "yellow" -> markerEntity.marker.icon =
+                    "yellow" -> markerOfMap.marker.icon =
                         OverlayImage.fromResource(R.drawable.marker_default_select_yellow)
                 }
                 // 선택한 마커
-                _selectedMarker.value = markerEntity
+                _selectedMarker.value = markerOfMap
 
                 false
             }
         }
     }
 
+    // 현재 선택되어 있는 마커를 원상태로 돌림
+
+
+
     fun getBookmark() {
         // 즐찾 리스트를 가져옴
         viewModelScope.launch {
-            getBookmarkRestaurantUseCase().onSuccess {
-                val code = it.statusCode
-                if(code == 200) {
-                    //_bookmarkList.postValue(it.bookmarks)
-                    _bookmarkList.value = it.bookmarks
-                    Log.d("bookmark","${it.bookmarks}")
-
-                    // 모든 리스트 null 처리
-                    val markerList = getRestaurantUseCase.getMarker()
-
-                    // 즐찾 마커만 반환
-                    //val markerList = getRestaurantUseCase.getMarker(bookmarkList.value!!)
-
-                    // 이미지 변환  // 클릭 메서드 다시 설정
-                    markerList!!.map { markerEntity ->
-                        if (bookmarkList.value?.contains(markerEntity.placeId) == false) {
-                            markerEntity.marker.map = null
+            getBookmarkRestaurantUseCase().let {
+                when(it){
+                    is MappingResult.Success<*> -> {
+                        if(it.data == null) {
+                            _bookmarkList.value = null
                         } else {
-                            when (markerEntity.veganType) {
-                                "green" -> {
-                                    markerEntity.marker.icon =
-                                        OverlayImage.fromResource(R.drawable.marker_bookmark_green)
-                                }
-                                "orange" -> {
-                                    markerEntity.marker.icon =
-                                        OverlayImage.fromResource(R.drawable.marker_bookmark_orange)
-                                }
-                                "yellow" -> {
-                                    markerEntity.marker.icon =
-                                        OverlayImage.fromResource(R.drawable.marker_bookmark_yellow)
-                                }
-                            }
-                            markerEntity.marker.setOnClickListener {
-                                when(markerEntity.veganType) {
+                            Log.d("BookMark","${it.data}")
+                            //val data = it.data as BookMark
+                            val data = it.data.let { BookMark(it as List<String>)}
+                            _bookmarkList.value = data.bookmarks
+                        }
+
+                        val markerList = _markerList.value
+                        // 북마크 아닌 경우 null처리, 이미지 변환
+                        markerList?.map { markerOfMap ->
+                            if (bookmarkList.value?.contains(markerOfMap.placeId) == false || bookmarkList.value?.contains(markerOfMap.placeId) == null) {
+                                markerOfMap.marker.map = null
+                            } else {
+                                when (markerOfMap.veganType) {
                                     "green" -> {
-                                        markerEntity.marker.icon =
-                                            OverlayImage.fromResource(R.drawable.marker_bookmark_select_yellow)
+                                        markerOfMap.marker.icon =
+                                            OverlayImage.fromResource(R.drawable.marker_bookmark_green)
                                     }
                                     "orange" -> {
-                                            markerEntity.marker.icon =
-                                                OverlayImage.fromResource(R.drawable.marker_bookmark_select_orange)
+                                        markerOfMap.marker.icon =
+                                            OverlayImage.fromResource(R.drawable.marker_bookmark_orange)
                                     }
                                     "yellow" -> {
-                                            markerEntity.marker.icon =
-                                                OverlayImage.fromResource(R.drawable.marker_bookmark_select_yellow)
+                                        markerOfMap.marker.icon =
+                                            OverlayImage.fromResource(R.drawable.marker_bookmark_yellow)
                                     }
                                 }
-                                // 선택한 마커
-                                _selectedMarker.value = markerEntity
+                                markerOfMap.marker.setOnClickListener {
+                                    when(markerOfMap.veganType) {
+                                        "green" -> {
+                                            markerOfMap.marker.icon =
+                                                OverlayImage.fromResource(R.drawable.marker_bookmark_select_yellow)
+                                        }
+                                        "orange" -> {
+                                            markerOfMap.marker.icon =
+                                                OverlayImage.fromResource(R.drawable.marker_bookmark_select_orange)
+                                        }
+                                        "yellow" -> {
+                                            markerOfMap.marker.icon =
+                                                OverlayImage.fromResource(R.drawable.marker_bookmark_select_yellow)
+                                        }
+                                    }
+                                    // 선택한 마커
+                                    _selectedMarker.value = markerOfMap
 
-                                false
+                                    false
+                                }
+
                             }
-
                         }
                     }
 
-
+                    is MappingResult.Error -> {
+                        _errorLiveData.value = it.message
+                    }
                 }
+
             }
 
         }
@@ -218,7 +237,7 @@ class MapViewModel @Inject constructor (
         // 즐겨찾기 마커 삭제
         // 맵 객체 삭제
         // 마커 이미지 다시 원위치
-        val markerList = getRestaurantUseCase.getMarker()
+        val markerList = _markerList.value
         markerList!!.map { markerEntity ->
             if (bookmarkList.value?.contains(markerEntity.placeId) == true) {
                 // 마커 이미지 다시 원위치
@@ -257,11 +276,10 @@ class MapViewModel @Inject constructor (
     }
 
     fun getRestaurantSummary() {
-        Log.d("selectedMarker","${selectedMarker}")
         if(_selectedMarker.value != null) {
             viewModelScope.launch {
                 getRestaurantDetailUseCase.getSummary(_selectedMarker.value!!.placeId).let {
-                    when(it) {
+                    when (it) {
                         is MappingResult.Success<*> -> {
                             _selectedItemSummary.value = it.data as RestaurantSummary
                         }
@@ -272,9 +290,7 @@ class MapViewModel @Inject constructor (
                     }
                 }
             }
-
         }
-
     }
 
 
@@ -293,5 +309,6 @@ class MapViewModel @Inject constructor (
         }
 
     }
+
 
 }

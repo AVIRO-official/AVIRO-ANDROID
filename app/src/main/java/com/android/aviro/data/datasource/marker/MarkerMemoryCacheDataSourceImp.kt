@@ -1,27 +1,17 @@
 package com.android.aviro.data.datasource.marker
 
-import android.content.Context
-import android.content.SharedPreferences
-import android.os.Handler
-import android.os.Looper
 import android.util.Log
 import android.util.LruCache
-import androidx.annotation.UiThread
-import androidx.lifecycle.LifecycleCoroutineScope
 import com.android.aviro.R
 import com.android.aviro.data.datasource.restaurant.RestaurantLocalDataSource
-import com.android.aviro.data.entity.marker.MarkerEntity
-import com.android.aviro.data.entity.marker.MarkerListEntity
-import com.android.aviro.data.entity.restaurant.LocOfRestaurant
-import com.google.gson.GsonBuilder
+import com.android.aviro.data.model.marker.MarkerDAO
+import com.android.aviro.data.model.restaurant.RestaurantDAO
 import com.naver.maps.geometry.LatLng
 import com.naver.maps.map.overlay.Marker
 import com.naver.maps.map.overlay.OverlayImage
-import dagger.hilt.android.qualifiers.ApplicationContext
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
-import kotlinx.serialization.json.Json
 import javax.inject.Inject
 
 class MarkerMemoryCacheDataSourceImp @Inject constructor(
@@ -30,7 +20,7 @@ class MarkerMemoryCacheDataSourceImp @Inject constructor(
 
     private val maxMemory = (Runtime.getRuntime().maxMemory() / 1024).toInt()
     private val cacheSize = maxMemory / 8 // 최대 메모리 크기의 1/8을 사용
-    private val memoryCache = LruCache<String, MarkerEntity>(cacheSize)
+    private val memoryCache = LruCache<String, MarkerDAO>(cacheSize)
 
     /*
     * 마커 데이터
@@ -46,7 +36,7 @@ class MarkerMemoryCacheDataSourceImp @Inject constructor(
         return memoryCache.size()
     }
 
-    override fun createMarker(updated_marker : LocOfRestaurant) : MarkerEntity {
+    override fun createMarker(updated_marker : RestaurantDAO) : MarkerDAO {
         val marker = Marker(LatLng(updated_marker.y, updated_marker.x))
         var veganType = ""
 
@@ -63,7 +53,7 @@ class MarkerMemoryCacheDataSourceImp @Inject constructor(
             veganType = "yellow"
         }
 
-        val newMarker = MarkerEntity(updated_marker.placeId, veganType, marker)
+        val newMarker = MarkerDAO(updated_marker.placeId, veganType, marker)
         memoryCache.put(updated_marker.placeId, newMarker)
 
         return newMarker // 생성한 마커 반환
@@ -71,10 +61,10 @@ class MarkerMemoryCacheDataSourceImp @Inject constructor(
 
 
     // 업데이트 된 아이들을 다시 그릴 필요가 있는지가 궁금함
-    override fun updateMarker(marker_id : List<LocOfRestaurant>) : List<MarkerEntity> {
+    override fun updateMarker(marker_id : List<RestaurantDAO>) : List<MarkerDAO> {
         Log.d("updated_marker_id","${marker_id}")
 
-        val new_marker_list = arrayListOf<MarkerEntity>()
+        val new_marker_list = arrayListOf<MarkerDAO>()
 
         marker_id.map {
             val markerEntity = memoryCache.get(it.placeId)
@@ -134,8 +124,8 @@ class MarkerMemoryCacheDataSourceImp @Inject constructor(
     }
 
     // 화면에 표시하고 싶은 마커만 반환
-    override fun getAllMarker() : List<MarkerEntity> { // 그냥 모든 마커 다 불러옴
-        val custom_marker_list = arrayListOf<MarkerEntity>()
+    override fun getAllMarker() : List<MarkerDAO> { // 그냥 모든 마커 다 불러옴
+        val custom_marker_list = arrayListOf<MarkerDAO>()
         val allKeys = memoryCache.snapshot().keys
 
         // 각 키에 대해 데이터 가져오기
@@ -147,8 +137,8 @@ class MarkerMemoryCacheDataSourceImp @Inject constructor(
 
     }
 
-    override fun getMarker(key_list : List<String>) : List<MarkerEntity> {
-        val custom_marker_list = arrayListOf<MarkerEntity>()
+    override fun getMarker(key_list : List<String>) : List<MarkerDAO> {
+        val custom_marker_list = arrayListOf<MarkerDAO>()
         // key에 대응하는 마커가 없는 경우 -> 일관성 무너진 것
         key_list.map { key ->
             custom_marker_list.add(memoryCache.get(key))

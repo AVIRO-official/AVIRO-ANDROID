@@ -1,6 +1,6 @@
 package com.android.aviro.domain.usecase.retaurant
 
-import com.android.aviro.data.entity.base.MappingResult
+import com.android.aviro.domain.entity.base.MappingResult
 import com.android.aviro.domain.repository.RestaurantRepository
 import javax.inject.Inject
 

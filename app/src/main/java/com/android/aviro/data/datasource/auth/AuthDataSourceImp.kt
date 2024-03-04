@@ -1,14 +1,11 @@
 package com.android.aviro.data.datasource.auth
 
-import android.util.Log
 import com.android.aviro.data.api.AuthService
-import com.android.aviro.data.entity.auth.SignRequestDTO
-import com.android.aviro.data.entity.auth.SignResponseDTO
-import com.android.aviro.data.entity.auth.TokensRequestDTO
-import com.android.aviro.data.entity.auth.TokensResponseDTO
-import com.android.aviro.data.entity.base.BaseResponse
-import com.android.aviro.data.entity.base.DataBodyResponse
-import java.lang.Exception
+import com.android.aviro.data.model.auth.SignInRequest
+import com.android.aviro.data.model.auth.SignInResponse
+import com.android.aviro.data.model.auth.TokensRequest
+import com.android.aviro.data.model.auth.TokenResponse
+import com.android.aviro.data.model.base.DataResponse
 import javax.inject.Inject
 
 
@@ -17,15 +14,13 @@ class AuthDataSourceImp @Inject constructor(
 ) : AuthDataSource {
 
     // 서버로 refresh token 요청
-    override suspend fun getTokens(request: TokensRequestDTO) : Result<DataBodyResponse<TokensResponseDTO>> {
-        val response =  authService.getTokens(request)
-        return response
+    override suspend fun getTokens(request: TokensRequest) : Result<DataResponse<TokenResponse>> {
+        return authService.getTokens(request)
 
     }
 
     // 서버로 로그인 요청
-    override suspend fun requestSignIn(request: SignRequestDTO) : Result<DataBodyResponse<SignResponseDTO>> {
-        //val response =  authService.sign(request)
+    override suspend fun requestSignIn(request: SignInRequest) : Result<DataResponse<SignInResponse>> {
         return authService.sign(request)
     }
 

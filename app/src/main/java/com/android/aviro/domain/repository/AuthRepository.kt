@@ -1,11 +1,6 @@
 package com.android.aviro.domain.repository
 
-import com.android.aviro.data.entity.auth.SignResponseDTO
-import com.android.aviro.data.entity.auth.TokensResponseDTO
-import com.android.aviro.data.entity.base.BaseResponse
-import com.android.aviro.data.entity.base.DataBodyResponse
-import com.android.aviro.data.entity.base.MappingResult
-import kotlinx.coroutines.flow.Flow
+import com.android.aviro.domain.entity.base.MappingResult
 
 /** 인증과 관련된 데이터를 이 레포지토리에서 모아 처리합니다.
  *  필요시 응답 결과로 받은 DTO를 유저가 실제로 사용할 DTO로 변화합니다.
@@ -14,7 +9,7 @@ import kotlinx.coroutines.flow.Flow
  * */
 interface AuthRepository {
 
-    suspend fun getTokensFromLocal() : String?
+    suspend fun getTokensFromLocal() : List<Map<String, String?>>
     suspend fun getTokensFromRemote(id_token : String, auth_code : String) : MappingResult //Result<DataBodyResponse<TokensResponseDTO>>
     suspend fun saveTokenToLocal(access_token : String, refresh_token : String)
     suspend fun removeTokens()

@@ -1,11 +1,11 @@
 package com.android.aviro.data.datasource.member
 
 import com.android.aviro.data.api.MemberService
-import com.android.aviro.data.entity.auth.SignResponseDTO
-import com.android.aviro.data.entity.base.BaseResponse
-import com.android.aviro.data.entity.base.DataBodyResponse
-import com.android.aviro.data.entity.member.*
-import com.android.aviro.data.entity.member.MemberEntity
+import com.android.aviro.data.model.auth.SignInResponse
+import com.android.aviro.data.model.base.BaseResponse
+import com.android.aviro.data.model.base.DataResponse
+import com.android.aviro.data.model.member.*
+import com.android.aviro.data.model.member.SignUpRequest
 import javax.inject.Inject
 
 class MemberDataSourceImp @Inject constructor (
@@ -13,21 +13,21 @@ class MemberDataSourceImp @Inject constructor (
 ): MemberDataSource {
 
 
-    suspend override fun checkNickname(nickname : NicknameEntity) : Result<NicknameCheckResponse> {
+    suspend override fun checkNickname(nickname : String) : Result<NicknameCheckResponse> {
         return memberService.checkNickname(nickname)
     }
 
-    suspend override fun creatMember(newMember: MemberEntity): Result<DataBodyResponse<SignResponseDTO>> {
+    suspend override fun creatMember(newMember: SignUpRequest): Result<DataResponse<SignInResponse>> {
         return memberService.createMember(newMember)
         }
 
 
-    suspend override fun getActivityCount(request : String) : Result<DataBodyResponse<MyInfoCountResponse>> {
+    suspend override fun getActivityCount(request : String) : Result<DataResponse<MemberHistoryResponse>> {
         return memberService.getCount(request)
 
     }
 
-    suspend override fun getChallengeLevel(request : String) : Result<MyInfoLevelResponse> {
+    suspend override fun getChallengeLevel(request : String) : Result<DataResponse<MemberLevelResponse>> {
         return memberService.getChallengeLevel(request)
 
     }

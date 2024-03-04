@@ -16,8 +16,14 @@
 
     <string name="apple_service_id">SeonghunJeon.VeganRestaurant.SignIn</string>
     <string name="apple_client_id">SeonghunJeon.VeganRestaurant</string>
-    <string name="apple_id">C4K2HXA435.SeonghunJeon.VeganRestaurant</string>
     <string name="github_service_id">f6178fe3483b5b5c528c</string>
+
+
+    <string name="GPS_ENABLE_REQUEST_CODE">1000</string>
+    <string name="PERMISSIONS_REQUEST_CODE">2000</string>
+    <string name="FUSED_LOCATION_CODE">3000</string>
+    <string name="SEARCH_RESULT_OK">4000</string>
+
 
 
     <string name="lorem_ipsum">

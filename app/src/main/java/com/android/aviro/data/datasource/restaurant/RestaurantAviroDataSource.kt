@@ -1,14 +1,14 @@
 package com.android.aviro.data.datasource.restaurant
 
-import com.android.aviro.data.entity.base.DataBodyResponse
-import com.android.aviro.data.entity.restaurant.*
+import com.android.aviro.data.model.base.DataResponse
+import com.android.aviro.data.model.restaurant.*
+import com.android.aviro.data.model.search.RestaurantVeganTypeRequest
 
 interface RestaurantAviroDataSource {
 
-    suspend fun getRestaurant(request : RestaurantRequestDTO) : Result<DataBodyResponse<ReataurantReponseDTO>>
-    suspend fun getRestaurantSummary(placeId : String) : Result<DataBodyResponse<RestaurantSummary>>
-    suspend fun getSearchedRestaurant(keyword : String, x : String, y : String, page : Int, size : Int, sort : String) : Result<SearchedPlaceListResponse>
-    suspend fun getVeganTypeOfSearching(request : VeganOfSearchingRequest) : Result<VeganOfSearchingResponse>
-    suspend fun getBookmarkRestaurant(request : String) : Result<BookmarkResponse> //UserIdEntity
+    suspend fun getRestaurant(request : ReataurantListRequest) : Result<DataResponse<ReataurantListReponse>>
+    suspend fun getRestaurantSummary(placeId : String) : Result<DataResponse<RestaurantSummaryResponse>>
+    suspend fun getVeganTypeOfSearching(request : RestaurantVeganTypeRequest) : Result<DataResponse<RestaurantVeganTypeResponse>>
+    suspend fun getBookmarkRestaurant(request : String) : Result<DataResponse<BookmarkResponse>> //UserIdEntity
 
 }

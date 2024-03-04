@@ -35,7 +35,8 @@
         android:background="@drawable/base_roundsquare_white_10"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:visibilityChanged="@{viewmodel.BottomSheetStep1}">
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -55,7 +56,9 @@
     <com.android.aviro.presentation.home.ui.map.CustomFragmentContainerView
             android:id="@+id/map_fragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent">
+            android:layout_height="match_parent"
+            android:clickable= "true"
+            android:focusable= "true">
     </com.android.aviro.presentation.home.ui.map.CustomFragmentContainerView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -85,7 +88,8 @@
             app:dynamicTint="@{viewmodel.isFavorite}"
             app:layout_behavior="com.google.android.material.floatingactionbutton.FloatingActionButton$Behavior"
             app:layout_anchor="@+id/conteudo"
-            app:layout_anchorGravity="right|bottom">
+            app:layout_anchorGravity="right|bottom"
+            app:visibilityChanged="@{(viewmodel.bottomSheetState == 0 || viewmodel.bottomSheetState == 1)}">
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
 
@@ -93,7 +97,7 @@
             android:id="@+id/location_floatingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="21dp"
+            android:layout_marginEnd="21dp"
             android:layout_marginBottom="20dp"
             android:elevation="10dp"
             android:padding="12dp"
@@ -105,8 +109,50 @@
             app:tint="@color/Gray1"
             app:layout_behavior="com.google.android.material.floatingactionbutton.FloatingActionButton$Behavior"
             app:layout_anchor="@+id/conteudo"
-            app:layout_anchorGravity="right|bottom">
+            app:layout_anchorGravity="right|bottom"
+            app:visibilityChanged="@{(viewmodel.bottomSheetState == 0 || viewmodel.bottomSheetState == 1)}">
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/action_down_floatingButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="51dp"
+            android:layout_gravity="start"
+            android:elevation="10dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_arrow_down"
+            android:theme="@style/Theme.Material3.DayNight"
+            app:layout_behavior="com.google.android.material.floatingactionbutton.FloatingActionButton$Behavior"
+            app:backgroundTint="@color/Gray7"
+            app:fabCustomSize="48dp"
+            app:fabSize="mini"
+            app:tint="@color/Gray1"
+            app:visibilityChanged="@{(viewmodel.bottomSheetState == 2)}">
+        </com.google.android.material.floatingactionbutton.FloatingActionButton>
+        <!--app:layout_anchor="@+id/searchBar"
+            app:layout_anchorGravity="start|bottom"-->
+
+        <com.google.android.material.floatingactionbutton.FloatingActionButton
+            android:id="@+id/report_floatingButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="21dp"
+            android:layout_marginTop="51dp"
+            android:layout_gravity="end"
+            android:elevation="10dp"
+            android:padding="12dp"
+            android:src="@drawable/ic_report"
+            android:theme="@style/Theme.Material3.DayNight"
+            app:layout_behavior="com.google.android.material.floatingactionbutton.FloatingActionButton$Behavior"
+            app:backgroundTint="@color/Gray7"
+            app:fabCustomSize="48dp"
+            app:fabSize="mini"
+            app:tint="@color/Gray1"
+            app:visibilityChanged="@{(viewmodel.bottomSheetState == 2)}">
+        </com.google.android.material.floatingactionbutton.FloatingActionButton>
+
 
         <LinearLayout
             android:id="@+id/bottom_sheet_layout"
@@ -115,13 +161,15 @@
             android:orientation="vertical"
             app:behavior_hideable="true"
             app:behavior_draggable="false"
-            app:behavior_peekHeight="166dp"
+            app:behavior_peekHeight="150dp"
             app:layout_insetEdge="bottom"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
             <include
                 android:id="@+id/bottom_sheet"
                 layout="@layout/fragment_bottomsheet_step1"/>
         </LinearLayout>
+
+
 
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

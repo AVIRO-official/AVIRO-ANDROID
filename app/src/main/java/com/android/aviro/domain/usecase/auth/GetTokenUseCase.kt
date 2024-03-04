@@ -10,9 +10,10 @@ import javax.inject.Inject
 class GetTokenUseCase @Inject constructor (
     private val authRepository: AuthRepository
 ) {
-    suspend operator fun invoke() : String? {
-        val token = authRepository.getTokensFromLocal()
-        return token
+    suspend operator fun invoke() : List<Map<String, String?>> {
+        val tokens = authRepository.getTokensFromLocal()
+        return tokens
 
     }
+
 }

@@ -30,7 +30,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:orientation="horizontal"
-            android:background="@drawable/ic_arrow_full_down"/>
+            android:background="@drawable/ic_arrow_down_full"/>
     </LinearLayout>
 
     <LinearLayout
@@ -57,7 +57,7 @@
             android:layout_width="24dp"
             android:layout_height="24dp"
             android:orientation="horizontal"
-            android:background="@drawable/ic_arrow_full_down"/>
+            android:background="@drawable/ic_arrow_down_full"/>
     </LinearLayout>
 
     <ScrollView

@@ -7,37 +7,28 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
-    <LinearLayout
-        android:id="@+id/textLayout"
-        android:layout_width="294dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="40dp"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints">
-
         <LinearLayout
             android:id="@+id/reivew_textIcon"
-            android:layout_width="86dp"
-            android:layout_height="38dp"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:background="@drawable/ic_guide_review">
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/review_textView"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop = "17dp"
-            android:layout_gravity="center"
+            android:layout_marginTop = "40dp"
             android:orientation="vertical"
-            android:background="@drawable/text_guide_review">
-        </LinearLayout>
+            android:background="@drawable/ic_guide_review"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"/>
 
-    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/review_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop = "17dp"
+        android:orientation="vertical"
+        android:background="@drawable/text_guide_review"
+        app:layout_constraintTop_toBottomOf="@+id/reivew_textIcon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
 
     <LinearLayout
         android:id="@+id/linearLayout"

@@ -30,6 +30,10 @@
         <activity
             android:name=".presentation.splash.Splash"
             android:exported="true">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
 
         </activity>
 
@@ -37,8 +41,6 @@
             android:name=".presentation.sign.Sign"
             android:exported="true"
             android:launchMode="singleTop">
-
-
 
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
@@ -58,16 +60,18 @@
         <activity
             android:name=".presentation.home.Home"
             android:exported="true">
-            <intent-filter>
-                <action android:name="android.intent.action.MAIN" />
-                <category android:name="android.intent.category.LAUNCHER" />
-            </intent-filter>
         </activity>
 
         <activity
             android:name=".presentation.home.ui.register.RegisterFragment"
             android:exported="true">
         </activity>
+
+        <activity
+            android:name=".presentation.home.ui.register.SearchRegisteration"
+            android:exported="true">
+        </activity>
+
 
         <activity
             android:name=".presentation.update.Update"

@@ -7,36 +7,30 @@
     android:layout_height="match_parent">
 
     <LinearLayout
-        android:id="@+id/textLayout"
-        android:layout_width="294dp"
+        android:id="@+id/register_textIcon"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginTop="40dp"
         android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
+        android:background="@drawable/ic_guide_register"
         app:layout_constraintTop_toTopOf="parent"
-        tools:ignore="MissingConstraints">
-
-        <LinearLayout
-            android:id="@+id/register_textIcon"
-            android:layout_width="118dp"
-            android:layout_height="38dp"
-            android:layout_gravity="center"
-            android:orientation="vertical"
-            android:background="@drawable/ic_guide_register">
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/register_textView"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginTop="17dp"
-            android:background="@drawable/text_guide_register"
-            android:orientation="vertical">
-        </LinearLayout>
-
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
     </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/register_textView"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="17dp"
+        android:background="@drawable/text_guide_register"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@+id/register_textIcon"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+    </LinearLayout>
+
+
 
     <LinearLayout
         android:id="@+id/linearLayout"
