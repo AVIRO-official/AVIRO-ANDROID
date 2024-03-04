@@ -4,17 +4,19 @@
     xmlns:tools="http://schemas.android.com/tools"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="20dp"
-    android:paddingBottom="20dp"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp">
+    android:layout_height="match_parent">
 
+<ScrollView
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:orientation="vertical"
+        android:paddingTop="20dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
@@ -31,55 +33,273 @@
                 android:textColor="@color/Gray0"
                 android:textSize="20sp"
                 android:text="가게 정보" />
+
             <TextView
                 android:id="@+id/updatedDate_textView"
-                android:layout_width="wrap_content"
+                android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:text="TextView"/>
+                android:gravity="end"
+                android:text="업데이트" />
         </LinearLayout>
 
-        <!--
+        <!-- 정보  -->
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:orientation="vertical">
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/ic_bottomsheet_loc"/>
+            <TextView
+                android:id="@+id/addressTextView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:textColor="@color/Gray0"
+                android:textSize="16sp"
+                android:text="부산광역시 수영구 광안로49번길 32-1 상가동 101호" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/ic_bottomsheet_phone"/>
+                <TextView
+                    android:id="@+id/phoneTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textColor="@color/Keyword_Blue"
+                    android:textSize="16sp"
+                    android:text="0507-1352-2420" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:orientation="horizontal">
+
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/ic_bottomsheet_timetable" />
+                <TextView
+                    android:id="@+id/tiemtableTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textColor="@color/Keyword_Blue"
+                    android:textSize="16sp"
+                    android:text="영업 시간 추가" />
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/ic_bottomsheet_homepage"/>
+                <TextView
+                    android:id="@+id/homepageTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textColor="@color/Keyword_Blue"
+                    android:textSize="16sp"
+                    android:text="홈페이지 추가" />
+            </LinearLayout>
+        </LinearLayout>
+        <!-- 정보 끝 -->
+
+        <View
+            android:background="@color/Gray5"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"/>
+
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingBottom="20dp"
+            android:orientation="horizontal">
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_bottomsheet_update"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="10dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:textColor="@color/Keyword_Blue"
+                android:textSize="14sp"
+                android:text="가게 정보 수정 요청하기" />
+        </LinearLayout>
+
+        <!--구분선-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:orientation="vertical"
+            android:background="@color/Gray6"/>
+
+        <include
+            layout="@layout/fragment_bottomsheet_menu"/>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="20dp"
+        android:orientation="horizontal">
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/ic_bottomsheet_update"/>
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/pretendard_medium"
+            android:textColor="@color/Keyword_Blue"
+            android:textSize="14sp"
+            android:text="메뉴 정보 수정 요청하기" />
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:gravity="end"
             android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/pretendard_bold"
-                android:textColor="@color/Gray0"
-                android:textSize="20sp"
-                android:text="가게 정보" />
-            <TextView
-                android:id="@+id/updatedDate_textView"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView"/>
+                android:fontFamily="@font/pretendard_medium"
+                android:textColor="@color/Gray2"
+                android:textSize="14sp"
+                android:text="메뉴 더보기" />
+            <ImageView
+                android:layout_width="20dp"
+                android:layout_height="20dp"
+                android:background="@drawable/ic_arrow_right"/>
         </LinearLayout>
+    </LinearLayout>
 
+        <!--구분선-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:orientation="vertical"
+            android:background="@color/Gray6"/>
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal">
+            android:layout_height="293dp"
+            android:gravity="center"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:orientation="vertical">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/berry_review"/>
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:fontFamily="@font/pretendard_bold"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/pretendard_semibold"
                 android:textColor="@color/Gray0"
-                android:textSize="20sp"
-                android:text="가게 정보" />
-            <TextView
-                android:id="@+id/updatedDate_textView"
+                android:textSize="17sp"
+                android:text="갱님의 후기를 들려주세요!" />
+
+            <LinearLayout
                 android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="TextView"/>
+                android:layout_height="48dp"
+                android:gravity="center"
+                android:paddingStart="20dp"
+                android:paddingEnd="20dp"
+                android:paddingTop="10dp"
+                android:paddingBottom="10dp"
+                android:layout_marginTop="20dp"
+                android:background="@drawable/base_roundsquare_cobalt_30"
+                android:orientation="horizontal">
+                <ImageView
+                    android:layout_width="24dp"
+                    android:layout_height="24dp"
+                    android:background="@drawable/ic_review_pencil"/>
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart="10dp"
+                    android:fontFamily="@font/pretendard_semibold"
+                    android:textColor="@color/Gray7"
+                    android:textSize="16sp"
+                    android:text="지금 후기 작성하기" />
+            </LinearLayout>
         </LinearLayout>
-        -->
 
+        <!--구분선-->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="15dp"
+            android:orientation="vertical"
+            android:background="@color/Gray6"/>
 
+        <include
+            layout="@layout/fragment_bottomsheet_review"/>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="end"
+        android:layout_marginTop="20dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="20dp"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:fontFamily="@font/pretendard_medium"
+            android:textColor="@color/Gray2"
+            android:textSize="14sp"
+            android:text="후가 더보기" />
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/ic_arrow_right"/>
+    </LinearLayout>
 
     </LinearLayout>
+
+</ScrollView>
+
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

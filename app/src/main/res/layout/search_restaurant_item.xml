@@ -6,6 +6,9 @@
         <variable
             name="search_item"
             type="com.android.aviro.domain.entity.SearchedRestaurantItem" />
+        <variable
+            name="viewmodel"
+            type="com.android.aviro.presentation.search.SearchViewModel" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/item"
@@ -14,7 +17,8 @@
     android:paddingStart="16dp"
     android:paddingEnd="16dp"
     android:paddingTop="15dp"
-    android:paddingBottom="15dp">
+    android:paddingBottom="15dp"
+    android:onClick="@{() -> viewmodel.onClickItem(search_item)}">
 
         <LinearLayout
             android:id="@+id/placeVeganTypeIcon"

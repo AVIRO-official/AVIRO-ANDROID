@@ -108,6 +108,7 @@
                     android:textSize="18sp" />
 
                 <LinearLayout
+                    android:id="@+id/searchbar"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
@@ -416,7 +417,7 @@
                         android:layout_height="51dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="20dp"
-                        android:background="@drawable/border_roundsquare"
+                        android:background="@drawable/base_roundsquare_border_cobalt_30"
                         android:orientation="vertical">
                         <LinearLayout
                             android:layout_width="wrap_content"
