@@ -1,6 +1,8 @@
 package com.android.aviro.presentation.home.ui.register
 
+import android.app.Activity
 import android.content.Context
+import android.content.Intent
 import android.os.Bundle
 import android.text.Editable
 import android.text.TextWatcher
@@ -13,7 +15,8 @@ import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
 import com.android.aviro.R
 import com.android.aviro.databinding.*
-import com.android.aviro.domain.entity.MenuEntity
+import com.android.aviro.data.model.menu.MenuDTO
+import com.android.aviro.domain.entity.SearchedRestaurantItem
 import java.util.*
 import kotlin.collections.HashMap
 
@@ -27,7 +30,7 @@ class RegisterFragment : Fragment()  {
 
     //private lateinit var mGestureDetector : GestureDetector
 
-    val menuItemMap = HashMap<String, MenuEntity>()
+    val menuItemMap = HashMap<String, MenuDTO>()
 
     override fun onCreateView(
         inflater: LayoutInflater,
@@ -60,8 +63,13 @@ class RegisterFragment : Fragment()  {
             }
         })
 
-        //val adapter1 = ArrayAdapter(requireContext(), R.layout.add_menu_layout)
-        //binding.menuListView.adapter = adapter1
+        // 가게 찾기
+        binding.searchbar.setOnClickListener {
+            val intent = Intent(requireContext(), SearchRegisteration::class.java)
+            // 현재 지도의 중심 위치 정보 전다해줘야 함
+
+            startActivityForResult(intent, getString(R.string.SEARCH_RESULT_OK).toInt())
+        }
 
         // 메뉴 추가
         binding.aadMenuBtn.setOnClickListener {
@@ -80,6 +88,8 @@ class RegisterFragment : Fragment()  {
 
     }
 
+
+
     fun addMenuItem() {
         // 데이터 바인딩 인스턴스 생성
         val binding_addMenu: AddMenuLayoutBinding =
@@ -91,7 +101,7 @@ class RegisterFragment : Fragment()  {
 
         // 메뉴 추가
         val menuID = UUID.randomUUID().toString()
-        val new_menu = MenuEntity(menuID,"vegan","","","",true)
+        val new_menu = MenuDTO(menuID,"vegan","","","",true)
         menuItemMap[menuID] = new_menu
         viewmodel._menuList.value = menuItemMap
 
@@ -249,6 +259,27 @@ class RegisterFragment : Fragment()  {
         }
 
     }
+
+    override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
+        super.onActivityResult(requestCode, resultCode, data)
+        // 요청 코드가 일치하고 결과 코드가 성공인 경우
+        if (requestCode == getString(R.string.SEARCH_RESULT_OK).toInt() && resultCode == Activity.RESULT_OK) {
+            val resultData = data?.getParcelableExtra<SearchedRestaurantItem>("search_item")
+
+        }
+
+        when (requestCode) {
+            getString(R.string.SEARCH_RESULT_OK).toInt() -> {
+                if(data != null){
+                    val serahed_item = data.getParcelableExtra<SearchedRestaurantItem>("search_item")
+
+                }
+
+            }
+        }
+    }
+
+
 
     fun back() {
         //this.onBackPressed()
