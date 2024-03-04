@@ -60,8 +60,8 @@ class ChallengeFragment : Fragment() {
 
         binding.challengScroll.setOnScrollChangeListener { view, i, i2, i3, i4 ->
             if(!view.canScrollVertically(-1)) {
-                viewmodel.getMyInfo()
-                viewmodel.getChallengeInfo()
+                //viewmodel.getMyInfo()
+                //viewmodel.getChallengeInfo()
             }
         }
 
