@@ -1,4 +1,5 @@
 package com.android.aviro.domain.entity.challenge
 
-class ChallengeComment {
-}
+data class ChallengeComment(
+    val comment : String?
+)

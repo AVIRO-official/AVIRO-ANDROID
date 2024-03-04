@@ -1,4 +1,4 @@
-package com.android.aviro.domain.auth
+package com.android.aviro.domain.entity.auth
 
 data class Tokens(
     val isMember: Boolean,

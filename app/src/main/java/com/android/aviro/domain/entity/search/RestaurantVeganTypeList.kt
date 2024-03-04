@@ -1,7 +1,13 @@
 package com.android.aviro.domain.entity.search
 
-import com.android.aviro.data.model.restaurant.VeganType
-
 data class RestaurantVeganType(
     val RestaurantVeganTypeList : List<VeganType>
+)
+data class VeganType(
+    val index : Int?,
+    val placeId : String,
+    val allVegan : Boolean,
+    val someMenuVegan : Boolean,
+    val ifRequestVegan : Boolean
+
 )

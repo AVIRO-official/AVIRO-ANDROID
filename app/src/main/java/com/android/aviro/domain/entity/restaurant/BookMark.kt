@@ -1,4 +1,5 @@
 package com.android.aviro.domain.entity.restaurant
 
-class BookMark {
-}
+data class BookMark (
+    val bookmarks: List<String>
+)

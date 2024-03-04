@@ -1,4 +1,4 @@
-package com.android.aviro.domain.member
+package com.android.aviro.domain.entity.member
 
 data class MemberHistory(
     val placeCount: Int,
