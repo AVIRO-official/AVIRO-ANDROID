@@ -1,11 +1,14 @@
 package com.android.aviro.presentation.search
 
+import android.app.Activity
 import android.os.Bundle
 import android.util.Log
 import androidx.activity.viewModels
 import androidx.appcompat.app.AppCompatActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.android.aviro.R
 import com.android.aviro.databinding.ActivitySearchBinding
+import com.android.aviro.presentation.entity.SortingLocEntity
 import dagger.hilt.android.AndroidEntryPoint
 
 @AndroidEntryPoint
@@ -38,7 +41,7 @@ class Search : AppCompatActivity() {
             viewmodel._SrotingLocation.value = SortingLoc
         }
 
-        binding.searchRecyclerview.adapter = SearchAdapter()
+        binding.searchRecyclerview.adapter = SearchAdapter(viewmodel)
 
         // 스크롤 발생할 때 호출
         binding.searchRecyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -67,6 +70,12 @@ class Search : AppCompatActivity() {
 
 
         binding.backBtn.setOnClickListener {
+            finish()
+        }
+
+        viewmodel.selectedSearchedItem.observe(this, ) {
+            intent.putExtra("search_item",it)
+            setResult(Activity.RESULT_OK, intent)
             finish()
         }
 
