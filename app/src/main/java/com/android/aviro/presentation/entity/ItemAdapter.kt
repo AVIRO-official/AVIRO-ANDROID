@@ -1,4 +1,4 @@
-package com.android.aviro.presentation.search
+package com.android.aviro.presentation.entity
 
 import com.android.aviro.domain.entity.SearchedRestaurantItem
 

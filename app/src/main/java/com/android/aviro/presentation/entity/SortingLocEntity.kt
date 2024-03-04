@@ -1,4 +1,4 @@
-package com.android.aviro.presentation.search
+package com.android.aviro.presentation.entity
 
 data class SortingLocEntity(
     var x : String,
