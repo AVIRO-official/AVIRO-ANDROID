@@ -1,22 +1,9 @@
 package com.android.aviro.data.model.auth
 
-import android.os.Parcelable
-import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
-
-
-@Parcelize
-data class SignResponseDTO(
-
-    @SerializedName("userId")
+data class SignInResponse(
     val userId : String,
-    @SerializedName("userName")
-    val userName : String,
-    @SerializedName("userEmail")
+    val userName : String?,
     val userEmail : String,
-    @SerializedName("nickname")
     val nickname : String,
-    @SerializedName("marketingAgree")
     val marketingAgree : Int,
-
-    ) : Parcelable
+    )

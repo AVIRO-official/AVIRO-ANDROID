@@ -1,7 +1,7 @@
 package com.android.aviro.data.model.auth
 
 
-data class UserIDRequest(
+data class UserIdDTO(
 
     val userId: String
 )

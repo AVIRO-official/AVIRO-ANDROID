@@ -1,13 +1,6 @@
-package com.android.aviro.data.entity.restaurant
+package com.android.aviro.data.model.restaurant
 
-import com.google.gson.annotations.SerializedName
 
 data class BookmarkResponse(
-
-    @SerializedName("statusCode")
-    val statusCode: Int,
-
-    @SerializedName("bookmarks")
     val bookmarks: List<String>
-
 )

@@ -1,12 +1,6 @@
-package com.android.aviro.data.model.restaurant
+package com.android.aviro.data.model.search
 
 
 data class RestaurantVeganTypeRequest (
-    val RequestedRestaurantVeganTypeList : List<RequestedRestaurant>
-)
-
-data class RequestedRestaurant(
-    val title : String,
-    val x : Double,
-    val y : Double
+    val placeArray : List<RequestedVeganTypeOfRestaurantDTO>
 )

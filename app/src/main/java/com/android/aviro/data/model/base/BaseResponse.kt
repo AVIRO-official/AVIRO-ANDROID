@@ -1,14 +1,7 @@
-package com.android.aviro.data.entity.base
+package com.android.aviro.data.model.base
 
-import com.google.gson.annotations.SerializedName
-import kotlinx.parcelize.Parcelize
-import android.os.Parcelable
 
-@Parcelize
 data class BaseResponse(
-    @SerializedName("statusCode")
     val statusCode: Int,
-
-    @SerializedName("message")
     var message: String
-) : Parcelable
+)

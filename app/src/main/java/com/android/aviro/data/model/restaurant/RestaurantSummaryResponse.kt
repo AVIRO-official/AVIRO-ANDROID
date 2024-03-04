@@ -1,7 +1,7 @@
 package com.android.aviro.data.model.restaurant
 
 
-data class RestaurantSummary(
+data class RestaurantSummaryResponse(
     val placeId: String,
     val title: String,
     val category: String,

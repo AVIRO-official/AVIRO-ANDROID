@@ -1,6 +1,6 @@
 package com.android.aviro.data.model.search
 
-data class RequestedRestaurantDTO(
+data class RequestedVeganTypeOfRestaurantDTO(
     val title : String,
     val x : Double,
     val y : Double

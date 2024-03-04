@@ -5,7 +5,7 @@ import com.google.gson.annotations.SerializedName
 import kotlinx.parcelize.Parcelize
 
 
-data class SignInRequest(
+data class SignUpRequest(
 
     val refreshToken : String,
     val accessToken : String,

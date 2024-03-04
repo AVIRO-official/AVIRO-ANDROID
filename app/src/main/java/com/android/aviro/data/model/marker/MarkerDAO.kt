@@ -1,15 +1,13 @@
 package com.android.aviro.data.model.marker
 
 import com.naver.maps.map.overlay.Marker
+import io.realm.kotlin.types.annotations.PrimaryKey
 
-
-data class MarkerEntity (
-
-    //@SerializedName("placeId")
+// 로컬 DB의 마커 DAO
+data class MarkerDAO (
+    @PrimaryKey
     val placeId : String,
-    //@SerializedName("veganType")
     var veganType : String,
-    //@SerializedName("marker")
     val marker : Marker
 
 )

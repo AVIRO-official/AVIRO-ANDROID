@@ -2,15 +2,15 @@ package com.android.aviro.data.model.base
 
 import com.google.gson.annotations.SerializedName
 
-data class DataBodyResponse<T>(
+data class DataResponse<T>(
 
-    @SerializedName("statusCode")
+    //@SerializedName("statusCode")
     val statusCode : Int,
 
-    @SerializedName("message")
+    //@SerializedName("message")
     val message : String?,
 
-    @SerializedName("data")
+    //@SerializedName("data")
     val data: T?
 
 )

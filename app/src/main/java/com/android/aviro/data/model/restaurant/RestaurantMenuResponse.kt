@@ -1,18 +1,11 @@
 package com.android.aviro.data.model.restaurant
 
-import com.android.aviro.domain.entity.MenuEntity
-import com.google.gson.annotations.SerializedName
+import com.android.aviro.data.model.menu.MenuDTO
 
-data class RestaurantMenu(
-
-    @SerializedName("count")
+data class RestaurantMenuResponse(
     val count: Int,
-
-    @SerializedName("updatedTime")
     val updatedTime: Int,
-
-    @SerializedName("menuArray")
-    val menuArray: List<MenuEntity>
-
-
+    val menuArray: List<MenuDTO>
 )
+
+

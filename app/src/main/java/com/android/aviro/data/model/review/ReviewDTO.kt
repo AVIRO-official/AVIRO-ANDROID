@@ -1,21 +1,13 @@
-package com.android.aviro.domain.entity
+package com.android.aviro.data.model.review
 
 import com.google.gson.annotations.SerializedName
 
-data class ReviewEntity(
+// DTO는 보통 request, response 모두 사용할 수 있을때 네이밍
+data class ReviewDTO(
 
-    @SerializedName("commentId")
     val commentId : String,
-
-    @SerializedName("userId")
     var userId : String,
-
-    @SerializedName("content")
     var content : String,
-
-    @SerializedName("updatedTime")
     var updatedTime : String,
-
-    @SerializedName("nickname")
     var nickname : String,
 )
