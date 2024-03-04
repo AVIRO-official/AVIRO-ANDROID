@@ -10,10 +10,7 @@ import com.android.aviro.data.datasource.marker.MarkerMemoryCacheDataSource
 import com.android.aviro.data.datasource.marker.MarkerMemoryCacheDataSourceImp
 import com.android.aviro.data.datasource.member.MemberDataSource
 import com.android.aviro.data.datasource.member.MemberDataSourceImp
-import com.android.aviro.data.datasource.restaurant.RestaurantAviroDataSource
-import com.android.aviro.data.datasource.restaurant.RestaurantAviroDataSourceImp
-import com.android.aviro.data.datasource.restaurant.RestaurantLocalDataSource
-import com.android.aviro.data.datasource.restaurant.RestaurantLocalDataSourceImp
+import com.android.aviro.data.datasource.restaurant.*
 import dagger.Binds
 import dagger.Module
 import dagger.hilt.InstallIn
@@ -55,6 +52,12 @@ abstract class DataSourceModule {
     abstract fun bindsRestaurantLocalDataSource(
         restaurant_local_datasource: RestaurantLocalDataSourceImp,
     ): RestaurantLocalDataSource
+
+    @Binds
+    @Singleton
+    abstract fun bindsRestaurantKakaoDataSource(
+        restaurant_kakao_datasource: RestaurantKakaoDataSourceImp,
+    ): RestaurantKakaoDataSource
 
     @Binds
     @Singleton

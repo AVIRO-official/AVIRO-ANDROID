@@ -20,8 +20,8 @@ import javax.inject.Singleton
 @InstallIn(SingletonComponent::class)
 class ApiModule {
 
-    val AVIRO_BASE_URL = BuildConfig.AWS_API_KEY_V1
-    val KAKAO_BASE_URL = BuildConfig.KAKAO_RESTAPI_URL
+    private val AVIRO_BASE_URL = BuildConfig.AWS_API_KEY_V1
+    private val KAKAO_BASE_URL = BuildConfig.KAKAO_RESTAPI_URL
 
     val logger = HttpLoggingInterceptor().apply {
         level = HttpLoggingInterceptor.Level.BASIC  // 로그 레벨 BASIC
