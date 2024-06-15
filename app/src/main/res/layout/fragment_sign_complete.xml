@@ -18,16 +18,28 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
+
     <LinearLayout
         android:id="@+id/startBtn"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="60dp"
-        android:background="@drawable/btn_start"
+        android:layout_width="match_parent"
+        android:layout_height="51dp"
+        android:background = "@drawable/base_roundsquare_cobalt_30"
         android:orientation="vertical"
+        android:gravity="center"
+        android:layout_marginStart = "20dp"
+        android:layout_marginEnd = "20dp"
+        android:layout_marginBottom="30dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent">
+        <TextView
+            android:id="@+id/nextTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textSize="18sp"
+            android:fontFamily="@font/pretendard_semibold"
+            android:textColor="@color/Gray7"
+            android:text="어비로 시작하기" />
+
     </LinearLayout>
 </androidx.constraintlayout.widget.ConstraintLayout>

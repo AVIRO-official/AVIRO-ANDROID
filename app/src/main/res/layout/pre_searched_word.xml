@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.aviro.android.presentation.search.SearchViewModel" />
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingTop="15dp"
+        android:paddingBottom="15dp"
+        android:background="@color/Gray7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+    <LinearLayout
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:orientation="vertical"
+        android:background="@drawable/ic_searched_word"/>
+
+        <TextView
+            android:id="@+id/word"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_weight="1"
+            android:textColor="@color/Gray1"
+            android:fontFamily="@font/pretendard_semibold"
+            android:textSize="16sp"/>
+
+        <LinearLayout
+            android:id="@+id/cancelBtn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:orientation="vertical"
+            android:background="@drawable/ic_delete" />
+        <!--android:onClick="@{() -> viewmodel.removePreSearchedWord(preSearchedWord)}"-->
+
+    </LinearLayout>
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

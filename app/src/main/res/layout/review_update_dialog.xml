@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp">
+
+    <TextView
+        android:id = "@+id/title"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="더보기"
+        android:textColor="@color/Gray0"
+        android:textSize = "20sp"
+        android:fontFamily="@font/pretendard_semibold"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+
+    <LinearLayout
+        android:id = "@+id/itemList"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:layout_marginTop="20dp"
+        android:paddingHorizontal="30dp"
+        android:gravity="center"
+        app:layout_constraintTop_toBottomOf="@+id/title"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" >
+        <TextView
+            android:id = "@+id/item1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="후기 수정하기"
+            android:gravity="center"
+            android:textColor="@color/Gray0"
+            android:paddingVertical="15dp"
+            android:textSize = "16sp"
+            android:fontFamily="@font/pretendard_medium"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/Gray5"/>
+
+        <TextView
+            android:id = "@+id/item2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:paddingVertical="15dp"
+            android:gravity="center"
+            android:text="후기 삭제하기"
+            android:textColor="@color/Warn_Red"
+            android:textSize = "16sp"
+            android:fontFamily="@font/pretendard_medium"/>
+        <View
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="@color/Gray5"/>
+
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/cancel"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="40dp"
+        android:text="취소"
+        android:textColor="@color/Cobalt"
+        android:textSize = "17sp"
+        android:fontFamily="@font/pretendard_bold"
+        app:layout_constraintTop_toBottomOf="@+id/itemList"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

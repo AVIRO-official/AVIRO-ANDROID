@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="vertical"
+    android:background="@drawable/base_roundsquare_gray6_30">
+
+        <ImageView
+            android:id="@+id/popupImg"
+            android:layout_width="match_parent"
+            android:layout_height="325dp"
+            android:scaleType="fitXY"
+            android:backgroundTint="@android:color/transparent"/>
+    <!-- android:layout_weight="0.4"-->
+    <LinearLayout
+        android:id="@+id/popupBtn"
+        android:layout_width="match_parent"
+        android:layout_height="55dp">
+        <!--   android:layout_weight="0.6"-->
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:padding="15dp"
+            android:gravity="center"
+            android:text="지금 확인하기"
+            android:textColor="@color/Gray7"
+            android:fontFamily="@font/pretendard_bold"
+            android:textSize="18sp"/>
+    </LinearLayout>
+
+
+</LinearLayout>

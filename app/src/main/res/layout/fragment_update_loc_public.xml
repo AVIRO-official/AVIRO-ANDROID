@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools">
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.aviro.android.presentation.update.UpdateAddressViewModel" />
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/Gray7">
+
+    <LinearLayout
+        android:id="@+id/searchBarContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
+        android:background="@drawable/base_roundsquare_gray6"
+        android:orientation="horizontal"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/search_bar_left_icon"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:background="@drawable/ic_search"
+            android:orientation="vertical" >
+            <Button
+                android:id="@+id/eidttextBackBtn"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:enabled="@{viewmodel.isSearchingAddress}"
+                android:background="@null" />
+            <!--android:onClick="@{() -> viewmodel.onClickBack(eidttextBackBtn)}"-->
+        </LinearLayout>
+
+        <EditText
+            android:id="@+id/EditTextSearchBar"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:background="@null"
+            android:fontFamily="@font/pretendard_medium"
+            android:hint="예.정자일 195, 백현동 532"
+            android:textColorHint="@color/Gray3"
+            android:imeOptions="actionDone"
+            android:inputType="textNoSuggestions|textVisiblePassword"
+            android:textColor="@color/Cobalt"
+            android:textSize="18sp"
+            android:afterTextChanged="@{viewmodel::onTextChangedAddressOnPublic}"
+            android:onFocusChangeListener="@{(v, hasFocus) -> viewmodel.onEditTextFocusChanged(hasFocus)}"/>
+        <!--}"
+            android:onKey="@{(view, keyCode, event) -> viewmodel.searchRestaurant(EditTextSearchBar, keyCode, event)}"/>
+        -->
+
+            <LinearLayout
+            android:id="@+id/searchbar_cancle_btn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_marginTop="15dp"
+            android:layout_marginBottom="15dp"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/ic_delete"
+            android:orientation="vertical"
+            android:visibility="@{viewmodel.isSearchingAddress ? 0 : 8}"/>
+    </LinearLayout>
+
+    <TextView
+        android:id="@+id/guideMessage"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="20dp"
+        android:gravity="center"
+        android:textColor="@color/Gray2"
+        android:textSize="15sp"
+        android:text="도로명이나 지역명을 이용해서 검색해보세요."
+        android:fontFamily="@font/pretendard_medium"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchBarContainer" />
+
+    <LinearLayout
+        android:id="@+id/searchMainContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/guideMessage"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="217dp"
+            android:orientation="vertical"
+            app:animated="@{viewmodel.isAddressResult}"
+            app:visibilityChanged="@{!viewmodel.isAddressResult}">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/berry_search" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="검색 결과가 없습니다"
+                android:textColor="@color/Gray2"
+                android:fontFamily="@font/pretendard_medium"
+                android:textSize="15sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="주소를 다시 입력해주세요"
+                android:textColor="@color/Gray2"
+                android:fontFamily="@font/pretendard_medium"
+                android:textSize="15sp"/>
+        </LinearLayout>
+
+        <ScrollView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="20dp"
+            android:layout_marginTop="18dp"
+            android:layout_marginEnd="20dp"
+            android:layout_marginBottom="20dp"
+            app:visibilityChanged="@{viewmodel.isSearchingAddress &amp;&amp; viewmodel.isAddressResult}">
+            <!--  app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/guideMessage"-->
+
+            <!-- 검색 리스트  -->
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/searchRecyclerview"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+        </ScrollView>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

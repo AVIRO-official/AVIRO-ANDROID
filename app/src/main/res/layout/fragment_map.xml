@@ -4,11 +4,11 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <data>
-        <import type="androidx.core.content.ContextCompat"/>
         <variable
             name="viewmodel"
-            type="com.android.aviro.presentation.home.ui.map.MapViewModel" />
+            type="com.aviro.android.presentation.home.ui.map.MapViewModel" />
     </data>
+
     <androidx.coordinatorlayout.widget.CoordinatorLayout
         android:id="@+id/bottom_sheet_coordinatorLayout"
         android:layout_width="match_parent"
@@ -19,12 +19,15 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
+
+
+
     <LinearLayout
         android:id="@+id/searchBar"
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="35dp"
+        android:layout_marginTop="50dp"
         android:layout_marginEnd="16dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
@@ -36,7 +39,9 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:visibilityChanged="@{viewmodel.BottomSheetStep1}">
+        app:layout_constraintBottom_toTopOf="@+id/filteringScrollView"
+        app:visibilityChanged="@{(viewmodel.bottomSheetState == 0 || viewmodel.bottomSheetState == 1)}">
+
         <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -53,15 +58,100 @@
             android:textSize="18sp"/>
     </LinearLayout>
 
-    <com.android.aviro.presentation.home.ui.map.CustomFragmentContainerView
+
+    <com.aviro.android.presentation.home.ui.map.CustomFragmentContainerView
             android:id="@+id/map_fragment"
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:clickable= "true"
-            android:focusable= "true">
-    </com.android.aviro.presentation.home.ui.map.CustomFragmentContainerView>
+            android:layout_height="2256dp"
+        android:focusable= "true"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+    </com.aviro.android.presentation.home.ui.map.CustomFragmentContainerView>
+
+    <!-- 필터링 -->
+
+  <HorizontalScrollView
+          android:id="@+id/filteringScrollView"
+          android:layout_width="match_parent"
+          android:layout_height="wrap_content"
+          android:layout_marginStart="16dp"
+          android:layout_marginTop="10dp"
+          android:layout_marginEnd="16dp"
+          android:scrollbars="none"
+          app:visibilityChanged="@{(viewmodel.bottomSheetState == 0 || viewmodel.bottomSheetState == 1)}"
+          app:layout_constraintEnd_toEndOf="parent"
+          app:layout_constraintStart_toStartOf="parent"
+          app:layout_constraintTop_toBottomOf="@+id/searchBar">
+
+    <LinearLayout
+        android:id="@+id/filteringContainer"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <!-- android:layout_marginStart="16dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginEnd="16dp"
+        android:orientation="horizontal"
+        app:visibilityChanged="@{(viewmodel.bottomSheetState == 0 || viewmodel.bottomSheetState == 1)}"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/searchBar"-->
+
+        <Button
+            android:id="@+id/filter_cancel_btn"
+            android:layout_width="36dp"
+            android:layout_height="36dp"
+            android:paddingBottom="15dp"
+            android:elevation="10dp"
+            android:background="@drawable/ic_filter_cancel"
+            app:visibilityChanged="@{viewmodel.categoryFilter[0] || viewmodel.categoryFilter[1] || viewmodel.categoryFilter[2] || viewmodel.categoryFilter[3]}"/>
+
+
+        <LinearLayout
+            android:id="@+id/filter_dish"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:elevation="10dp"
+            android:orientation="horizontal"
+            android:padding="9dp"
+            app:bgCategoryFilter="@{viewmodel.categoryFilter[0]}" />
+
+        <LinearLayout
+            android:id="@+id/filter_cafe"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:duplicateParentState="true"
+            android:elevation="10dp"
+            android:orientation="horizontal"
+            android:padding="9dp"
+            app:bgCategoryFilter="@{viewmodel.categoryFilter[1]}" />
+        <LinearLayout
+            android:id="@+id/filter_bakery"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:padding="10dp"
+            android:elevation="10dp"
+            android:orientation="horizontal"
+            app:bgCategoryFilter="@{viewmodel.categoryFilter[2]}"/>
+        <LinearLayout
+            android:id="@+id/filter_bar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="6dp"
+            android:padding="10dp"
+            android:elevation="10dp"
+            android:orientation="horizontal"
+            app:bgCategoryFilter="@{viewmodel.categoryFilter[3]}"/>
+    </LinearLayout>
+</HorizontalScrollView>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+
+
 
         <FrameLayout
             android:id="@+id/conteudo"
@@ -69,18 +159,20 @@
             android:layout_height="wrap_content"
             app:layout_insetEdge="bottom"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"/>
+        <!--app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"-->
+
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/favorites_floatingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginRight="21dp"
+            android:layout_marginEnd="21dp"
             android:layout_marginBottom="80dp"
             android:elevation="10dp"
             android:padding="12dp"
-            android:onClick = "@{viewmodel::onClickFavorite}"
+            android:onClick = "@{() -> viewmodel.onClickFavorite()}"
             android:src="@{viewmodel.isFavorite}"
-            android:theme="@style/Theme.Material3.DayNight"
+            android:theme="@style/Theme.AVIRO"
             app:rippleColor="@android:color/transparent"
             app:backgroundTint="@color/Gray7"
             app:fabCustomSize="48dp"
@@ -111,6 +203,7 @@
             app:layout_anchor="@+id/conteudo"
             app:layout_anchorGravity="right|bottom"
             app:visibilityChanged="@{(viewmodel.bottomSheetState == 0 || viewmodel.bottomSheetState == 1)}">
+            <!--app:visibilityChanged="@{(viewmodel.bottomSheetState == 0 || viewmodel.bottomSheetState == 1)}"-->
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -131,10 +224,11 @@
             app:tint="@color/Gray1"
             app:visibilityChanged="@{(viewmodel.bottomSheetState == 2)}">
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
+        <!--app:visibilityChanged="@{(viewmodel.bottomSheetState == 2)}"-->
         <!--app:layout_anchor="@+id/searchBar"
             app:layout_anchorGravity="start|bottom"-->
 
-        <com.google.android.material.floatingactionbutton.FloatingActionButton
+      <!--  <com.google.android.material.floatingactionbutton.FloatingActionButton
             android:id="@+id/report_floatingButton"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
@@ -151,8 +245,8 @@
             app:fabSize="mini"
             app:tint="@color/Gray1"
             app:visibilityChanged="@{(viewmodel.bottomSheetState == 2)}">
-        </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
+        </com.google.android.material.floatingactionbutton.FloatingActionButton>-->
 
         <LinearLayout
             android:id="@+id/bottom_sheet_layout"
@@ -161,15 +255,14 @@
             android:orientation="vertical"
             app:behavior_hideable="true"
             app:behavior_draggable="false"
-            app:behavior_peekHeight="150dp"
+            app:behavior_peekHeight="160dp"
+            app:behavior_halfExpandedRatio="0.75"
             app:layout_insetEdge="bottom"
             app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior">
+            <!-- app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"-->
             <include
                 android:id="@+id/bottom_sheet"
                 layout="@layout/fragment_bottomsheet_step1"/>
         </LinearLayout>
-
-
-
     </androidx.coordinatorlayout.widget.CoordinatorLayout>
 </layout>

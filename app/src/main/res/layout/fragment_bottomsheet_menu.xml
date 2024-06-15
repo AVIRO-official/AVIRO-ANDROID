@@ -1,27 +1,36 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:paddingTop="20dp"
-    android:paddingBottom="20dp"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp">
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="RestaurantMenu"
+            type="com.aviro.android.domain.entity.restaurant.RestaurantMenu" />
+        <variable
+            name="viewmodel"
+            type="com.aviro.android.presentation.bottomsheet.BottomSheetViewModel" />
+    </data>
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="vertical"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@+id/list_container"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent">
 
     <!-- 업데이트 날짜 텍스트 -->
     <LinearLayout
+        android:id="@+id/menue_title_layout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:orientation="horizontal">
+        android:paddingStart="16dp"
+        android:paddingTop="20dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="16dp"
+        android:orientation="horizontal"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+        <!-- android:layout_marginTop="20dp"-->
 
         <TextView
             android:layout_width="wrap_content"
@@ -36,11 +45,11 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="7dp"
-            android:gravity="bottom"
             android:fontFamily="@font/pretendard_regular"
+            android:gravity="bottom"
+            android:text="@{RestaurantMenu.count + `개`}"
             android:textColor="@color/Gray2"
-            android:textSize="13sp"
-            android:text="6개" />
+            android:textSize="13sp" />
 
         <TextView
             android:id="@+id/updatedDate_textView"
@@ -49,16 +58,53 @@
             android:gravity="end"
             android:fontFamily="@font/pretendard_regular"
             android:textColor="@color/Gray2"
-            android:textSize="13sp"
-            android:text="업데이트" />
+            android:textSize="13sp" />
+        <!--android:text="@{menu.updatedTime + `업데이트`}"-->
     </LinearLayout>
 
-        <ListView
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginTop="20dp" />
+       <!-- </LinearLayout>-->
+
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/menuListView"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/menue_title_layout"
+        app:layout_constraintBottom_toTopOf="@+id/menuUpdateBtn"
+        app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
 
 
+<LinearLayout
+        android:id="@+id/menuUpdateBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="16dp"
+        android:paddingEnd="16dp"
+        android:paddingBottom="15dp"
+        android:paddingTop="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+    <!--android:layout_marginBottom="10dp"-->
+
+        <ImageView
+            android:layout_width="20dp"
+            android:layout_height="20dp"
+            android:background="@drawable/ic_bottomsheet_update" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:fontFamily="@font/pretendard_medium"
+            android:text="메뉴 정보 수정 요청하기"
+            android:textColor="@color/Keyword_Blue"
+            android:textSize="14sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

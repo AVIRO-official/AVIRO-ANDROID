@@ -7,7 +7,7 @@
         <import type="androidx.core.content.ContextCompat"/>
         <variable
             name="viewmodel"
-            type="com.android.aviro.presentation.home.ui.mypage.MypageViewModel" />
+            type="com.aviro.android.presentation.home.ui.mypage.MypageViewModel" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -17,50 +17,54 @@
     android:background="@color/Gray7"
     tools:context=".presentation.home.ui.mypage.MypageFragment">
 
+    <androidx.appcompat.widget.Toolbar
+        android:id="@+id/toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="?attr/actionBarSize"
+        android:background="@color/Gray7"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <TextView
+            android:id="@+id/titleTextView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="챌린지"
+            android:textColor="@color/Gray0"
+            android:textSize="18sp"
+            android:textStyle="bold"/>
+        <TextView
+            android:id="@+id/mypageBtn"
+            android:layout_width="24dp"
+            android:layout_height="24dp"
+            android:layout_gravity="end"
+            android:layout_marginEnd="16dp"
+            android:background="@drawable/ic_mypage"
+            android:textSize="18sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
+    </androidx.appcompat.widget.Toolbar>
+
+
     <ScrollView
         android:id="@+id/challeng_scroll"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:layout_marginTop="60dp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <LinearLayout
             android:id="@+id/linearLayout1"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_marginBottom="20dp"
             android:orientation="vertical"
-            android:background="@color/Gray7"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
-
-            <androidx.appcompat.widget.Toolbar
-                android:id="@+id/toolbar"
-                android:layout_width="match_parent"
-                android:layout_height="?attr/actionBarSize"
-                android:background="@color/Gray7"
-                app:layout_constraintEnd_toEndOf="parent"
-                app:layout_constraintTop_toTopOf="parent">
-
-                <TextView
-                    android:id="@+id/titleTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center"
-                    android:text="챌린지"
-                    android:textColor="@color/Gray0"
-                    android:textSize="18sp"
-                    android:textStyle="bold"/>
-                <TextView
-                    android:id="@+id/mypageBtn"
-                    android:layout_width="24dp"
-                    android:layout_height="24dp"
-                    android:layout_gravity="end"
-                    android:layout_marginEnd="16dp"
-                    android:background="@drawable/ic_mypage"
-                    android:textSize="18sp"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintTop_toTopOf="parent" />
-            </androidx.appcompat.widget.Toolbar>
+            android:background="@color/Gray7">
 
             <TextView
                 android:id="@+id/periodTextView"
@@ -108,8 +112,7 @@
                     android:layout_centerVertical="true"
                     android:layout_marginStart="8dp"
                     android:layout_toEndOf="@id/subTitleTextView"
-                    android:background="@drawable/ic_info"/>
-
+                    android:background="@drawable/ic_info" />
             </RelativeLayout>
 
             <TextView
@@ -118,7 +121,7 @@
                 android:layout_height="wrap_content"
                 android:layout_marginTop="16dp"
                 android:layout_gravity="center"
-                android:text="@{@string/challenge_tree(viewmodel.nickname)}"
+                android:text="@{@string/challenge_tree(viewmodel.nicknameText)}"
                 android:textColor="@color/Gray0"
                 android:textSize = "20sp"
                 android:fontFamily="@font/pretendard_semibold"
@@ -194,6 +197,7 @@
                         android:text="@{viewmodel.challengeNextPoint}"/>
                 </LinearLayout>
                 </LinearLayout>
+
                 <ImageView
                     android:layout_width="150dp"
                     android:layout_height="150dp"
@@ -201,121 +205,147 @@
                     android:background="@drawable/frame_challenge_circle"
                     android:orientation="vertical"
                     app:imageUrl="@{viewmodel.challengeLevelInfo.image}"/>
+
+
+                <!-- 튜토리얼을 위한 이미지 -->
+                <ImageView
+                    android:id="@+id/tutorialImg1"
+                    android:layout_width="150dp"
+                    android:layout_height="150dp"
+                    android:layout_gravity="center_horizontal"
+                    android:src="@drawable/img2_tutorial_3"
+                    android:visibility="invisible"/>
+
+                <ImageView
+                    android:id="@+id/tutorialImg2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_horizontal"
+                    android:layout_marginTop="150dp"
+                    android:visibility="invisible"
+                    android:background="@drawable/img_tutorial_3"/>
+
+
             </FrameLayout>
 
+
             <!-- 나의 활동 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="100dp"
+                android:layout_marginTop="19dp"
+                android:orientation="horizontal"
+                android:paddingStart="15dp"
+                android:paddingEnd="15dp"
+                android:paddingTop="12dp"
+                android:paddingBottom="12dp"
+                app:layout_constraintTop_toBottomOf="@+id/challengeFrame">
 
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="81dp"
-        android:layout_marginTop="19dp"
-        android:orientation="horizontal"
-        android:paddingStart="15dp"
-        android:paddingEnd="15dp"
-        android:paddingTop="12dp"
-        android:paddingBottom="12dp"
-        app:layout_constraintTop_toBottomOf="@+id/challengeFrame">
+                <LinearLayout
+                    android:id="@+id/MyRestaurantList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"
+                    android:orientation="vertical">
+                    <!-- android:layout_marginStart = "19dp"
+                    android:layout_marginEnd = "18.67dp"-->
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart = "19dp"
-            android:layout_marginEnd = "18.67dp"
-            android:layout_weight="0.3"
-            android:orientation="vertical">
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="@font/pretendard_semibold"
+                        android:gravity="center"
+                        android:text="등록한 가게"
+                        android:textColor="@color/Gray1"
+                        android:textSize="14sp" />
+                    <TextView
+                        android:id="@+id/registerationNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:gravity="center"
+                        android:text="@{viewmodel.registerAmount}"
+                        android:textColor="@color/Gray0"
+                        android:textSize="20sp" />
+                </LinearLayout>
 
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:fontFamily="@font/pretendard_semibold"
-                android:gravity="center"
-                android:text="등록한 가게"
-                android:textColor="@color/Gray1"
-                android:textSize="14sp" />
-            <TextView
-                android:id="@+id/registerationNum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_gravity="center_horizontal"
-                android:fontFamily="@font/pretendard_bold"
-                android:gravity="center"
-                android:text="@{viewmodel.registerAmount}"
-                android:textColor="@color/Gray0"
-                android:textSize="20sp" />
-        </LinearLayout>
-        <View
-            android:background="@color/Gray5"
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart = "10dp"
-            android:layout_marginEnd = "10dp"/>
+                <View
+                    android:background="@color/Gray5"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart = "10dp"
+                    android:layout_marginEnd = "10dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart="24.83dp"
-            android:layout_marginEnd="24.83dp"
-            android:layout_weight="0.3"
-            android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="작성 후기"
-                android:textColor="@color/Gray1"
-                android:textSize = "14sp"
-                android:fontFamily="@font/pretendard_semibold"/>
-            <TextView
-                android:id="@+id/reviewNum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_gravity="center_horizontal"
-                android:fontFamily="@font/pretendard_bold"
-                android:gravity="center"
-                android:text="@{viewmodel.reviewAmount}"
-                android:textColor="@color/Gray0"
-                android:textSize="20sp" />
-        </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/MyReviewList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"
+                    android:orientation="vertical">
+                    <!--android:layout_marginStart="24.83dp"
+                    android:layout_marginEnd="24.83dp"-->
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="작성 후기"
+                        android:textColor="@color/Gray1"
+                        android:textSize = "14sp"
+                        android:fontFamily="@font/pretendard_semibold"/>
+                    <TextView
+                        android:id="@+id/reviewNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:gravity="center"
+                        android:text="@{viewmodel.reviewAmount}"
+                        android:textColor="@color/Gray0"
+                        android:textSize="20sp" />
+                </LinearLayout>
 
-        <View
-            android:background="@color/Gray5"
-            android:layout_width="1dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart = "10dp"
-            android:layout_marginEnd = "10dp"/>
+                <View
+                    android:background="@color/Gray5"
+                    android:layout_width="1dp"
+                    android:layout_height="wrap_content"
+                    android:layout_marginStart = "10dp"
+                    android:layout_marginEnd = "10dp"/>
 
-        <LinearLayout
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"
-            android:layout_marginStart = "26.67dp"
-            android:layout_marginEnd = "27dp"
-            android:layout_weight="0.3"
-            android:orientation="vertical">
-            <TextView
-                android:id="@+id/textView6"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center_horizontal"
-                android:text="즐겨찾기"
-                android:textColor="@color/Gray1"
-                android:textSize = "14sp"
-                android:fontFamily="@font/pretendard_semibold"/>
-            <TextView
-                android:id="@+id/bookmarkNum"
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="8dp"
-                android:layout_gravity="center_horizontal"
-                android:fontFamily="@font/pretendard_bold"
-                android:gravity="center"
-                android:text="@{viewmodel.bookmarkAmount}"
-                android:textColor="@color/Gray0"
-                android:textSize="20sp" />
-        </LinearLayout>
-    </LinearLayout>
+                <LinearLayout
+                    android:id="@+id/MyBookmarkList"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="0.3"
+                    android:orientation="vertical">
+                    <!-- android:layout_marginStart = "26.67dp"
+                    android:layout_marginEnd = "27dp"-->
+                    <TextView
+                        android:id="@+id/textView6"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_horizontal"
+                        android:text="즐겨찾기"
+                        android:textColor="@color/Gray1"
+                        android:textSize = "14sp"
+                        android:fontFamily="@font/pretendard_semibold"/>
+                    <TextView
+                        android:id="@+id/bookmarkNum"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_gravity="center_horizontal"
+                        android:fontFamily="@font/pretendard_bold"
+                        android:gravity="center"
+                        android:text="@{viewmodel.bookmarkAmount}"
+                        android:textColor="@color/Gray0"
+                        android:textSize="20sp" />
+                </LinearLayout>
+            </LinearLayout>
+
         </LinearLayout>
     </ScrollView>
 

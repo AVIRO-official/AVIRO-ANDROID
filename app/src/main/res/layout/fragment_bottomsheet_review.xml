@@ -1,53 +1,136 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="RestaurantReview"
+            type="com.aviro.android.domain.entity.restaurant.RestaurantReview" />
+        <variable
+            name="viewmodel"
+            type="com.aviro.android.presentation.bottomsheet.BottomSheetViewModel" />
+    </data>
+<androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:paddingTop="20dp"
-    android:paddingBottom="20dp"
     android:paddingStart="16dp"
     android:paddingEnd="16dp">
 
     <LinearLayout
+        android:id="@+id/list_container"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:orientation="vertical"
+        android:layout_marginBottom="60dp"
+        app:layout_constraintBottom_toTopOf="@+id/writingReviewBtn"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
 
-    <!-- 업데이트 날짜 텍스트 -->
-    <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:orientation="horizontal">
-
-        <TextView
-            android:layout_width="wrap_content"
+        <!-- 업데이트 날짜 텍스트 -->
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:fontFamily="@font/pretendard_bold"
-            android:textColor="@color/Gray0"
-            android:textSize="20sp"
-            android:text="후기" />
+            android:orientation="horizontal">
 
-        <TextView
-            android:id="@+id/menu_amount_textView"
-            android:layout_width="wrap_content"
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_bold"
+                android:text="후기"
+                android:textColor="@color/Gray0"
+                android:textSize="20sp" />
+
+            <TextView
+                android:id="@+id/review_amount_textView"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="7dp"
+                android:fontFamily="@font/pretendard_regular"
+                android:gravity="bottom"
+                android:text="6개"
+                android:textColor="@color/Gray2"
+                android:textSize="13sp" />
+        </LinearLayout>
+
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/reviewListView"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginStart="7dp"
-            android:gravity="bottom"
-            android:fontFamily="@font/pretendard_regular"
-            android:textColor="@color/Gray2"
-            android:textSize="13sp"
-            android:text="6개" />
-    </LinearLayout>
+            android:layout_marginTop="20dp"
+            app:layoutManager="androidx.recyclerview.widget.GridLayoutManager" />
 
-        <ListView
+        <!-- 후기가 없어요 베리 -->
+        <LinearLayout
+            android:id="@+id/noReviewImage"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginTop="20dp" />
+            android:gravity="center"
+            android:orientation="vertical"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp">
 
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/berry_search" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="아직 등록된 후기가 없어요."
+                android:textColor="@color/Gray1"
+                android:textSize="17sp" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:fontFamily="@font/pretendard_medium"
+                android:text="소중한 후기를 작성해주세요!"
+                android:textColor="@color/Gray1"
+                android:textSize="17sp" />
+        </LinearLayout>
+        <!-- 후기가 없어요 베리 끝 -->
+    </LinearLayout>
+    <!-- 후기 등록하기 -->
+    <LinearLayout
+        android:id="@+id/writingReviewBtn"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal"
+        android:paddingStart="10dp"
+        android:paddingEnd="10dp"
+        android:paddingBottom="10dp"
+        android:paddingTop="10dp"
+        android:background="@color/Gray7"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <!--app:layout_constraintTop_toBottomOf="@+id/list_container"-->
+
+        <LinearLayout
+            android:layout_width="0dp"
+            android:layout_height="34dp"
+            android:layout_weight="1"
+            android:background="@drawable/base_roundsquare_gray4_5" />
+
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:gravity="end"
+            android:paddingStart="20dp"
+            android:paddingBottom="5dp"
+            android:paddingTop="5dp"
+            android:fontFamily="@font/pretendard_semibold"
+            android:text="등록"
+            android:textColor="@color/Gray3"
+            android:textSize="17sp" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

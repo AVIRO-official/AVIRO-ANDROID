@@ -1,0 +1,169 @@
+<?xml version="1.0" encoding="utf-8"?>
+<layout
+    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <import type="androidx.core.content.ContextCompat"/>
+        <variable
+            name="viewmodel"
+            type="com.aviro.android.presentation.home.ui.mypage.MypageViewModel" />
+        <variable
+            name="myRestaurantItem"
+            type="com.aviro.android.domain.entity.member.MyRestaurant" />
+        <variable
+            name="iconType"
+            type="com.aviro.android.presentation.entity.BoxIcon" />
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:id="@id/item"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:orientation="horizontal"
+    android:layout_marginBottom="12dp"
+    android:paddingTop="20dp"
+    android:paddingBottom="20dp"
+    android:paddingStart="16dp"
+    android:paddingEnd="16dp"
+    android:background="@drawable/base_roundsquare_white_15">
+
+    <!-- 아이콘 -->
+        <LinearLayout
+            android:id="@+id/icon_layout"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:orientation="vertical"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent">
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                app:bgVeganType3="@{iconType}"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="6.19dp"
+                android:orientation="horizontal"
+                app:bgVeganType4="@{iconType}">
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:gravity="center"
+                    android:text="@{myRestaurantItem.category}"
+                    android:textColor="@color/Gray7"
+                    android:textSize="14.4sp" />
+            </LinearLayout>
+        </LinearLayout>
+
+    <!-- 내용 -->
+    <LinearLayout
+        android:id="@+id/contentContainer"
+        android:layout_width="0dp"
+        android:layout_height="match_parent"
+        android:layout_marginStart="14dp"
+        android:orientation="vertical"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/icon_layout"
+        app:layout_constraintEnd_toStartOf="@+id/likeBtnContainer"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <!-- 가게명 -->
+        <TextView
+            android:id="@+id/restaurant_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_weight="1"
+            android:layout_marginTop="3dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/pretendard_bold"
+            android:maxLines="1"
+            android:text="@{myRestaurantItem.title}"
+            android:textColor="@color/Gray0"
+            android:textSize="20sp" />
+
+        <!-- 주소 -->
+        <TextView
+            android:id="@+id/restaurant_address"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:ellipsize="end"
+            android:fontFamily="@font/pretendard_medium"
+            android:maxLines="1"
+            android:text="@{myRestaurantItem.shortAddress}"
+            android:textColor="@color/Gray0"
+            android:textSize="16sp" />
+
+        <!-- 메뉴 -->
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/restaurant_menu"
+                android:layout_width="150dp"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="3dp"
+                android:ellipsize="end"
+                android:fontFamily="@font/pretendard_regular"
+                android:maxLines="1"
+                android:textColor="@color/Gray3"
+                android:textSize="16sp" />
+            <!--android:text="@{myRestaurantItem.menu + '외' + String.valueOf(myRestaurantItem.menuCountExceptOne) + `개 메뉴`}"-->
+            <!-- <TextView
+               android:id="@+id/restaurant_menu_count"
+               android:layout_width="wrap_content"
+               android:layout_height="wrap_content"
+               android:layout_marginTop="3dp"
+               android:fontFamily="@font/pretendard_regular"
+               android:textColor="@color/Gray3"
+               android:textSize="16sp" />
+         android:text="@{' ' + '외' + String.valueOf(myRestaurantItem.menuCountExceptOne) + '개'}"-->
+
+        </LinearLayout>
+
+        <!-- 시간 -->
+        <TextView
+            android:id="@+id/restaurant_time"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="3dp"
+            android:fontFamily="@font/pretendard_regular"
+            android:text="@{myRestaurantItem.createdBefore}"
+            android:textColor="@color/Gray3"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+    <!-- 즐겨찾기 버튼 -->
+    <LinearLayout
+        android:id="@+id/likeBtnContainer"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
+        android:layout_marginStart="14dp"
+        android:gravity="end"
+        android:orientation="vertical"
+        app:layout_constraintStart_toEndOf="@+id/contentContainer"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+    <LinearLayout
+        android:id="@+id/likeBtn"
+        android:layout_width="24dp"
+        android:layout_height="24dp"
+        android:orientation="vertical"
+        app:visibilityChanged="@{viewmodel.isBookMarkScreen}" />
+    </LinearLayout>
+    <!--app:visibilityChanged="@{viewmodel.isBookMarkScreen}"-->
+    <!--app:setBottomSheetLikeBtn="@{myRestaurantItem.isLike}"-->
+
+
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

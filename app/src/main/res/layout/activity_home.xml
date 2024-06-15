@@ -1,22 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
+
 <androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/container"
+    android:id="@+id/home_container"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:fitsSystemWindows="true">
 
 
     <androidx.viewpager2.widget.ViewPager2
         android:id="@+id/home_pager"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:layout_marginBottom="0dp"
         app:layout_constraintBottom_toTopOf="@+id/nav_view"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"/>
+
 
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
@@ -32,9 +34,246 @@
         android:background="@color/Gray7"
         app:itemIconSize="24dp"
         app:menu="@menu/bottom_nav_menu"
+        app:itemRippleColor="@android:color/transparent"
+        app:itemActiveIndicatorStyle="@android:color/transparent"
         app:itemTextColor="@drawable/bottom_bar_color"
         app:itemIconTint="@drawable/bottom_bar_color"
-        app:itemBackground="@drawable/bottom_bar_margin"/>
+        app:itemBackground="@drawable/bottom_bar_color"/>
+
+
+
+ <FrameLayout
+        android:id="@+id/tutoral1"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#90000000"
+        android:elevation="10dp"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="bottom"
+            android:layout_marginBottom="120dp"
+            android:layout_marginStart="20dp"
+            android:background="@drawable/img_tutorial_1"/>
+    </FrameLayout>
+
+    <LinearLayout
+        android:id="@+id/tutoral2"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#90000000"
+        android:orientation="vertical"
+        android:elevation="10dp"
+        android:visibility="gone"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <LinearLayout
+            android:id="@+id/searchBar"
+            android:layout_width="match_parent"
+            android:layout_height="54dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="50dp"
+            android:layout_marginEnd="16dp"
+            android:paddingStart="16dp"
+            android:paddingEnd="16dp"
+            android:paddingTop="15dp"
+            android:paddingBottom="15dp"
+            android:elevation="10dp"
+            android:orientation="horizontal"
+            android:visibility="invisible"
+            android:background="@drawable/base_roundsquare_white_10">
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/filteringContainer"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="17dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="16dp"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/filter_cancel_btn"
+                android:layout_width="36dp"
+                android:layout_height="36dp"
+                android:paddingBottom="15dp"
+                android:elevation="10dp"
+                android:background="@drawable/ic_filter_cancel" />
+
+            <LinearLayout
+                android:id="@+id/filter_dish"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:elevation="10dp"
+                android:orientation="horizontal"
+                android:padding="9dp"
+                android:background="@drawable/ic_filter_on_dish" />
+
+            <LinearLayout
+                android:id="@+id/filter_cafe"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:duplicateParentState="true"
+                android:elevation="10dp"
+                android:orientation="horizontal"
+                android:padding="9dp"
+                android:background="@drawable/ic_filter_on_cafe" />
+            <LinearLayout
+                android:id="@+id/filter_bakery"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:padding="10dp"
+                android:elevation="10dp"
+                android:orientation="horizontal"
+                android:background="@drawable/ic_filter_off_bread" />
+            <LinearLayout
+                android:id="@+id/filter_bar"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="6dp"
+                android:padding="10dp"
+                android:elevation="10dp"
+                android:orientation="horizontal"
+                android:background="@drawable/ic_filter_off_bar" />
+        </LinearLayout>
+
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginStart="40dp"
+            android:background="@drawable/img_tutorial_2"/>
+    </LinearLayout>
+
+    <FrameLayout
+        android:id="@+id/tutoral3"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="#90000000"
+        android:elevation="10dp"
+        android:visibility="gone"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:background="@android:color/transparent"
+            tools:context=".presentation.home.ui.mypage.MypageFragment">
+
+            <androidx.appcompat.widget.Toolbar
+                android:id="@id/toolbar"
+                android:layout_width="match_parent"
+                android:layout_height="?attr/actionBarSize"
+                android:background="@android:color/transparent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
+            </androidx.appcompat.widget.Toolbar>
+
+                <LinearLayout
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginBottom="20dp"
+                    android:layout_marginTop="60dp"
+                    android:orientation="vertical"
+                    app:layout_constraintStart_toStartOf="parent"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintBottom_toBottomOf="parent"
+                    app:layout_constraintTop_toBottomOf="@+id/toolbar"
+                    android:background="@android:color/transparent">
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="20dp"
+                        android:layout_gravity="center"
+                        android:text="챌린지"
+                        android:visibility="invisible"
+                        android:textColor="@color/Gray2"
+                        android:textSize = "17sp" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="8dp"
+                        android:layout_gravity="center"
+                        android:text="챌린지"
+                        android:visibility="invisible"
+                        android:textSize = "32sp" />
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content">
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_centerInParent="true"
+                            android:fontFamily="@font/pretendard_semibold"
+                            android:text="챌린지"
+                            android:textColor="@color/Gray0"
+                            android:textSize="32sp"
+                            android:visibility="invisible"
+                            tools:ignore="HardcodedText" />
+                    </RelativeLayout>
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_marginTop="16dp"
+                        android:layout_gravity="center"
+                        android:visibility="invisible"
+                        android:text="챌린지"
+                        android:textSize = "20sp" />
+
+                    <!-- 챌린지  -->
+                    <FrameLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:layout_marginStart="16.3dp"
+                        android:layout_marginEnd="15.7dp"
+                        android:layout_marginTop="24dp">
+
+                        <!-- 튜토리얼을 위한 이미지 -->
+                        <ImageView
+                            android:id="@+id/tutorialImg1"
+                            android:layout_width="150dp"
+                            android:layout_height="150dp"
+                            android:layout_gravity="center_horizontal"
+                            android:src="@drawable/img2_tutorial_3"
+                            android:elevation="10dp"
+                            android:visibility="invisible"/>
+
+                        <ImageView
+                            android:id="@+id/tutorialImg2"
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity="center_horizontal"
+                            android:layout_marginTop="160dp"
+                            android:elevation="10dp"
+                            android:visibility="invisible"
+                            android:background="@drawable/img_tutorial_3"/>
+
+                    </FrameLayout>
+
+                </LinearLayout>
+
+
+        </androidx.constraintlayout.widget.ConstraintLayout>
+</FrameLayout>
+
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

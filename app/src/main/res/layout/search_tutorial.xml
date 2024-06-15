@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.android.aviro.presentation.search.SearchViewModel" />
+            type="com.aviro.android.presentation.search.SearchViewModel" />
     </data>
 
 <LinearLayout
