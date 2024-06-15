@@ -6,8 +6,11 @@
     <data>
         <import type="androidx.core.content.ContextCompat"/>
         <variable
-            name="viewmodel"
-            type="com.android.aviro.presentation.home.ui.map.MapViewModel" />
+            name="mapViewmodel"
+            type="com.aviro.android.presentation.home.ui.map.MapViewModel" />
+        <variable
+            name="bottomViewmodel"
+            type="com.aviro.android.presentation.bottomsheet.BottomSheetViewModel" />
     </data>
 
     <LinearLayout
@@ -15,7 +18,7 @@
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
-        android:background="@color/Gray7">
+        android:background="@drawable/base_top_roundsquare_white_20">
 
         <androidx.constraintlayout.widget.ConstraintLayout
             android:layout_width="match_parent"
@@ -31,62 +34,106 @@
             android:orientation="horizontal"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent"
-            app:visibilityChanged="@{!(viewmodel.bottomSheetState == 3)}"
-            tools:ignore="MissingConstraints"></LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/veganTypeIcon"
-            android:layout_width="56dp"
-            android:layout_height="56dp"
-            android:layout_marginTop="30dp"
-            android:layout_marginStart="20dp"
-            android:orientation="horizontal"
-            app:bgVeganType2="@{viewmodel.selectedMarker.veganType}"
-            app:visibilityChanged="@{!(viewmodel.bottomSheetState == 3)}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent">
+            app:visibilityChanged="@{!(mapViewmodel.bottomSheetState == 3)}">
         </LinearLayout>
+            <!--app:visibilityChanged="@{!(mapViewmodel.bottomSheetState == 3)}"-->
 
         <LinearLayout
             android:id="@+id/restaurantInfo"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginStart="15dp"
             android:layout_marginTop="30dp"
-            android:orientation="vertical"
-            app:visibilityChanged="@{!(viewmodel.bottomSheetState == 3)}"
-            app:layout_constraintStart_toEndOf="@id/veganTypeIcon"
-            app:layout_constraintTop_toTopOf="parent">
+            android:layout_marginEnd="78dp"
+            android:orientation="horizontal"
+            app:visibilityChanged="@{!(mapViewmodel.bottomSheetState == 3)}"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent">
+            <!--app:visibilityChanged="@{!(mapViewmodel.bottomSheetState == 3)}"-->
 
             <LinearLayout
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
+                android:id="@+id/veganTypeIcon"
+                android:layout_width="56dp"
+                android:layout_height="56dp"
                 android:orientation="horizontal"
-                app:visibilityChanged="@{!(viewmodel.bottomSheetState == 3)}">
-                <TextView
-                    android:id="@+id/nameTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:text="@{viewmodel.selectedItemSummary.title}"
-                    android:textSize="20sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/Gray0"/>
-                <TextView
-                    android:id="@+id/typeTextView"
-                    android:layout_width="wrap_content"
-                    android:layout_height="match_parent"
-                    android:layout_marginStart="5dp"
-                    android:paddingTop="4dp"
-                    android:textSize="15sp"
-                    android:text="@{viewmodel.selectedItemSummary.category}" />
+                app:bgVeganType2="@{mapViewmodel.selectedMarker}"
+                app:visibilityChanged="@{!(mapViewmodel.bottomSheetState == 3)}"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
             </LinearLayout>
 
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
+                android:layout_marginStart="15dp"
+                android:layout_marginBottom="40dp"
+                android:orientation="vertical">
+
+                <!--바텀시트 2단계에서 표시될 비건 타입-->
+                <TextView
+                    android:id="@+id/typeTextView_step2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="4dp"
+                    android:textSize="15sp"
+                    app:veganTypeColor="@{mapViewmodel.selectedMarker.veganTypeColor}"
+                    app:visibilityChanged="@{(mapViewmodel.bottomSheetState == 2)}"/>
+                <!--app:veganTypeColor="@{mapViewmodel.selectedMarker.veganTypeColor}"-->
+                <!--app:visibilityChanged="@{(mapViewmodel.bottomSheetState == 2)}"-->
+                <TextView
+                    android:id="@+id/nameTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:maxLines="1"
+                    android:ellipsize="end"
+                    android:textSize="20sp"
+                    android:textStyle="bold"
+                    android:textColor="@color/Gray0"
+                    android:text="@{mapViewmodel.restaurantSummary.title}"/>
+                <!--app:visibilityChanged="@{(mapViewmodel.bottomSheetState == 1 || mapViewmodel.bottomSheetState == 2)}"-->
+                    <!-- android:layout_weight="0.7"-->
+                <!-- 바텀시트 1단계에서 표시될 카테고리, 비건타입 -->
+                <TextView
+                    android:id="@+id/typeTextView_step1"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:paddingTop="4dp"
+                    android:textSize="17sp"
+                    android:fontFamily="@font/pretendard_semibold"
+                    app:veganTypeColor="@{mapViewmodel.selectedMarker.veganTypeColor}"
+                    app:visibilityChanged="@{(mapViewmodel.bottomSheetState == 1)}"/>
+                <!--app:visibilityChanged="@{(mapViewmodel.bottomSheetState == 1)}"-->
+           <!-- app:veganTypeColor="@{mapViewmodel.selectedMarker.veganTypeColor}"-->
+
+                <LinearLayout
+                    android:id="@+id/restaurantLoc"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="7dp"
+                    android:orientation="horizontal"
+                    app:visibilityChanged="@{(mapViewmodel.bottomSheetState == 1)}"
+                    app:layout_constraintTop_toBottomOf="@id/restaurantInfo">
+                    <!--app:visibilityChanged="@{(mapViewmodel.bottomSheetState == 1)}"-->
+
+                    <TextView
+                        android:id="@+id/locTxtView"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:maxLines="1"
+                        android:ellipsize="end"
+                        android:text="@{mapViewmodel.restaurantSummary.address}" />
+                </LinearLayout>
+
+            <!-- 바텀시트 1단계에서 보여지는 거리 및 후기수 -->
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
                 android:layout_marginTop="7dp"
                 android:orientation="horizontal"
-                app:visibilityChanged="@{!(viewmodel.bottomSheetState == 3)}">
+                app:visibilityChanged="@{(mapViewmodel.bottomSheetState == 1)}">
+                <!--app:visibilityChanged="@{(mapViewmodel.bottomSheetState == 1)}"-->
+                <!--거리정보-->
                 <LinearLayout
                     android:id="@+id/distanceIcon"
                     android:layout_width="20dp"
@@ -95,48 +142,56 @@
                     android:background="@drawable/ic_bottomsheet_loc">
                 </LinearLayout>
                 <TextView
-                    android:id="@+id/distanceTextView"
+                    android:id="@+id/distanceTextView_step1"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
-                    android:layout_marginStart="4dp"
-                    android:text="TextView" />
+                    android:layout_marginStart="4dp"/>
 
+                <!--후기정보-->
                 <LinearLayout
                     android:id="@+id/numOfReviewIcon"
                     android:layout_width="20dp"
-                    android:layout_height="20dp"
-                    android:orientation="horizontal"
+                    android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
-                    android:background="@drawable/ic_bottomsheet_review">
-                </LinearLayout>
+                    android:background="@drawable/ic_bottomsheet_review"
+                    android:orientation="horizontal"></LinearLayout>
                 <TextView
                     android:id="@+id/numOfReviewTextView"
                     android:layout_width="wrap_content"
                     android:layout_height="match_parent"
                     android:layout_marginStart="4dp"
-                    android:text="@{String.valueOf(viewmodel.selectedItemSummary.commentCount)}" />
+                    android:text="@{String.valueOf(mapViewmodel.restaurantSummary.commentCount) + '개'}" />
             </LinearLayout>
 
-        </LinearLayout>
 
-        <LinearLayout
-            android:id="@+id/restaurantLoc"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="91dp"
-            android:layout_marginTop="7dp"
-            android:orientation="horizontal"
-            app:visibilityChanged="@{!(viewmodel.bottomSheetState == 3)}"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/restaurantInfo">
-
-            <TextView
-                android:id="@+id/locTxtView"
+            <!-- 바텀시트 2단계시 보여지는 거리 및 카테고리 -->
+            <LinearLayout
                 android:layout_width="match_parent"
-                android:layout_height="match_parent"
-                android:text="@{viewmodel.selectedItemSummary.address}" />
+                android:layout_height="wrap_content"
+                android:layout_marginTop="7dp"
+                android:orientation="horizontal"
+                app:visibilityChanged="@{(mapViewmodel.bottomSheetState == 2)}">
+                <!--app:visibilityChanged="@{(mapViewmodel.bottomSheetState == 2)}"-->
 
+                <TextView
+                    android:id="@+id/distanceTextView_step2"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="4dp"/>
+
+                <TextView
+                    android:id="@+id/categoryTextView"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="4dp"
+                    android:text="@{mapViewmodel.restaurantSummary.category}" />
+
+            </LinearLayout>
+
+
+            </LinearLayout>
         </LinearLayout>
+
 
         <LinearLayout
             android:id="@+id/etcBtn"
@@ -145,21 +200,24 @@
             android:layout_marginTop="30dp"
             android:layout_marginEnd="20dp"
             android:orientation="vertical"
-            app:visibilityChanged="@{!(viewmodel.bottomSheetState == 3)}"
+            app:visibilityChanged="@{!(mapViewmodel.bottomSheetState == 3)}"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintTop_toTopOf="parent">
+            <!-- app:visibilityChanged="@{!(mapViewmodel.bottomSheetState == 3)}"-->
 
             <LinearLayout
                 android:id="@+id/likeBtn"
                 android:layout_width="38dp"
                 android:layout_height="38dp"
                 android:padding="8dp"
-                android:orientation="horizontal">
+                android:orientation="horizontal"
+                android:onClick="@{() -> bottomViewmodel.updateBookmark()}">
                 <LinearLayout
+                    android:id="@+id/likeBtnSrc"
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:orientation="horizontal"
-                    android:background="@drawable/ic_bottomsheet_like_non">
+                    app:setBottomSheetLikeBtn="@{bottomViewmodel.isLike}">
                 </LinearLayout>
             </LinearLayout>
             <LinearLayout
@@ -172,7 +230,7 @@
                     android:layout_width="24dp"
                     android:layout_height="24dp"
                     android:orientation="horizontal"
-                    android:background="@drawable/ic_bottomsheet_share">
+                    android:background="@drawable/ic_share">
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
@@ -182,11 +240,14 @@
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
             android:layout_width="match_parent"
-            android:layout_height="60dp"
+            android:layout_height="wrap_content"
+            android:paddingTop="38dp"
+            android:paddingBottom="22dp"
             android:background="@color/Gray7"
-            app:visibilityChanged="@{(viewmodel.bottomSheetState == 3)}"
+            app:visibilityChanged="@{(mapViewmodel.bottomSheetState == 3)}"
             app:layout_constraintTop_toBottomOf="@+id/summary_layout">
             <!--app:layout_constraintTop_toBottomOf="@+id/restaurantInfo"-->
+            <!--app:visibilityChanged="@{(mapViewmodel.bottomSheetState == 3)}"-->
 
             <Button
                 android:id="@+id/backBtn"
@@ -201,7 +262,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="가게 찾기"
+                android:text="@{mapViewmodel.restaurantSummary.title}"
                 android:layout_gravity="center"
                 android:fontFamily="@font/pretendard_semibold"
                 android:textColor="@color/Gray0"
@@ -212,14 +273,15 @@
         </androidx.appcompat.widget.Toolbar>
 
 
-        <include
+       <include
             android:id="@+id/fragment_bottomsheet_step2"
             layout="@layout/fragment_bottomsheet_step2"
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:layout_height="match_parent"
             android:visibility="visible"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/restaurantLoc">
         </include>
 

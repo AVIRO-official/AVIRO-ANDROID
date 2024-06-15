@@ -1,8 +1,14 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<layout xmlns:tools="http://schemas.android.com/tools"
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.aviro.android.presentation.update.UpdateViewModel" />
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:background="@color/Gray6"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
@@ -11,304 +17,353 @@
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginEnd="16dp"
-        android:layout_marginBottom="20dp"
         android:layout_marginTop="20dp"
+        android:layout_marginEnd="16dp"
         android:orientation="vertical"
-        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent">
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
 
         <TextView
             android:id="@+id/textView"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:text="영업시간"
             android:fontFamily="@font/pretendard_bold"
+            android:text="영업시간"
             android:textColor="@color/Gray0"
             android:textSize="18sp" />
 
         <LinearLayout
+            android:id="@+id/monday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:background="@drawable/base_roundsquare_white_10"
+            android:orientation="horizontal"
             android:paddingStart="20dp"
             android:paddingTop="15dp"
             android:paddingEnd="20dp"
-            android:paddingBottom="15dp"
-            android:background="@drawable/base_roundsquare_white_10"
-            android:orientation="horizontal">
+            android:paddingBottom="15dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_medium"
                 android:text="월요일"
-                android:fontFamily="@font/pretendard_medium"
                 android:textColor="@color/Gray0"
                 android:textSize="15sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:orientation="vertical">
-            <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:text="휴식시간"
-                android:layout_marginBottom="5dp"
-                android:fontFamily="@font/pretendard_medium"
-                android:textColor="@color/Gray0"
-                android:textSize="15sp"
-                android:visibility="gone"/>
-            <TextView
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:text="입력해주세요"
-                android:fontFamily="@font/pretendard_medium"
-                android:textColor="@color/Gray2"
-                android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:text="@{viewmodel.afterTimetableData.mon ?? `입력해주세요`}"
+                    android:textColor="@color/Gray0"
+                    android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:text="@{`[휴식시간]` + viewmodel._afterTimetableData.monBreak ?? `휴식시간`}"
+                    android:textColor="@color/Gray2"
+                    android:textSize="15sp"
+                    app:visibilityChanged="@{viewmodel._afterTimetableData.monBreak != null &amp;&amp; !viewmodel.afterTimetableData.monBreak.isEmpty()}" />
+
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/tuesday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:background="@drawable/base_roundsquare_white_10"
+            android:orientation="horizontal"
             android:paddingStart="20dp"
             android:paddingTop="15dp"
             android:paddingEnd="20dp"
-            android:paddingBottom="15dp"
-            android:background="@drawable/base_roundsquare_white_10"
-            android:orientation="horizontal">
+            android:paddingBottom="15dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_medium"
                 android:text="화요일"
-                android:fontFamily="@font/pretendard_medium"
                 android:textColor="@color/Gray0"
                 android:textSize="15sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="휴식시간"
-                    android:layout_marginBottom="5dp"
-                    android:fontFamily="@font/pretendard_medium"
-                    android:textColor="@color/Gray0"
-                    android:textSize="15sp"
-                    android:visibility="gone"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="입력해주세요"
                     android:fontFamily="@font/pretendard_medium"
-                    android:textColor="@color/Gray2"
+                    android:text="@{viewmodel.afterTimetableData.tue ?? `입력해주세요`}"
+                    android:textColor="@color/Gray0"
                     android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:text="@{`[휴식시간] ` + viewmodel.afterTimetableData.tueBreak ?? `휴식시간`}"
+                    android:textColor="@color/Gray2"
+                    android:textSize="15sp"
+                    app:visibilityChanged="@{viewmodel.afterTimetableData.tueBreak != null &amp;&amp; !viewmodel.afterTimetableData.tueBreak.isEmpty()}" />/>
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/wednesday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:background="@drawable/base_roundsquare_white_10"
+            android:orientation="horizontal"
             android:paddingStart="20dp"
             android:paddingTop="15dp"
             android:paddingEnd="20dp"
-            android:paddingBottom="15dp"
-            android:background="@drawable/base_roundsquare_white_10"
-            android:orientation="horizontal">
+            android:paddingBottom="15dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_medium"
                 android:text="수요일"
-                android:fontFamily="@font/pretendard_medium"
                 android:textColor="@color/Gray0"
                 android:textSize="15sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="휴식시간"
-                    android:layout_marginBottom="5dp"
-                    android:fontFamily="@font/pretendard_medium"
-                    android:textColor="@color/Gray0"
-                    android:textSize="15sp"
-                    android:visibility="gone"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="입력해주세요"
                     android:fontFamily="@font/pretendard_medium"
-                    android:textColor="@color/Gray2"
+                    android:text="@{viewmodel.afterTimetableData.wed ?? `입력해주세요`}"
+                    android:textColor="@color/Gray0"
                     android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:text="@{`[휴식시간] ` +viewmodel.afterTimetableData.wedBreak ?? `휴식시간`}"
+                    android:textColor="@color/Gray2"
+                    android:textSize="15sp"
+                    app:visibilityChanged="@{viewmodel.afterTimetableData.wedBreak != null &amp;&amp; !viewmodel.afterTimetableData.wedBreak.isEmpty()}" />/>
+
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/thursday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:background="@drawable/base_roundsquare_white_10"
+            android:orientation="horizontal"
             android:paddingStart="20dp"
             android:paddingTop="15dp"
             android:paddingEnd="20dp"
-            android:paddingBottom="15dp"
-            android:background="@drawable/base_roundsquare_white_10"
-            android:orientation="horizontal">
+            android:paddingBottom="15dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_medium"
                 android:text="목요일"
-                android:fontFamily="@font/pretendard_medium"
                 android:textColor="@color/Gray0"
                 android:textSize="15sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="휴식시간"
-                    android:layout_marginBottom="5dp"
-                    android:fontFamily="@font/pretendard_medium"
-                    android:textColor="@color/Gray0"
-                    android:textSize="15sp"
-                    android:visibility="gone"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="입력해주세요"
                     android:fontFamily="@font/pretendard_medium"
-                    android:textColor="@color/Gray2"
+                    android:text="@{viewmodel.afterTimetableData.thu ?? `입력해주세요`}"
+                    android:textColor="@color/Gray0"
                     android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:text="@{`[휴식시간] ` + viewmodel.afterTimetableData.thuBreak ?? `휴식시간`}"
+                    android:textColor="@color/Gray2"
+                    android:textSize="15sp"
+                    app:visibilityChanged="@{viewmodel.afterTimetableData.thuBreak != null &amp;&amp; !viewmodel.afterTimetableData.thuBreak.isEmpty()}" />
+
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/friday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:background="@drawable/base_roundsquare_white_10"
+            android:orientation="horizontal"
             android:paddingStart="20dp"
             android:paddingTop="15dp"
             android:paddingEnd="20dp"
-            android:paddingBottom="15dp"
-            android:background="@drawable/base_roundsquare_white_10"
-            android:orientation="horizontal">
+            android:paddingBottom="15dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_medium"
                 android:text="금요일"
-                android:fontFamily="@font/pretendard_medium"
                 android:textColor="@color/Gray0"
                 android:textSize="15sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="휴식시간"
-                    android:layout_marginBottom="5dp"
-                    android:fontFamily="@font/pretendard_medium"
-                    android:textColor="@color/Gray0"
-                    android:textSize="15sp"
-                    android:visibility="gone"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="입력해주세요"
                     android:fontFamily="@font/pretendard_medium"
-                    android:textColor="@color/Gray2"
+                    android:text="@{viewmodel.afterTimetableData.fri ?? `입력해주세요`}"
+                    android:textColor="@color/Gray0"
                     android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:text="@{`[휴식시간] ` + viewmodel.afterTimetableData.friBreak ?? `휴식시간`}"
+                    android:textColor="@color/Gray2"
+                    android:textSize="15sp"
+                    app:visibilityChanged="@{viewmodel.afterTimetableData.friBreak != null &amp;&amp; !viewmodel.afterTimetableData.friBreak.isEmpty()}" />/>
+
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/saturday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:background="@drawable/base_roundsquare_white_10"
+            android:orientation="horizontal"
             android:paddingStart="20dp"
             android:paddingTop="15dp"
             android:paddingEnd="20dp"
-            android:paddingBottom="15dp"
-            android:background="@drawable/base_roundsquare_white_10"
-            android:orientation="horizontal">
+            android:paddingBottom="15dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
+                android:fontFamily="@font/pretendard_medium"
                 android:text="토요일"
-                android:fontFamily="@font/pretendard_medium"
                 android:textColor="@color/Gray0"
                 android:textSize="15sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="휴식시간"
-                    android:layout_marginBottom="5dp"
-                    android:fontFamily="@font/pretendard_medium"
-                    android:textColor="@color/Gray0"
-                    android:textSize="15sp"
-                    android:visibility="gone"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="입력해주세요"
                     android:fontFamily="@font/pretendard_medium"
-                    android:textColor="@color/Gray2"
+                    android:text="@{viewmodel.afterTimetableData.sat ?? `입력해주세요`}"
+                    android:textColor="@color/Gray0"
                     android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:text="@{`[휴식시간] ` + viewmodel.afterTimetableData.satBreak ?? `휴식시간`}"
+                    android:textColor="@color/Gray2"
+                    android:textSize="15sp"
+                    app:visibilityChanged="@{viewmodel.afterTimetableData.satBreak != null &amp;&amp; !viewmodel.afterTimetableData.satBreak.isEmpty()}" />/>
+
             </LinearLayout>
         </LinearLayout>
+
         <LinearLayout
+            android:id="@+id/sunday"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_marginTop="15dp"
+            android:background="@drawable/base_roundsquare_white_10"
+            android:orientation="horizontal"
             android:paddingStart="20dp"
             android:paddingTop="15dp"
             android:paddingEnd="20dp"
-            android:paddingBottom="15dp"
-            android:background="@drawable/base_roundsquare_white_10"
-            android:orientation="horizontal">
+            android:paddingBottom="15dp">
+
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="일요일"
                 android:fontFamily="@font/pretendard_medium"
+                android:text="일요일"
                 android:textColor="@color/Gray0"
                 android:textSize="15sp" />
+
             <LinearLayout
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginStart="30dp"
                 android:orientation="vertical">
-                <TextView
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:text="휴식시간"
-                    android:layout_marginBottom="5dp"
-                    android:fontFamily="@font/pretendard_medium"
-                    android:textColor="@color/Gray0"
-                    android:textSize="15sp"
-                    android:visibility="gone"/>
+
                 <TextView
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:text="입력해주세요"
                     android:fontFamily="@font/pretendard_medium"
-                    android:textColor="@color/Gray2"
+                    android:text="@{viewmodel.afterTimetableData.sun ?? `입력해주세요`}"
+                    android:textColor="@color/Gray0"
                     android:textSize="15sp" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="5dp"
+                    android:layout_marginTop="6dp"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:text="@{`[휴식시간] ` + viewmodel.afterTimetableData.sunBreak ?? `휴식시간`}"
+                    android:textColor="@color/Gray2"
+                    android:textSize="15sp"
+                    app:visibilityChanged="@{viewmodel.afterTimetableData.sunBreak != null &amp;&amp; !viewmodel.afterTimetableData.sunBreak.isEmpty()}" />/>
+
             </LinearLayout>
         </LinearLayout>
     </LinearLayout>
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

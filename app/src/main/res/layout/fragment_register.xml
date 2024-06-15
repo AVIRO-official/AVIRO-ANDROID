@@ -7,7 +7,7 @@
         <import type="androidx.core.content.ContextCompat"/>
         <variable
             name="viewmodel"
-            type="com.android.aviro.presentation.home.ui.register.RegisterViewModel" />
+            type="com.aviro.android.presentation.home.ui.register.RegisterViewModel" />
     </data>
 
 
@@ -57,6 +57,7 @@
         android:layout_marginEnd="16dp"
         android:fontFamily="@font/pretendard_semibold"
         android:onClick="@{() -> viewmodel.onClickRegister()}"
+        android:enabled="@{viewmodel.isRegisterEnabled}"
         app:registerBtnColor="@{viewmodel.isRegisterEnabled}"
         android:textSize="18sp"
         app:layout_constraintTop_toTopOf="parent"
@@ -78,6 +79,7 @@
             android:id="@+id/scrollLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginBottom="30dp"
             android:orientation="vertical"
             android:background="@color/Gray6">
 
@@ -123,6 +125,7 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/ic_search"/>
                     <TextView
+                        android:id="@+id/searchbarTextView"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_marginStart="7dp"
@@ -142,7 +145,7 @@
                     android:text="가게 주소 정보"
                     android:textColor="@color/Gray0"
                     android:textSize="18sp"
-                    app:visibilityChanged="@{viewmodel.restaurantAddress != null}"/>
+                    app:visibilityChanged="@{viewmodel.registerRestaurant != null}"/>
 
                 <TextView
                     android:id="@+id/addrsssBox"
@@ -157,8 +160,8 @@
                     android:fontFamily="@font/pretendard_medium"
                     android:textSize="16sp"
                     android:background="@drawable/base_roundsquare_gray6"
-                    android:text="@{viewmodel.restaurantAddress}"
-                    app:visibilityChanged="@{viewmodel.restaurantAddress != null}"/>
+                    android:text="@{viewmodel.registerRestaurant.addressName}"
+                    app:visibilityChanged="@{viewmodel.registerRestaurant != null}"/>
 
                 <!--가게 번호 정보-->
                 <TextView
@@ -170,7 +173,7 @@
                     android:text="가게 번호 정보"
                     android:textColor="@color/Gray0"
                     android:textSize="18sp"
-                    app:visibilityChanged="@{viewmodel.restaurantNumber != null}"/>
+                    app:visibilityChanged="@{viewmodel.registerRestaurant != null}"/>
 
                 <TextView
                     android:id="@+id/numberBox"
@@ -185,8 +188,8 @@
                     android:fontFamily="@font/pretendard_medium"
                     android:textSize="16sp"
                     android:background="@drawable/base_roundsquare_gray6"
-                    android:text="@{viewmodel.restaurantNumber}"
-                    app:visibilityChanged="@{viewmodel.restaurantNumber != null}"/>
+                    android:text="@{viewmodel.registerRestaurant.phone}"
+                    app:visibilityChanged="@{viewmodel.registerRestaurant != null}"/>
 
                 <TextView
                     android:layout_width="wrap_content"
@@ -203,7 +206,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="15dp"
                     android:orientation="horizontal"
-                    android:onCheckedChanged="@{(group, checkedId) -> viewmodel.onCheckedChanged(group, checkedId)}">
+                    android:onCheckedChanged="@{(group, id) -> viewmodel.onCheckedChanged(id)}">
 
 
                     <RadioButton
@@ -368,6 +371,7 @@
                     android:layout_marginStart="16dp"
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="16dp"
+                    android:layout_marginBottom="20dp"
                     android:background="@drawable/base_roundsquare_white_10"
                     android:orientation="vertical"
                     android:paddingStart="16dp"
@@ -417,7 +421,8 @@
                         android:layout_height="51dp"
                         android:layout_gravity="center"
                         android:layout_marginTop="20dp"
-                        android:background="@drawable/base_roundsquare_border_cobalt_30"
+
+                        android:background="@drawable/base_roundsquare_border_keyword_30"
                         android:orientation="vertical">
                         <LinearLayout
                             android:layout_width="wrap_content"

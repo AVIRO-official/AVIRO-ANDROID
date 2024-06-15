@@ -7,7 +7,7 @@
         <import type="androidx.core.content.ContextCompat"/>
         <variable
             name="viewmodel"
-            type="com.android.aviro.presentation.sign.SignViewModel" />
+            type="com.aviro.android.presentation.sign.SignViewModel" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
@@ -73,7 +73,7 @@
                 android:textSize="18sp"
                 android:textColor = "@color/Gray0"
                 android:background = "@drawable/base_edittext_non"
-                app:animated="@{viewmodel.isNicknameValid}"
+                app:animatedNickname="@{viewmodel.isNicknameValid}"
                 android:onTextChanged="@{() -> viewmodel.checkNickname(editTextNickName)}" />
 
 
@@ -110,7 +110,7 @@
             android:layout_width="match_parent"
             android:layout_height="51dp"
             android:orientation="vertical"
-            android:layout_marginBottom="25dp"
+            android:layout_marginBottom="30dp"
             android:layout_marginStart="20dp"
             android:layout_marginEnd="20dp"
             android:gravity="center"

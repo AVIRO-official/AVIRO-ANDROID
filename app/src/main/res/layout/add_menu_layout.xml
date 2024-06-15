@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.android.aviro.presentation.home.ui.register.RegisterViewModel" />
+            type="com.aviro.android.presentation.home.ui.register.RegisterViewModel" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:layout_width="match_parent"
@@ -35,21 +35,27 @@
                 android:layout_height="wrap_content"
                 android:orientation="horizontal">
 
-                <EditText
-                    android:id="@+id/editTextMenu"
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:background="@drawable/base_roundsquare_gray6"
-                    android:fontFamily="@font/pretendard_medium"
-                    android:inputType="textPersonName"
+                    android:orientation="horizontal"
                     android:paddingStart="16dp"
                     android:paddingTop="12dp"
                     android:paddingEnd="16dp"
                     android:paddingBottom="12dp"
+                    android:background="@drawable/base_roundsquare_gray6">
+                <EditText
+                    android:id="@+id/editTextMenu"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@null"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:textColor="@color/Gray0"
+                    android:inputType="textPersonName|textNoSuggestions|textVisiblePassword"
                     android:hint="메뉴 이름"
-                    android:textColor="@color/Gray3"
                     android:textSize="18sp" />
+                </LinearLayout>
 
                 <RelativeLayout
                     android:layout_width="match_parent"
@@ -64,23 +70,23 @@
                         android:background="@drawable/base_roundsquare_gray6"
                         android:fontFamily="@font/pretendard_medium"
                         android:hint="가격"
-                        android:inputType="number"
+                        android:inputType="number|textNoSuggestions|textVisiblePassword"
                         android:paddingStart="16dp"
                         android:paddingTop="12dp"
                         android:paddingEnd="16dp"
                         android:paddingBottom="12dp"
-                        android:textColor="@color/Gray3"
+                        android:textColor="@color/Gray0"
                         android:textSize="18sp" />
 
                     <Button
-                        android:id="@+id/buttonInsideEditText"
+                        android:id="@+id/pricePopupMenu"
                         android:layout_width="24dp"
                         android:layout_height="24dp"
                         android:layout_alignTop="@id/editTextPrice"
                         android:layout_alignEnd="@id/editTextPrice"
                         android:layout_alignBottom="@id/editTextPrice"
-                        android:layout_marginEnd="7dp"
                         android:layout_marginTop="10.5dp"
+                        android:layout_marginEnd="7dp"
                         android:layout_marginBottom="10.5dp"
                         android:background="@drawable/ic_price_dot" />
                 </RelativeLayout>
@@ -110,13 +116,16 @@
                     android:layout_weight="1"
                     android:layout_marginStart="7dp"
                     android:fontFamily="@font/pretendard_medium"
-                    android:inputType="textPersonName"
+                    android:textColor="@color/Gray0"
+                    android:background="@null"
+                    android:inputType="textPersonName|textNoSuggestions|textVisiblePassword"
                     android:paddingStart="16dp"
                     android:paddingTop="12dp"
                     android:paddingEnd="16dp"
                     android:paddingBottom="12dp"
                     android:hint="계란 빼달라고 요청하기"
-                    android:textSize="18sp"/>
+                    android:textSize="18sp"
+                    android:textColorHint="@color/Gray3"/>
                 <!--app:setEditText="@{viewmodel.isRequest}"-->
             </LinearLayout>
             <!-- 요청사항 끝 -->

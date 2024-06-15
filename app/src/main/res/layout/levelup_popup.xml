@@ -1,0 +1,84 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:padding="60dp"
+    android:background="@drawable/levelup_effect">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:orientation="vertical"
+        android:paddingTop="20dp"
+        android:paddingBottom="20dp"
+        android:background="@drawable/base_roundsquare_white_15">
+
+    <ImageView
+        android:id="@+id/trophy"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:background="@drawable/ic_levelup_trophy"/>
+
+    <TextView
+        android:id="@+id/textview1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="10dp"
+        android:layout_gravity="center"
+        android:text="축하해요!"
+        android:fontFamily='@font/pretendard_bold'
+        android:textColor="@color/Gray0"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/trophy"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    <TextView
+        android:id="@+id/textview2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="5dp"
+        android:fontFamily='@font/pretendard_bold'
+        android:textColor="@color/Gray0"
+        android:textSize="20sp"
+        app:layout_constraintTop_toBottomOf="@+id/textview1"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <Button
+        android:id="@+id/completeBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:paddingTop="10dp"
+        android:paddingBottom="10dp"
+        android:paddingStart="25dp"
+        android:paddingEnd="25dp"
+        android:background="@drawable/base_roundsquare_keywordblue_10"
+        android:text="지금 확인할래요!"
+        android:fontFamily='@font/pretendard_semibold'
+        android:textColor="@color/Gray7"
+        android:textSize="17sp"
+        app:layout_constraintTop_toBottomOf="@+id/textview2"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+
+    <TextView
+        android:id="@+id/nextBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="center"
+        android:layout_marginTop="15dp"
+        android:text="아니요, 다음에 볼게요"
+        android:fontFamily='@font/pretendard_regular'
+        android:textColor="@color/Gray3"
+        android:textSize="14sp"
+        app:layout_constraintTop_toBottomOf="@+id/completeBtn"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"/>
+    </LinearLayout>
+</FrameLayout>

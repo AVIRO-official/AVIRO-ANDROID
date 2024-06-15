@@ -1,30 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<layout
     xmlns:android="http://schemas.android.com/apk/res/android"
-    xmlns:app="http://schemas.android.com/apk/res-auto"
-    xmlns:tools="http://schemas.android.com/tools"
+    xmlns:app="http://schemas.android.com/apk/res-auto">
+    <data>
+        <variable
+            name="viewmodel"
+            type="com.aviro.android.presentation.home.ui.mypage.MypageViewModel" />
+    </data>
+
+<androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/bottomSheetChallengeGuideLayout"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
     app:behavior_hideable="true"
-    app:behavior_draggable="false"
-    android:background="@drawable/base_top_roundsquare_white_30">
-    <!--app:layout_behavior="com.google.android.material.bottomsheet.BottomSheetBehavior"-->
+    app:behavior_draggable="false">
+
 
     <LinearLayout
         android:id="@+id/roofOfSheet"
         android:layout_width="match_parent"
         android:layout_height="65dp"
         android:orientation="vertical"
+        android:background="@drawable/base_top_roundsquare_white_20"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent">
+        <!---->
     <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
         android:layout_marginTop="20.5dp"
-        android:text="2024 비거뉴어리 챌린지"
+        android:text="@{String.valueOf(viewmodel.challengeTitle) + ` 챌린지`}"
         android:fontFamily="@font/pretendard_semibold"
         android:textColor="@color/Gray0"
         android:textSize="20sp"/>
@@ -195,7 +202,7 @@
             android:layout_marginBottom="20dp"
             android:layout_marginStart="30dp"
             android:layout_marginEnd="30dp"
-            android:background="@drawable/base_roundsquare_cobalt_30"
+            android:background="@drawable/base_roundsquare_cobalt_15"
             android:orientation="vertical"
             android:text="이해했어요"
             android:fontFamily="@font/pretendard_semibold"
@@ -208,3 +215,4 @@
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</layout>

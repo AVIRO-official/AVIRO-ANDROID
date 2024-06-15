@@ -5,20 +5,20 @@
     <data>
         <variable
             name="search_item"
-            type="com.android.aviro.domain.entity.SearchedRestaurantItem" />
+            type="com.aviro.android.domain.entity.search.SearchedRestaurantItem" />
         <variable
             name="viewmodel"
-            type="com.android.aviro.presentation.search.SearchViewModel" />
+            type="com.aviro.android.presentation.search.SearchViewModel" />
     </data>
 <androidx.constraintlayout.widget.ConstraintLayout
     android:id="@+id/item"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingStart="16dp"
-    android:paddingEnd="16dp"
     android:paddingTop="15dp"
     android:paddingBottom="15dp"
     android:onClick="@{() -> viewmodel.onClickItem(search_item)}">
+    <!--  android:paddingStart="16dp"
+    android:paddingEnd="16dp"-->
 
         <LinearLayout
             android:id="@+id/placeVeganTypeIcon"
@@ -52,7 +52,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="11dp"
-            android:text="@{search_item.placeAddress}"
+            android:text="@{search_item.addressName}"
             android:textColor="@color/Gray3"
             android:textSize = "15sp"
             android:fontFamily="@font/pretendard_regular"/>

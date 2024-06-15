@@ -8,7 +8,7 @@
         <import type="android.view.View"/>
         <variable
             name="viewmodel"
-            type="com.android.aviro.presentation.sign.SignViewModel" />
+            type="com.aviro.android.presentation.sign.SignViewModel" />
     </data>
 
 <androidx.constraintlayout.widget.ConstraintLayout
@@ -19,29 +19,81 @@
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="23dp"
-        android:layout_marginStart="37dp"
+        android:layout_marginTop="80dp"
         android:orientation="vertical"
         android:background="@drawable/text_sign_social"
         app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toTopOf="parent">
     </LinearLayout>
+
 
     <LinearLayout
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="30dp"
-        android:layout_marginEnd="64dp"
+        android:layout_marginBottom="70dp"
         android:background="@drawable/ic_berry_signup"
-        app:layout_constraintBottom_toTopOf="@+id/appleBtn"
+        app:layout_constraintBottom_toTopOf="@+id/naverBtn"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"></LinearLayout>
+
+  <!--  <LinearLayout
+        android:id="@+id/logoutBtn"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@color/Gray3"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/naverBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+    </LinearLayout>-->
+
+    <LinearLayout
+        android:id="@+id/naverBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/btn_sign_naver"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/kakaoBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+    </LinearLayout>
+    <LinearLayout
+        android:id="@+id/kakaoBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/btn_sign_kakao"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/googleBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/googleBtn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginHorizontal="20dp"
+        android:layout_marginBottom="10dp"
+        android:background="@drawable/btn_sign_google"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toTopOf="@id/appleBtn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent">
+    </LinearLayout>
 
     <LinearLayout
         android:id="@+id/appleBtn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginHorizontal="20dp"
-        android:layout_marginBottom="60dp"
+        android:layout_marginBottom="30dp"
         android:background="@drawable/btn_sign_apple"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
@@ -49,24 +101,24 @@
         app:layout_constraintStart_toStartOf="parent">
     </LinearLayout>
 
-    <!--
+
     <ProgressBar
         android:id="@+id/login_progressBar"
         android:gravity = "center"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:indeterminateTint="@color/Gray5"
         app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        android:visibility="@{viewmodel.isSign? View.GONE: View.VISIBLE}"/>-->
+        app:visibilityChanged="@{viewmodel.isLoding}"/>
 
-    <!--
     <View
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="#80000000"
-        android:visibility="@{viewmodel.isSign? View.GONE: View.VISIBLE}"/>-->
+        android:background="#50000000"
+        app:visibilityChanged="@{viewmodel.isLoding}"/>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

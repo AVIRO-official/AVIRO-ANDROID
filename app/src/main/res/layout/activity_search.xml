@@ -5,7 +5,7 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.android.aviro.presentation.search.SearchViewModel" />
+            type="com.aviro.android.presentation.search.SearchViewModel" />
     </data>
 <LinearLayout
     android:layout_width="match_parent"
@@ -90,13 +90,14 @@
                 android:layout_marginStart="10dp"
                 android:layout_marginTop="15dp"
                 android:layout_marginBottom="15dp"
-                android:background="@android:color/transparent"
+                android:background="@null"
                 android:fontFamily="@font/pretendard_medium"
                 android:hint="어디로 이동할까요?"
                 android:imeOptions="actionDone"
-                android:inputType="textMultiLine|textNoSuggestions"
-                android:textColor="@color/Gray2"
+                android:inputType="textNoSuggestions|textVisiblePassword"
+                android:textColor="@color/Cobalt"
                 android:textSize="18sp"
+                android:onTextChanged="@{viewmodel::onTextChanged}"
                 android:onFocusChangeListener="@{(v, hasFocus) -> viewmodel.onEditTextFocusChanged(v, hasFocus)}"
                 android:onKey="@{(view, keyCode, event) -> viewmodel.searchRestaurant(EditTextSearchBar, keyCode, event)}"/>
 
@@ -111,6 +112,40 @@
                 android:orientation="vertical"
                 android:visibility="@{viewmodel.isSearching ? 0 : 8}"/>
         </LinearLayout>
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="217dp"
+            android:orientation="vertical"
+            app:animated="@{!viewmodel.SearchedList}"
+            app:visibilityChanged="@{!viewmodel.isSearchedList &amp;&amp; viewmodel.isSearching}">
+
+            <ImageView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:background="@drawable/berry_search" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:text="알고 있는 가게가 결과에 없다면"
+                android:textColor="@color/Gray2"
+                android:fontFamily="@font/pretendard_medium"
+                android:textSize="15sp"/>
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:text="가게를직접 등록해보세요."
+                android:textColor="@color/Gray2"
+                android:fontFamily="@font/pretendard_medium"
+                android:textSize="15sp"/>
+
+        </LinearLayout>
+
 
         <!-- 검색 안내  -->
         <LinearLayout
@@ -242,7 +277,8 @@
             android:background="@drawable/base_roundsquare_gray6"
             android:orientation="horizontal"
             app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            android:onClick="@{() -> viewmodel.removeAllPreSearchedWords()}">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -254,6 +290,27 @@
             </LinearLayout>
 
             <!--최근 검색어 리스트뷰-->
+            <ScrollView
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="18dp"
+                android:layout_marginStart="20dp"
+                android:layout_marginEnd="20dp"
+                app:layout_constraintTop_toBottomOf="@+id/textView"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:visibilityChanged="@{(viewmodel.isPreSearched &amp;&amp; !viewmodel.isSearching)}">
+
+                <!-- 검색 리스트  -->
+                <androidx.recyclerview.widget.RecyclerView
+                    android:id="@+id/PreSearchRecyclerview"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:orientation="vertical"
+                    app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager" />
+                <!-- app:items="@{viewmodel.adapterSearchedList}"-->
+
+            </ScrollView>
 
         </LinearLayout>
 
@@ -262,7 +319,7 @@
         android:layout_width="match_parent"
         android:layout_height="54dp"
         android:orientation="horizontal"
-        app:visibilityChanged="@{viewmodel.isSearching}">
+        app:visibilityChanged="@{viewmodel.isSearching &amp;&amp; viewmodel.isSearchedList}">
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="54dp"
@@ -275,8 +332,7 @@
                 android:id="@+id/locationSortBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:onClick="@{() -> viewmodel.onClickLocSort(locationSortBtn)}">
+                android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -295,8 +351,7 @@
                 android:id="@+id/accuracySortBtn"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:orientation="horizontal"
-                android:onClick="@{() -> viewmodel.onClickAccSort(accuracySortBtn)}">
+                android:orientation="horizontal">
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
@@ -323,7 +378,10 @@
             android:layout_marginEnd="20dp"
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintEnd_toEndOf="parent">
+            app:layout_constraintEnd_toEndOf="parent"
+            app:visibilityChanged="@{viewmodel.isSearching &amp;&amp; viewmodel.SearchedList}">
+            <!--app:animated="@{!viewmodel.SearchedList}"-->
+
 
             <!-- 검색 리스트  -->
             <androidx.recyclerview.widget.RecyclerView
@@ -332,10 +390,8 @@
                 android:layout_height="wrap_content"
                 android:orientation="vertical"
                 app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                app:items="@{viewmodel.adapterSearchedList}"
-                app:visibilityChanged="@{viewmodel.isSearching}"/>
-
-
+               />
+            <!-- app:items="@{viewmodel.adapterSearchedList}" -->
         </ScrollView>
 
 

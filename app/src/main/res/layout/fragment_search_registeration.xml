@@ -5,14 +5,14 @@
     <data>
         <variable
             name="viewmodel"
-            type="com.android.aviro.presentation.search.SearchViewModel" />
+            type="com.aviro.android.presentation.search.SearchViewModel" />
     </data>
-
     <LinearLayout
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
     android:background="@color/Gray7">
+        <!--android:theme="@style/Base.Theme.AVIRO"-->
 
         <androidx.appcompat.widget.Toolbar
             android:id="@+id/toolbar"
@@ -96,9 +96,10 @@
                     android:fontFamily="@font/pretendard_medium"
                     android:hint="어떤 가게를 찾고 있나요?"
                     android:imeOptions="actionDone"
-                    android:inputType="textMultiLine|textNoSuggestions"
+                    android:inputType="textNoSuggestions|textVisiblePassword"
                     android:textColor="@color/Gray2"
                     android:textSize="18sp"
+                    android:onTextChanged="@{viewmodel::onTextChanged}"
                     android:onFocusChangeListener="@{(v, hasFocus) -> viewmodel.onEditTextFocusChanged(v, hasFocus)}"
                     android:onKey="@{(view, keyCode, event) -> viewmodel.searchRestaurant(EditTextSearchBar, keyCode, event)}"/>
 
@@ -132,8 +133,8 @@
                     android:layout_height="wrap_content"
                     android:orientation="vertical"
                     app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
-                    app:items="@{viewmodel.adapterSearchedList}"
                     app:visibilityChanged="@{viewmodel.isSearching}"/>
+                <!-- app:items="@{viewmodel.adapterSearchedList}"-->
             </ScrollView>
             <!-- 검색 리스트 끝 -->
 
