@@ -243,11 +243,6 @@ class SignViewModel @Inject constructor(
 
     fun isSignUp(type : String, userId : String, email:String, name : String?)  {
         viewModelScope.launch {
-            //memberRepository.saveMemberInfoToLocal(USER_ID_KEY, userId)
-            //memberRepository.saveMemberInfoToLocal(USER_EMAIL_KEY, email)
-            //memberRepository.saveMemberInfoToLocal(USER_NAME_KEY, name ?: "")
-            //authRepository.saveSignTypeToLocal(type)
-
             // 서버로부터 멤버 여부, 닉네임 정보 반환
             manualSignInUseCase(userId).let {
                 when(it) {
