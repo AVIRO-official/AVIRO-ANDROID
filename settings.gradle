@@ -1,3 +1,7 @@
+
+
+
+
 pluginManagement {
     repositories {
         gradlePluginPortal()
@@ -21,6 +25,8 @@ dependencyResolutionManagement {
         }
     }
 }
+
+
 
 
 rootProject.name = "AVIRO"

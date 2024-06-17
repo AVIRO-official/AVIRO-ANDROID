@@ -10,8 +10,8 @@ import com.aviro.android.domain.entity.review.Review
 import com.aviro.android.presentation.aviro_dialog.ReviewReportDialog
 import com.aviro.android.presentation.aviro_dialog.ReviewUpdateDialog
 
-class ReviewAdapter(val userNickname : String,  val onclickReport :(Review)->(Unit), val onClickDelete :(Review)->(Unit), val onClickUpdate :(Review)->(Unit)) : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>(){
-
+class ReviewAdapter(val viewmodel : BottomSheetViewModel, val onclickReport :(Review)->(Unit), val onClickDelete :(Review)->(Unit), val onClickUpdate :(Review)->(Unit)) : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>(){
+    //val userNickname : String,
     // viewmodel : BottomSheetViewModel,
     var reviewList: MutableList<Review>? = null
     //var userNickname : String? = null
@@ -35,7 +35,7 @@ class ReviewAdapter(val userNickname : String,  val onclickReport :(Review)->(Un
         fun bind(item: Review) {
             binding.review = item
             // 내가 쓴 리뷰일 경우
-            if(item.nickname == userNickname) {
+            if(item.nickname == viewmodel.userNickname) {
                 binding.reviewContainer.background = ContextCompat.getDrawable(binding.root.context, R.drawable.base_roundsquare_bgblue_10)
                 binding.content.setTextColor(ContextCompat.getColor(binding.root.context, R.color.Cobalt))
             } else {
@@ -45,7 +45,7 @@ class ReviewAdapter(val userNickname : String,  val onclickReport :(Review)->(Un
             binding.executePendingBindings()
 
             binding.updateBtn.setOnClickListener {
-                if(item.nickname == userNickname) {
+                if(item.nickname == viewmodel.userNickname) {
                     ReviewUpdateDialog(binding.root.context, {onClickUpdate(item)},
                         {onClickDelete(item)}).show()
 

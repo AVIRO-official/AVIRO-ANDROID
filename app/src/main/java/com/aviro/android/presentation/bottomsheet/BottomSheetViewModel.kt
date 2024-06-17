@@ -103,8 +103,14 @@ class BottomSheetViewModel @Inject constructor (
 
 
     init {
+        getNickname()
+    }
+
+
+    fun getNickname() {
         viewModelScope.launch {
             getMyInfoUseCase.getNickname().let {
+                Log.d("getMyInfoUseCase", "${it}")
                 when(it) {
                     is MappingResult.Success<*> -> { userNickname = it.data.toString() }
                     is MappingResult.Error -> _errorLiveData.value = it.message

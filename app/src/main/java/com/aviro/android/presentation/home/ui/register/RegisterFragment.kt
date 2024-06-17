@@ -37,15 +37,18 @@ class RegisterFragment : Fragment()  {
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
 
-    private val viewmodel: RegisterViewModel by viewModels()//(R.id.navigation_register)
+    private val viewmodel: RegisterViewModel by viewModels()
     private val homeViewmodel: HomeViewModel by activityViewModels()
-
-    //private lateinit var mGestureDetector : GestureDetector
 
     val menuItemMap = HashMap<String, Menu>()
     var location_x : Double? = null
     var location_y : Double? = null
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+
+        requireActivity().window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+    }
     override fun onCreateView(
         inflater: LayoutInflater,
         container: ViewGroup?,
@@ -151,7 +154,7 @@ class RegisterFragment : Fragment()  {
             } else {
                 // 위치 권한이 없는 경우 요청하도록 구현
                 // 혹은 그냥 현재 맵의 중심점을 반환
-
+                return null
             }
         }
         // 맵 기준

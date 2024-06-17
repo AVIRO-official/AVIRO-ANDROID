@@ -11,7 +11,7 @@ interface MemberDataSource {
     suspend fun creatMember(newMember : SignUpRequest) : Result<DataResponse<SignInResponse>> // Result<Any>
     suspend fun getActivityCount(request : String) : Result<DataResponse<MemberHistoryResponse>>
     suspend fun getChallengeLevel(request : String) : Result<DataResponse<MemberLevelResponse>>
-    suspend fun deleteMember(refresh_token : MemberWithdrawRequest) : Result<BaseResponse>
+    suspend fun deleteMember(request : MemberWithdrawRequest) : Result<BaseResponse>
     suspend fun updateNickname(request : NicknameUpdateRequest) : Result<BaseResponse>
     suspend fun addBookmark(request : AddBookmarkRequest) : Result<BaseResponse>
     suspend fun deleteBookmark(place_id : String, user_id : String) : Result<BaseResponse>

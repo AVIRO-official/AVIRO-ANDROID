@@ -20,7 +20,16 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             tools:ignore="MissingConstraints">
+
+            <LinearLayout
+                android:id="@+id/backBtn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:background="@drawable/ic_arrow_left"
+                android:orientation="horizontal"
+                tools:layout_editor_absoluteX="29.53dp"></LinearLayout>
         </androidx.appcompat.widget.Toolbar>
+
 
         <TextView
             android:id="@+id/mainTextView"

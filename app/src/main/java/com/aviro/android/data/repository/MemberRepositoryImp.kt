@@ -8,6 +8,7 @@ import com.aviro.android.data.model.member.AddBookmarkRequest
 import com.aviro.android.data.model.member.MemberWithdrawRequest
 import com.aviro.android.data.model.member.UpdateReviewRequest
 import com.aviro.android.domain.entity.base.MappingResult
+import com.aviro.android.domain.entity.key.APPLE
 import com.aviro.android.domain.entity.key.USER_EMAIL_KEY
 import com.aviro.android.domain.entity.key.USER_ID_KEY
 import com.aviro.android.domain.entity.key.USER_NAME_KEY
@@ -141,22 +142,25 @@ class MemberRepositoryImp @Inject constructor (
     }
 
     override suspend fun deleteMember(refresh_token : String, type : String) : MappingResult {
-        val response = memberDataSource.deleteMember(MemberWithdrawRequest(refresh_token, type))
-        Log.d("deleteMember", "${response}")
 
-        lateinit var  result : MappingResult
-        response.onSuccess {
-            val code = it.statusCode
-            if(code == 200) {
-                result = MappingResult.Success(it.message, null)
-            } else {
+        val response = memberDataSource.deleteMember(MemberWithdrawRequest(refresh_token, type))
+
+            lateinit var result : MappingResult
+            response.onSuccess {
+                val code = it.statusCode
+                if(code == 200) {
+                    result = MappingResult.Success(it.message, null)
+                } else {
+                    result = MappingResult.Error(it.message)
+                }
+            }.onFailure {
                 result = MappingResult.Error(it.message)
             }
-        }.onFailure {
-            result = MappingResult.Error(it.message)
-        }
-        return result
+            return result
+
     }
+
+
 
     override suspend fun addBookmark(place_id : String, user_id : String) : MappingResult {
         val response = memberDataSource.addBookmark(AddBookmarkRequest(place_id, user_id))

@@ -85,16 +85,14 @@ class Map : Fragment(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // 프래그먼트가 액티비티의 호출을 받아 생성
-        // 네이버 지도 초기화 (navMap 객체 생성, 기본 가게데이터 생성) -> 퍼미션 없이도 사용 가능한 기능
-
         val fm = childFragmentManager
         mapFragment = fm.findFragmentById(R.id.map_fragment) as MapFragment?
             ?: MapFragment.newInstance().also {
                 fm.beginTransaction().add(R.id.map_fragment, it).commit()
             }
-
         mapFragment.getMapAsync(this)
+
+        bottomSheetViewmodel.getNickname()
 
         frag1.setViewModel(bottomSheetViewmodel, viewmodel, homeViewmodel)
         frag2.setViewModel(bottomSheetViewmodel, viewmodel)
@@ -112,6 +110,16 @@ class Map : Fragment(), OnMapReadyCallback {
         binding.viewmodel = viewmodel
         binding.lifecycleOwner = viewLifecycleOwner
         binding.mapFragment.setViewModel(viewmodel)
+
+
+        // 현재 화면 높이 가져오기
+        val displayMetrics = resources.displayMetrics
+        val screenHeight = displayMetrics.heightPixels
+
+        // 맵화면 높이 조정
+        val layoutParams = binding.mapFragment.layoutParams
+        layoutParams.height = screenHeight - 100
+        binding.mapFragment.layoutParams = layoutParams
 
         initListener()
         initObserver()
@@ -235,9 +243,14 @@ class Map : Fragment(), OnMapReadyCallback {
             val intent = Intent(Intent.ACTION_SEND_MULTIPLE)
             intent.type = "text/plain"
 
-            val blogUrl = "https://play.google.com/store/apps/details?id=com.aviro.android"
-            val content = "[${bottomSheetViewmodel.restaurantSummary.value!!.title}]\n${bottomSheetViewmodel.restaurantSummary.value!!.address}"
-            intent.putExtra(Intent.EXTRA_TEXT,"$content\n$blogUrl")
+            val blogUrlAOS = "https://play.google.com/store/apps/details?id=com.aviro.android"
+            val blogUrlIOS = "https://apps.apple.com/app/6449352804"
+            val content = "[어비로]\n${bottomSheetViewmodel.restaurantSummary.value!!.title}\n" +
+                    "${bottomSheetViewmodel.restaurantSummary.value!!.address}\n\n" +
+                    "[플레이스토어]\n${blogUrlAOS}\n\n" +
+                    "[앱스토어]\n${blogUrlIOS}"
+
+            intent.putExtra(Intent.EXTRA_TEXT,"$content")
 
             val chooserTitle = "[어비로]"
             startActivity(Intent.createChooser(intent, chooserTitle))
@@ -486,11 +499,16 @@ class Map : Fragment(), OnMapReadyCallback {
         }
 
         viewmodel.diallogLiveData.observe(viewLifecycleOwner) {
+
+            persistenetBottomSheet.state = STATE_COLLAPSED
+            viewmodel._bottomSheetState.value = 1
+            bottomSheetSate = 1
+
             AviroDialogUtils.createOneDialog(requireContext(),
             "신고가 완료되었어요",
             "3건 이상의 신고가 들어오면\n" +
                     "가게는 자동으로 삭제돼요.",
-                "확인")
+                "확인").show()
         }
 
         viewmodel.promotionData.observe(viewLifecycleOwner) {
@@ -535,14 +553,16 @@ class Map : Fragment(), OnMapReadyCallback {
         }
 
 
-        // 위치 추적 기능 사용 여부 확인 (퍼미션 체크 이루어짐)
-        locationSource = FusedLocationSource(this, getString(R.string.FUSED_LOCATION_CODE).toInt())
+        naverMap.uiSettings.isScaleBarEnabled = false
+        naverMap.uiSettings.isCompassEnabled = false
+        naverMap.uiSettings.isZoomControlEnabled = false
+        naverMap.uiSettings.isTiltGesturesEnabled = false
+
 
         // GPS 체크 및 퍼미션 체크 (한번허용, 항상 허용, 거부)
         checkOnOffGPS()
-
-        naverMap.uiSettings.isZoomControlEnabled = false
-        naverMap.uiSettings.setScaleBarEnabled(false)
+        // 위치 추적 기능 사용 여부 확인 (퍼미션 체크 이루어짐)
+        locationSource = FusedLocationSource(this, getString(R.string.FUSED_LOCATION_CODE).toInt())
 
 
         // 맵 객체가 다시 생길 때 화면에 마커를 모두 다시 그림

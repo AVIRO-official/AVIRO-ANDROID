@@ -21,7 +21,7 @@ import com.aviro.android.domain.usecase.member.DeleteMyReviewUseCase
 import com.aviro.android.domain.usecase.member.GetMyInfoUseCase
 import com.aviro.android.domain.usecase.member.UpdateBookmarkUseCase
 import com.aviro.android.domain.usecase.member.UpdateMyNicnameUseCase
-import com.aviro.android.domain.usecase.member.WithdrawUseCas
+import com.aviro.android.domain.usecase.member.WithdrawUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,7 +32,7 @@ class MypageViewModel @Inject constructor (
     private val getTokenUseCase : GetTokenUseCase,
     private val createMemberUseCase : CreateMemberUseCase,
     private val logoutUseCase : LogoutUseCase,
-    private val withdrawUseCas : WithdrawUseCas,
+    private val withdrawUseCase : WithdrawUseCase,
     private val updateMyNicnameUseCase : UpdateMyNicnameUseCase,
     private val updateBookmarkUseCase : UpdateBookmarkUseCase,
     private val getChallengeInfo : GetChallengeInfo,
@@ -304,38 +304,7 @@ class MypageViewModel @Inject constructor (
 
             }
         }
-        /*
-        fun checkNickname(editable: EditText) {
-            val text = editable.text.toString()
-            val id = editable.id
-            when (id) {
-                R.id.editTextNickName -> {
-                    _nicknameCountText.value = "(${text.length}/8)"
-                    _nickname.value = text
 
-                    viewModelScope.launch {
-                        createMemberUseCase.checkNickname(text).let {
-                            when (it) {
-                                is MappingResult.Success<*> -> {
-                                    val data = it.data as NicknameValidation
-                                    _isNicknameValid.value = data.isValid
-                                    _nicknameNoticeText.value = data.message
-                                }
-                                is MappingResult.Error -> {
-                                    _errorLiveData.value = it.message
-                                }
-                            }
-                        }
-
-                    }
-
-                }
-
-            }
-
-        }
-
-         */
 
         fun onClickChangeNickname() {
             viewModelScope.launch {
@@ -405,11 +374,13 @@ class MypageViewModel @Inject constructor (
         fun withdraw() {
             viewModelScope.launch {
                 _isLoding.value = true
-                withdrawUseCas().let {
+
+                withdrawUseCase().let {
+                    Log.d("withdraw","${it}")
                     // 성공했을 경우 -> 다이얼로그 창 뜨기, 로그인 화면으로
                     when (it) {
                         is MappingResult.Success<*> -> {
-                            Log.d("WithdrawUseCas","${it.message}")
+                            Log.d("WithdrawUseCase","${it.message}")
                             if(it.message != null){
                                 _toastLiveData.value = it.message
                             }

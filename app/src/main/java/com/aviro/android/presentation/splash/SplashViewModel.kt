@@ -9,6 +9,7 @@ import com.aviro.android.domain.entity.base.MappingResult
 import com.aviro.android.domain.usecase.auth.AutoSignInUseCase
 import com.aviro.android.domain.usecase.auth.CreateTokensUseCase
 import com.aviro.android.domain.usecase.auth.GetTokenUseCase
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -16,10 +17,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor (
-    private val getTokenUseCase: GetTokenUseCase,
-    private val createTokensUseCase: CreateTokensUseCase,
     private val autoSignInUseCase: AutoSignInUseCase
 ) : ViewModel() {
+
 
     val _isSignIn = MutableLiveData<Boolean>()
     val isSignIn: LiveData<Boolean>
@@ -32,7 +32,6 @@ class SplashViewModel @Inject constructor (
         viewModelScope.launch {
             // 현재 어떤 로그인 되어 있는지 확인
             autoSignInUseCase().let {
-                Log.d("isSignIn", "${it}")
                 when(it){
                     is MappingResult.Success<*> -> _isSignIn.value = true
                     is MappingResult.Error -> {
@@ -40,12 +39,8 @@ class SplashViewModel @Inject constructor (
                     }
                 }
             }
-
             }
-
         }
-
-
 
      }
 

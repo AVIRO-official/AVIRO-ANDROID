@@ -15,7 +15,6 @@
     <uses-permission android:name="android.permission.CALL_PHONE" />
     <uses-permission android:name="android.permission.DIAL_PHONE" />
 
-    <!--android:networkSecurityConfig="@xml/network_security_config"-->
 
     <application
         android:usesCleartextTraffic="true"
@@ -28,18 +27,19 @@
         android:roundIcon="@mipmap/app_icon_v1_round"
         android:supportsRtl="true"
         android:theme="@style/Base.Theme"
-        tools:targetApi="31"
-        android:screenOrientation="portrait">
+        tools:targetApi="31">
 
 
         <activity
             android:name=".presentation.guide.Guide"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name=".presentation.splash.Splash"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.LAUNCHER" />
@@ -49,12 +49,13 @@
         <activity
             android:name=".presentation.sign.Sign"
             android:exported="true"
-            android:launchMode="singleTop">
+            android:launchMode="singleTop"
+            android:screenOrientation="portrait">
+
             <intent-filter android:autoVerify="true">
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
-
                 <data
                     android:scheme="app"
                     android:host="aviro.co.kr"/>
@@ -68,40 +69,48 @@
         <activity
             android:name=".presentation.home.Home"
             android:exported="true"
-            android:windowSoftInputMode="adjustResize">
+            android:windowSoftInputMode="adjustPan|adjustResize"
+            android:screenOrientation="portrait">
         </activity>
+        <!--android:windowSoftInputMode="adjustResize|stateHidden|"-->
 
 
         <activity
             android:name=".presentation.bottomsheet.ReviewActivity"
             android:exported="true"
-            android:windowSoftInputMode="adjustPan">
+            android:windowSoftInputMode="adjustPan"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name=".presentation.home.ui.register.SearchRegisteration"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name=".presentation.update.Update"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name=".presentation.search.Search"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
         </activity>
 
         <activity
             android:name=".presentation.update.UpdateMenu"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
         </activity>
 
 
         <activity
             android:name="com.kakao.sdk.auth.AuthCodeHandlerActivity"
-            android:exported="true">
+            android:exported="true"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW" />
                 <category android:name="android.intent.category.DEFAULT" />
@@ -115,13 +124,14 @@
 
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
-            android:exported="true" />
+            android:exported="true"
+            android:screenOrientation="portrait"/>
         <!--  android:theme="@style/Theme.Opensourcelicense"-->
 
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"
-            android:exported="true" />
-
+            android:exported="true"
+            android:screenOrientation="portrait"/>
 
 
         <meta-data

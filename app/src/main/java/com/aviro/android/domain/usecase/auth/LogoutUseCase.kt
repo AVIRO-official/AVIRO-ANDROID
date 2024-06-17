@@ -1,10 +1,12 @@
 package com.aviro.android.domain.usecase.auth
 
 import com.aviro.android.domain.entity.key.APPLE
+import com.aviro.android.domain.entity.key.GOOGLE
 import com.aviro.android.domain.entity.key.KAKAO
 import com.aviro.android.domain.entity.key.NAVER
 import com.aviro.android.domain.repository.AuthRepository
 import com.aviro.android.domain.repository.MemberRepository
+import com.aviro.android.presentation.sign.GoogleSignInManager
 import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
 import javax.inject.Inject
@@ -22,6 +24,7 @@ class LogoutUseCase @Inject constructor ( // 사용자에게는 소셜 로그인
             NAVER -> NaverIdLoginSDK.logout()
             APPLE -> authRepository.removeTokens()
             KAKAO -> UserApiClient.instance.logout {}
+            GOOGLE -> GoogleSignInManager.getClient().signOut()
         }
 
         authRepository.removeSignTypeFromLocal()

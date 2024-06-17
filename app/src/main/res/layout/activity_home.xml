@@ -23,7 +23,7 @@
     <com.google.android.material.bottomnavigation.BottomNavigationView
         android:id="@+id/nav_view"
         android:layout_width="match_parent"
-        android:layout_height="80dp"
+        android:layout_height="70dp"
         android:paddingTop="8dp"
         android:paddingStart="16dp"
         android:paddingEnd="16dp"
@@ -48,7 +48,7 @@
         android:layout_height="match_parent"
         android:background="#90000000"
         android:elevation="10dp"
-        android:visibility="gone"
+     android:visibility="gone"
         app:layout_constraintLeft_toLeftOf="parent"
         app:layout_constraintRight_toRightOf="parent"
         app:layout_constraintTop_toTopOf="parent"
@@ -152,7 +152,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
-            android:layout_marginStart="40dp"
+            android:layout_marginStart="65dp"
             android:background="@drawable/img_tutorial_2"/>
     </LinearLayout>
 
@@ -261,7 +261,7 @@
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity="center_horizontal"
-                            android:layout_marginTop="160dp"
+                            android:layout_marginTop="158dp"
                             android:elevation="10dp"
                             android:visibility="invisible"
                             android:background="@drawable/img_tutorial_3"/>

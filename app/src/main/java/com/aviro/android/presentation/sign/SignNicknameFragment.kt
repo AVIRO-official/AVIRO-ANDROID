@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import com.aviro.android.R
 import com.aviro.android.databinding.FragmentSignNicknameBinding
+import com.aviro.android.presentation.aviro_dialog.AviroDialogUtils
 
 class SignNicknameFragment() : Fragment() {
 
@@ -31,10 +32,25 @@ class SignNicknameFragment() : Fragment() {
         binding.lifecycleOwner = this@SignNicknameFragment
 
         binding.nextBtn.setOnClickListener {
-            parentFragmentManager.beginTransaction()
+            val fragmentManager = parentFragmentManager.beginTransaction()
+            fragmentManager.setCustomAnimations(
+                R.anim.slide_right_enter,
+                R.anim.slide_left_exit,
+                R.anim.slide_right_enter,
+                R.anim.slide_left_exit
+            )
+            fragmentManager
                 .replace(R.id.fragment_container_view, SignOptionFragment())
-                .addToBackStack("SignOptionFragment") // 백 스택에 추가
+                .addToBackStack(null) // 백 스택에 추가
                 .commit()
+        }
+
+        binding.backBtn.setOnClickListener {
+            sharedViewModel.cancelSignUp()
+            val fragmentManager = parentFragmentManager.beginTransaction()
+            fragmentManager.setCustomAnimations(R.anim.slide_left_enter, R.anim.slide_right_exit, R.anim.slide_right_enter, R.anim.slide_left_exit)
+            fragmentManager.remove(this@SignNicknameFragment).commit()
+            //requireActivity().onBackPressed()
         }
 
         return view

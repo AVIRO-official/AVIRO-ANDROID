@@ -13,6 +13,7 @@ import com.aviro.android.domain.entity.base.MappingResult
 import com.aviro.android.domain.entity.key.APPLE
 import com.aviro.android.domain.entity.key.GOOGLE
 import com.aviro.android.domain.entity.key.KAKAO
+import com.aviro.android.domain.entity.key.NAVER
 import com.aviro.android.domain.entity.key.USER_EMAIL_KEY
 import com.aviro.android.domain.entity.key.USER_ID_KEY
 import com.aviro.android.domain.entity.key.USER_NAME_KEY
@@ -26,7 +27,12 @@ import com.aviro.android.domain.usecase.auth.GetTokenUseCase
 import com.aviro.android.domain.usecase.auth.LogoutUseCase
 import com.aviro.android.domain.usecase.auth.ManualSignInUseCase
 import com.aviro.android.domain.usecase.member.CreateMemberUseCase
+import com.kakao.sdk.user.UserApiClient
+import com.navercorp.nid.NaverIdLoginSDK
+import com.navercorp.nid.oauth.NidOAuthLogin
+import com.navercorp.nid.oauth.OAuthLoginCallback
 import dagger.hilt.android.lifecycle.HiltViewModel
+import io.realm.kotlin.mongodb.App
 import kotlinx.coroutines.launch
 import java.text.ParseException
 import java.text.SimpleDateFormat
@@ -82,12 +88,15 @@ class SignViewModel @Inject constructor(
     val nextBtn : LiveData<Int>
         get() = _nextBtn
 
-
-
     // 다음으로 넘어가도 되는지 확인
     val _isComplete = MutableLiveData<Boolean>()
     val isComplete : LiveData<Boolean>
         get() = _isComplete
+
+    // 회원가입이 완료되었는지 확인 (회원가입 중 앱을 끄면 로그인 정보 삭제)
+    val _isCompleteSignUp = MutableLiveData<Boolean>()
+    val isCompleteSignUp : LiveData<Boolean>
+        get() = _isCompleteSignUp
 
 
     val _nicknameText = MutableLiveData<String>()
@@ -147,20 +156,16 @@ class SignViewModel @Inject constructor(
             _isApproveList.value = listOf(false, false, false)
 
             _isAllTrue.value = false
-            //_isNicknameValid.value = false
             _isVaildBirth.value = "default"
             _isComplete.value = false
 
-    }
-
-    fun onClickLogout() {
-        viewModelScope.launch {
-            logoutUseCase()
-        }
+            _isCompleteSignUp.value = false
 
     }
 
-    // 사용자 로그인 (서버로부터 토큰 생성 : 애플, 구글)
+
+
+    // 애플에서만 사용
     fun createTokens(type : String, id_token : String, auth_code : String, email : String, name : String?) {
         viewModelScope.launch {
             _isLoding.value = true
@@ -193,9 +198,6 @@ class SignViewModel @Inject constructor(
                                     }
                                 }
 
-                                GOOGLE -> {
-
-                                }
                             }
                        } else {
                            _signUserId.value = it.data.userId
@@ -213,49 +215,26 @@ class SignViewModel @Inject constructor(
            }
     }
 
-    // 애플로그인 하고 바로 수행
-    fun autoSignIn(type : String) {
-        // 로그인 타입에 따라 다르게 수행
-        Log.d("AutoSignInUseCase","autoSignIn")
-        viewModelScope.launch {
-            when(type) {
-                APPLE -> {
-                    // 갑자기 통신 장애 등 발생할 수는 있음
-                    autoSignInUseCase().let {//token
-                        when(it){
-                            is MappingResult.Success<*> -> _isSignUp.value = false
-                            is MappingResult.Error -> {
-                                // 토큰 발급 받아서 자동로그인 하려고 하는데 에러나는 경우
-                                _errorLiveData.value = it.message // 애플로그인 이후 자동로그인 해야 하는데 안 되는 경우
-                            }
-                            else -> {}
-                        }
 
-                    }
-                }
 
-                GOOGLE -> {
-
-                }
-            }
-        }
-    }
-
-    fun isSignUp(type : String, userId : String, email:String, name : String?)  {
+    fun isSignUp()  {
         viewModelScope.launch {
             // 서버로부터 멤버 여부, 닉네임 정보 반환
-            manualSignInUseCase(userId).let {
+            manualSignInUseCase(_signUserId.value!!).let {
                 when(it) {
                     is MappingResult.Success<*> -> {
                         val data = it.data as User
                         if(data.isMember) {
-                            memberRepository.saveMemberInfoToLocal(USER_ID_KEY, userId)
-                            memberRepository.saveMemberInfoToLocal(USER_EMAIL_KEY, email)
-                            memberRepository.saveMemberInfoToLocal(USER_NAME_KEY, name ?: "")
-                            authRepository.saveSignTypeToLocal(type)
+                            // 회원이므로 저장
+                            memberRepository.saveMemberInfoToLocal(USER_ID_KEY, _signUserId.value!!)
+                            memberRepository.saveMemberInfoToLocal(USER_EMAIL_KEY, _signEmail.value!!)
+                            memberRepository.saveMemberInfoToLocal(USER_NAME_KEY, _signName.value ?: "")
+                            authRepository.saveSignTypeToLocal(_signType.value!!)
                             memberRepository.saveMemberInfoToLocal(USER_NICKNAME_KEY, data.nickname!!)
                             _isSignUp.value = false
                         } else {
+                            // 회원가입 필요
+                            _isCompleteSignUp.value = false
                             _isSignUp.value = true
                         }
                     }
@@ -267,6 +246,34 @@ class SignViewModel @Inject constructor(
             }
 
         }
+    }
+
+    // 회원가입 중 취소
+    fun cancelSignUp() {
+        viewModelScope.launch {
+            when(_signType.value) {
+                KAKAO -> {
+                    UserApiClient.instance.logout {}
+                    UserApiClient.instance.unlink {}
+
+                }
+                NAVER -> {
+                    NaverIdLoginSDK.logout()
+                    NidOAuthLogin().callDeleteTokenApi(object : OAuthLoginCallback {
+                        override fun onSuccess() {}
+                        override fun onFailure(httpStatus: Int, message: String) {}
+                        override fun onError(errorCode: Int, message: String) {
+                            onFailure(errorCode, message)
+                        }
+                    })
+                }
+                GOOGLE -> {
+                    GoogleSignInManager.getClient().signOut()
+                    GoogleSignInManager.getClient().revokeAccess()
+                }
+            }
+        }
+
     }
 
 
@@ -332,7 +339,6 @@ class SignViewModel @Inject constructor(
             }
 
         }
-
 
     }
 
@@ -443,6 +449,7 @@ class SignViewModel @Inject constructor(
                 when (it) {
                     is MappingResult.Success<*> -> {
                         _isComplete.value = true
+                        _isCompleteSignUp.value = true
                     }
                     is MappingResult.Error -> {
                         Log.e("Sign","회원가입 실패")

@@ -234,7 +234,7 @@
                 android:id="@+id/social_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="7dp"
+                android:layout_marginEnd="20dp"
                 android:textSize="15sp"
                 android:textColor="@color/Gray3"
                 android:text="@{viewmodel.socialType}"/>
@@ -245,6 +245,7 @@
             android:layout_height="50dp"
             android:orientation="horizontal"
             android:background="@drawable/base_mypage_menubar">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_weight="1"

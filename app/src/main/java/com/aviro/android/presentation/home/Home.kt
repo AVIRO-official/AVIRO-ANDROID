@@ -44,6 +44,8 @@ class Home : FragmentActivity() {
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS,
             WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS)
 
+        window.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_PAN or WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+
 
         binding = ActivityHomeBinding.inflate(layoutInflater)
         setContentView(binding.root)
@@ -126,7 +128,6 @@ class Home : FragmentActivity() {
         binding.navView.setOnItemSelectedListener {
             when (it.itemId) {
                 R.id.navigation_map -> {
-                    //binding.homePager.currentItem = 0
                     binding.homePager.setCurrentItem(0, false)
                     binding.navView.isVisible = true
                     binding.homePager.isUserInputEnabled = false
@@ -134,7 +135,6 @@ class Home : FragmentActivity() {
                 }
 
                 R.id.navigation_register -> {
-                    //binding.homePager.currentItem = 1
                     binding.homePager.setCurrentItem(1, false)
                     binding.homePager.isUserInputEnabled = false
                     binding.navView.isVisible = false
@@ -145,7 +145,6 @@ class Home : FragmentActivity() {
                 }
 
                 R.id.navigation_mypage -> {
-                    //binding.homePager.currentItem = 2
                     binding.homePager.setCurrentItem(2, false)
                     binding.navView.isVisible = true
                     binding.homePager.isUserInputEnabled = false

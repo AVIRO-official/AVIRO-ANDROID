@@ -51,7 +51,6 @@ class MypageFragment : Fragment() {
         setFragmentResult("requestKey", bundleOf("resultKey" to "MypageToChallenge"))
         fragmentManager.remove(this@MypageFragment).commit()
 
-
     }
 
 

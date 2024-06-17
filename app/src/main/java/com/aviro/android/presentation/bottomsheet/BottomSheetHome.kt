@@ -53,6 +53,8 @@ class BottomSheetHome(val setReviewAmount : (Int) -> Unit) : Fragment() {
         binding.viewmodel = viewmodel
         binding.lifecycleOwner = this
 
+        viewmodel.getNickname()
+
         setAdapter()
         initObserver()
         initListener()
@@ -65,7 +67,6 @@ class BottomSheetHome(val setReviewAmount : (Int) -> Unit) : Fragment() {
         setFragmentResultListener("requestKey") { requestKey, bundle ->
             val result = bundle.getString("level_up")
         }
-
     }
 
     fun setViewModel(bottomSheetViewModel: BottomSheetViewModel, mapViewModel: MapViewModel,  homeViewmodel: HomeViewModel) {
@@ -76,7 +77,8 @@ class BottomSheetHome(val setReviewAmount : (Int) -> Unit) : Fragment() {
 
     private fun setAdapter() {
         menuAdapter = MenuAdapter()
-        reviewAdapter = ReviewAdapter(viewmodel.userNickname!!,
+        Log.d("BottomSheetHome:ERROR", "${viewmodel.userNickname}")
+        reviewAdapter = ReviewAdapter(viewmodel,  //viewmodel.userNickname!!
             {item ->
                 viewmodel._selectedReviewForReport.value = item
                 Log.d("_selectedReviewForReport", "${item}")
@@ -138,7 +140,6 @@ class BottomSheetHome(val setReviewAmount : (Int) -> Unit) : Fragment() {
             val intent = Intent(requireContext(), UpdateMenu::class.java)
             intent.putExtra("RestaurantInfo", viewmodel.restaurantDataForUpdate.value)
             startActivityForResult(intent, getString(R.string.UPDATE_MENU_RESULT_OK).toInt())
-
         }
 
         binding.reportBtn.setOnClickListener {
@@ -174,7 +175,6 @@ class BottomSheetHome(val setReviewAmount : (Int) -> Unit) : Fragment() {
 
                     binding.reviewListView.removeAllViews()
                     (binding.reviewListView.adapter as ReviewAdapter).reviewList = it.commentArray.take(5).toMutableList()
-                    //(binding.reviewListView.adapter as ReviewAdapter).notifyDataSetChanged()
                 }
 
             }

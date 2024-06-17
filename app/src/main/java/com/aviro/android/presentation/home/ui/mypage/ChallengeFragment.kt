@@ -101,8 +101,6 @@ class ChallengeFragment : Fragment() {
                 R.anim.slide_left_exit,
                 R.anim.slide_right_enter,
                 R.anim.slide_left_exit
-                //R.anim.slide_left_enter,
-                //R.anim.slide_right_exit
             )
             fragmentManager.replace(R.id.fragment_challenge_main, MyRestaurantFrag())
                 .addToBackStack(null)
@@ -130,7 +128,6 @@ class ChallengeFragment : Fragment() {
                 R.anim.slide_left_exit,
                 R.anim.slide_right_enter,
                 R.anim.slide_left_exit
-
             )
             fragmentManager.replace(R.id.fragment_challenge_main, MyBookmarkFrag())
                 .addToBackStack(null)
@@ -186,6 +183,14 @@ class ChallengeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         homeViewmodel._isNavigation.value = false
+
+        viewmodel.getMyInfo()  // 챌린지 정보 호출
+        viewmodel.getChallengeInfo()
+
+        viewmodel.getMyReviewList()
+        viewmodel.getMyRestaurantList()
+        viewmodel.getMyBookmarkList()
+
     }
 
 

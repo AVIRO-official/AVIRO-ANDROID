@@ -28,6 +28,8 @@
     <string name="REVIEW_RESULT_OK">5000</string>
     <string name="UPDATE_RESULT_OK">6000</string>
     <string name="UPDATE_MENU_RESULT_OK">7000</string>
+    <string name="GOOGLE_REQ_CODE">1001</string>
+
 
 
     <string name="LOGOUT">LOGOUT</string>
