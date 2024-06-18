@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/locOfMap"
-        android:title="지도 중심" />
-    <item
-        android:id="@+id/locOfUser"
-        android:title="내 위치 중심" />
-</menu>

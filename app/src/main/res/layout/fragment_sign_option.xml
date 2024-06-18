@@ -27,6 +27,7 @@
                 android:layout_height="wrap_content"
                 android:background="@drawable/ic_arrow_left"
                 android:orientation="horizontal"
+                android:contentDescription="@string/backButton"
                 tools:layout_editor_absoluteX="29.53dp"></LinearLayout>
         </androidx.appcompat.widget.Toolbar>
 

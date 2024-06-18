@@ -75,9 +75,24 @@ class MypageFragment : Fragment() {
         startActivity(instagram_intent)
     }
 
+        // 튜토리얼 처음부터 다시 보기
+        binding.menubarTutorial.setOnClickListener {
+            // 첫방문자인 것처럼 구현
+            val prefs = requireContext().getSharedPreferences("aviro", Context.MODE_PRIVATE)
+            prefs.edit().putBoolean("showMapTutorial", true).apply()
+            prefs.edit().putBoolean("showChallengeTutorial", true).apply()
+
+            // 맵화면 이동
+           // homeViewmodel._isNavigation.value = true
+            val fragmentManager = parentFragmentManager.beginTransaction()
+            setFragmentResult("requestKey", bundleOf("resultKey" to "MypageToMap"))
+            fragmentManager.remove(this@MypageFragment).commit()
+
+        }
+
     binding.menubarQuestion.setOnClickListener {
         val email_intent = Intent(Intent.ACTION_SEND)
-        email_intent.setPackage("com.google.android.gm")
+        //email_intent.setPackage("com.google.android.gm")
         email_intent.type = "*/*"
         val emailArray = arrayOf("aviro.kr.official@gmail.com")
         email_intent.putExtra(Intent.EXTRA_EMAIL, emailArray) // 받는 사람 이메일

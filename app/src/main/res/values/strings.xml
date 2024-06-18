@@ -30,11 +30,16 @@
     <string name="UPDATE_MENU_RESULT_OK">7000</string>
     <string name="GOOGLE_REQ_CODE">1001</string>
 
-
-
     <string name="LOGOUT">LOGOUT</string>
     <string name="WITHDRAW">WITHDRAW</string>
 
+    <!-- 콘텐츠 라벨 -->
+    <string name="backButton">뒤로가기</string>
+
+    <string name="googleSignIn">구글 로그인</string>
+    <string name="appleSignIn">애플 로그인</string>
+    <string name="naverSignIn">네이버 로그인</string>
+    <string name="kakaoSignIn">카카오 로그인</string>
 
 
     <string name="lorem_ipsum">

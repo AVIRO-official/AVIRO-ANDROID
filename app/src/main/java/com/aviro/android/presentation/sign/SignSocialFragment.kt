@@ -64,6 +64,8 @@ class SignSocialFragment : Fragment() {
             onClickApple()
         }
 
+
+
         binding.naverBtn.setOnClickListener {
             onClickNaver()
         }
@@ -130,8 +132,8 @@ class SignSocialFragment : Fragment() {
 
                 viewmodel._signUserId.value = userId
                 viewmodel._signType.value = NAVER
-                viewmodel._signName.value = userName
-                viewmodel._signEmail.value = email
+                viewmodel._signName.value = userName ?: ""
+                viewmodel._signEmail.value = email ?: ""
 
                 viewmodel.isSignUp()
             }

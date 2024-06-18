@@ -43,27 +43,6 @@ class ChallengeFragment : Fragment() {
         binding.lifecycleOwner = this
 
 
-        if(isFirstStartChallenge()) {
-            // 튜토리얼3 시작
-            val parentActivity = activity as Home
-            val tutorial3 = parentActivity.findViewById<FrameLayout>(R.id.tutoral3)
-            parentActivity.findViewById<ConstraintLayout>(R.id.home_container).isEnabled = false
-
-            tutorial3.visibility = View.VISIBLE
-            tutorial3.isEnabled = true
-
-            parentActivity.findViewById<ImageView>(R.id.tutorialImg1).visibility = View.VISIBLE
-            parentActivity.findViewById<ImageView>(R.id.tutorialImg2).visibility = View.VISIBLE
-
-            tutorial3.setOnClickListener {
-                parentActivity.findViewById<ImageView>(R.id.tutorialImg1).visibility = View.GONE
-                parentActivity.findViewById<ImageView>(R.id.tutorialImg2).visibility = View.GONE
-                tutorial3.visibility = View.GONE
-                tutorial3.isEnabled = false
-                parentActivity.findViewById<ConstraintLayout>(R.id.home_container).isEnabled = true
-            }
-        }
-
         initListener()
         initObserver()
 
@@ -83,6 +62,9 @@ class ChallengeFragment : Fragment() {
                 viewmodel.getMyReviewList()
                 viewmodel.getMyBookmarkList()
                 viewmodel.getMyRestaurantList()
+            } else if(result == "MypageToMap") {
+                homeViewmodel._currentNavigation.value = HomeViewModel.WhereToGo.RESTAURANT
+                homeViewmodel._isNavigation.value = true
             }
 
         }
@@ -168,14 +150,35 @@ class ChallengeFragment : Fragment() {
 
 
     fun isFirstStartChallenge() : Boolean {
-        val prefs = requireContext().getSharedPreferences("first_visitor", Context.MODE_PRIVATE)
-        val firstChallengeRun = prefs.getBoolean("firstChallengeRun", true) // 처음엔 default 값 출력
+        val prefs = requireContext().getSharedPreferences("aviro", Context.MODE_PRIVATE)
+        val firstChallengeRun = prefs.getBoolean("showChallengeTutorial", true) // 처음엔 default 값 출력
 
         if (firstChallengeRun) {
-            prefs.edit().putBoolean("firstChallengeRun", false).apply()
+            prefs.edit().putBoolean("showChallengeTutorial", false).apply()
         }
 
         return firstChallengeRun
+    }
+
+    fun runTutorial() {
+        // 튜토리얼3 시작
+        val parentActivity = activity as Home
+        val tutorial3 = parentActivity.findViewById<FrameLayout>(R.id.tutoral3)
+        parentActivity.findViewById<ConstraintLayout>(R.id.home_container).isEnabled = false
+
+        tutorial3.visibility = View.VISIBLE
+        tutorial3.isEnabled = true
+
+        parentActivity.findViewById<ImageView>(R.id.tutorialImg1).visibility = View.VISIBLE
+        parentActivity.findViewById<ImageView>(R.id.tutorialImg2).visibility = View.VISIBLE
+
+        tutorial3.setOnClickListener {
+            parentActivity.findViewById<ImageView>(R.id.tutorialImg1).visibility = View.GONE
+            parentActivity.findViewById<ImageView>(R.id.tutorialImg2).visibility = View.GONE
+            tutorial3.visibility = View.GONE
+            tutorial3.isEnabled = false
+            parentActivity.findViewById<ConstraintLayout>(R.id.home_container).isEnabled = true
+        }
     }
 
 
@@ -190,6 +193,10 @@ class ChallengeFragment : Fragment() {
         viewmodel.getMyReviewList()
         viewmodel.getMyRestaurantList()
         viewmodel.getMyBookmarkList()
+
+        if(isFirstStartChallenge()) {
+            runTutorial()
+        }
 
     }
 

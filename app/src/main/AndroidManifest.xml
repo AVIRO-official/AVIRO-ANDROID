@@ -126,7 +126,6 @@
             android:name="com.google.android.gms.oss.licenses.OssLicensesMenuActivity"
             android:exported="true"
             android:screenOrientation="portrait"/>
-        <!--  android:theme="@style/Theme.Opensourcelicense"-->
 
         <activity
             android:name="com.google.android.gms.oss.licenses.OssLicensesActivity"

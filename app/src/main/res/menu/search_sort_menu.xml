@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android">
-    <item
-        android:id="@+id/accuracy"
-        android:title="정확도순" />
-    <item
-        android:id="@+id/distance"
-        android:title="거리순" />
-</menu>

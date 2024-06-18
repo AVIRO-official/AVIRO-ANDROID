@@ -5,6 +5,7 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.aviro.android.R
 import com.aviro.android.databinding.LevelupPopupBinding
 import com.aviro.android.domain.entity.member.MemberLevelUp
 import com.aviro.android.presentation.home.HomeViewModel
@@ -18,11 +19,11 @@ class LevelUpPopUp(context : Context, val levelup : MemberLevelUp, val viewmodel
         binding = LevelupPopupBinding.inflate(LayoutInflater.from(context))
         setContentView(binding.root)
 
-        val widthInDp = 311
+        val widthInDp = 390
         val density = context.resources.displayMetrics.density
         val widthInPixels = (widthInDp * density).toInt()
         window?.setLayout(widthInPixels, ViewGroup.LayoutParams.WRAP_CONTENT)
-        //window?.setBackgroundDrawableResource(R.drawable.base_roundsquare_white_15)
+        window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         binding.textview2.setText("레벨" + levelup.userLevel.toString() + "달성했어요!")
 

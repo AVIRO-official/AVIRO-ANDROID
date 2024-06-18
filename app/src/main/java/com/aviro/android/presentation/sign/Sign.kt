@@ -100,4 +100,12 @@ class Sign : BaseActivity<ActivitySignBinding>(R.layout.activity_sign) {
         super.onDestroy()
     }
 
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStack()
+        } else {
+            super.onBackPressed()
+        }
+    }
+
 }

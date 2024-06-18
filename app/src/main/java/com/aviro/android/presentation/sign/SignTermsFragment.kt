@@ -34,8 +34,10 @@ class SignTermsFragment: Fragment() {
             if(it == true) {
                 val fragmentManager = parentFragmentManager.beginTransaction()
                 fragmentManager.setCustomAnimations(
-                    R.anim.slide_left_enter, R.anim.slide_right_exit,
-                    R.anim.slide_right_enter, R.anim.slide_left_exit
+                    R.anim.slide_right_enter,
+                    R.anim.slide_left_exit,
+                    R.anim.slide_left_enter,
+                    R.anim.slide_right_exit,
                 )
                 fragmentManager
                     .replace(R.id.fragment_container_view, SignCompleteFragment())
@@ -53,15 +55,7 @@ class SignTermsFragment: Fragment() {
         })
 
         binding.backBtn.setOnClickListener {
-            val fragmentManager = parentFragmentManager.beginTransaction()
-            fragmentManager.setCustomAnimations(
-                R.anim.slide_right_enter,
-                R.anim.slide_left_exit,
-                R.anim.slide_right_enter,
-                R.anim.slide_left_exit
-            )
-            fragmentManager.remove(this@SignTermsFragment).commit()
-            //requireActivity().onBackPressed()
+            parentFragmentManager.popBackStack()
         }
 
 

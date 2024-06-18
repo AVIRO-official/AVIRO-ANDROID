@@ -36,8 +36,8 @@ class SignNicknameFragment() : Fragment() {
             fragmentManager.setCustomAnimations(
                 R.anim.slide_right_enter,
                 R.anim.slide_left_exit,
-                R.anim.slide_right_enter,
-                R.anim.slide_left_exit
+                R.anim.slide_left_enter,
+                R.anim.slide_right_exit,
             )
             fragmentManager
                 .replace(R.id.fragment_container_view, SignOptionFragment())
@@ -47,9 +47,10 @@ class SignNicknameFragment() : Fragment() {
 
         binding.backBtn.setOnClickListener {
             sharedViewModel.cancelSignUp()
-            val fragmentManager = parentFragmentManager.beginTransaction()
-            fragmentManager.setCustomAnimations(R.anim.slide_left_enter, R.anim.slide_right_exit, R.anim.slide_right_enter, R.anim.slide_left_exit)
-            fragmentManager.remove(this@SignNicknameFragment).commit()
+            //val fragmentManager = parentFragmentManager.beginTransaction()
+            //fragmentManager.setCustomAnimations(R.anim.slide_left_enter, R.anim.slide_right_exit, R.anim.slide_right_enter, R.anim.slide_left_exit)
+            parentFragmentManager.popBackStack()
+        //fragmentManager.remove(this@SignNicknameFragment).commit()
             //requireActivity().onBackPressed()
         }
 

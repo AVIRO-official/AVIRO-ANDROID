@@ -102,7 +102,7 @@ class Home : FragmentActivity() {
                         binding.navView.isVisible = false
                         frag2.location_x = frag1.NaverMapOfX
                         frag2.location_y = frag1.NaverMapOfY
-                        binding.homeContainer.setPadding(0, 0, 0, getNaviBarHeight(this)
+                        binding.homeContainer.setPadding(0, getStatusBarHeight(this), 0, getNaviBarHeight(this)
                         )
                     }
 
@@ -212,10 +212,7 @@ class Home : FragmentActivity() {
                 fragment.onActivityResult(requestCode, resultCode, data)
             }
         }
-
         }
-
-
 }
 
 

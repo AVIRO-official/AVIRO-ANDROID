@@ -1,9 +1,13 @@
 <?xml version="1.0" encoding="utf-8"?>
 <set xmlns:android="http://schemas.android.com/apk/res/android" >
-    <objectAnimator
+    <translate
+        android:duration="300"
+        android:fromXDelta="100%p"
+        android:toXDelta="0" />
+    <!--<objectAnimator
         android:duration="300"
         android:propertyName="x"
-        android:valueFrom="400dp"
+        android:valueFrom="300dp"
         android:valueTo="0"
-        android:valueType="floatType" />
+        android:valueType="floatType" />-->
 </set>

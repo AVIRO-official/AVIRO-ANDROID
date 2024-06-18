@@ -36,7 +36,7 @@ object BindingAdapter {
                 editText.background = ContextCompat.getDrawable(editText.context, R.drawable.base_edittext_wrong)
                 val shakeAnimation: Animation =
                     AnimationUtils.loadAnimation(editText.context, R.anim.wrong_shake)
-                editText.startAnimation(shakeAnimation)
+                    editText.startAnimation(shakeAnimation)
             } else {
                 editText.background = ContextCompat.getDrawable(editText.context, R.drawable.base_edittext_right)
             }

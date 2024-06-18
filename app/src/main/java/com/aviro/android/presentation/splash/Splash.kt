@@ -74,7 +74,7 @@ class Splash : AppCompatActivity() {
                     } else {
                         // userId 있는지 확인
                         // 구글 자동로그인
-                        viewmodel.isSignIn()
+                        viewmodel.isSignIn() // Google 로그인인데 userID 없으면 X ->
                     }
                      */
                     viewmodel.isSignIn()
@@ -88,7 +88,7 @@ class Splash : AppCompatActivity() {
 
 
     fun isFirstStartApp() : Boolean {
-        val prefs = this.getSharedPreferences("first_visitor", MODE_PRIVATE)
+        val prefs = this.getSharedPreferences("aviro", MODE_PRIVATE)
         val firstRun = prefs.getBoolean("firstRun", true) // 처음엔 default 값 출력
 
         if (firstRun) {

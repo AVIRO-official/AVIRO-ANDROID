@@ -124,8 +124,9 @@ class Map : Fragment(), OnMapReadyCallback {
         initListener()
         initObserver()
 
-       if(isFirstStartMap()) {
+       if(isTutorial()) {
            // 튜토리얼 시작
+           /*
            val parentActivity = activity as Home
            parentActivity.findViewById<ConstraintLayout>(R.id.home_container).isEnabled = false
 
@@ -154,6 +155,10 @@ class Map : Fragment(), OnMapReadyCallback {
                    viewmodel.getPopInfo()
                }
            }
+            */
+
+           runTutorial()
+           viewmodel.getPopInfo()
 
        } else{
            viewmodel.getPopInfo()
@@ -531,7 +536,6 @@ class Map : Fragment(), OnMapReadyCallback {
         NaverMapOfX = naver_map!!.cameraPosition.target.longitude
         NaverMapOfY = naver_map!!.cameraPosition.target.latitude
 
-
         naver_map!!.setOnMapClickListener { pointF, latLng ->
             // 다른 마커 터치
             if(viewmodel.isShowBottomSheetTab.value == false) {
@@ -548,7 +552,6 @@ class Map : Fragment(), OnMapReadyCallback {
 
                 viewmodel._selectedMarker.value = null
                 viewmodel._bottomSheetState.value = 0
-
             }
         }
 
@@ -558,16 +561,14 @@ class Map : Fragment(), OnMapReadyCallback {
         naverMap.uiSettings.isZoomControlEnabled = false
         naverMap.uiSettings.isTiltGesturesEnabled = false
 
-
         // GPS 체크 및 퍼미션 체크 (한번허용, 항상 허용, 거부)
         checkOnOffGPS()
         // 위치 추적 기능 사용 여부 확인 (퍼미션 체크 이루어짐)
         locationSource = FusedLocationSource(this, getString(R.string.FUSED_LOCATION_CODE).toInt())
 
-
         // 맵 객체가 다시 생길 때 화면에 마커를 모두 다시 그림
         viewmodel.updateMap(naverMap, true)
-        viewmodel._isFirst.value = false // onResume에서 다시 그려짐 방지
+        viewmodel._isFirst.value = false  // onResume에서 다시 그려짐 방지
 
     }
 
@@ -580,9 +581,6 @@ class Map : Fragment(), OnMapReadyCallback {
             viewmodel.updateMap(naver_map!!, false)
             viewmodel._isFirst.value = false
         }
-
-
-
     }
 
 
@@ -593,17 +591,17 @@ class Map : Fragment(), OnMapReadyCallback {
         naver_map = null
     }
 
-    fun isFirstStartMap() : Boolean {
-        val prefs = requireContext().getSharedPreferences("first_visitor", Context.MODE_PRIVATE)
-        val firstMapRun = prefs.getBoolean("firstMapRun", true) // 처음엔 default 값 출력
+    fun isTutorial() : Boolean {
+        val prefs = requireContext().getSharedPreferences("aviro", Context.MODE_PRIVATE)
+        val isMapTutorial = prefs.getBoolean("showMapTutorial", true)
 
-        if (firstMapRun) {
+        if (isMapTutorial) {
             // 처음 실행될 때의 작업 수행
             // "처음 실행 여부"를 false로 변경
-            prefs.edit().putBoolean("firstMapRun", false).apply()
+            prefs.edit().putBoolean("showMapTutorial", false).apply()
         }
 
-        return firstMapRun
+        return isMapTutorial
     }
 
     fun checkPromotion() {
@@ -629,6 +627,40 @@ class Map : Fragment(), OnMapReadyCallback {
                 prefs.edit().putLong("isShow", -1).apply()
                 promotionPopUp!!.show()
             }
+
+    }
+
+    fun runTutorial() {
+
+            // 튜토리얼 시작
+            val parentActivity = activity as Home
+            parentActivity.findViewById<ConstraintLayout>(R.id.home_container).isEnabled = false
+
+            val tutorial1 = parentActivity.findViewById<FrameLayout>(R.id.tutoral1)
+            tutorial1.visibility = View.VISIBLE
+            tutorial1.isEnabled = true
+
+            tutorial1.setOnClickListener {
+                tutorial1.visibility = View.GONE
+                tutorial1.isEnabled = false
+
+                // 튜토리얼2 시작
+                binding.filterDish.performClick()
+                binding.filterCafe.performClick()
+
+                val tutoral2 = parentActivity.findViewById<LinearLayout>(R.id.tutoral2)
+                tutoral2.visibility = View.VISIBLE
+                tutoral2.isEnabled = true
+
+                tutoral2.setOnClickListener {
+                    binding.filterCancelBtn.performClick()
+
+                    tutoral2.visibility = View.GONE
+                    tutoral2.isEnabled = false
+                    parentActivity.findViewById<ConstraintLayout>(R.id.home_container).isEnabled = true
+                }
+            }
+
 
     }
 
@@ -923,6 +955,9 @@ class Map : Fragment(), OnMapReadyCallback {
                     }
 
                     HomeViewModel.WhereToGo.RESTAURANT -> {
+                        if(isTutorial()) {
+                            runTutorial()
+                        }
                         homeViewmodel.restaurantData.value?.let { myRestaurant ->
                            val marekrItem =
                                 viewmodel._markerList.value?.filter { it.placeId == homeViewmodel.restaurantData.value!!.placeId }
@@ -933,7 +968,6 @@ class Map : Fragment(), OnMapReadyCallback {
                                 marekrItem.marker.performClick()
                                 //viewmodel._selectedMarker.value = marekrItem
                             }
-
                         }
                     }
 
@@ -969,9 +1003,12 @@ class Map : Fragment(), OnMapReadyCallback {
                 homeViewmodel._isNavigation.value = false
             }
 
-
-
         }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewmodel.cancelSelectedMarker(viewmodel._selectedMarker.value)
+    }
 
 }
 
