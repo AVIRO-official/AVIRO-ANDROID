@@ -156,7 +156,7 @@ class MypageViewModel @Inject constructor (
 
     fun getSignType() {
         viewModelScope.launch {
-            _socialType.value = getTokenUseCase.getTokenType() + " 계정"
+            _socialType.value = getTokenUseCase.getTokenType()
         }
     }
 

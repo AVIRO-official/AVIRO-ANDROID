@@ -253,15 +253,15 @@
                 android:textColor="@color/Warn_Red"
                 android:text="로그아웃" />
 
-
             <TextView
                 android:id="@+id/social_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_marginEnd="20dp"
-                android:textSize="15sp"
-                android:textColor="@color/Gray3"
-                android:text="@{viewmodel.socialType}"/>
+                android:paddingTop="5dp"
+                app:setSocialBG="@{viewmodel.socialType}"/>
+            <!--  android:background="@drawable/ic_sign_type_apple"-->
+
         </LinearLayout>
         <LinearLayout
             android:id="@+id/version"

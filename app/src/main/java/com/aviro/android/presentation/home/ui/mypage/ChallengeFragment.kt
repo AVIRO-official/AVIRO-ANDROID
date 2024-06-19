@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -41,7 +42,6 @@ class ChallengeFragment : Fragment() {
 
         binding.viewmodel = viewmodel
         binding.lifecycleOwner = this
-
 
         initListener()
         initObserver()

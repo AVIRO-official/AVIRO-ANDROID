@@ -9,6 +9,7 @@ import android.view.GestureDetector
 import android.view.MotionEvent
 import android.view.View
 import android.view.WindowManager
+import android.widget.Toast
 import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
@@ -205,14 +206,22 @@ class Home : FragmentActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         // 요청 코드가 일치하고 결과 코드가 성공인 경우
         if (requestCode == getString(R.string.SEARCH_RESULT_OK).toInt() && resultCode == Activity.RESULT_OK) {
-            //val resultData = data?.getStringExtra("result_key")
+            // val resultData = data?.getStringExtra("result_key")
             // 결과 데이터를 프래그먼트로 전달
             val fragment = supportFragmentManager.findFragmentById(R.id.home_pager)
             if (fragment is Map) {
                 fragment.onActivityResult(requestCode, resultCode, data)
             }
         }
+    }
+
+    override fun onBackPressed() {
+        // 백버튼 비활성화
+        if(true) {
+        } else {
+            super.onBackPressed()
         }
+    }
 }
 
 

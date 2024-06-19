@@ -29,7 +29,7 @@ class LevelUpPopUp(context : Context, val levelup : MemberLevelUp, val viewmodel
 
 
 
-        // 다이얼로그 바깥쪽 클릭시 종료되도록 함 (Cancel the dialog when you touch outside)
+        // 다이얼로그 바깥쪽 클릭시 종료되도록 함
         setCanceledOnTouchOutside(false)
 
         // 취소 가능 유무
