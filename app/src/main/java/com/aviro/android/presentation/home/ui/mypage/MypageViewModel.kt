@@ -341,15 +341,15 @@ class MypageViewModel @Inject constructor (
             when (id) {
                 R.id.menubar_terms1 -> {
                     websiteUrl =
-                        "https://sponge-nose-882.notion.site/259b51ac0b4a41d7aaf5ea2b89a768f8?pvs=4"
+                        "https://bronzed-fowl-e81.notion.site/85cfe934602142949a18c2a5ac0ea641"
                 }
                 R.id.menubar_terms2 -> {
                     websiteUrl =
-                        "https://sponge-nose-882.notion.site/c98c9103ebdb44cfadd8cd1d11600f99?pvs=4"
+                        "https://bronzed-fowl-e81.notion.site/6722cb9f4d334987bc6683400ed794b9"
                 }
                 R.id.menubar_terms3 -> {
                     websiteUrl =
-                        "https://sponge-nose-882.notion.site/50102bd385664c89ab39f1b290fb033e?pvs=4"
+                        "https://bronzed-fowl-e81.notion.site/42daafcaf14945eca8f2c2b3f1fe5c43"
                 }
                 R.id.menubar_thanks -> {
                     websiteUrl =
