@@ -126,39 +126,7 @@ class Map : Fragment(), OnMapReadyCallback {
 
        if(isTutorial()) {
            // 튜토리얼 시작
-           /*
-           val parentActivity = activity as Home
-           parentActivity.findViewById<ConstraintLayout>(R.id.home_container).isEnabled = false
-
-           val tutorial1 = parentActivity.findViewById<FrameLayout>(R.id.tutoral1)
-           tutorial1.visibility = View.VISIBLE
-           tutorial1.isEnabled = true
-
-           tutorial1.setOnClickListener {
-               tutorial1.visibility = View.GONE
-               tutorial1.isEnabled = false
-
-               // 튜토리얼2 시작
-               binding.filterDish.performClick()
-               binding.filterCafe.performClick()
-
-               val tutoral2 = parentActivity.findViewById<LinearLayout>(R.id.tutoral2)
-               tutoral2.visibility = View.VISIBLE
-               tutoral2.isEnabled = true
-
-               tutoral2.setOnClickListener {
-                   binding.filterCancelBtn.performClick()
-
-                   tutoral2.visibility = View.GONE
-                   tutoral2.isEnabled = false
-                   parentActivity.findViewById<ConstraintLayout>(R.id.home_container).isEnabled = true
-                   viewmodel.getPopInfo()
-               }
-           }
-            */
-
            runTutorial()
-           viewmodel.getPopInfo()
 
        } else{
            viewmodel.getPopInfo()
@@ -658,6 +626,7 @@ class Map : Fragment(), OnMapReadyCallback {
                     tutoral2.visibility = View.GONE
                     tutoral2.isEnabled = false
                     parentActivity.findViewById<ConstraintLayout>(R.id.home_container).isEnabled = true
+                    viewmodel.getPopInfo()
                 }
             }
 
