@@ -16,7 +16,9 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.amplitude.core.Amplitude
 import com.aviro.android.R
+import com.aviro.android.common.AmplitudeUtils
 import com.aviro.android.domain.entity.search.SearchedRestaurantItem
 import com.aviro.android.domain.entity.base.MappingResult
 import com.aviro.android.domain.entity.search.SearchedRestaurantList
@@ -348,6 +350,8 @@ class SearchViewModel @Inject constructor(
 
     fun onClickItem(selected_search_item : SearchedRestaurantItem) {
         _selectedSearchedItem.value = selected_search_item
+
+        AmplitudeUtils.placeSearch(selected_search_item.placeName)
     }
 
     // 검색바 뒤로가기

@@ -6,6 +6,7 @@ import androidx.lifecycle.MediatorLiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aviro.android.common.AmplitudeUtils
 import com.aviro.android.domain.entity.base.MappingResult
 import com.aviro.android.domain.entity.menu.Menu
 import com.aviro.android.domain.entity.restaurant.MenuUpdating
@@ -113,10 +114,7 @@ class UpdateMenuViewModel @Inject constructor (
                 }
             }
 
-            Log.d(
-                "updateButtonState",
-                "delete : ${deleteList.value}, insert : ${newMenuList.value}, update : ${updatedMenus}"
-            )
+
 
 
             // 새로 추가된 메뉴
@@ -168,64 +166,6 @@ class UpdateMenuViewModel @Inject constructor (
             _isUpdateEnable.value = false
         }
 
-        /*
-
-
-
-       if(isChangedVeganType || isChangedDelete || isChangedUpdate || isChangedInsert) {
-           _isUpdateEnable.value = true
-
-           // 타입이 일부 + 요청 인데, 요청사항 하나라도 없으면 아웃
-           if(_afterVeganTypeList.value!![1] && _afterVeganTypeList.value!![2]) {
-               val isMenuValid = newMenuList.value?.any {
-                   (it.value.menuType == "need to request") // && it.value.howToRequest != ""
-               } ?: false || updateMenuList.value?.any {
-                   (it.value.menuType == "need to request" ) //&& it.value.howToRequest != ""
-               } ?: false
-
-               _isUpdateEnable.value = isMenuValid
-           }
-
-        if(isChangedUpdate) {
-            _isUpdateEnable.value = (updateMenuList.value?.all {
-                // 타입, 메뉴명, 가격 있는지 확인
-                // 타입이 need to request면 howToRequest 있는지도 확인
-                val isConditionMet = it.value.menu != "" &&
-                        it.value.menuType != "" &&
-                        it.value.price != "" &&
-                        ((it.value.menuType == "need to request" && it.value.howToRequest != "") || (it.value.menuType != "need to request" && it.value.howToRequest == "" ))
-                isConditionMet
-            } == true)
-        }
-
-        if(isChangedInsert) {
-            _isUpdateEnable.value = ( newMenuList.value?.all {
-                // 타입, 메뉴명, 가격 있는지 확인
-                // 타입이 need to request면 howToRequest 있는지도 확인
-                val isConditionMet = it.value.menu != "" &&
-                        it.value.menuType != "" &&
-                        it.value.price != "" &&
-                        ((it.value.menuType == "need to request" && it.value.howToRequest != "") || (it.value.menuType != "need to request" && it.value.howToRequest == "" ))
-                isConditionMet
-            } == true)
-        }
-
-
-           // 비건 타입 하나도 선택 안 된 경우 한번더 확인
-           if(_afterVeganTypeList.value?.any { it == true } == false) {
-               _isUpdateEnable.value = false
-           }
-
-
-       } else {
-           _isUpdateEnable.value = false
-       }
-
-         */
-
-
-
-        //Log.d("updateButtonState", "${isChangedVeganType},${isChangedDelete},${isChangedUpdate},${isChangedInsert}, ${_isUpdateEnable.value}")
 
     }
 
@@ -248,10 +188,13 @@ class UpdateMenuViewModel @Inject constructor (
                 deleteArray, updateArray, insertArray)).let {
                 when(it) {
                     is MappingResult.Success<*> -> {
-                        // 토스트 메세지 띄우기
-                        // 카테고리 및 메뉴 변화 바로 반영
-                        _toastLiveDate.value = it.message ?: "소중한 정보 감사해요.\n수정해주신 정보로 업데이트 되었어요!"
 
+                        // 앰플리튜드 전송
+                        val afterMenuArray = setUpdatedMenuList(updateArray, insertArray, deleteArray)
+                        AmplitudeUtils.menuEdit(_restaurantInfo.value!!.title, _restaurantInfo.value!!.menuArray, afterMenuArray)
+
+                        // 토스트 메세지 띄우기
+                        _toastLiveDate.value = it.message ?: "소중한 정보 감사해요.\n수정해주신 정보로 업데이트 되었어요!"
                     }
                     is MappingResult.Error -> {
                         _errorLiveData.value = it.message
@@ -279,13 +222,6 @@ class UpdateMenuViewModel @Inject constructor (
             _afterVeganTypeList.value = listOf(true, false, false)
         }
 
-        /*
-        if( _afterRestaurantInfo.value!!.allVegan) {
-            _afterRestaurantInfo.value = _afterRestaurantInfo.value!!.copy(allVegan = false, someMenuVegan = false, ifRequestVegan = false)
-        } else {
-            _afterRestaurantInfo.value =  _afterRestaurantInfo.value!!.copy(allVegan = true, someMenuVegan = false, ifRequestVegan = false)
-        }
-         */
         _isRequest.value = false
     }
 
@@ -307,19 +243,35 @@ class UpdateMenuViewModel @Inject constructor (
         _isRequest.value = _afterVeganTypeList.value!![2]
     }
 
-    fun onClickRequestCheckBox() {
-        _isRequest.value = if (_isRequest.value == true)  false else true
+    fun setUpdatedMenuList(updateMenuList : List<Menu>, insertMenuList : List<Menu>, deleteMenuList : List<String>) : List<Menu> {
+        var afterMenuList = mutableListOf<Menu>()
+
+        _restaurantInfo.value!!.menuArray.forEach { before ->
+            if(deleteMenuList.filter { it == before.menuId }.isEmpty()) {
+
+                // 업데이트된 경우
+                val updatedMenu = updateMenuList.find { it.menuId == before.menuId }
+
+                // 추가된 경우
+                val insertedMenu = insertMenuList.find { it.menuId == before.menuId }
+
+
+                if(updatedMenu != null) {
+                    afterMenuList.add(updatedMenu)
+
+                } else if(insertedMenu != null) {
+                    afterMenuList.add(insertedMenu)
+                } else {
+                    // 변화 없는 경우
+                    afterMenuList.add(before)
+                }
+
+            }
+        }
+
+        return afterMenuList
+
     }
-
-    /* 메뉴 수정 버튼 활성화 조건
-    // 이전과 비교해서 변화가 있는지 확인
-    // 비건 요청 -> 체크 박스 하나 이상
-    // 메뉴, 가격 잘 들어가 있는지?
-    */
-
-
-
-
 
 
 }

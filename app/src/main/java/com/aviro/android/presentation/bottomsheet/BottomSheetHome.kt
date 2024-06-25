@@ -95,7 +95,19 @@ class BottomSheetHome(val setReviewAmount : (Int) -> Unit) : Fragment() {
             // 후기 수정하기
             {item ->
                 updateReview(item)}
+
+            /*
+            // 사용자 차단
+            {userId ->
+                userBlock(userId)}
+            // 사용자 차단 해제
+            {userId ->
+                userUnBlock(userId)}
+
+             */
         )
+
+
 
         binding.menuListView.adapter = menuAdapter
         binding.reviewListView.adapter = reviewAdapter
@@ -309,6 +321,22 @@ class BottomSheetHome(val setReviewAmount : (Int) -> Unit) : Fragment() {
         intent.putExtra("review", review)
 
         startActivityForResult(intent, getString(R.string.REVIEW_RESULT_OK).toInt())
+    }
+
+    fun userBlock() {
+        AviroDialogUtils.createTwoDialog(binding.root.context, "더보기", "이 사용자의 후기를 모두 차단하시겠어요?",
+            "취소",
+            "차단") {
+             } // viewmodel.userBlock(userId)
+            .show()
+    }
+
+    fun userUnBlock() {
+        AviroDialogUtils.createTwoDialog(binding.root.context, "더보기", "이 사용자의 후기를 모두 차단하시겠어요?",
+            "취소",
+            "차단해제") {
+             } // viewmodel.userUnBlock(userId) // 차단할 유저 Id
+            .show()
     }
 
 

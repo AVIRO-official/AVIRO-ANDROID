@@ -17,6 +17,7 @@ import androidx.fragment.app.FragmentActivity
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.aviro.android.R
+import com.aviro.android.common.AmplitudeUtils
 import com.aviro.android.databinding.ActivityHomeBinding
 import com.aviro.android.presentation.home.ui.map.Map
 import com.aviro.android.presentation.home.ui.mypage.ChallengeFragment
@@ -117,6 +118,8 @@ class Home : FragmentActivity() {
                             0,
                             getNaviBarHeight(this)
                         )
+
+                        AmplitudeUtils.challengePresent()
                     }
 
                     null -> {}
@@ -150,6 +153,8 @@ class Home : FragmentActivity() {
                     binding.navView.isVisible = true
                     binding.homePager.isUserInputEnabled = false
                     binding.homeContainer.setPadding(0,getStatusBarHeight(this), 0, getNaviBarHeight(this))
+
+                    AmplitudeUtils.challengePresent()
 
                 }
             }
@@ -215,13 +220,6 @@ class Home : FragmentActivity() {
         }
     }
 
-    override fun onBackPressed() {
-        // 백버튼 비활성화
-        if(true) {
-        } else {
-            super.onBackPressed()
-        }
-    }
 }
 
 

@@ -16,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
 import com.aviro.android.R
+import com.aviro.android.common.AmplitudeUtils
 import com.aviro.android.databinding.FragmentChallengeBinding
 import com.aviro.android.presentation.aviro_dialog.ChallengeGuideDialog
 import com.aviro.android.presentation.home.Home
@@ -59,14 +60,10 @@ class ChallengeFragment : Fragment() {
                 viewmodel.getMyInfo()
                 viewmodel.getChallengeInfo()
 
-                viewmodel.getMyReviewList()
-                viewmodel.getMyBookmarkList()
-                viewmodel.getMyRestaurantList()
             } else if(result == "MypageToMap") {
                 homeViewmodel._currentNavigation.value = HomeViewModel.WhereToGo.RESTAURANT
                 homeViewmodel._isNavigation.value = true
             }
-
         }
 
 
@@ -77,6 +74,10 @@ class ChallengeFragment : Fragment() {
         }
 
         binding.MyRestaurantList.setOnClickListener {
+            viewmodel.getMyRestaurantList()
+
+            AmplitudeUtils.placeListPresent()
+
             val fragmentManager = parentFragmentManager.beginTransaction()
             fragmentManager.setCustomAnimations(
                 R.anim.slide_right_enter,
@@ -90,6 +91,10 @@ class ChallengeFragment : Fragment() {
         }
 
         binding.MyReviewList.setOnClickListener {
+            viewmodel.getMyReviewList()
+
+            AmplitudeUtils.reviewListPresent()
+
             val fragmentManager = parentFragmentManager.beginTransaction()
             fragmentManager.setCustomAnimations(
                 R.anim.slide_right_enter,
@@ -104,6 +109,10 @@ class ChallengeFragment : Fragment() {
         }
 
         binding.MyBookmarkList.setOnClickListener {
+            viewmodel.getMyBookmarkList()
+
+            AmplitudeUtils.bookmarkListPresent()
+
             val fragmentManager = parentFragmentManager.beginTransaction()
             fragmentManager.setCustomAnimations(
                 R.anim.slide_right_enter,
@@ -190,9 +199,9 @@ class ChallengeFragment : Fragment() {
         viewmodel.getMyInfo()  // 챌린지 정보 호출
         viewmodel.getChallengeInfo()
 
-        viewmodel.getMyReviewList()
-        viewmodel.getMyRestaurantList()
-        viewmodel.getMyBookmarkList()
+        //viewmodel.getMyReviewList()
+        //viewmodel.getMyRestaurantList()
+        //viewmodel.getMyBookmarkList()
 
         if(isFirstStartChallenge()) {
             runTutorial()

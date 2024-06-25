@@ -10,7 +10,13 @@ import com.aviro.android.domain.entity.review.Review
 import com.aviro.android.presentation.aviro_dialog.ReviewReportDialog
 import com.aviro.android.presentation.aviro_dialog.ReviewUpdateDialog
 
-class ReviewAdapter(val viewmodel : BottomSheetViewModel, val onclickReport :(Review)->(Unit), val onClickDelete :(Review)->(Unit), val onClickUpdate :(Review)->(Unit)) : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>(){
+class ReviewAdapter(val viewmodel : BottomSheetViewModel,
+                    val onclickReport :(Review)->(Unit),
+                    val onClickDelete :(Review)->(Unit),
+                    val onClickUpdate :(Review)->(Unit)) : RecyclerView.Adapter<ReviewAdapter.ReviewViewHolder>(){
+                        // val onClickBlock :(String)->(Unit)
+                        // val onClickUnBlock :(String)->(Unit)
+
     //val userNickname : String,
     // viewmodel : BottomSheetViewModel,
     var reviewList: MutableList<Review>? = null
@@ -39,6 +45,15 @@ class ReviewAdapter(val viewmodel : BottomSheetViewModel, val onclickReport :(Re
                 binding.reviewContainer.background = ContextCompat.getDrawable(binding.root.context, R.drawable.base_roundsquare_bgblue_10)
                 binding.content.setTextColor(ContextCompat.getColor(binding.root.context, R.color.Cobalt))
             } else {
+                // 내가 차단한 사용자의 후기인 경우 로직
+                /*
+                if(item.nickname == ) {
+                    binding.reviewContainer.background = ContextCompat.getDrawable(binding.root.context, R.drawable.base_roundsquare_gray6)
+                    binding.content.setTextColor(ContextCompat.getColor(binding.root.context, R.color.Gray4))
+                    binding.content.text = "차단한 사용자의 후기입니다."
+                }
+                 */
+
                 binding.reviewContainer.background = ContextCompat.getDrawable(binding.root.context, R.drawable.base_roundsquare_gray6)
                 binding.content.setTextColor(ContextCompat.getColor(binding.root.context, R.color.Gray0))
             }
@@ -55,11 +70,12 @@ class ReviewAdapter(val viewmodel : BottomSheetViewModel, val onclickReport :(Re
                         {onClickDelete(item)}).show() */
                 } else {
                     ReviewReportDialog(binding.root.context, {onclickReport(item)}).show()
+                    // 내가 차단한 사용자의 후기인 경우 로직
                     /*
-                    AviroDialogUtils.createOneChoiceDialog(binding.root.context, "더보기", "신고하기") {
-                        //viewmodel._selectedReviewForReport.value = item
-                        onclickReport(item) }
-                        .show()
+                    if(item.nickname == ) {
+                           ReviewReportDialog(binding.root.context, {onclickReport(item), {onClickUnBlock()}}).show()
+                    } else {
+                     ReviewReportDialog(binding.root.context, {onclickReport(item), {onClickBlock()}}).show()
 
                      */
                 }

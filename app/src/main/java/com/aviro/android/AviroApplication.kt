@@ -1,12 +1,12 @@
 package com.aviro.android
 
 import android.app.Application
-import androidx.core.content.ContentProviderCompat.requireContext
+import android.util.Log
+import com.amplitude.android.Amplitude
+import com.amplitude.android.Configuration
+import com.amplitude.android.DefaultTrackingOptions
+import com.aviro.android.common.AmplitudeUtils
 import com.aviro.android.presentation.sign.GoogleSignInManager
-import com.google.android.gms.auth.api.signin.GoogleSignIn
-import com.google.android.gms.auth.api.signin.GoogleSignInClient
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions
-import com.google.android.gms.common.api.Scope
 import com.kakao.sdk.common.KakaoSdk
 import com.navercorp.nid.NaverIdLoginSDK
 import dagger.hilt.android.HiltAndroidApp
@@ -30,6 +30,21 @@ class AviroApplication : Application() {
 
         // 구글 초기화
         GoogleSignInManager.initialize(this, BuildConfig.GOOGLE_CLIENT_ID)
+
+        // Amplitude 변수 초기화
+        if (!BuildConfig.DEBUG) {
+            Log.d("Amplitude","Amplitude가 초기화 되었습니다!!")
+            val amplitude = Amplitude(
+                Configuration(
+                    apiKey = BuildConfig.AMPLITUDE_API_KEY,
+                    context = applicationContext,
+                    defaultTracking = DefaultTrackingOptions.ALL,
+                )
+            )
+
+            AmplitudeUtils.init(amplitude)
+
+        }
 
     }
 

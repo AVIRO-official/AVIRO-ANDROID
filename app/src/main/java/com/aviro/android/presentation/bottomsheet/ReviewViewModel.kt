@@ -10,6 +10,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aviro.android.common.AmplitudeUtils
 import com.aviro.android.domain.entity.base.MappingResult
 import com.aviro.android.domain.entity.challenge.ChallengeComment
 import com.aviro.android.domain.entity.member.MemberLevelUp
@@ -89,13 +90,12 @@ class ReviewViewModel @Inject constructor (
             createRestaurantReviewUseCase.invoke(reviewId, _restaurantInfo.value!!.placeId, reviewText.value!!).let {
                 when(it) {
                     is MappingResult.Success<*> -> {
+
+                        AmplitudeUtils.reviewUpload(_restaurantInfo.value!!.placeId, reviewText.value!!)
+
                         // 레벨업 여부 확인
                         if(it.data != null) {
                             _levelUp.value = it.data as MemberLevelUp
-                            Log.d("레벨업여부", "${_levelUp.value}")
-
-                            //_toastLiveData.value = null
-
                         }
                     }
                     is MappingResult.Error -> {

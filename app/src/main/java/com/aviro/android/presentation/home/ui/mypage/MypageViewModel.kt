@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aviro.android.R
+import com.aviro.android.common.AmplitudeUtils
 import com.aviro.android.domain.entity.base.MappingResult
 import com.aviro.android.domain.entity.challenge.ChallengeInfo
 import com.aviro.android.domain.entity.member.*
@@ -151,7 +152,6 @@ class MypageViewModel @Inject constructor (
         getMyRestaurantList()
         getMyBookmarkList()
 
-
     }
 
     fun getSignType() {
@@ -168,6 +168,8 @@ class MypageViewModel @Inject constructor (
                         val data = it.data as ChallengeInfo
                         _challengePeriod.value = data.period
                         _challengeTitle.value = data.title
+
+                        //AmplitudeUtils.challengePresent()
                     }
                     is MappingResult.Error -> {
                         _errorLiveData.value = it.message
@@ -239,7 +241,7 @@ class MypageViewModel @Inject constructor (
                     is MappingResult.Success<*> -> {
                         val data = it.data as List<MyRestaurant>
                         _myRestaurantList.value = data
-                        //_isMyList.value = (data.size != 0)
+
                     }
                     is MappingResult.Error -> {
                         _errorLiveData.value = it.message
@@ -256,7 +258,7 @@ class MypageViewModel @Inject constructor (
                     is MappingResult.Success<*> -> {
                         val data = it.data as List<MyComment>
                         _myReviewList.value = data
-                        //_isMyList.value = (data.size != 0)
+
                     }
                     is MappingResult.Error -> {
                         _errorLiveData.value = it.message
@@ -366,6 +368,8 @@ class MypageViewModel @Inject constructor (
                     // 성공했을 경우 -> 로그인 화면으로, 다이얼로그 창 뜨기
                     _movingScreen.value = R.string.LOGOUT.toString()
 
+                    AmplitudeUtils.logout()
+
                 }
             }
 
@@ -380,7 +384,9 @@ class MypageViewModel @Inject constructor (
                     // 성공했을 경우 -> 다이얼로그 창 뜨기, 로그인 화면으로
                     when (it) {
                         is MappingResult.Success<*> -> {
-                            Log.d("WithdrawUseCase","${it.message}")
+
+                            AmplitudeUtils.withdrawal()
+
                             if(it.message != null){
                                 _toastLiveData.value = it.message
                             }

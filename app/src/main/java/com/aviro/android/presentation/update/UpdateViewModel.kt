@@ -7,6 +7,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aviro.android.R
+import com.aviro.android.common.AmplitudeUtils
 import com.aviro.android.domain.entity.base.MappingResult
 import com.aviro.android.domain.entity.restaurant.BeforeAfterString
 import com.aviro.android.domain.entity.restaurant.RestaurantTimetable
@@ -359,9 +360,11 @@ class UpdateViewModel @Inject constructor (
 
             // 에러가 하나라도 있음
             if(!(resultInfo && resultPhone && resultUrl && resultTimeTable)) {
-                Log.d("가게정보수정","에러남")
+
                 _error.value = "가게 정보를 수정하지 못했습니다.\n다시 시도해주세요."
             } else {
+
+                AmplitudeUtils.placeEdit(afterInfoData.value!!.title)
                 _toast.value = "조금만 기다려주세요!\n관리자가 매일 꼼꼼하게 검수하고 있어요."
             }
 

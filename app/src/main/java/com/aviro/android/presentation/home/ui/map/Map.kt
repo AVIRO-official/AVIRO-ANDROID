@@ -16,6 +16,7 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.TranslateAnimation
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.UiThread
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
@@ -26,6 +27,7 @@ import androidx.fragment.app.viewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.aviro.android.R
+import com.aviro.android.common.AmplitudeUtils
 import com.aviro.android.common.DistanceCalculator
 import com.aviro.android.databinding.FragmentMapBinding
 import com.aviro.android.domain.entity.search.SearchedRestaurantItem
@@ -161,9 +163,6 @@ class Map : Fragment(), OnMapReadyCallback {
         binding.bottomSheet.bottomViewmodel = bottomSheetViewmodel
         binding.bottomSheet.fragmentBottomsheetStep2.viewmodel = bottomSheetViewmodel
 
-
-
-
         return root
     }
 
@@ -171,9 +170,26 @@ class Map : Fragment(), OnMapReadyCallback {
     @SuppressLint("ClickableViewAccessibility")
     fun initListener() {
 
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                viewmodel._selectedMarker.value?.let {
+                    if(viewmodel.isFavorite.value == true) {
+                        viewmodel.cancelSelectedBookmarkMarker(it)
+                    } else {
+                        viewmodel.cancelSelectedMarker(it)
+                    }
+
+                    persistenetBottomSheet.state = STATE_HIDDEN
+                    viewmodel._bottomSheetState.value = 0
+                    bottomSheetSate = 0
+                    viewmodel._isShowBottomSheetTab.value = false
+
+                }
+            }
+        })
+
+
         binding.actionDownFloatingButton.setOnClickListener {
-            //val bottomSheet = binding.bottomSheetLayout
-            //val persistenetBottomSheet = BottomSheetBehavior.from(bottomSheet)
             persistenetBottomSheet.state = STATE_COLLAPSED
 
             viewmodel._bottomSheetState.value = 1
@@ -189,6 +205,7 @@ class Map : Fragment(), OnMapReadyCallback {
         }
 
         binding.bottomSheet.backBtn.setOnClickListener {
+            viewmodel._isShowBottomSheetTab.value = true
             persistenetBottomSheet.state = STATE_COLLAPSED
             viewmodel._bottomSheetState.value = 1
             bottomSheetSate = 1
@@ -208,6 +225,7 @@ class Map : Fragment(), OnMapReadyCallback {
             viewmodel._bottomSheetState.value = 0
             bottomSheetSate = 0
             persistenetBottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
+            viewmodel._isShowBottomSheetTab.value = false
 
             startActivityForResult(searchIntent, getString(R.string.SEARCH_RESULT_OK).toInt())
         }
@@ -391,24 +409,9 @@ class Map : Fragment(), OnMapReadyCallback {
                     it.marker.isVisible = true
                 }
             }
-
         }
 
 
-        // 이동해옴
-        homeViewmodel.isNavigation.observe(viewLifecycleOwner) {
-            if(it) {
-                if(homeViewmodel.currentNavigation.value == HomeViewModel.WhereToGo.REVIEW) {
-                    // 해당 마커 클릭 (정보 찾아서 viewmodel._selectedMarker 에 셋팅)
-                    // 바텀시트 올라옴 (정보 가져와야 함)
-                    // 리뷰 화면으로 이동
-                } else {
-                    // 해당 마커 클릭 (정보 찾아서 viewmodel._selectedMarker 에 셋팅)
-                    // 바텀시트 올라옴 (정보 가져와야 함)
-                }
-
-            }
-        }
 
         viewmodel._selectedMarker.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             // 검색바 텍스트 설정
@@ -441,7 +444,8 @@ class Map : Fragment(), OnMapReadyCallback {
         })
 
         viewmodel._restaurantSummary.observe(viewLifecycleOwner) {
-            Log.d("_restaurantSummary","${it}")
+
+            AmplitudeUtils.placePresent(it.title)
 
             bottomSheetViewmodel._isLike.value = it.bookmark
 
@@ -517,6 +521,7 @@ class Map : Fragment(), OnMapReadyCallback {
                 val bottomSheet = binding.bottomSheetLayout
                 val persistenetBottomSheet = BottomSheetBehavior.from(bottomSheet)
                 persistenetBottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
+
 
                 viewmodel._selectedMarker.value = null
                 viewmodel._bottomSheetState.value = 0
@@ -978,6 +983,9 @@ class Map : Fragment(), OnMapReadyCallback {
         super.onDestroy()
         viewmodel.cancelSelectedMarker(viewmodel._selectedMarker.value)
     }
+
+
+
 
 }
 

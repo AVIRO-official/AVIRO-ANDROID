@@ -31,7 +31,7 @@ android {
         applicationId "com.aviro.android"
         minSdk 29
         targetSdk 33
-        versionCode 21
+        versionCode 23
         versionName "1.0.0"
 
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
@@ -52,6 +52,9 @@ android {
         buildConfigField "String", "PUBLIC_API_KEY", properties['public.api_key']
         buildConfigField "String", "PUBLIC_API_URL", properties['public.api_url']
         buildConfigField "String", "GOOGLE_CLIENT_ID", properties['google.client_id']
+
+        buildConfigField "String", "AMPLITUDE_API_KEY", properties['amplitude.api_key']
+
 
         manifestPlaceholders = [KAKAO_SDK_KEY :  properties['kakao_login.sdk_key']]
 
@@ -175,6 +178,10 @@ dependencies {
 
     // Licenses
     implementation 'com.google.android.gms:play-services-oss-licenses:17.1.0'
+
+
+    // Amplitude
+    implementation 'com.amplitude:analytics-android:1.+'
 
 
 }

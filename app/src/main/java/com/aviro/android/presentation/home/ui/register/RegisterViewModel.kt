@@ -3,6 +3,7 @@ package com.aviro.android.presentation.home.ui.register
 import android.util.Log
 import androidx.lifecycle.*
 import com.aviro.android.R
+import com.aviro.android.common.AmplitudeUtils
 import com.aviro.android.domain.entity.search.SearchedRestaurantItem
 import com.aviro.android.domain.entity.base.MappingResult
 import com.aviro.android.domain.entity.member.MemberLevelUp
@@ -153,7 +154,6 @@ class RegisterViewModel @Inject constructor (
             // 등록하기 request DTO 로 묶기
             val menuArray = mutableListOf<Menu>()
             menuList.value!!.forEach {
-                Log.d("String,Menu","${it.value}")
                 menuArray.add(it.value)
             }
             viewModelScope.launch {
@@ -169,6 +169,9 @@ class RegisterViewModel @Inject constructor (
 
                                 when(it) {
                                     is MappingResult.Success<*> -> {
+
+                                        AmplitudeUtils.placeUpload(registerRestaurant.value!!.placeName)
+
                                         // 레벨업 여부 확인
                                         if(it.data != null) {
                                             _levelUp.value = it.data as MemberLevelUp

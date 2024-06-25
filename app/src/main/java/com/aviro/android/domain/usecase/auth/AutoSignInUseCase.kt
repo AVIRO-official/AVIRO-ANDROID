@@ -48,6 +48,7 @@ class AutoSignInUseCase @Inject constructor (
                     return MappingResult.Error(null)
                 }
                 is MappingResult.Success<*> -> {
+
                     // 어떤 토큰이 저장되어 있는지 확인
                     val signType = authRepository.getSignTypeFromLocal()
                     val tokens = authRepository.getTokensFromLocal()

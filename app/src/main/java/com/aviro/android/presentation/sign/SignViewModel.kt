@@ -7,6 +7,8 @@ import android.view.View
 import android.widget.EditText
 import androidx.lifecycle.*
 import com.aviro.android.R
+import com.aviro.android.common.AmplitudeUtils
+import com.aviro.android.domain.entity.auth.Sign
 import com.aviro.android.domain.entity.auth.Tokens
 import com.aviro.android.domain.entity.auth.User
 import com.aviro.android.domain.entity.base.MappingResult
@@ -186,7 +188,11 @@ class SignViewModel @Inject constructor(
                                     autoSignInUseCase().let {//token
                                         when(it){
                                             is MappingResult.Success<*> -> {
+                                                val data = it.data as Sign
+
                                                 _isSignUp.value = false
+
+                                                AmplitudeUtils.login(_signName.value, _signEmail.value, data.nickname)
                                             }
                                             is MappingResult.Error -> {
                                                 // 토큰 발급 받아서 자동로그인 하려고 하는데 에러나는 경우
@@ -197,7 +203,6 @@ class SignViewModel @Inject constructor(
 
                                     }
                                 }
-
                             }
                        } else {
                            _signUserId.value = it.data.userId
@@ -232,6 +237,10 @@ class SignViewModel @Inject constructor(
                             authRepository.saveSignTypeToLocal(_signType.value!!)
                             memberRepository.saveMemberInfoToLocal(USER_NICKNAME_KEY, data.nickname!!)
                             _isSignUp.value = false
+
+                            // 이름, 이메일, 닉네임 정보 가져오기
+                            AmplitudeUtils.login(_signName.value, _signEmail.value, data.nickname!!)
+
                         } else {
                             // 회원가입 필요
                             _isCompleteSignUp.value = false
@@ -445,11 +454,17 @@ class SignViewModel @Inject constructor(
         val nickname = nicknameText.value.toString()
 
         viewModelScope.launch {
-            createMemberUseCase(_signUserId.value!! , _signName.value ?: "" , _signEmail.value!! , _signType.value!! , nickname, birth, gender, marketingAgree = true).let { it ->
+            createMemberUseCase(_signUserId.value!! , _signName.value ?: "" , _signEmail.value!! ?: "" , _signType.value!! , nickname, birth, gender, marketingAgree = true).let { it ->
                 when (it) {
                     is MappingResult.Success<*> -> {
                         _isComplete.value = true
                         _isCompleteSignUp.value = true
+
+                        AmplitudeUtils.signUp(_signUserId.value!!)
+
+                        // 이름, 이메일, 닉네임 정보 가져오기
+                        AmplitudeUtils.login(_signName.value, _signEmail.value, nickname)
+
                     }
                     is MappingResult.Error -> {
                         Log.e("Sign","회원가입 실패")

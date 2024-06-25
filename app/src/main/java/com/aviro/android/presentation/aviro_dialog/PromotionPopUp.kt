@@ -7,6 +7,8 @@ import android.graphics.drawable.ColorDrawable
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.amplitude.core.Amplitude
+import com.aviro.android.common.AmplitudeUtils
 import com.aviro.android.databinding.PromotionPopupBinding
 import com.aviro.android.presentation.home.HomeViewModel
 import com.aviro.android.presentation.home.ui.map.PromotionAdapter
@@ -42,17 +44,24 @@ class PromotionPopUp(context : Context, val imgList : List<String>, val viewmode
         binding.hoursCancelBtn.setOnClickListener {
             prefs.edit().putLong("isShow", System.currentTimeMillis()).apply()
             dismiss()
+
+            AmplitudeUtils.didTappedNoMoreShowWelcome()
         }
 
         binding.cancelBtn.setOnClickListener {
             prefs.edit().putLong("isShow", -1).apply()
             dismiss()
+
+            AmplitudeUtils.didTappedCloseWelcome()
         }
     }
 
     fun gotoChallenge() {
         viewmodel._currentNavigation.value = HomeViewModel.WhereToGo.MYPAGE
         viewmodel._isNavigation.value = true
+
+        AmplitudeUtils.challengePresent()
+        AmplitudeUtils.didTappedCheckWelcome()
     }
 
 

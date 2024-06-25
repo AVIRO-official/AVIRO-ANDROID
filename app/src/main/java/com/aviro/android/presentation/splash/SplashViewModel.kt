@@ -5,6 +5,7 @@ import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
+import com.aviro.android.common.AmplitudeUtils
 import com.aviro.android.domain.entity.base.MappingResult
 import com.aviro.android.domain.usecase.auth.AutoSignInUseCase
 import com.aviro.android.domain.usecase.auth.CreateTokensUseCase
@@ -33,7 +34,13 @@ class SplashViewModel @Inject constructor (
             // 현재 어떤 로그인 되어 있는지 확인
             autoSignInUseCase().let {
                 when(it){
-                    is MappingResult.Success<*> -> _isSignIn.value = true
+                    is MappingResult.Success<*> -> {
+                        _isSignIn.value = true
+
+                        // 이름, 이메일, 닉네임 정보 가져오기
+                        //AmplitudeUtils.login(_signName.value, _signEmail.value, nickname)
+
+                    }
                     is MappingResult.Error -> {
                         _isSignIn.value = false
                     }

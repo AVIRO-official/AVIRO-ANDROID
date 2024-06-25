@@ -5,7 +5,9 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.amplitude.core.Amplitude
 import com.aviro.android.R
+import com.aviro.android.common.AmplitudeUtils
 import com.aviro.android.databinding.LevelupPopupBinding
 import com.aviro.android.domain.entity.member.MemberLevelUp
 import com.aviro.android.presentation.home.HomeViewModel
@@ -46,9 +48,15 @@ class LevelUpPopUp(context : Context, val levelup : MemberLevelUp, val viewmodel
             viewmodel._currentNavigation.value = HomeViewModel.WhereToGo.MYPAGE
             viewmodel._isNavigation.value = true
             dismiss()
+
+            AmplitudeUtils.challengePresent()
+            AmplitudeUtils.levelupDidMove(levelup.userLevel)
         }
+
         binding.nextBtn.setOnClickListener {
             dismiss()
+
+            AmplitudeUtils.levelupDidNotMove(levelup.userLevel)
         }
     }
 
