@@ -230,7 +230,7 @@
                     android:layout_height="wrap_content"
                     android:layout_marginTop="20dp"
                     android:fontFamily="@font/pretendard_semibold"
-                    android:text="갱님의 후기를 들려주세요!"
+                    android:text="@{viewmodel.userNickname + `님의 후기를 들려주세요!`}"
                     android:textColor="@color/Gray0"
                     android:textSize="17sp" />
 

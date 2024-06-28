@@ -38,7 +38,12 @@ class AviroApplication : Application() {
                 Configuration(
                     apiKey = BuildConfig.AMPLITUDE_API_KEY,
                     context = applicationContext,
-                    defaultTracking = DefaultTrackingOptions.ALL,
+                    defaultTracking = DefaultTrackingOptions(
+                        appLifecycles = false,
+                        sessions = false,
+                        deepLinks = false,
+                        screenViews = false
+                    )
                 )
             )
 

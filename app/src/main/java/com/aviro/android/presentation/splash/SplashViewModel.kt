@@ -7,6 +7,12 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aviro.android.common.AmplitudeUtils
 import com.aviro.android.domain.entity.base.MappingResult
+import com.aviro.android.domain.entity.key.USER_EMAIL_KEY
+import com.aviro.android.domain.entity.key.USER_ID_KEY
+import com.aviro.android.domain.entity.key.USER_NAME_KEY
+import com.aviro.android.domain.entity.key.USER_NICKNAME_KEY
+import com.aviro.android.domain.repository.AuthRepository
+import com.aviro.android.domain.repository.MemberRepository
 import com.aviro.android.domain.usecase.auth.AutoSignInUseCase
 import com.aviro.android.domain.usecase.auth.CreateTokensUseCase
 import com.aviro.android.domain.usecase.auth.GetTokenUseCase
@@ -18,7 +24,9 @@ import javax.inject.Inject
 
 @HiltViewModel
 class SplashViewModel @Inject constructor (
-    private val autoSignInUseCase: AutoSignInUseCase
+    private val autoSignInUseCase: AutoSignInUseCase,
+    private val memberRepository: MemberRepository,
+    private val authRepository: AuthRepository
 ) : ViewModel() {
 
 
@@ -37,8 +45,14 @@ class SplashViewModel @Inject constructor (
                     is MappingResult.Success<*> -> {
                         _isSignIn.value = true
 
+                        val userId = memberRepository.getMemberInfoFromLocal(USER_ID_KEY)
+                        val userName = memberRepository.getMemberInfoFromLocal(USER_NAME_KEY) ?: ""
+                        val userEmail = memberRepository.getMemberInfoFromLocal(USER_EMAIL_KEY) ?: ""
+                        val userNickname = memberRepository.getMemberInfoFromLocal(USER_NICKNAME_KEY)
+                        val signType = authRepository.getSignTypeFromLocal()
+
                         // 이름, 이메일, 닉네임 정보 가져오기
-                        //AmplitudeUtils.login(_signName.value, _signEmail.value, nickname)
+                        AmplitudeUtils.login(userId!!, userName, userEmail, userNickname!!, signType)
 
                     }
                     is MappingResult.Error -> {

@@ -231,7 +231,7 @@ class SignSocialFragment : Fragment() {
                 if (account != null && account.id != null && account.email != null) {
 
                     val userId = account.id
-                    val userName =  account.familyName + account.givenName ?: ""
+                    val userName =  account.familyName ?: "" + account.givenName ?: ""
                     val userEmail = account.email
 
                     viewmodel._signType.value = GOOGLE

@@ -41,7 +41,7 @@ class ReviewAdapter(val viewmodel : BottomSheetViewModel,
         fun bind(item: Review) {
             binding.review = item
             // 내가 쓴 리뷰일 경우
-            if(item.nickname == viewmodel.userNickname) {
+            if(item.nickname == viewmodel.userNickname.value) {
                 binding.reviewContainer.background = ContextCompat.getDrawable(binding.root.context, R.drawable.base_roundsquare_bgblue_10)
                 binding.content.setTextColor(ContextCompat.getColor(binding.root.context, R.color.Cobalt))
             } else {
@@ -60,14 +60,10 @@ class ReviewAdapter(val viewmodel : BottomSheetViewModel,
             binding.executePendingBindings()
 
             binding.updateBtn.setOnClickListener {
-                if(item.nickname == viewmodel.userNickname) {
+                if(item.nickname == viewmodel.userNickname.value) {
                     ReviewUpdateDialog(binding.root.context, {onClickUpdate(item)},
                         {onClickDelete(item)}).show()
 
-                    /*AviroDialogUtils.createTwoChoiceDialog(binding.root.context, "더보기", "수정하기", "삭제하기",
-                        //viewmodel.moveForUpdateReview(item.commentId, item.content)
-                        {onClickUpdate(item)},
-                        {onClickDelete(item)}).show() */
                 } else {
                     ReviewReportDialog(binding.root.context, {onclickReport(item)}).show()
                     // 내가 차단한 사용자의 후기인 경우 로직

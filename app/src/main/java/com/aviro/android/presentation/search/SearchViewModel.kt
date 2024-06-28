@@ -7,6 +7,7 @@ import android.content.Context.LOCATION_SERVICE
 import android.content.pm.PackageManager
 import android.location.Location
 import android.location.LocationManager
+import android.util.Log
 import android.view.KeyEvent
 import android.view.View
 import android.view.inputmethod.InputMethodManager
@@ -149,6 +150,7 @@ class SearchViewModel @Inject constructor(
 
                         if(data.searchedList.size == 0) {
                             _isSearchedList.value = false
+
                         } else {
                             _isSearchedList.value = true
 
@@ -157,11 +159,11 @@ class SearchViewModel @Inject constructor(
 
                             _searchList.value = data.searchedList
                             searchListSize = data.searchedList.size
-
                         }
 
                     }
                     is MappingResult.Error -> {
+                        _isSearchedList.value = false
                         _errorLiveData.value = it.message
                     }
                     else -> {}
@@ -173,7 +175,6 @@ class SearchViewModel @Inject constructor(
     }
 
 
-    // usecase 응답 결과의 isEnd == false 일 경우, 다음 리스트 불러와 합침
     fun nextList() {
         _isProgress.value = true
         viewModelScope.launch {
@@ -192,10 +193,8 @@ class SearchViewModel @Inject constructor(
                         isNewKeyword = false
                         isEnd = data.is_end
 
-                        //val preList = _searchList.value!!
                         val preSize = searchListSize
 
-                        //_searchList.value = preList + data.searchedList
                         _searchList.value = _searchList.value?.plus(data.searchedList)
                         searchListSize = preSize + data.searchedList.size
                     }
@@ -337,6 +336,7 @@ class SearchViewModel @Inject constructor(
         prefs.edit().clear().apply()
         setPreSearchedWord()
     }
+
     fun removePreSearchedWord(item : String) {
         preSearchedList!!.remove(item)
 
@@ -359,7 +359,6 @@ class SearchViewModel @Inject constructor(
         //_isSearching.value = false
         val editText = view.rootView.findViewById<EditText>(R.id.EditTextSearchBar)
         onEditTextFocusChanged(editText,false)
-
     }
 
 

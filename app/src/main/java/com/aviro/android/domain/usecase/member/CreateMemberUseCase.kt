@@ -33,8 +33,6 @@ class CreateMemberUseCase @Inject constructor (
 
         val response = memberRepository.creatMember(Member(tokens.get(REFRESH_TOKEN_KEY) ,tokens.get(
             ACCESS_TOKEN_KEY), userId, name, email, nickname, birth, gender, marketingAgree, type))
-        //    memberRepository.getMemberInfoFromLocal(USER_ID_KEY)!!, userName,
-        //    memberRepository.getMemberInfoFromLocal(USER_EMAIL_KEY)!!,
 
         when(response){
             is MappingResult.Success<*> -> {
@@ -42,17 +40,11 @@ class CreateMemberUseCase @Inject constructor (
                     val data = it.data as Sign
                     Log.d("Member","새로운 멤버 정보 저장 : ${data}")
 
-                    memberRepository.saveMemberInfoToLocal(USER_ID_KEY,data.userId)
-                    memberRepository.saveMemberInfoToLocal(USER_NAME_KEY, userName)
-                    memberRepository.saveMemberInfoToLocal(USER_EMAIL_KEY,data.userEmail)
-                    memberRepository.saveMemberInfoToLocal(USER_NICKNAME_KEY,data.nickname)
+                    memberRepository.saveMemberInfoToLocal(USER_ID_KEY,data.userId ) //data.userId //userId
+                    memberRepository.saveMemberInfoToLocal(USER_NAME_KEY, userName)  //
+                    memberRepository.saveMemberInfoToLocal(USER_EMAIL_KEY, data.userEmail) //data.userEmail //email
+                    memberRepository.saveMemberInfoToLocal(USER_NICKNAME_KEY, data.nickname) //data.nickname //nickname
                     authRepository.saveSignTypeToLocal(type)
-
-                    data.userName?.let { user_name ->
-                        memberRepository.saveMemberInfoToLocal(USER_NAME_KEY,
-                            user_name
-                        )
-                    }
 
                 }
             }

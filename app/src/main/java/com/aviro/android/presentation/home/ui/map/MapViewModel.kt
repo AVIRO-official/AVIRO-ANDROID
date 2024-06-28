@@ -469,7 +469,6 @@ class MapViewModel @Inject constructor (
     }
 
     fun reportRestaurant() {
-        Log.d("reportRestaurant","가게 신고 완료")
         viewModelScope.launch {
             reportRestaurantUseCase.invoke(selectedMarker.value!!.placeId, reportCode.value!!).let {
                 when(it) {

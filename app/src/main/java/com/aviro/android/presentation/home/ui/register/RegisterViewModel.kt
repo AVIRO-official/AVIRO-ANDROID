@@ -29,12 +29,12 @@ class RegisterViewModel @Inject constructor (
     private val _radioCheckedList = MutableLiveData<List<Boolean>>()
     val radioCheckedList: LiveData<List<Boolean>> = _radioCheckedList
 
-    val _registerRestaurant = MutableLiveData<SearchedRestaurantItem>() // 가게 리스트
-    var registerRestaurant : LiveData<SearchedRestaurantItem> = _registerRestaurant
+    val _registerRestaurant = MutableLiveData<SearchedRestaurantItem?>() // 가게 리스트
+    var registerRestaurant : LiveData<SearchedRestaurantItem?> = _registerRestaurant
 
     // 메뉴 id로 MenuItem 저장
-    var _menuList = MutableLiveData<HashMap<String, Menu>>()
-    var menuList: LiveData<HashMap<String, Menu>> = _menuList
+    var _menuList = MutableLiveData<HashMap<String, Menu>?>()
+    var menuList: LiveData<HashMap<String, Menu>?> = _menuList
     //private val menuList : Map<String, MenuItem> = HashMap<String, MenuItem>()
 
     private val _isRequest = MutableLiveData<Boolean>()
@@ -59,10 +59,19 @@ class RegisterViewModel @Inject constructor (
 
 
     init {
+        initData()
+
+
+    }
+
+    fun initData() {
+        _registerRestaurant.value = null
         _veganTypeList.value = listOf(false, false, false)
         _radioCheckedList.value = listOf(false, false, false, false)
-       // _isNext.value = false
         _isRequest.value = false
+        _menuList.value = null
+        category = ""
+        _errorLiveData.value = ""
     }
 
 
@@ -77,7 +86,7 @@ class RegisterViewModel @Inject constructor (
                             it.value.menuType != "" &&
                             it.value.price != "" &&
                            ((it.value.menuType == "need to request" && it.value.howToRequest != "") || (it.value.menuType != "need to request" && it.value.howToRequest == "" ))
-                            //(it.value.menuType != "need to request" || it.value.howToRequest != "")
+
                     isConditionMet
                 } ?: false
 

@@ -379,8 +379,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textView"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:visibilityChanged="@{viewmodel.isSearching &amp;&amp; viewmodel.SearchedList}">
-            <!--app:animated="@{!viewmodel.SearchedList}"-->
+            app:visibilityChanged="@{viewmodel.isSearching &amp;&amp;viewmodel.SearchedList}">
 
 
             <!-- 검색 리스트  -->

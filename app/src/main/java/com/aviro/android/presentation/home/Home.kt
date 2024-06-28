@@ -14,6 +14,7 @@ import androidx.activity.viewModels
 import androidx.core.view.isVisible
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
+import androidx.lifecycle.ReportFragment.Companion.reportFragment
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.aviro.android.R
@@ -39,6 +40,8 @@ class Home : FragmentActivity() {
 
     val fragList = arrayOf(frag1, frag2, frag3)
 
+    lateinit var homeAdapter: FragmentStateAdapter
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
@@ -59,7 +62,7 @@ class Home : FragmentActivity() {
             NaverMapSdk.NaverCloudPlatformClient(com.aviro.android.BuildConfig.NAVER_CLIENT_ID) //NAVER_CLIENT_ID
 
 
-        val adapter = object : FragmentStateAdapter(this) {
+        homeAdapter = object : FragmentStateAdapter(this) {
             override fun getItemCount(): Int {
                 return fragList.size
             }
@@ -67,7 +70,14 @@ class Home : FragmentActivity() {
             override fun createFragment(position: Int): Fragment {
                 return fragList[position]
             }
+
+            fun replaceFragment(position: Int, fragment: Fragment) {
+                    fragList[position] = fragment
+                    //notifyItemChanged(position)
+
+            }
         }
+
 
         binding.homePager.registerOnPageChangeCallback(PageChangeCallback())
         binding.homePager.isUserInputEnabled = false
@@ -161,7 +171,7 @@ class Home : FragmentActivity() {
             return@setOnItemSelectedListener true
         }
 
-        binding.homePager.adapter = adapter
+        binding.homePager.adapter = homeAdapter
 
 
     }

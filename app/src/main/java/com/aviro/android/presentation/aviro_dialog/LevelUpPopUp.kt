@@ -55,7 +55,6 @@ class LevelUpPopUp(context : Context, val levelup : MemberLevelUp, val viewmodel
 
         binding.nextBtn.setOnClickListener {
             dismiss()
-
             AmplitudeUtils.levelupDidNotMove(levelup.userLevel)
         }
     }

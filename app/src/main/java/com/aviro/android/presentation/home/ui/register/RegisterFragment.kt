@@ -25,7 +25,9 @@ import com.aviro.android.R
 import com.aviro.android.domain.entity.menu.Menu
 import com.aviro.android.databinding.*
 import com.aviro.android.domain.entity.search.SearchedRestaurantItem
+import com.aviro.android.presentation.aviro_dialog.AviroDialogUtils
 import com.aviro.android.presentation.aviro_dialog.LevelUpPopUp
+import com.aviro.android.presentation.home.Home
 import com.aviro.android.presentation.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DecimalFormat
@@ -58,6 +60,8 @@ class RegisterFragment : Fragment()  {
         _binding = FragmentRegisterBinding.inflate(inflater, container, false)
         val root: View = binding.root
 
+        activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
+
         binding.viewmodel = viewmodel
         binding.lifecycleOwner = this
 
@@ -69,6 +73,12 @@ class RegisterFragment : Fragment()  {
 
     }
 
+    fun initUI() {
+        binding.searchbarTextView.text = ""
+        binding.menuList.removeAllViews() // 메뉴 아이템 없애기
+        addMenuItem() // 하나는 추가
+    }
+
     override fun onResume() {
         super.onResume()
         homeViewmodel._isNavigation.value = false
@@ -76,6 +86,7 @@ class RegisterFragment : Fragment()  {
 
     fun initListener() {
         // 가게 찾기
+
         binding.searchbar.setOnClickListener {
             val intent = Intent(requireContext(), SearchRegisteration::class.java)
             // 현재 지도의 중심 위치 정보 전다해줘야 함
@@ -96,16 +107,27 @@ class RegisterFragment : Fragment()  {
             startActivityForResult(intent, getString(R.string.SEARCH_RESULT_OK).toInt())
         }
 
+
+
         // 메뉴 추가
-        binding.aadMenuBtn.setOnClickListener {
+        binding.addMenuBtn.setOnClickListener {
             addMenuItem()
         }
 
         binding.backBtn.setOnClickListener {
-            val viewPager = requireActivity().findViewById<ViewPager2>(R.id.home_pager)
-            viewPager.setCurrentItem(0, true)
+
             // 정말 취소할건지 물어보는 팝업창
-            // 내용 초기화
+            AviroDialogUtils.createTwoDialog(requireContext(),
+                "정말로 가게 등록을 취소하나요?",
+                "작성하던 가게 등록 정보가 모두 삭제됩니다.",
+                "아니요",
+                "예",
+                {
+                    val viewPager = requireActivity().findViewById<ViewPager2>(R.id.home_pager)
+                    viewPager.setCurrentItem(0, true)
+                    viewmodel.initData() // 내용 초기화
+                    initUI()
+                }).show()
 
         }
 
@@ -131,16 +153,15 @@ class RegisterFragment : Fragment()  {
             if(it.levelUp) {
                 LevelUpPopUp(requireContext(), it, homeViewmodel).show()
             }
-            // 화면 초기화
-            val fragmentTransaction = childFragmentManager.beginTransaction()
-            val fragmentToRemove = childFragmentManager.findFragmentById(R.id.home_pager)
-            fragmentToRemove?.let {
-                fragmentTransaction.remove(it)
-                fragmentTransaction.commit()
-            }
+
             // 맵 화면으로 돌아가기
             val viewPager = requireActivity().findViewById<ViewPager2>(R.id.home_pager)
             viewPager.setCurrentItem(0, true)
+
+            viewmodel.initData() // 화면 초기화
+            initUI()
+
+
         }
     }
 
@@ -168,9 +189,6 @@ class RegisterFragment : Fragment()  {
         val binding_addMenu: AddMenuLayoutBinding =
             AddMenuLayoutBinding.inflate(layoutInflater)
 
-        // 바인딩 클래스에 뷰모델 설정
-        //binding_addMenu.viewmodel = this.viewmodel
-        //binding_addMenu.lifecycleOwner = this
 
         // 메뉴 추가
         val menuID = UUID.randomUUID().toString()
@@ -388,9 +406,7 @@ class RegisterFragment : Fragment()  {
                     serahed_item?.let {
                         // 가게 정보 표시
                         viewmodel._registerRestaurant.value = it
-                        //viewmodel._restaurantAddress.value = it.roadAddressName
                         binding.searchbarTextView.text = it.placeName
-                        //viewmodel._restaurantNumber.value = it.phone
                         }
                 }
             }

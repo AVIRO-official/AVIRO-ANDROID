@@ -21,7 +21,7 @@ interface AmplitudeUtils {
 enum class AMType(
     val typeName : String
 ) {
-    signUp("user_sign_up"),
+    signUp("user_sign up"),
     withdrawal("user_withdrawal"),
     userLogin("user_login"),
     userLogout("user_logout"),
@@ -38,7 +38,7 @@ enum class AMType(
     challPresent("chall_present"),
     placeListPresent("placeList_present"),
     reviewListPresent("reviewList_present"),
-    bookmarkListPresent("bookmarkListPresent"),
+    bookmarkListPresent("bookmarkList_present"),
     levelupDidMove("level_up_didMove"),
     levelupDidNotMove("level_up_didNotMove"),
     wellcomeClick("wellcome_click"),
@@ -58,57 +58,60 @@ object AmplitudeUtils  {
         this.amplitude = amplitude
     }
 
-    fun login(name : String?, email : String?, nickname : String) {
+    fun login(userId : String , name : String?, email : String?, nickname : String, type: String) {
         val identify = Identify()
+
+        amplitude?.setUserId(userId) // userID 정보 변경
 
         identify.set("name", name ?: "")
         identify.set("email",email ?: "")
         identify.set("nickname", nickname)
         identify.set("version", BuildConfig.VERSION_NAME)
+        identify.set("type", type) // sns 값 추가
 
         amplitude?.identify(identify)
-        amplitude?.track(AMType.userLogin.name)
+        amplitude?.track(AMType.userLogin.typeName)
     }
 
     fun signUp(userId: String) {
         amplitude?.setUserId(userId)
-        amplitude?.track(AMType.signUp.name)
+        amplitude?.track(AMType.signUp.typeName)
     }
 
     fun withdrawal() {
-        amplitude?.track(AMType.withdrawal.name)
+        amplitude?.track(AMType.withdrawal.typeName)
     }
 
     fun logout() {
-        amplitude?.track(AMType.userLogout.name)
+        amplitude?.track(AMType.userLogout.typeName)
     }
 
     fun placeUpload(place: String) {
-        amplitude?.track( AMType.placeUpload.name,
+        amplitude?.track( AMType.placeUpload.typeName,
             mutableMapOf("Place" to place)
         )
     }
     fun reviewUpload(place: String, review: String) {
-        amplitude?.track(AMType.reviewUpload.name,
+        amplitude?.track(AMType.reviewUpload.typeName,
             mutableMapOf("Place" to place, "Review" to review)
         )
     }
 
     fun placePresent(place: String) { // 가게명
         amplitude?.track(
-             AMType.placePresent.name, mutableMapOf("Place" to place)
+             AMType.placePresent.typeName, mutableMapOf("Place" to place)
         )
     }
 
     fun placeSearch(query: String) {
-        amplitude?.track( AMType.placeSearch.name,
+        amplitude?.track( AMType.placeSearch.typeName,
             mutableMapOf("Query" to query)
         )
     }
 
     fun placeEdit(place: String) {
         amplitude?.track(
-           AMType.placeEdit.name,
+           AMType.placeEdit.typeName,
             mutableMapOf("Place" to place)
         )
     }
@@ -127,7 +130,7 @@ object AmplitudeUtils  {
         }
 
         amplitude?.track(
-          AMType.menuEdit.name,
+          AMType.menuEdit.typeName,
             mutableMapOf("Place" to place,
         "BeforeChangedMenuArray" to beforeMenusString,
         "AfterChangedMenuArray" to afterMenusString
@@ -137,42 +140,42 @@ object AmplitudeUtils  {
     }
 
     fun challengePresent() {
-        amplitude?.track( AMType.challPresent.name)
+        amplitude?.track( AMType.challPresent.typeName)
     }
 
     fun placeListPresent() {
-        amplitude?.track( AMType.placeListPresent.name)
+        amplitude?.track( AMType.placeListPresent.typeName)
     }
 
     fun reviewListPresent() {
-        amplitude?.track( AMType.reviewListPresent.name)
+        amplitude?.track( AMType.reviewListPresent.typeName)
     }
 
     fun bookmarkListPresent() {
-        amplitude?.track(AMType.bookmarkListPresent.name)
+        amplitude?.track(AMType.bookmarkListPresent.typeName)
     }
 
     fun levelupDidMove(level: Int) {
         amplitude?.track(
-             AMType.levelupDidMove.name, mutableMapOf("level" to level)
+             AMType.levelupDidMove.typeName, mutableMapOf("level" to level)
         )
     }
     fun levelupDidNotMove(level: Int) {
         amplitude?.track(
-             AMType.levelupDidMove.name, mutableMapOf("level" to level)
+             AMType.levelupDidNotMove.typeName, mutableMapOf("level" to level)
         )
     }
 
     fun didTappedCheckWelcome() {
-        amplitude?.track(AMType.wellcomeClick.name)
+        amplitude?.track(AMType.wellcomeClick.typeName)
     }
 
     fun didTappedNoMoreShowWelcome() {
-        amplitude?.track( AMType.wellcomeNoShow.name)
+        amplitude?.track( AMType.wellcomeNoShow.typeName)
     }
 
     fun didTappedCloseWelcome() {
-        amplitude?.track( AMType.wellcomeClose.name)
+        amplitude?.track( AMType.wellcomeClose.typeName)
     }
 
 }

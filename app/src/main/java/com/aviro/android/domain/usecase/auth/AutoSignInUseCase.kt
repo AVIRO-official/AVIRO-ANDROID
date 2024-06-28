@@ -150,7 +150,6 @@ class AutoSignInUseCase @Inject constructor (
                             return MappingResult.Success("", null)
                         }
 
-
                         else ->  return MappingResult.Error(null)
                 }
             }

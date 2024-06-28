@@ -87,6 +87,9 @@ class Map : Fragment(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
+        //checkOnOffGPS()
+
+
         val fm = childFragmentManager
         mapFragment = fm.findFragmentById(R.id.map_fragment) as MapFragment?
             ?: MapFragment.newInstance().also {
@@ -638,7 +641,42 @@ class Map : Fragment(), OnMapReadyCallback {
 
     }
 
+    /*
+    fun checkLocationPermission() {
+        if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(
+                requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
 
+            // 권한이 이미 있는 경우에 대한 처리
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    ACCESS_FINE_LOCATION,
+                    ACCESS_COARSE_LOCATION
+                ), LOCATION_PERMISSION_REQUEST_CODE
+            )
+
+            } else {
+
+            // 권한이 없을 경우 권한 요청
+            AviroDialogUtils.createOneDialog()
+            Toast.makeText(this, "앱 실행을 위해서는 권한을 설정해야 합니다.", Toast.LENGTH_SHORT).show()
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    ACCESS_FINE_LOCATION,
+                    ACCESS_COARSE_LOCATION
+                ),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
+
+
+            }
+    }
+
+     */
 
     // GPS가 켜져있는지 확인
     private fun checkOnOffGPS(): Boolean {
@@ -654,20 +692,19 @@ class Map : Fragment(), OnMapReadyCallback {
     }
 
     fun settingGPS() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle("GPS 비활성화")
-            .setMessage("GPS를 켜져 있어야 비건맵 서비스를 이용할 수 있습니다.".trimIndent())
-            .setCancelable(true)
-            .setPositiveButton("설정하기") { dialog, id ->
+
+        AviroDialogUtils.createTwoDialog(requireContext(),
+            "GPS 비활성화",
+            "GPS를 켜져 있어야 비건맵 서비스를 이용할 수 있습니다.",
+            "취소",
+            "설정하기",
+            {
                 val callGPSSettingIntent =
                     Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 startActivityForResult(callGPSSettingIntent, getString(R.string.GPS_ENABLE_REQUEST_CODE).toInt())
                 // GPS 설정하러 설정 화면 넘어감
-            }
-            .setNegativeButton("취소") { dialog, id ->
-                dialog.cancel()
-            }
-            .show()
+            }).show()
+
     }
 
     fun setLocation(x : Double, y:Double) {
@@ -804,11 +841,8 @@ class Map : Fragment(), OnMapReadyCallback {
                 // 위치 추적 기능 사용
                 getString(R.string.FUSED_LOCATION_CODE).toInt() -> {
                     // 위치 퍼미션 허용 안 함
-                    if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
-                        ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                            requireContext(),
-                            Manifest.permission.ACCESS_COARSE_LOCATION
-                        ) != PackageManager.PERMISSION_GRANTED
+                    if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                        ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
                     ) {
                         //퍼미션 요청
                         requestPermissions(

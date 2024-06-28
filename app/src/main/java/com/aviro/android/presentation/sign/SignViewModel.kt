@@ -192,7 +192,7 @@ class SignViewModel @Inject constructor(
 
                                                 _isSignUp.value = false
 
-                                                AmplitudeUtils.login(_signName.value, _signEmail.value, data.nickname)
+                                                AmplitudeUtils.login(data.userId, _signName.value, _signEmail.value, data.nickname, type)
                                             }
                                             is MappingResult.Error -> {
                                                 // 토큰 발급 받아서 자동로그인 하려고 하는데 에러나는 경우
@@ -239,7 +239,7 @@ class SignViewModel @Inject constructor(
                             _isSignUp.value = false
 
                             // 이름, 이메일, 닉네임 정보 가져오기
-                            AmplitudeUtils.login(_signName.value, _signEmail.value, data.nickname!!)
+                            AmplitudeUtils.login(_signUserId.value!!, _signName.value, _signEmail.value, data.nickname!!, _signType.value!!)
 
                         } else {
                             // 회원가입 필요
@@ -463,7 +463,7 @@ class SignViewModel @Inject constructor(
                         AmplitudeUtils.signUp(_signUserId.value!!)
 
                         // 이름, 이메일, 닉네임 정보 가져오기
-                        AmplitudeUtils.login(_signName.value, _signEmail.value, nickname)
+                        AmplitudeUtils.login(_signUserId.value!! , _signName.value, _signEmail.value, nickname, _signType.value!!)
 
                     }
                     is MappingResult.Error -> {
