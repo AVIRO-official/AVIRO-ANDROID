@@ -51,7 +51,7 @@ class SignNicknameFragment() : Fragment() {
             //fragmentManager.setCustomAnimations(R.anim.slide_left_enter, R.anim.slide_right_exit, R.anim.slide_right_enter, R.anim.slide_left_exit)
             parentFragmentManager.popBackStack()
         //fragmentManager.remove(this@SignNicknameFragment).commit()
-            //requireActivity().onBackPressed()
+            //this.onBackPressed()
         }
 
         return view

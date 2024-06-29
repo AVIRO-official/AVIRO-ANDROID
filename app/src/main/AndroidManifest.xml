@@ -77,6 +77,12 @@
         </activity>
         <!--android:windowSoftInputMode="adjustResize|stateHidden|"-->
 
+        <activity
+            android:name=".presentation.home.ui.register.RegisterFragment"
+            android:exported="true"
+            android:screenOrientation="portrait">
+        </activity>
+
 
         <activity
             android:name=".presentation.bottomsheet.ReviewActivity"

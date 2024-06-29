@@ -71,7 +71,6 @@ class RegisterViewModel @Inject constructor (
         _isRequest.value = false
         _menuList.value = null
         category = ""
-        _errorLiveData.value = ""
     }
 
 

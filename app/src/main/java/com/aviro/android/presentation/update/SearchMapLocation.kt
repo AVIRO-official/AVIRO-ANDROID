@@ -94,7 +94,7 @@ class SearchMapLocation : Fragment(), OnMapReadyCallback {
 
 
        binding.pinImageView.background = getMarkerPin(
-            requireContext(),
+           requireContext(),
             viewmodel.restaurantInfo.value!!.category,
             viewmodel.restaurantInfo.value!!.allVegan,
             viewmodel.restaurantInfo.value!!.someMenuVegan,

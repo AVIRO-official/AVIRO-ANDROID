@@ -20,6 +20,9 @@ import androidx.viewpager2.widget.ViewPager2
 import com.aviro.android.R
 import com.aviro.android.common.AmplitudeUtils
 import com.aviro.android.databinding.ActivityHomeBinding
+import com.aviro.android.domain.entity.member.MemberLevelUp
+import com.aviro.android.presentation.aviro_dialog.AviroDialogUtils
+import com.aviro.android.presentation.aviro_dialog.LevelUpPopUp
 import com.aviro.android.presentation.home.ui.map.Map
 import com.aviro.android.presentation.home.ui.mypage.ChallengeFragment
 import com.aviro.android.presentation.home.ui.register.RegisterFragment
@@ -35,12 +38,10 @@ class Home : FragmentActivity() {
     private val homeViewModel : HomeViewModel by viewModels()
 
     val frag1 = Map()
-    val frag2 = RegisterFragment()
+    //val frag2 = RegisterFragment()
     val frag3 = ChallengeFragment()
 
-    val fragList = arrayOf(frag1, frag2, frag3)
-
-    lateinit var homeAdapter: FragmentStateAdapter
+    val fragList = arrayOf(frag1, frag3) //frag2,
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -62,21 +63,16 @@ class Home : FragmentActivity() {
             NaverMapSdk.NaverCloudPlatformClient(com.aviro.android.BuildConfig.NAVER_CLIENT_ID) //NAVER_CLIENT_ID
 
 
-        homeAdapter = object : FragmentStateAdapter(this) {
-            override fun getItemCount(): Int {
-                return fragList.size
-            }
+       val adapter = object : FragmentStateAdapter(this) {
+           override fun getItemCount(): Int {
+               return fragList.size
+           }
 
-            override fun createFragment(position: Int): Fragment {
-                return fragList[position]
-            }
+           override fun createFragment(position: Int): Fragment {
+               return fragList[position]
 
-            fun replaceFragment(position: Int, fragment: Fragment) {
-                    fragList[position] = fragment
-                    //notifyItemChanged(position)
-
-            }
-        }
+           }
+       }
 
 
         binding.homePager.registerOnPageChangeCallback(PageChangeCallback())
@@ -109,6 +105,15 @@ class Home : FragmentActivity() {
                     }
 
                     HomeViewModel.WhereToGo.REGISTER -> {
+                        val intent = Intent(this, RegisterFragment::class.java)
+                        intent.putExtra("NaverMapOfX", frag1.NaverMapOfX)
+                        intent.putExtra("NaverMapOfY", frag1.NaverMapOfY)
+                        intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                        startActivityForResult(intent, 1000)
+
+                        homeViewModel._isNavigation.value = false
+
+                        /*
                         binding.homePager.setCurrentItem(1, false)
                         binding.homePager.isUserInputEnabled = false
                         binding.navView.isVisible = false
@@ -116,10 +121,11 @@ class Home : FragmentActivity() {
                         frag2.location_y = frag1.NaverMapOfY
                         binding.homeContainer.setPadding(0, getStatusBarHeight(this), 0, getNaviBarHeight(this)
                         )
+                         */
                     }
 
                     HomeViewModel.WhereToGo.MYPAGE -> {
-                        binding.homePager.setCurrentItem(2, false)
+                        binding.homePager.setCurrentItem(1, false)
                         binding.homePager.isUserInputEnabled = false
                         binding.navView.isVisible = true
                         binding.homeContainer.setPadding(
@@ -149,17 +155,26 @@ class Home : FragmentActivity() {
                 }
 
                 R.id.navigation_register -> {
+                    val intent = Intent(this, RegisterFragment::class.java)
+                    intent.putExtra("NaverMapOfX", frag1.NaverMapOfX)
+                    intent.putExtra("NaverMapOfY", frag1.NaverMapOfY)
+                    intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
+                    startActivityForResult(intent, 1000)
+
+                    homeViewModel._isNavigation.value = false
+                    /*
                     binding.homePager.setCurrentItem(1, false)
                     binding.homePager.isUserInputEnabled = false
                     binding.navView.isVisible = false
                     frag2.location_x = frag1.NaverMapOfX
                     frag2.location_y = frag1.NaverMapOfY
                     binding.homeContainer.setPadding(0,getStatusBarHeight(this), 0, getNaviBarHeight(this))
+                     */
 
                 }
 
                 R.id.navigation_mypage -> {
-                    binding.homePager.setCurrentItem(2, false)
+                    binding.homePager.setCurrentItem(1, false)
                     binding.navView.isVisible = true
                     binding.homePager.isUserInputEnabled = false
                     binding.homeContainer.setPadding(0,getStatusBarHeight(this), 0, getNaviBarHeight(this))
@@ -171,7 +186,7 @@ class Home : FragmentActivity() {
             return@setOnItemSelectedListener true
         }
 
-        binding.homePager.adapter = homeAdapter
+        binding.homePager.adapter = adapter
 
 
     }
@@ -199,18 +214,14 @@ class Home : FragmentActivity() {
     }
 
 
-    override fun onResume() {
-        Log.d("HomeAvtivity", "onResume")
-        super.onResume()
-    }
 
     private inner class PageChangeCallback: ViewPager2.OnPageChangeCallback() {
         override fun onPageSelected(position: Int) {
             super.onPageSelected(position)
             binding.navView.selectedItemId = when (position) {
                 0 -> R.id.navigation_map
-                1 -> R.id.navigation_register
-                2 -> R.id.navigation_mypage
+                //1 -> R.id.navigation_register
+                1 -> R.id.navigation_mypage
                 else -> error("no such position: $position")
             }
         }
@@ -221,12 +232,40 @@ class Home : FragmentActivity() {
         super.onActivityResult(requestCode, resultCode, data)
         // 요청 코드가 일치하고 결과 코드가 성공인 경우
         if (requestCode == getString(R.string.SEARCH_RESULT_OK).toInt() && resultCode == Activity.RESULT_OK) {
-            // val resultData = data?.getStringExtra("result_key")
+
             // 결과 데이터를 프래그먼트로 전달
             val fragment = supportFragmentManager.findFragmentById(R.id.home_pager)
             if (fragment is Map) {
                 fragment.onActivityResult(requestCode, resultCode, data)
             }
+        } else if(requestCode == 1000 ) {
+
+            // 홈 화면으로 돌아가기
+
+            binding.navView.selectedItemId = R.id.navigation_map
+            binding.homePager.setCurrentItem(0, false)
+            binding.navView.isVisible = true
+            binding.homePager.isUserInputEnabled = false
+            binding.homeContainer.setPadding(0,0, 0, getNaviBarHeight(this))
+
+            data?.let {
+                val levelUp = it.getParcelableExtra<MemberLevelUp>("levelUp")
+                levelUp?.let {
+                    Log.d("LevelUpPopUp", "${levelUp}")
+                    LevelUpPopUp(this, levelUp, homeViewModel).show()
+                }
+
+                val error = it.getStringExtra("error")
+                error?.let {
+                    AviroDialogUtils.createOneDialog(this,
+                        "Error",
+                        "${error}",
+                        "확인").show()
+                }
+
+            }
+
+
         }
     }
 

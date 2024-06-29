@@ -28,7 +28,7 @@ class SignOptionFragment : Fragment() {
         val root: View = binding.root
 
         binding.viewmodel = sharedViewModel
-        binding.lifecycleOwner = this@SignOptionFragment
+        binding.lifecycleOwner = viewLifecycleOwner
 
         binding.nextBtn.setOnClickListener {
             val fragmentManager = parentFragmentManager.beginTransaction()
