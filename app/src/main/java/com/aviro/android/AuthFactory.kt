@@ -3,7 +3,7 @@ package com.aviro.android
 import android.content.Context
 import com.aviro.android.presentation.entity.SocialType
 
-object AuthFactory {
+object AuthFactory { // Provider 역할
 
     private var socialAuth: AuthManager? = null
     fun getSocialLogin(context : Context, type: SocialType): AuthManager {
