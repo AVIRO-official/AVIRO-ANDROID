@@ -5,13 +5,18 @@ import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.util.Log
 import android.view.WindowManager
 import androidx.activity.viewModels
 import androidx.lifecycle.Observer
+import com.aviro.android.R
 import com.aviro.android.databinding.ActivitySplashBinding
+import com.aviro.android.domain.entity.base.MappingResult
 import com.aviro.android.presentation.guide.Guide
 import com.aviro.android.presentation.home.Home
 import com.aviro.android.presentation.sign.Sign
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.common.api.ApiException
 import dagger.hilt.android.AndroidEntryPoint
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.async
@@ -34,6 +39,7 @@ class Splash : AppCompatActivity() {
         setContentView(binding.root)
 
 
+
         viewmodel.isSignIn.observe(this, Observer { isSignIn ->
             if (isSignIn == true) {
                 // 어떤 로그인인지 확인
@@ -47,7 +53,6 @@ class Splash : AppCompatActivity() {
 
         goToHomeOrGuideOrSignWithDelay()
 
-
     }
 
     fun goToHomeOrGuideOrSignWithDelay() {
@@ -60,15 +65,30 @@ class Splash : AppCompatActivity() {
         } else {
             runBlocking {
                 val job = async(Dispatchers.IO) {
+                    /*
+                    // 구글 로그인 있는지 확인
+                    val account = GoogleSignIn.getLastSignedInAccount(this@Splash)
+                    if(account == null) {
+                        // 다른 자동 로그인 확인
+                        viewmodel.isSignIn()
+                    } else {
+                        // userId 있는지 확인
+                        // 구글 자동로그인
+                        viewmodel.isSignIn() // Google 로그인인데 userID 없으면 X ->
+                    }
+                     */
                     viewmodel.isSignIn()
+
                 }
                 job.await() // job이 완료될 때까지 대기
             }
         }
     }
 
+
+
     fun isFirstStartApp() : Boolean {
-        val prefs = this.getSharedPreferences("first_visitor", MODE_PRIVATE)
+        val prefs = this.getSharedPreferences("aviro", MODE_PRIVATE)
         val firstRun = prefs.getBoolean("firstRun", true) // 처음엔 default 값 출력
 
         if (firstRun) {
@@ -79,5 +99,7 @@ class Splash : AppCompatActivity() {
 
         return firstRun
     }
+
+
 
 }

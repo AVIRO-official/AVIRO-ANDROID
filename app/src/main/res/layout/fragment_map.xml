@@ -20,8 +20,6 @@
     android:layout_height="match_parent">
 
 
-
-
     <LinearLayout
         android:id="@+id/searchBar"
         android:layout_width="match_parent"
@@ -58,20 +56,18 @@
             android:textSize="18sp"/>
     </LinearLayout>
 
-
+    <!-- 화면 크기를 지정해주지 않으면 버벅거리는 문제 발생 -->
     <com.aviro.android.presentation.home.ui.map.CustomFragmentContainerView
-            android:id="@+id/map_fragment"
-            android:layout_width="match_parent"
-            android:layout_height="2256dp"
+        android:id="@+id/map_fragment"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
         android:focusable= "true"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintBottom_toBottomOf="parent">
+        app:layout_constraintTop_toTopOf="parent">
     </com.aviro.android.presentation.home.ui.map.CustomFragmentContainerView>
 
     <!-- 필터링 -->
-
   <HorizontalScrollView
           android:id="@+id/filteringScrollView"
           android:layout_width="match_parent"
@@ -89,14 +85,7 @@
         android:id="@+id/filteringContainer"
         android:layout_width="match_parent"
         android:layout_height="wrap_content">
-        <!-- android:layout_marginStart="16dp"
-        android:layout_marginTop="10dp"
-        android:layout_marginEnd="16dp"
-        android:orientation="horizontal"
-        app:visibilityChanged="@{(viewmodel.bottomSheetState == 0 || viewmodel.bottomSheetState == 1)}"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/searchBar"-->
+
 
         <Button
             android:id="@+id/filter_cancel_btn"
@@ -203,7 +192,6 @@
             app:layout_anchor="@+id/conteudo"
             app:layout_anchorGravity="right|bottom"
             app:visibilityChanged="@{(viewmodel.bottomSheetState == 0 || viewmodel.bottomSheetState == 1)}">
-            <!--app:visibilityChanged="@{(viewmodel.bottomSheetState == 0 || viewmodel.bottomSheetState == 1)}"-->
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
 
         <com.google.android.material.floatingactionbutton.FloatingActionButton
@@ -224,29 +212,7 @@
             app:tint="@color/Gray1"
             app:visibilityChanged="@{(viewmodel.bottomSheetState == 2)}">
         </com.google.android.material.floatingactionbutton.FloatingActionButton>
-        <!--app:visibilityChanged="@{(viewmodel.bottomSheetState == 2)}"-->
-        <!--app:layout_anchor="@+id/searchBar"
-            app:layout_anchorGravity="start|bottom"-->
 
-      <!--  <com.google.android.material.floatingactionbutton.FloatingActionButton
-            android:id="@+id/report_floatingButton"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginEnd="21dp"
-            android:layout_marginTop="51dp"
-            android:layout_gravity="end"
-            android:elevation="10dp"
-            android:padding="12dp"
-            android:src="@drawable/ic_report"
-            android:theme="@style/Theme.Material3.DayNight"
-            app:layout_behavior="com.google.android.material.floatingactionbutton.FloatingActionButton$Behavior"
-            app:backgroundTint="@color/Gray7"
-            app:fabCustomSize="48dp"
-            app:fabSize="mini"
-            app:tint="@color/Gray1"
-            app:visibilityChanged="@{(viewmodel.bottomSheetState == 2)}">
-
-        </com.google.android.material.floatingactionbutton.FloatingActionButton>-->
 
         <LinearLayout
             android:id="@+id/bottom_sheet_layout"

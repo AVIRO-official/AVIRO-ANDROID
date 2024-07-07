@@ -14,10 +14,12 @@ import android.text.TextWatcher
 import android.util.Log
 import android.view.*
 import android.widget.PopupMenu
+import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.size
 import androidx.fragment.app.Fragment
+import androidx.fragment.app.FragmentActivity
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.viewModels
 import androidx.viewpager2.widget.ViewPager2
@@ -25,35 +27,38 @@ import com.aviro.android.R
 import com.aviro.android.domain.entity.menu.Menu
 import com.aviro.android.databinding.*
 import com.aviro.android.domain.entity.search.SearchedRestaurantItem
+import com.aviro.android.presentation.aviro_dialog.AviroDialogUtils
 import com.aviro.android.presentation.aviro_dialog.LevelUpPopUp
+import com.aviro.android.presentation.home.Home
 import com.aviro.android.presentation.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DecimalFormat
 import java.util.*
 
 @AndroidEntryPoint
-class RegisterFragment : Fragment()  {
+class RegisterFragment : FragmentActivity() { // Fragment()
 
+    /*
     private var _binding: FragmentRegisterBinding? = null
     private val binding get() = _binding!!
+     */
 
-    private val viewmodel: RegisterViewModel by viewModels()//(R.id.navigation_register)
-    private val homeViewmodel: HomeViewModel by activityViewModels()
+    private lateinit var binding: FragmentRegisterBinding
 
-    //private lateinit var mGestureDetector : GestureDetector
+    private val viewmodel: RegisterViewModel by viewModels()
+    //private val homeViewmodel: HomeViewModel by activityViewModels()
 
     val menuItemMap = HashMap<String, Menu>()
     var location_x : Double? = null
     var location_y : Double? = null
 
-    override fun onCreateView(
-        inflater: LayoutInflater,
-        container: ViewGroup?,
-        savedInstanceState: Bundle?
-    ): View {
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
 
-        _binding = FragmentRegisterBinding.inflate(inflater, container, false)
-        val root: View = binding.root
+        binding = FragmentRegisterBinding.inflate(layoutInflater)
+        setContentView(binding.root)
+
+        //activity?.window?.setSoftInputMode(WindowManager.LayoutParams.SOFT_INPUT_ADJUST_RESIZE)
 
         binding.viewmodel = viewmodel
         binding.lifecycleOwner = this
@@ -62,19 +67,13 @@ class RegisterFragment : Fragment()  {
         initListener()
         initObserver()
 
-        return root
-
-    }
-
-    override fun onResume() {
-        super.onResume()
-        homeViewmodel._isNavigation.value = false
     }
 
     fun initListener() {
         // 가게 찾기
+
         binding.searchbar.setOnClickListener {
-            val intent = Intent(requireContext(), SearchRegisteration::class.java)
+            val intent = Intent(this, SearchRegisteration::class.java)
             // 현재 지도의 중심 위치 정보 전다해줘야 함
             val currentUserLoc = getCurrentGPSLoc()
             currentUserLoc?.let {
@@ -93,65 +92,77 @@ class RegisterFragment : Fragment()  {
             startActivityForResult(intent, getString(R.string.SEARCH_RESULT_OK).toInt())
         }
 
+
+
         // 메뉴 추가
-        binding.aadMenuBtn.setOnClickListener {
+        binding.addMenuBtn.setOnClickListener {
             addMenuItem()
         }
 
         binding.backBtn.setOnClickListener {
-            val viewPager = requireActivity().findViewById<ViewPager2>(R.id.home_pager)
-            viewPager.setCurrentItem(0, true)
             // 정말 취소할건지 물어보는 팝업창
-            // 내용 초기화
-
+            AviroDialogUtils.createTwoDialog(this,
+                "정말로 가게 등록을 취소하나요?",
+                "작성하던 가게 등록 정보가 모두 삭제됩니다.",
+                "아니요",
+                "예",
+                {
+                    setResult(Activity.RESULT_OK, intent)
+                    finish()
+                    //overridePendingTransition(0, 0)
+                }).show()
         }
 
-        binding.scroll.setOnTouchListener(object: OnSwipeTouchListener(context = requireContext()) {
+        /*
+        binding.scroll.setOnTouchListener(object: OnSwipeTouchListener(context = this) {
             override fun onSwipeLeft() {}
             override fun onSwipeRight() {
                 // 뷰페이저 슬라이드 가능
-                val viewPager = requireActivity().findViewById<ViewPager2>(R.id.home_pager)
+                val viewPager = this.findViewById<ViewPager2>(R.id.home_pager)
                 var current = viewPager.currentItem
                 if (current == 1){
-                    //binding.scrollLayout.startAnimation(AnimationUtils.loadAnimation(requireContext(), R.anim.trans_left))
+                    //binding.scrollLayout.startAnimation(AnimationUtils.loadAnimation(this, R.anim.trans_left))
                     //overridePendingTransition(R.anim.slide_left_enter, R.anim.slide_left_exit)
                     viewPager.setCurrentItem(0, true)
                 }
             }
         })
 
+         */
+
     }
 
     fun initObserver() {
-        viewmodel.levelUp.observe(viewLifecycleOwner) {
+        viewmodel.levelUp.observe(this) {
             // 레벨업 팝업 띄우기
             if(it.levelUp) {
-                LevelUpPopUp(requireContext(), it, homeViewmodel).show()
+                intent.putExtra("levelUp", it)
             }
-            // 화면 초기화
-            val fragmentTransaction = childFragmentManager.beginTransaction()
-            val fragmentToRemove = childFragmentManager.findFragmentById(R.id.home_pager)
-            fragmentToRemove?.let {
-                fragmentTransaction.remove(it)
-                fragmentTransaction.commit()
-            }
-            // 맵 화면으로 돌아가기
-            val viewPager = requireActivity().findViewById<ViewPager2>(R.id.home_pager)
-            viewPager.setCurrentItem(0, true)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+            //overridePendingTransition(0, 0)
+
+        }
+
+        viewmodel.errorLiveData.observe(this) {
+            intent.putExtra("error", it)
+            setResult(Activity.RESULT_OK, intent)
+            finish()
+            //overridePendingTransition(0, 0)
         }
     }
 
     fun getCurrentGPSLoc(): Location? {
-        val manager = requireContext().getSystemService(Context.LOCATION_SERVICE) as LocationManager
+        val manager = this.getSystemService(Context.LOCATION_SERVICE) as LocationManager
         if (manager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
             // 위치 기준
-            if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
-                ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
+            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) == PackageManager.PERMISSION_GRANTED ||
+                ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) == PackageManager.PERMISSION_GRANTED) {
                 return manager.getLastKnownLocation(LocationManager.GPS_PROVIDER) //manager.getLastKnownLocation(LocationManager.GPS_PROVIDER)
             } else {
                 // 위치 권한이 없는 경우 요청하도록 구현
                 // 혹은 그냥 현재 맵의 중심점을 반환
-
+                return null
             }
         }
         // 맵 기준
@@ -165,9 +176,6 @@ class RegisterFragment : Fragment()  {
         val binding_addMenu: AddMenuLayoutBinding =
             AddMenuLayoutBinding.inflate(layoutInflater)
 
-        // 바인딩 클래스에 뷰모델 설정
-        //binding_addMenu.viewmodel = this.viewmodel
-        //binding_addMenu.lifecycleOwner = this
 
         // 메뉴 추가
         val menuID = UUID.randomUUID().toString()
@@ -178,14 +186,14 @@ class RegisterFragment : Fragment()  {
         var isChecked = false
 
         // 노랑이 클릭시 요청 editText 보이게
-        viewmodel.isRequest.observe(viewLifecycleOwner) {
+        viewmodel.isRequest.observe(this) {
             if (it) {
                 binding_addMenu.requestLayout.visibility = View.VISIBLE
                 binding_addMenu.requestBox.background =
-                    ContextCompat.getDrawable(requireContext(), R.drawable.checkbox_yellow)
+                    ContextCompat.getDrawable(this, R.drawable.checkbox_yellow)
 
                 binding_addMenu.editTextRequest.background = ContextCompat.getDrawable(
-                    requireContext(),
+                    this,
                     R.drawable.base_roundsquare_gray6
                 )
                 isChecked = true
@@ -198,16 +206,16 @@ class RegisterFragment : Fragment()  {
             }
         }
 
-        viewmodel.veganTypeList.observe(viewLifecycleOwner) {
+        viewmodel.veganTypeList.observe(this) {
             if(it.get(2) == true) {
                 if (it.get(1) == true) {
                     //Log.d("veganTypeList","${it}")
                     binding_addMenu.requestBox.setOnClickListener { box ->
                         if (isChecked == true) {
                             box.background =
-                                ContextCompat.getDrawable(requireContext(), R.drawable.checkbox_non)
+                                ContextCompat.getDrawable(this, R.drawable.checkbox_non)
                             binding_addMenu.editTextRequest.background = ContextCompat.getDrawable(
-                                requireContext(),
+                                this,
                                 R.drawable.base_roundsquare_gray5
                             )
                             binding_addMenu.editTextRequest.isEnabled = false
@@ -218,14 +226,14 @@ class RegisterFragment : Fragment()  {
 
                         } else {
                             box.background =
-                                ContextCompat.getDrawable(requireContext(), R.drawable.checkbox_yellow)
+                                ContextCompat.getDrawable(this, R.drawable.checkbox_yellow)
                             binding_addMenu.editTextRequest.background = ContextCompat.getDrawable(
-                                requireContext(),
+                                this,
                                 R.drawable.base_roundsquare_gray6
                             )
                             binding_addMenu.editTextRequest.setHintTextColor(
                                 ContextCompat.getColor(
-                                    requireContext(),
+                                    this,
                                     R.color.Gray3
                                 )
                             )
@@ -240,12 +248,12 @@ class RegisterFragment : Fragment()  {
 
                     binding_addMenu.requestBox.setOnClickListener(null)
                     binding_addMenu.requestBox.background =
-                        ContextCompat.getDrawable(requireContext(), R.drawable.checkbox_yellow)
+                        ContextCompat.getDrawable(this, R.drawable.checkbox_yellow)
                     binding_addMenu.editTextRequest.background =
-                        ContextCompat.getDrawable(requireContext(), R.drawable.base_roundsquare_gray6)
+                        ContextCompat.getDrawable(this, R.drawable.base_roundsquare_gray6)
                     binding_addMenu.editTextRequest.setHintTextColor(
                         ContextCompat.getColor(
-                            requireContext(),
+                            this,
                             R.color.Gray3
                         )
                     )
@@ -298,7 +306,7 @@ class RegisterFragment : Fragment()  {
 
         var isChangeable = true
         binding_addMenu.pricePopupMenu.setOnClickListener {
-            val popupMenu = PopupMenu(requireContext(), binding_addMenu.pricePopupMenu)
+            val popupMenu = PopupMenu(this, binding_addMenu.pricePopupMenu)
             popupMenu.inflate(R.menu.register_price_menu_popup)
 
             if(isChangeable) {
@@ -373,10 +381,13 @@ class RegisterFragment : Fragment()  {
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
         // 요청 코드가 일치하고 결과 코드가 성공인 경우
+        /*
         if (requestCode == getString(R.string.SEARCH_RESULT_OK).toInt() && resultCode == Activity.RESULT_OK) {
             val resultData = data?.getParcelableExtra<SearchedRestaurantItem>("search_item")
 
         }
+
+         */
 
         when (requestCode) {
             getString(R.string.SEARCH_RESULT_OK).toInt() -> {
@@ -385,24 +396,34 @@ class RegisterFragment : Fragment()  {
                     serahed_item?.let {
                         // 가게 정보 표시
                         viewmodel._registerRestaurant.value = it
-                        //viewmodel._restaurantAddress.value = it.roadAddressName
                         binding.searchbarTextView.text = it.placeName
-                        //viewmodel._restaurantNumber.value = it.phone
                         }
                 }
             }
         }
     }
 
+    override fun onBackPressed() {
+        if(false) {
+            super.onBackPressed()
+        } else {
+            // 정말 취소할건지 물어보는 팝업창
+            AviroDialogUtils.createTwoDialog(this,
+                "정말로 가게 등록을 취소하나요?",
+                "작성하던 가게 등록 정보가 모두 삭제됩니다.",
+                "아니요",
+                "예",
+                {
+                    setResult(Activity.RESULT_OK, intent)
+                    finish()
+                    //overridePendingTransition(0, 0)
+                }).show()
+        }
 
-
-    fun back() {
-        //this.onBackPressed()
     }
 
-
 }
-
+/*
 abstract class OnSwipeTouchListener(context: Context?) : View.OnTouchListener {
     companion object {
         // 반응성 조절
@@ -440,5 +461,7 @@ abstract class OnSwipeTouchListener(context: Context?) : View.OnTouchListener {
         gestureDetector = GestureDetector(context, GestureListener())
     }
 }
+
+ */
 
 

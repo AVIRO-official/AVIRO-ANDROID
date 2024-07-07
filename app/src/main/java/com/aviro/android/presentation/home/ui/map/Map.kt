@@ -16,6 +16,7 @@ import android.view.animation.AlphaAnimation
 import android.view.animation.TranslateAnimation
 import android.widget.FrameLayout
 import android.widget.LinearLayout
+import androidx.activity.OnBackPressedCallback
 import androidx.annotation.UiThread
 import androidx.constraintlayout.widget.ConstraintLayout
 import androidx.core.app.ActivityCompat
@@ -26,6 +27,7 @@ import androidx.fragment.app.viewModels
 import androidx.viewpager2.adapter.FragmentStateAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.aviro.android.R
+import com.aviro.android.common.AmplitudeUtils
 import com.aviro.android.common.DistanceCalculator
 import com.aviro.android.databinding.FragmentMapBinding
 import com.aviro.android.domain.entity.search.SearchedRestaurantItem
@@ -85,16 +87,17 @@ class Map : Fragment(), OnMapReadyCallback {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        // 프래그먼트가 액티비티의 호출을 받아 생성
-        // 네이버 지도 초기화 (navMap 객체 생성, 기본 가게데이터 생성) -> 퍼미션 없이도 사용 가능한 기능
+        //checkOnOffGPS()
+
 
         val fm = childFragmentManager
         mapFragment = fm.findFragmentById(R.id.map_fragment) as MapFragment?
             ?: MapFragment.newInstance().also {
                 fm.beginTransaction().add(R.id.map_fragment, it).commit()
             }
-
         mapFragment.getMapAsync(this)
+
+        bottomSheetViewmodel.getNickname()
 
         frag1.setViewModel(bottomSheetViewmodel, viewmodel, homeViewmodel)
         frag2.setViewModel(bottomSheetViewmodel, viewmodel)
@@ -113,39 +116,22 @@ class Map : Fragment(), OnMapReadyCallback {
         binding.lifecycleOwner = viewLifecycleOwner
         binding.mapFragment.setViewModel(viewmodel)
 
+
+        // 현재 화면 높이 가져오기
+        val displayMetrics = resources.displayMetrics
+        val screenHeight = displayMetrics.heightPixels
+
+        // 맵화면 높이 조정
+        val layoutParams = binding.mapFragment.layoutParams
+        layoutParams.height = screenHeight - 100
+        binding.mapFragment.layoutParams = layoutParams
+
         initListener()
         initObserver()
 
-       if(isFirstStartMap()) {
+       if(isTutorial()) {
            // 튜토리얼 시작
-           val parentActivity = activity as Home
-           parentActivity.findViewById<ConstraintLayout>(R.id.home_container).isEnabled = false
-
-           val tutorial1 = parentActivity.findViewById<FrameLayout>(R.id.tutoral1)
-           tutorial1.visibility = View.VISIBLE
-           tutorial1.isEnabled = true
-
-           tutorial1.setOnClickListener {
-               tutorial1.visibility = View.GONE
-               tutorial1.isEnabled = false
-
-               // 튜토리얼2 시작
-               binding.filterDish.performClick()
-               binding.filterCafe.performClick()
-
-               val tutoral2 = parentActivity.findViewById<LinearLayout>(R.id.tutoral2)
-               tutoral2.visibility = View.VISIBLE
-               tutoral2.isEnabled = true
-
-               tutoral2.setOnClickListener {
-                   binding.filterCancelBtn.performClick()
-
-                   tutoral2.visibility = View.GONE
-                   tutoral2.isEnabled = false
-                   parentActivity.findViewById<ConstraintLayout>(R.id.home_container).isEnabled = true
-                   viewmodel.getPopInfo()
-               }
-           }
+           runTutorial()
 
        } else{
            viewmodel.getPopInfo()
@@ -180,9 +166,6 @@ class Map : Fragment(), OnMapReadyCallback {
         binding.bottomSheet.bottomViewmodel = bottomSheetViewmodel
         binding.bottomSheet.fragmentBottomsheetStep2.viewmodel = bottomSheetViewmodel
 
-
-
-
         return root
     }
 
@@ -190,9 +173,26 @@ class Map : Fragment(), OnMapReadyCallback {
     @SuppressLint("ClickableViewAccessibility")
     fun initListener() {
 
+        requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
+            override fun handleOnBackPressed() {
+                viewmodel._selectedMarker.value?.let {
+                    if(viewmodel.isFavorite.value == true) {
+                        viewmodel.cancelSelectedBookmarkMarker(it)
+                    } else {
+                        viewmodel.cancelSelectedMarker(it)
+                    }
+
+                    persistenetBottomSheet.state = STATE_HIDDEN
+                    viewmodel._bottomSheetState.value = 0
+                    bottomSheetSate = 0
+                    viewmodel._isShowBottomSheetTab.value = false
+
+                }
+            }
+        })
+
+
         binding.actionDownFloatingButton.setOnClickListener {
-            //val bottomSheet = binding.bottomSheetLayout
-            //val persistenetBottomSheet = BottomSheetBehavior.from(bottomSheet)
             persistenetBottomSheet.state = STATE_COLLAPSED
 
             viewmodel._bottomSheetState.value = 1
@@ -208,6 +208,7 @@ class Map : Fragment(), OnMapReadyCallback {
         }
 
         binding.bottomSheet.backBtn.setOnClickListener {
+            viewmodel._isShowBottomSheetTab.value = true
             persistenetBottomSheet.state = STATE_COLLAPSED
             viewmodel._bottomSheetState.value = 1
             bottomSheetSate = 1
@@ -227,6 +228,7 @@ class Map : Fragment(), OnMapReadyCallback {
             viewmodel._bottomSheetState.value = 0
             bottomSheetSate = 0
             persistenetBottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
+            viewmodel._isShowBottomSheetTab.value = false
 
             startActivityForResult(searchIntent, getString(R.string.SEARCH_RESULT_OK).toInt())
         }
@@ -235,9 +237,14 @@ class Map : Fragment(), OnMapReadyCallback {
             val intent = Intent(Intent.ACTION_SEND_MULTIPLE)
             intent.type = "text/plain"
 
-            val blogUrl = "https://play.google.com/store/apps/details?id=com.aviro.android"
-            val content = "[${bottomSheetViewmodel.restaurantSummary.value!!.title}]\n${bottomSheetViewmodel.restaurantSummary.value!!.address}"
-            intent.putExtra(Intent.EXTRA_TEXT,"$content\n$blogUrl")
+            val blogUrlAOS = "https://play.google.com/store/apps/details?id=com.aviro.android"
+            val blogUrlIOS = "https://apps.apple.com/app/6449352804"
+            val content = "[어비로]\n${bottomSheetViewmodel.restaurantSummary.value!!.title}\n" +
+                    "${bottomSheetViewmodel.restaurantSummary.value!!.address}\n\n" +
+                    "[플레이스토어]\n${blogUrlAOS}\n\n" +
+                    "[앱스토어]\n${blogUrlIOS}"
+
+            intent.putExtra(Intent.EXTRA_TEXT,"$content")
 
             val chooserTitle = "[어비로]"
             startActivity(Intent.createChooser(intent, chooserTitle))
@@ -405,24 +412,9 @@ class Map : Fragment(), OnMapReadyCallback {
                     it.marker.isVisible = true
                 }
             }
-
         }
 
 
-        // 이동해옴
-        homeViewmodel.isNavigation.observe(viewLifecycleOwner) {
-            if(it) {
-                if(homeViewmodel.currentNavigation.value == HomeViewModel.WhereToGo.REVIEW) {
-                    // 해당 마커 클릭 (정보 찾아서 viewmodel._selectedMarker 에 셋팅)
-                    // 바텀시트 올라옴 (정보 가져와야 함)
-                    // 리뷰 화면으로 이동
-                } else {
-                    // 해당 마커 클릭 (정보 찾아서 viewmodel._selectedMarker 에 셋팅)
-                    // 바텀시트 올라옴 (정보 가져와야 함)
-                }
-
-            }
-        }
 
         viewmodel._selectedMarker.observe(viewLifecycleOwner, androidx.lifecycle.Observer {
             // 검색바 텍스트 설정
@@ -455,7 +447,8 @@ class Map : Fragment(), OnMapReadyCallback {
         })
 
         viewmodel._restaurantSummary.observe(viewLifecycleOwner) {
-            Log.d("_restaurantSummary","${it}")
+
+            AmplitudeUtils.placePresent(it.title)
 
             bottomSheetViewmodel._isLike.value = it.bookmark
 
@@ -486,11 +479,16 @@ class Map : Fragment(), OnMapReadyCallback {
         }
 
         viewmodel.diallogLiveData.observe(viewLifecycleOwner) {
+
+            persistenetBottomSheet.state = STATE_COLLAPSED
+            viewmodel._bottomSheetState.value = 1
+            bottomSheetSate = 1
+
             AviroDialogUtils.createOneDialog(requireContext(),
             "신고가 완료되었어요",
             "3건 이상의 신고가 들어오면\n" +
                     "가게는 자동으로 삭제돼요.",
-                "확인")
+                "확인").show()
         }
 
         viewmodel.promotionData.observe(viewLifecycleOwner) {
@@ -513,7 +511,6 @@ class Map : Fragment(), OnMapReadyCallback {
         NaverMapOfX = naver_map!!.cameraPosition.target.longitude
         NaverMapOfY = naver_map!!.cameraPosition.target.latitude
 
-
         naver_map!!.setOnMapClickListener { pointF, latLng ->
             // 다른 마커 터치
             if(viewmodel.isShowBottomSheetTab.value == false) {
@@ -528,26 +525,26 @@ class Map : Fragment(), OnMapReadyCallback {
                 val persistenetBottomSheet = BottomSheetBehavior.from(bottomSheet)
                 persistenetBottomSheet.state = BottomSheetBehavior.STATE_HIDDEN
 
+
                 viewmodel._selectedMarker.value = null
                 viewmodel._bottomSheetState.value = 0
-
             }
         }
 
 
-        // 위치 추적 기능 사용 여부 확인 (퍼미션 체크 이루어짐)
-        locationSource = FusedLocationSource(this, getString(R.string.FUSED_LOCATION_CODE).toInt())
+        naverMap.uiSettings.isScaleBarEnabled = false
+        naverMap.uiSettings.isCompassEnabled = false
+        naverMap.uiSettings.isZoomControlEnabled = false
+        naverMap.uiSettings.isTiltGesturesEnabled = false
 
         // GPS 체크 및 퍼미션 체크 (한번허용, 항상 허용, 거부)
         checkOnOffGPS()
-
-        naverMap.uiSettings.isZoomControlEnabled = false
-        naverMap.uiSettings.setScaleBarEnabled(false)
-
+        // 위치 추적 기능 사용 여부 확인 (퍼미션 체크 이루어짐)
+        locationSource = FusedLocationSource(this, getString(R.string.FUSED_LOCATION_CODE).toInt())
 
         // 맵 객체가 다시 생길 때 화면에 마커를 모두 다시 그림
         viewmodel.updateMap(naverMap, true)
-        viewmodel._isFirst.value = false // onResume에서 다시 그려짐 방지
+        viewmodel._isFirst.value = false  // onResume에서 다시 그려짐 방지
 
     }
 
@@ -560,9 +557,6 @@ class Map : Fragment(), OnMapReadyCallback {
             viewmodel.updateMap(naver_map!!, false)
             viewmodel._isFirst.value = false
         }
-
-
-
     }
 
 
@@ -573,17 +567,17 @@ class Map : Fragment(), OnMapReadyCallback {
         naver_map = null
     }
 
-    fun isFirstStartMap() : Boolean {
-        val prefs = requireContext().getSharedPreferences("first_visitor", Context.MODE_PRIVATE)
-        val firstMapRun = prefs.getBoolean("firstMapRun", true) // 처음엔 default 값 출력
+    fun isTutorial() : Boolean {
+        val prefs = requireContext().getSharedPreferences("aviro", Context.MODE_PRIVATE)
+        val isMapTutorial = prefs.getBoolean("showMapTutorial", true)
 
-        if (firstMapRun) {
+        if (isMapTutorial) {
             // 처음 실행될 때의 작업 수행
             // "처음 실행 여부"를 false로 변경
-            prefs.edit().putBoolean("firstMapRun", false).apply()
+            prefs.edit().putBoolean("showMapTutorial", false).apply()
         }
 
-        return firstMapRun
+        return isMapTutorial
     }
 
     fun checkPromotion() {
@@ -612,7 +606,77 @@ class Map : Fragment(), OnMapReadyCallback {
 
     }
 
+    fun runTutorial() {
 
+            // 튜토리얼 시작
+            val parentActivity = activity as Home
+            parentActivity.findViewById<ConstraintLayout>(R.id.home_container).isEnabled = false
+
+            val tutorial1 = parentActivity.findViewById<FrameLayout>(R.id.tutoral1)
+            tutorial1.visibility = View.VISIBLE
+            tutorial1.isEnabled = true
+
+            tutorial1.setOnClickListener {
+                tutorial1.visibility = View.GONE
+                tutorial1.isEnabled = false
+
+                // 튜토리얼2 시작
+                binding.filterDish.performClick()
+                binding.filterCafe.performClick()
+
+                val tutoral2 = parentActivity.findViewById<LinearLayout>(R.id.tutoral2)
+                tutoral2.visibility = View.VISIBLE
+                tutoral2.isEnabled = true
+
+                tutoral2.setOnClickListener {
+                    binding.filterCancelBtn.performClick()
+
+                    tutoral2.visibility = View.GONE
+                    tutoral2.isEnabled = false
+                    parentActivity.findViewById<ConstraintLayout>(R.id.home_container).isEnabled = true
+                    viewmodel.getPopInfo()
+                }
+            }
+
+
+    }
+
+    /*
+    fun checkLocationPermission() {
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+            != PackageManager.PERMISSION_GRANTED || ActivityCompat.checkSelfPermission(
+                this, Manifest.permission.ACCESS_COARSE_LOCATION
+            ) != PackageManager.PERMISSION_GRANTED
+        ) {
+
+            // 권한이 이미 있는 경우에 대한 처리
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    ACCESS_FINE_LOCATION,
+                    ACCESS_COARSE_LOCATION
+                ), LOCATION_PERMISSION_REQUEST_CODE
+            )
+
+            } else {
+
+            // 권한이 없을 경우 권한 요청
+            AviroDialogUtils.createOneDialog()
+            Toast.makeText(this, "앱 실행을 위해서는 권한을 설정해야 합니다.", Toast.LENGTH_SHORT).show()
+            ActivityCompat.requestPermissions(
+                this,
+                arrayOf(
+                    ACCESS_FINE_LOCATION,
+                    ACCESS_COARSE_LOCATION
+                ),
+                LOCATION_PERMISSION_REQUEST_CODE
+            )
+
+
+            }
+    }
+
+     */
 
     // GPS가 켜져있는지 확인
     private fun checkOnOffGPS(): Boolean {
@@ -628,20 +692,19 @@ class Map : Fragment(), OnMapReadyCallback {
     }
 
     fun settingGPS() {
-        MaterialAlertDialogBuilder(requireContext())
-            .setTitle("GPS 비활성화")
-            .setMessage("GPS를 켜져 있어야 비건맵 서비스를 이용할 수 있습니다.".trimIndent())
-            .setCancelable(true)
-            .setPositiveButton("설정하기") { dialog, id ->
+
+        AviroDialogUtils.createTwoDialog(requireContext(),
+            "GPS 비활성화",
+            "GPS를 켜져 있어야 비건맵 서비스를 이용할 수 있습니다.",
+            "취소",
+            "설정하기",
+            {
                 val callGPSSettingIntent =
                     Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS)
                 startActivityForResult(callGPSSettingIntent, getString(R.string.GPS_ENABLE_REQUEST_CODE).toInt())
                 // GPS 설정하러 설정 화면 넘어감
-            }
-            .setNegativeButton("취소") { dialog, id ->
-                dialog.cancel()
-            }
-            .show()
+            }).show()
+
     }
 
     fun setLocation(x : Double, y:Double) {
@@ -778,11 +841,8 @@ class Map : Fragment(), OnMapReadyCallback {
                 // 위치 추적 기능 사용
                 getString(R.string.FUSED_LOCATION_CODE).toInt() -> {
                     // 위치 퍼미션 허용 안 함
-                    if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION
-                        ) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(
-                            requireContext(),
-                            Manifest.permission.ACCESS_COARSE_LOCATION
-                        ) != PackageManager.PERMISSION_GRANTED
+                    if (ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED &&
+                        ActivityCompat.checkSelfPermission(requireContext(), Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED
                     ) {
                         //퍼미션 요청
                         requestPermissions(
@@ -903,6 +963,9 @@ class Map : Fragment(), OnMapReadyCallback {
                     }
 
                     HomeViewModel.WhereToGo.RESTAURANT -> {
+                        if(isTutorial()) {
+                            runTutorial()
+                        }
                         homeViewmodel.restaurantData.value?.let { myRestaurant ->
                            val marekrItem =
                                 viewmodel._markerList.value?.filter { it.placeId == homeViewmodel.restaurantData.value!!.placeId }
@@ -913,7 +976,6 @@ class Map : Fragment(), OnMapReadyCallback {
                                 marekrItem.marker.performClick()
                                 //viewmodel._selectedMarker.value = marekrItem
                             }
-
                         }
                     }
 
@@ -949,9 +1011,15 @@ class Map : Fragment(), OnMapReadyCallback {
                 homeViewmodel._isNavigation.value = false
             }
 
-
-
         }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        viewmodel.cancelSelectedMarker(viewmodel._selectedMarker.value)
+    }
+
+
+
 
 }
 

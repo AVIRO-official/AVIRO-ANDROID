@@ -3,6 +3,7 @@ package com.aviro.android.presentation.home.ui.register
 import android.util.Log
 import androidx.lifecycle.*
 import com.aviro.android.R
+import com.aviro.android.common.AmplitudeUtils
 import com.aviro.android.domain.entity.search.SearchedRestaurantItem
 import com.aviro.android.domain.entity.base.MappingResult
 import com.aviro.android.domain.entity.member.MemberLevelUp
@@ -28,12 +29,12 @@ class RegisterViewModel @Inject constructor (
     private val _radioCheckedList = MutableLiveData<List<Boolean>>()
     val radioCheckedList: LiveData<List<Boolean>> = _radioCheckedList
 
-    val _registerRestaurant = MutableLiveData<SearchedRestaurantItem>() // 가게 리스트
-    var registerRestaurant : LiveData<SearchedRestaurantItem> = _registerRestaurant
+    val _registerRestaurant = MutableLiveData<SearchedRestaurantItem?>() // 가게 리스트
+    var registerRestaurant : LiveData<SearchedRestaurantItem?> = _registerRestaurant
 
     // 메뉴 id로 MenuItem 저장
-    var _menuList = MutableLiveData<HashMap<String, Menu>>()
-    var menuList: LiveData<HashMap<String, Menu>> = _menuList
+    var _menuList = MutableLiveData<HashMap<String, Menu>?>()
+    var menuList: LiveData<HashMap<String, Menu>?> = _menuList
     //private val menuList : Map<String, MenuItem> = HashMap<String, MenuItem>()
 
     private val _isRequest = MutableLiveData<Boolean>()
@@ -58,10 +59,18 @@ class RegisterViewModel @Inject constructor (
 
 
     init {
+        initData()
+
+
+    }
+
+    fun initData() {
+        _registerRestaurant.value = null
         _veganTypeList.value = listOf(false, false, false)
         _radioCheckedList.value = listOf(false, false, false, false)
-       // _isNext.value = false
         _isRequest.value = false
+        _menuList.value = null
+        category = ""
     }
 
 
@@ -76,7 +85,7 @@ class RegisterViewModel @Inject constructor (
                             it.value.menuType != "" &&
                             it.value.price != "" &&
                            ((it.value.menuType == "need to request" && it.value.howToRequest != "") || (it.value.menuType != "need to request" && it.value.howToRequest == "" ))
-                            //(it.value.menuType != "need to request" || it.value.howToRequest != "")
+
                     isConditionMet
                 } ?: false
 
@@ -153,7 +162,6 @@ class RegisterViewModel @Inject constructor (
             // 등록하기 request DTO 로 묶기
             val menuArray = mutableListOf<Menu>()
             menuList.value!!.forEach {
-                Log.d("String,Menu","${it.value}")
                 menuArray.add(it.value)
             }
             viewModelScope.launch {
@@ -169,6 +177,9 @@ class RegisterViewModel @Inject constructor (
 
                                 when(it) {
                                     is MappingResult.Success<*> -> {
+
+                                        AmplitudeUtils.placeUpload(registerRestaurant.value!!.placeName)
+
                                         // 레벨업 여부 확인
                                         if(it.data != null) {
                                             _levelUp.value = it.data as MemberLevelUp

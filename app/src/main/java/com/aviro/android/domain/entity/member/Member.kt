@@ -5,7 +5,7 @@ data class Member(
     val accessToken : String?,
     val userId : String,
     val userName : String?,
-    val userEmail : String,
+    val userEmail : String?,
     val nickname : String,
     val birthday : Int?,
     val gender : String?,

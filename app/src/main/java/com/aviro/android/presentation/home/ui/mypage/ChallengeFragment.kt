@@ -8,6 +8,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.FrameLayout
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.Toast
 import android.widget.Toast.LENGTH_SHORT
 import androidx.constraintlayout.widget.ConstraintLayout
@@ -15,6 +16,7 @@ import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
 import androidx.fragment.app.setFragmentResultListener
 import com.aviro.android.R
+import com.aviro.android.common.AmplitudeUtils
 import com.aviro.android.databinding.FragmentChallengeBinding
 import com.aviro.android.presentation.aviro_dialog.ChallengeGuideDialog
 import com.aviro.android.presentation.home.Home
@@ -42,28 +44,6 @@ class ChallengeFragment : Fragment() {
         binding.viewmodel = viewmodel
         binding.lifecycleOwner = this
 
-
-        if(isFirstStartChallenge()) {
-            // 튜토리얼3 시작
-            val parentActivity = activity as Home
-            val tutorial3 = parentActivity.findViewById<FrameLayout>(R.id.tutoral3)
-            parentActivity.findViewById<ConstraintLayout>(R.id.home_container).isEnabled = false
-
-            tutorial3.visibility = View.VISIBLE
-            tutorial3.isEnabled = true
-
-            parentActivity.findViewById<ImageView>(R.id.tutorialImg1).visibility = View.VISIBLE
-            parentActivity.findViewById<ImageView>(R.id.tutorialImg2).visibility = View.VISIBLE
-
-            tutorial3.setOnClickListener {
-                parentActivity.findViewById<ImageView>(R.id.tutorialImg1).visibility = View.GONE
-                parentActivity.findViewById<ImageView>(R.id.tutorialImg2).visibility = View.GONE
-                tutorial3.visibility = View.GONE
-                tutorial3.isEnabled = false
-                parentActivity.findViewById<ConstraintLayout>(R.id.home_container).isEnabled = true
-            }
-        }
-
         initListener()
         initObserver()
 
@@ -80,11 +60,10 @@ class ChallengeFragment : Fragment() {
                 viewmodel.getMyInfo()
                 viewmodel.getChallengeInfo()
 
-                viewmodel.getMyReviewList()
-                viewmodel.getMyBookmarkList()
-                viewmodel.getMyRestaurantList()
+            } else if(result == "MypageToMap") {
+                homeViewmodel._currentNavigation.value = HomeViewModel.WhereToGo.RESTAURANT
+                homeViewmodel._isNavigation.value = true
             }
-
         }
 
 
@@ -95,14 +74,16 @@ class ChallengeFragment : Fragment() {
         }
 
         binding.MyRestaurantList.setOnClickListener {
+            viewmodel.getMyRestaurantList()
+
+            AmplitudeUtils.placeListPresent()
+
             val fragmentManager = parentFragmentManager.beginTransaction()
             fragmentManager.setCustomAnimations(
                 R.anim.slide_right_enter,
                 R.anim.slide_left_exit,
                 R.anim.slide_right_enter,
                 R.anim.slide_left_exit
-                //R.anim.slide_left_enter,
-                //R.anim.slide_right_exit
             )
             fragmentManager.replace(R.id.fragment_challenge_main, MyRestaurantFrag())
                 .addToBackStack(null)
@@ -110,6 +91,10 @@ class ChallengeFragment : Fragment() {
         }
 
         binding.MyReviewList.setOnClickListener {
+            viewmodel.getMyReviewList()
+
+            AmplitudeUtils.reviewListPresent()
+
             val fragmentManager = parentFragmentManager.beginTransaction()
             fragmentManager.setCustomAnimations(
                 R.anim.slide_right_enter,
@@ -124,13 +109,16 @@ class ChallengeFragment : Fragment() {
         }
 
         binding.MyBookmarkList.setOnClickListener {
+            viewmodel.getMyBookmarkList()
+
+            AmplitudeUtils.bookmarkListPresent()
+
             val fragmentManager = parentFragmentManager.beginTransaction()
             fragmentManager.setCustomAnimations(
                 R.anim.slide_right_enter,
                 R.anim.slide_left_exit,
                 R.anim.slide_right_enter,
                 R.anim.slide_left_exit
-
             )
             fragmentManager.replace(R.id.fragment_challenge_main, MyBookmarkFrag())
                 .addToBackStack(null)
@@ -171,14 +159,35 @@ class ChallengeFragment : Fragment() {
 
 
     fun isFirstStartChallenge() : Boolean {
-        val prefs = requireContext().getSharedPreferences("first_visitor", Context.MODE_PRIVATE)
-        val firstChallengeRun = prefs.getBoolean("firstChallengeRun", true) // 처음엔 default 값 출력
+        val prefs = requireContext().getSharedPreferences("aviro", Context.MODE_PRIVATE)
+        val firstChallengeRun = prefs.getBoolean("showChallengeTutorial", true) // 처음엔 default 값 출력
 
         if (firstChallengeRun) {
-            prefs.edit().putBoolean("firstChallengeRun", false).apply()
+            prefs.edit().putBoolean("showChallengeTutorial", false).apply()
         }
 
         return firstChallengeRun
+    }
+
+    fun runTutorial() {
+        // 튜토리얼3 시작
+        val parentActivity = activity as Home
+        val tutorial3 = parentActivity.findViewById<FrameLayout>(R.id.tutoral3)
+        parentActivity.findViewById<ConstraintLayout>(R.id.home_container).isEnabled = false
+
+        tutorial3.visibility = View.VISIBLE
+        tutorial3.isEnabled = true
+
+        parentActivity.findViewById<ImageView>(R.id.tutorialImg1).visibility = View.VISIBLE
+        parentActivity.findViewById<ImageView>(R.id.tutorialImg2).visibility = View.VISIBLE
+
+        tutorial3.setOnClickListener {
+            parentActivity.findViewById<ImageView>(R.id.tutorialImg1).visibility = View.GONE
+            parentActivity.findViewById<ImageView>(R.id.tutorialImg2).visibility = View.GONE
+            tutorial3.visibility = View.GONE
+            tutorial3.isEnabled = false
+            parentActivity.findViewById<ConstraintLayout>(R.id.home_container).isEnabled = true
+        }
     }
 
 
@@ -186,6 +195,18 @@ class ChallengeFragment : Fragment() {
     override fun onResume() {
         super.onResume()
         homeViewmodel._isNavigation.value = false
+
+        viewmodel.getMyInfo()  // 챌린지 정보 호출
+        viewmodel.getChallengeInfo()
+
+        //viewmodel.getMyReviewList()
+        //viewmodel.getMyRestaurantList()
+        //viewmodel.getMyBookmarkList()
+
+        if(isFirstStartChallenge()) {
+            runTutorial()
+        }
+
     }
 
 

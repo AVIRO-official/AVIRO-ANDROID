@@ -10,6 +10,7 @@ import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.aviro.android.R
+import com.aviro.android.common.AmplitudeUtils
 import com.aviro.android.domain.entity.base.MappingResult
 import com.aviro.android.domain.entity.challenge.ChallengeInfo
 import com.aviro.android.domain.entity.member.*
@@ -21,7 +22,7 @@ import com.aviro.android.domain.usecase.member.DeleteMyReviewUseCase
 import com.aviro.android.domain.usecase.member.GetMyInfoUseCase
 import com.aviro.android.domain.usecase.member.UpdateBookmarkUseCase
 import com.aviro.android.domain.usecase.member.UpdateMyNicnameUseCase
-import com.aviro.android.domain.usecase.member.WithdrawUseCas
+import com.aviro.android.domain.usecase.member.WithdrawUseCase
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.launch
 import javax.inject.Inject
@@ -32,7 +33,7 @@ class MypageViewModel @Inject constructor (
     private val getTokenUseCase : GetTokenUseCase,
     private val createMemberUseCase : CreateMemberUseCase,
     private val logoutUseCase : LogoutUseCase,
-    private val withdrawUseCas : WithdrawUseCas,
+    private val withdrawUseCase : WithdrawUseCase,
     private val updateMyNicnameUseCase : UpdateMyNicnameUseCase,
     private val updateBookmarkUseCase : UpdateBookmarkUseCase,
     private val getChallengeInfo : GetChallengeInfo,
@@ -151,12 +152,11 @@ class MypageViewModel @Inject constructor (
         getMyRestaurantList()
         getMyBookmarkList()
 
-
     }
 
     fun getSignType() {
         viewModelScope.launch {
-            _socialType.value = getTokenUseCase.getTokenType() + " 계정"
+            _socialType.value = getTokenUseCase.getTokenType()
         }
     }
 
@@ -168,6 +168,8 @@ class MypageViewModel @Inject constructor (
                         val data = it.data as ChallengeInfo
                         _challengePeriod.value = data.period
                         _challengeTitle.value = data.title
+
+                        //AmplitudeUtils.challengePresent()
                     }
                     is MappingResult.Error -> {
                         _errorLiveData.value = it.message
@@ -239,7 +241,7 @@ class MypageViewModel @Inject constructor (
                     is MappingResult.Success<*> -> {
                         val data = it.data as List<MyRestaurant>
                         _myRestaurantList.value = data
-                        //_isMyList.value = (data.size != 0)
+
                     }
                     is MappingResult.Error -> {
                         _errorLiveData.value = it.message
@@ -256,7 +258,7 @@ class MypageViewModel @Inject constructor (
                     is MappingResult.Success<*> -> {
                         val data = it.data as List<MyComment>
                         _myReviewList.value = data
-                        //_isMyList.value = (data.size != 0)
+
                     }
                     is MappingResult.Error -> {
                         _errorLiveData.value = it.message
@@ -304,38 +306,7 @@ class MypageViewModel @Inject constructor (
 
             }
         }
-        /*
-        fun checkNickname(editable: EditText) {
-            val text = editable.text.toString()
-            val id = editable.id
-            when (id) {
-                R.id.editTextNickName -> {
-                    _nicknameCountText.value = "(${text.length}/8)"
-                    _nickname.value = text
 
-                    viewModelScope.launch {
-                        createMemberUseCase.checkNickname(text).let {
-                            when (it) {
-                                is MappingResult.Success<*> -> {
-                                    val data = it.data as NicknameValidation
-                                    _isNicknameValid.value = data.isValid
-                                    _nicknameNoticeText.value = data.message
-                                }
-                                is MappingResult.Error -> {
-                                    _errorLiveData.value = it.message
-                                }
-                            }
-                        }
-
-                    }
-
-                }
-
-            }
-
-        }
-
-         */
 
         fun onClickChangeNickname() {
             viewModelScope.launch {
@@ -372,15 +343,15 @@ class MypageViewModel @Inject constructor (
             when (id) {
                 R.id.menubar_terms1 -> {
                     websiteUrl =
-                        "https://sponge-nose-882.notion.site/259b51ac0b4a41d7aaf5ea2b89a768f8?pvs=4"
+                        "https://bronzed-fowl-e81.notion.site/85cfe934602142949a18c2a5ac0ea641"
                 }
                 R.id.menubar_terms2 -> {
                     websiteUrl =
-                        "https://sponge-nose-882.notion.site/c98c9103ebdb44cfadd8cd1d11600f99?pvs=4"
+                        "https://bronzed-fowl-e81.notion.site/6722cb9f4d334987bc6683400ed794b9"
                 }
                 R.id.menubar_terms3 -> {
                     websiteUrl =
-                        "https://sponge-nose-882.notion.site/50102bd385664c89ab39f1b290fb033e?pvs=4"
+                        "https://bronzed-fowl-e81.notion.site/42daafcaf14945eca8f2c2b3f1fe5c43"
                 }
                 R.id.menubar_thanks -> {
                     websiteUrl =
@@ -397,6 +368,8 @@ class MypageViewModel @Inject constructor (
                     // 성공했을 경우 -> 로그인 화면으로, 다이얼로그 창 뜨기
                     _movingScreen.value = R.string.LOGOUT.toString()
 
+                    AmplitudeUtils.logout()
+
                 }
             }
 
@@ -405,11 +378,15 @@ class MypageViewModel @Inject constructor (
         fun withdraw() {
             viewModelScope.launch {
                 _isLoding.value = true
-                withdrawUseCas().let {
+
+                withdrawUseCase().let {
+                    Log.d("withdraw","${it}")
                     // 성공했을 경우 -> 다이얼로그 창 뜨기, 로그인 화면으로
                     when (it) {
                         is MappingResult.Success<*> -> {
-                            Log.d("WithdrawUseCas","${it.message}")
+
+                            AmplitudeUtils.withdrawal()
+
                             if(it.message != null){
                                 _toastLiveData.value = it.message
                             }

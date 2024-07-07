@@ -126,17 +126,6 @@ class MyReviewFrag : Fragment() {
             }
         }
 
-        /*
-        viewmodel.isMyList.observe(viewLifecycleOwner) {
-            Log.d("MyReviewFrag","${it}")
-            if(!it) { // 리스트 존재
-                binding.noListTextView.text = "아직 작성한 후기가 없습니다 + \n + ${viewmodel.nickname}님의 후기를 들려주실래요?"
-                binding.addMyActivityBtnTextView.text = "지금 후기 작성하기"
-            } else {
-                binding.countTextView.text = "총 ${viewmodel.myReviewList.value!!.size}개의 후기"
-            }
-        }
-         */
 
     }
 }

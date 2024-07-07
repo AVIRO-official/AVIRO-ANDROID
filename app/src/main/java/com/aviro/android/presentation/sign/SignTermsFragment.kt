@@ -30,27 +30,23 @@ class SignTermsFragment: Fragment() {
         binding.viewmodel = sharedViewModel
         binding.lifecycleOwner = this@SignTermsFragment
 
-        /*
-        binding.nextBtn.setOnClickListener {
-            if(sharedViewModel.isNext.value == true) {
-                parentFragmentManager.beginTransaction()
-                    .replace(R.id.fragment_container_view, SignCompleteFragment())
-                    .addToBackStack("SignCompleteFragment") // 백 스택에 추가
-                    .commit()
-            }
-        }
-
-         */
-        sharedViewModel.isComplete.observe(this, androidx.lifecycle.Observer{
+        sharedViewModel.isComplete.observe(viewLifecycleOwner, androidx.lifecycle.Observer{
             if(it == true) {
-                parentFragmentManager.beginTransaction()
+                val fragmentManager = parentFragmentManager.beginTransaction()
+                fragmentManager.setCustomAnimations(
+                    R.anim.slide_right_enter,
+                    R.anim.slide_left_exit,
+                    R.anim.slide_left_enter,
+                    R.anim.slide_right_exit,
+                )
+                fragmentManager
                     .replace(R.id.fragment_container_view, SignCompleteFragment())
-                    .addToBackStack("SignCompleteFragment") // 백 스택에 추가
+                    .addToBackStack(null) // 백 스택에 추가
                     .commit()
             }
         })
 
-        sharedViewModel.errorLiveData.observe(this, androidx.lifecycle.Observer{
+        sharedViewModel.errorLiveData.observe(viewLifecycleOwner, androidx.lifecycle.Observer{
             if(it != null) {
                 AviroDialogUtils.createOneDialog(requireContext(), "Error",it,"확인").show()
 
@@ -59,7 +55,7 @@ class SignTermsFragment: Fragment() {
         })
 
         binding.backBtn.setOnClickListener {
-            requireActivity().onBackPressed()
+            parentFragmentManager.popBackStack()
         }
 
 

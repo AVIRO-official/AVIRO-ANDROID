@@ -30,7 +30,7 @@ class TimetableTimePickerDialog(val day : String,  val viewmodel : UpdateViewMod
         //setStyle(STYLE_NORMAL, R.style.CustomBottomSheetDialogTheme)
 
         val widthInDp = 188
-        val density = requireContext().resources.displayMetrics.density
+        val density = this.resources.displayMetrics.density
         val widthInPixels = (widthInDp * density).toInt()
         dialog.window?.setLayout(widthInPixels, ViewGroup.LayoutParams.WRAP_CONTENT)
         dialog.window?.setBackgroundDrawableResource(R.drawable.base_roundsquare_white_15)

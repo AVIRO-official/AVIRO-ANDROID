@@ -2,6 +2,7 @@ package com.aviro.android.presentation.aviro_dialog
 
 import android.content.Context
 import android.content.DialogInterface
+import android.util.Log
 import android.view.ContextThemeWrapper
 import android.view.LayoutInflater
 import androidx.appcompat.app.AlertDialog
@@ -44,6 +45,7 @@ object AviroDialogUtils {
             dialog.dismiss()
         }
         builder.setNegativeButton(negative_text) { dialog, which ->
+            Log.d("WithdrawUseCase:createTwoDialog","negative_text")
             negativeAction()
             dialog.dismiss()
         }

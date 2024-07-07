@@ -16,6 +16,10 @@ import androidx.core.content.ContextCompat
 import androidx.databinding.BindingAdapter
 import androidx.viewpager2.widget.ViewPager2
 import com.aviro.android.R
+import com.aviro.android.domain.entity.key.APPLE
+import com.aviro.android.domain.entity.key.GOOGLE
+import com.aviro.android.domain.entity.key.KAKAO
+import com.aviro.android.domain.entity.key.NAVER
 import com.aviro.android.domain.entity.marker.MarkerOfMap
 import com.aviro.android.domain.entity.search.VeganOptions
 import com.aviro.android.presentation.entity.BoxIcon
@@ -36,7 +40,7 @@ object BindingAdapter {
                 editText.background = ContextCompat.getDrawable(editText.context, R.drawable.base_edittext_wrong)
                 val shakeAnimation: Animation =
                     AnimationUtils.loadAnimation(editText.context, R.anim.wrong_shake)
-                editText.startAnimation(shakeAnimation)
+                    editText.startAnimation(shakeAnimation)
             } else {
                 editText.background = ContextCompat.getDrawable(editText.context, R.drawable.base_edittext_right)
             }
@@ -585,6 +589,18 @@ object BindingAdapter {
 
             //text.setTypeface(Typeface.createFromAsset(text.context.assets, "font/pretendard_medium.otf"))
         }
+    }
+
+    @JvmStatic
+    @BindingAdapter("app:setSocialBG")
+    fun setSocialSignBG(view: View, type: String) {
+        when(type) {
+            NAVER -> view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_sign_type_naver)
+            KAKAO -> view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_sign_type_kakao)
+            GOOGLE -> view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_sign_type_google)
+            APPLE -> view.background = ContextCompat.getDrawable(view.context, R.drawable.ic_sign_type_apple)
+        }
+
     }
 
 }

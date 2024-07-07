@@ -206,26 +206,6 @@
                     android:orientation="vertical"
                     app:imageUrl="@{viewmodel.challengeLevelInfo.image}"/>
 
-
-                <!-- 튜토리얼을 위한 이미지 -->
-                <ImageView
-                    android:id="@+id/tutorialImg1"
-                    android:layout_width="150dp"
-                    android:layout_height="150dp"
-                    android:layout_gravity="center_horizontal"
-                    android:src="@drawable/img2_tutorial_3"
-                    android:visibility="invisible"/>
-
-                <ImageView
-                    android:id="@+id/tutorialImg2"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
-                    android:layout_marginTop="150dp"
-                    android:visibility="invisible"
-                    android:background="@drawable/img_tutorial_3"/>
-
-
             </FrameLayout>
 
 

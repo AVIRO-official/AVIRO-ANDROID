@@ -4,8 +4,10 @@ import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import androidx.core.os.bundleOf
 import androidx.fragment.app.Fragment
 import androidx.fragment.app.activityViewModels
+import androidx.fragment.app.setFragmentResult
 import com.aviro.android.R
 import com.aviro.android.databinding.FragmentSignOptionBinding
 
@@ -26,17 +28,24 @@ class SignOptionFragment : Fragment() {
         val root: View = binding.root
 
         binding.viewmodel = sharedViewModel
-        binding.lifecycleOwner = this@SignOptionFragment
+        binding.lifecycleOwner = viewLifecycleOwner
 
         binding.nextBtn.setOnClickListener {
-            parentFragmentManager.beginTransaction()
+            val fragmentManager = parentFragmentManager.beginTransaction()
+            fragmentManager.setCustomAnimations(
+                R.anim.slide_right_enter,
+                R.anim.slide_left_exit,
+                R.anim.slide_left_enter,
+                R.anim.slide_right_exit,
+            )
+            fragmentManager
                 .replace(R.id.fragment_container_view, SignTermsFragment())
-                .addToBackStack("SignTermsFragment") // 백 스택에 추가
+                .addToBackStack(null) // 백 스택에 추가
                 .commit()
         }
 
         binding.backBtn.setOnClickListener {
-            requireActivity().onBackPressed()
+            parentFragmentManager.popBackStack()
         }
 
         return root

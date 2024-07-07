@@ -31,15 +31,15 @@ class RestaurantReportDialog(context : Context, val viewmodel : MapViewModel) : 
 
     fun initListener() {
         binding.item1.setOnClickListener {
-            viewmodel.setReportCode(0)
-            dismiss()
-        }
-        binding.item2.setOnClickListener {
             viewmodel.setReportCode(1)
             dismiss()
         }
-        binding.item3.setOnClickListener {
+        binding.item2.setOnClickListener {
             viewmodel.setReportCode(2)
+            dismiss()
+        }
+        binding.item3.setOnClickListener {
+            viewmodel.setReportCode(3)
             dismiss()
         }
         binding.cancel.setOnClickListener {

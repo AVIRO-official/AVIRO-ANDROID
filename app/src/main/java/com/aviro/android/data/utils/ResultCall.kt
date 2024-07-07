@@ -71,33 +71,15 @@ class ResultCall<T>(private val call: Call<T>, private val retrofit: Retrofit, p
                                     this@ResultCall,
                                     Response.success(Result.failure(Exception("[${code}] 서버 오류가 발생했습니다.\n잠시 후 다시 시도해주세요.")))
                                 )
+
+                                else -> {
+                                    callback.onResponse(
+                                        this@ResultCall,
+                                        Response.success(Result.failure(Exception("알 수 없는 오류가 발생했어요.\n다시 시도해주세요.")))
+
+                                    )
+                                }
                             }
-                            /*
-                    if (response.errorBody() == null) { // errorBody가 없어서 어떤 에러인지 알 수 없을 때
-                        val code = response.code()
-                        var message = ""
-                        when(code) {
-                            300 -> message = ""
-
-
-                        }
-                        callback.onResponse(
-                            this@ResultCall,
-                            Response.success(Result.failure(Exception(message)))
-                            //Response.success(response.code(), Result.failure(response.errorBody()!!))
-                            //Response.success(Result.failure(Exception("${response.code()} : 알 수 없는 에러가 발생했습니다.")))
-                        )
-
-                    } else {
-                        callback.onResponse(
-                            this@ResultCall,
-                            Response.success(response.code(), Result.failure(Exception(response.message())))
-                            //Response.success(Result.failure(Exception("${response.code()} :" + response.message())))
-                        )
-
-                    }
-
-                     */
 
                         }
                         requestMap.remove(requestKey)

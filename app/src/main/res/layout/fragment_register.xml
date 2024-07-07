@@ -72,16 +72,19 @@
         android:layout_marginTop="60dp"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/toolbar">
 
         <!-- 스크롤 레아아웃(이 안에 덩어리들 넣음) -->
+
         <LinearLayout
             android:id="@+id/scrollLayout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:layout_marginBottom="30dp"
+
             android:orientation="vertical"
             android:background="@color/Gray6">
+            <!--android:layout_marginBottom="30dp"-->
 
             <!-- 1번째 덩어리 -->
             <LinearLayout
@@ -361,102 +364,106 @@
                         android:onClick="@{() -> viewmodel.onClickYellow()}"/>
                 </LinearLayout>
             </LinearLayout>
-                <!-- 2번째 덩어리 끝 -->
+            <!-- 2번째 덩어리 끝 -->
 
-                <!-- 3번째 덩어리 -->
+            <!-- 3번째 덩어리 -->
+            <LinearLayout
+                android:id="@+id/registerLayout3"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginStart="16dp"
+                android:layout_marginTop="15dp"
+                android:layout_marginEnd="16dp"
+                android:layout_marginBottom="20dp"
+                android:background="@drawable/base_roundsquare_white_10"
+                android:orientation="vertical"
+                android:paddingStart="16dp"
+                android:paddingTop="20dp"
+                android:paddingEnd="16dp"
+                android:paddingBottom="20dp"
+                app:layout_constraintDimensionRatio="2:1.3"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/registerLayout2"
+                app:layout_constraintBottom_toBottomOf="parent">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_bold"
+                    android:text="메뉴 등록하기"
+                    android:textColor="@color/Gray0"
+                    android:textSize="18sp" />
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:fontFamily="@font/pretendard_medium"
+                    android:text="어떤 메뉴를 판매하나요? 1개 이상 등록해주세요."
+                    android:textColor="@color/Gray2"
+                    android:textSize="13sp" />
+
+                <!-- 메뉴 리스트 -->
                 <LinearLayout
-                    android:id="@+id/registerLayout3"
+                    android:id="@+id/menuList"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
-                    android:layout_marginStart="16dp"
-                    android:layout_marginTop="15dp"
-                    android:layout_marginEnd="16dp"
-                    android:layout_marginBottom="20dp"
-                    android:background="@drawable/base_roundsquare_white_10"
-                    android:orientation="vertical"
-                    android:paddingStart="16dp"
-                    android:paddingTop="20dp"
-                    android:paddingEnd="16dp"
-                    android:paddingBottom="20dp"
-                    app:layout_constraintDimensionRatio="2:1.3"
-                    app:layout_constraintEnd_toEndOf="parent"
-                    app:layout_constraintStart_toStartOf="parent"
-                    app:layout_constraintTop_toBottomOf="@+id/registerLayout2">
+                    android:orientation="vertical">
 
-                    <TextView
+
+                    <!-- 메뉴 입력 / 삭제버튼 -->
+
+                    <!-- 메뉴 입력 / 삭제버튼 끝 -->
+
+
+                </LinearLayout>
+                <!-- 메뉴 리스트 끝 -->
+
+                <!-- 메뉴 추가 버튼 -->
+                <LinearLayout
+                    android:id="@+id/addMenuBtn"
+                    android:layout_width="match_parent"
+                    android:layout_height="51dp"
+                    android:layout_gravity="center"
+                    android:layout_marginTop="20dp"
+
+                    android:background="@drawable/base_roundsquare_border_keyword_30"
+                    android:orientation="vertical">
+                    <LinearLayout
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
-                        android:fontFamily="@font/pretendard_bold"
-                        android:text="메뉴 등록하기"
-                        android:textColor="@color/Gray0"
-                        android:textSize="18sp" />
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:fontFamily="@font/pretendard_medium"
-                        android:text="어떤 메뉴를 판매하나요? 1개 이상 등록해주세요."
-                        android:textColor="@color/Gray2"
-                        android:textSize="13sp" />
-
-                    <!-- 메뉴 리스트 -->
-                    <LinearLayout
-                        android:id="@+id/menuList"
-                        android:layout_width="match_parent"
-                        android:layout_height="wrap_content"
-                        android:orientation="vertical">
-
-
-                        <!-- 메뉴 입력 / 삭제버튼 -->
-
-                        <!-- 메뉴 입력 / 삭제버튼 끝 -->
-
-
-                    </LinearLayout>
-                    <!-- 메뉴 리스트 끝 -->
-
-                    <!-- 메뉴 추가 버튼 -->
-                    <LinearLayout
-                        android:id="@+id/aadMenuBtn"
-                        android:layout_width="match_parent"
-                        android:layout_height="51dp"
-                        android:layout_gravity="center"
-                        android:layout_marginTop="20dp"
-
-                        android:background="@drawable/base_roundsquare_border_keyword_30"
-                        android:orientation="vertical">
+                        android:layout_gravity= "center"
+                        android:padding="10dp"
+                        android:orientation="horizontal">
                         <LinearLayout
                             android:layout_width="wrap_content"
                             android:layout_height="wrap_content"
                             android:layout_gravity= "center"
-                            android:padding="10dp"
-                            android:orientation="horizontal">
-                            <LinearLayout
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity= "center"
-                                android:background="@drawable/ic_adding"
-                                android:orientation="vertical"/>
+                            android:background="@drawable/ic_adding"
+                            android:orientation="vertical"/>
 
-                            <TextView
-                                android:layout_width="wrap_content"
-                                android:layout_height="wrap_content"
-                                android:layout_gravity= "center"
-                                android:layout_marginStart="7dp"
-                                android:text="메뉴 정보 추가하기"
-                                android:textSize="16dp"
-                                android:fontFamily="@font/pretendard_semibold"
-                                android:textColor = "@color/Cobalt"/>
-                        </LinearLayout>
-                        </LinearLayout>
-                        <!--메뉴 추가 버튼 끝 -->
-
-
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_gravity= "center"
+                            android:layout_marginStart="7dp"
+                            android:text="메뉴 정보 추가하기"
+                            android:textSize="16dp"
+                            android:fontFamily="@font/pretendard_semibold"
+                            android:textColor = "@color/Cobalt"/>
+                    </LinearLayout>
                 </LinearLayout>
-                <!-- 3번째 덩어리 끝 -->
+                <!--메뉴 추가 버튼 끝 -->
+
+
+            </LinearLayout>
+            <!-- 3번째 덩어리 끝 -->
 
         </LinearLayout>
 
     </ScrollView>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
 </layout>

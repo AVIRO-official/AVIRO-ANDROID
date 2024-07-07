@@ -58,7 +58,6 @@ class RestaurantRepositoryImp @Inject constructor (
 
         val realmData = restaurantLocalDataSource.getRestaurant()
         val isRealmEmpty = realmData.isEmpty()
-        //restaurantLocalDataSource.closeRealm()
 
         val prefs = context.getSharedPreferences("getRestaurant_time", Context.MODE_PRIVATE)
         val time = prefs.getString("time", "")
@@ -86,14 +85,14 @@ class RestaurantRepositoryImp @Inject constructor (
             if (code == 200 && data != null) {
                 // 데이터베이스 갱신 처리
                 if(isRealmEmpty){
-                    Log.d("가게데이터","첫 가게 데이터 초기화")
+                    //Log.d("가게데이터","첫 가게 데이터 초기화")
                     restaurantLocalDataSource.saveRestaurant(data.updatedPlace!!) // Realm 초기화
                     markerCacheDataSource.updateMarker(data.updatedPlace)
 
                 } else {
 
                     if(markerCacheDataSource.getSize() == 0) {
-                        Log.d("가게데이터","첫 실행 이후 마커 데이터가 없어서 생성")
+                        //Log.d("가게데이터","첫 실행 이후 마커 데이터가 없어서 생성")
                         val realmData = restaurantLocalDataSource.getRestaurant()
                         realmData.map {
                             markerCacheDataSource.createMarker(it)
@@ -101,13 +100,13 @@ class RestaurantRepositoryImp @Inject constructor (
                     }
 
                     if(data.updatedPlace != null) {
-                        Log.d("가게데이터","업데이트 있음, ${data.updatedPlace}")
+                        //Log.d("가게데이터","업데이트 있음, ${data.updatedPlace}")
                         restaurantLocalDataSource.updateRestaurant(data.updatedPlace)  // 업데이트 된 위치 데이터 Realm 반영
 
                     }
 
                     if(data.deletedPlace != null){
-                        Log.d("가게데이터","가게 삭제 있음, ${data.deletedPlace}")
+                        //Log.d("가게데이터","가게 삭제 있음, ${data.deletedPlace}")
                         restaurantLocalDataSource.deleteRestaurant(data.deletedPlace)  // 삭제된 위치 데이터 Realm 반영
                         markerCacheDataSource.deleteMarker(data.deletedPlace) // 캐시 반영
                     }
@@ -119,7 +118,7 @@ class RestaurantRepositoryImp @Inject constructor (
                 // 가져온 마커가 있을때 맵핑
 
                 if(new_marker_list != null) {
-                    Log.d("updateMap", "${new_marker_list}")
+                    //Log.d("updateMap", "${new_marker_list}")
                     result =  MappingResult.Success(it.message, new_marker_list.toMarker())
                 } else {
                     result =  MappingResult.Success(it.message,null)
@@ -146,24 +145,19 @@ class RestaurantRepositoryImp @Inject constructor (
     override fun getMarker(isInitMap : Boolean, reataurant_list : ReataurantListReponse) : List<MarkerDAO>? {
         var new_marker_list : List<MarkerDAO>? = null
         if(isInitMap) {
-            Log.d("가게데이터","모든 마커 그려줌")
+            //Log.d("가게데이터","모든 마커 그려줌")
             new_marker_list = markerCacheDataSource.getAllMarker()
             return new_marker_list
         } else {
             new_marker_list =
                 reataurant_list.updatedPlace?.let {
-                    Log.d("가게데이터","업데이트된 마커 그려줌")
+                    //Log.d("가게데이터","업데이트된 마커 그려줌")
                     markerCacheDataSource.updateMarker(it) } // 새로 생긴 데이터면 반환
-            // 업데이트 된 경우 마커리스트에 반영...
+            // 업데이트 된 경우 마커리스트에 반영
             return new_marker_list
         }
     }
 
-
-  /*  // 마커 데이터만 필요한 마커
-    override fun getMarkerForBookmark() : List<MarkerOfMap>? { //bookmark_list : List<String>
-        return markerCacheDataSource.getAllMarker()?.toMarker()
-    }*/
 
 
     // 키워드로 가게를 검색함
@@ -284,10 +278,8 @@ class RestaurantRepositoryImp @Inject constructor (
 
     // 선택한 가게의 상세 정보를 불러옴
     override suspend fun getRestaurantSummary(placeId : String, userId: String) : MappingResult {
-        //val response =  restaurantAviroDataSource.getRestaurantSummary(RestaurantSummaryRequest(placeId, userId))
+
         val response =  restaurantAviroDataSource.getRestaurantSummary(placeId, userId)
-        Log.d("getRestaurantSummary","${placeId}, ${userId}")
-        Log.d("getRestaurantSummary","${response}")
 
         lateinit var  result : MappingResult
         response.onSuccess {
@@ -340,7 +332,6 @@ class RestaurantRepositoryImp @Inject constructor (
             }
 
         }.onFailure {
-            Log.d("getRestaurantMenu", "${it}")
             result =  MappingResult.Error(it.message)
         }
 
@@ -368,7 +359,7 @@ class RestaurantRepositoryImp @Inject constructor (
 
     override suspend fun getRestaurantTimeTable(placeId : String) : MappingResult {
         val response =  restaurantAviroDataSource.getRestaurantTimeTable(placeId)
-Log.d("getRestaurantTimeTable","${response}")
+
         lateinit var  result : MappingResult
         response.onSuccess {
             val code = it.statusCode
@@ -389,7 +380,6 @@ Log.d("getRestaurantTimeTable","${response}")
     override suspend fun createRestaurant(restaurant : Restaurant) : MappingResult {
 
         val response =  restaurantAviroDataSource.createRestaurant(restaurant.toRestaurantRequest())
-        Log.d("createRestaurant","${response}")
         lateinit var  result : MappingResult
         response.onSuccess {
             val code = it.statusCode
@@ -498,7 +488,6 @@ Log.d("getRestaurantTimeTable","${response}")
 
     override suspend fun updatePhone(updating: PhoneUpdating) : MappingResult {
         val response = restaurantAviroDataSource.updatePhone(updating.toPhoneUpdateRequest())
-        Log.d("UPDATE:updatePhone", "${response}")
         lateinit var  result : MappingResult
         response.onSuccess {
             val code = it.statusCode
@@ -517,7 +506,6 @@ Log.d("getRestaurantTimeTable","${response}")
     }
     override suspend fun updateUrl(updating: UrlUpdating) : MappingResult {
         val response = restaurantAviroDataSource.updateHomepageUrl(updating.toHomepageUpdateRequest())
-        Log.d("UPDATE:updateUrl", "${response}")
         lateinit var  result : MappingResult
         response.onSuccess {
             val code = it.statusCode
@@ -536,7 +524,6 @@ Log.d("getRestaurantTimeTable","${response}")
     }
     override suspend fun updateTimetable(placeId : String, userId : String, updating : TimetableUpdating) : MappingResult {
         val response = restaurantAviroDataSource.updateTimetable(updating.toTimeUpdateRequest(placeId, userId))
-        Log.d("UPDATE:updateTimetable", "${response}")
         lateinit var  result : MappingResult
         response.onSuccess {
             val code = it.statusCode
@@ -555,10 +542,7 @@ Log.d("getRestaurantTimeTable","${response}")
     }
 
     override suspend fun updateMenus(userId : String, updating : MenuUpdating) : MappingResult {
-        Log.d("UPDATE:updateMenus", "${updating.toMenuUpdateRequest(userId)}")
         val response = restaurantAviroDataSource.updateMenu(updating.toMenuUpdateRequest(userId))
-        Log.d("UPDATE:updateMenus", "${response}")
-
         lateinit var  result : MappingResult
         response.onSuccess {
             val code = it.statusCode
@@ -576,11 +560,8 @@ Log.d("getRestaurantTimeTable","${response}")
         return result
     }
 
-    override suspend fun updateRestaurantInfo(updating : MutableMap<String, Any>) : MappingResult { //RestaurantInfoUpdating
-        Log.d("UPDATE:updateRestaurantInfo", "${updating}")
-        val response = restaurantAviroDataSource.updateRestaurantInfo(updating) //filterNullValues(updating.toRestaurantInfoUpdateRequest(userId, nickname))
-        Log.d("UPDATE:updateRestaurantInfo", "${response}")
-
+    override suspend fun updateRestaurantInfo(updating : MutableMap<String, Any>) : MappingResult {
+        val response = restaurantAviroDataSource.updateRestaurantInfo(updating)
         lateinit var  result : MappingResult
         response.onSuccess {
             val code = it.statusCode
@@ -647,7 +628,6 @@ Log.d("getRestaurantTimeTable","${response}")
 
         lateinit var  result : MappingResult
         response.onSuccess {
-            Log.d("getAddressOfCoordination", "${it}")
             if (it.documents[0].road_address != null) {
                 result =  MappingResult.Success("", RoadAddressOfCoordi(it.documents[0].road_address!!.address_name))
             } else {
@@ -661,9 +641,6 @@ Log.d("getRestaurantTimeTable","${response}")
 
         return result
     }
-
-
-
 
 
 }

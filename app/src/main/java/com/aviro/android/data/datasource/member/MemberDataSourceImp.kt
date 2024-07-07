@@ -1,5 +1,6 @@
 package com.aviro.android.data.datasource.member
 
+import android.util.Log
 import com.aviro.android.data.api.MemberService
 import com.aviro.android.data.model.auth.SignInResponse
 import com.aviro.android.data.model.base.BaseResponse
@@ -32,8 +33,8 @@ class MemberDataSourceImp @Inject constructor (
 
     }
 
-    override suspend fun deleteMember(refresh_token : MemberWithdrawRequest) : Result<BaseResponse> {
-        return memberService.deleteUser(refresh_token)
+    override suspend fun deleteMember(request : MemberWithdrawRequest) : Result<BaseResponse> {
+        return memberService.deleteUser(request)
 
     }
 

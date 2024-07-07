@@ -18,6 +18,7 @@ import com.aviro.android.domain.entity.key.USER_NICKNAME_KEY
 import com.aviro.android.domain.repository.AuthRepository
 import com.aviro.android.domain.repository.MemberRepository
 import com.aviro.android.domain.usecase.member.GetMyInfoUseCase
+import com.google.android.gms.auth.api.signin.GoogleSignIn
 import com.kakao.sdk.auth.AuthApiClient
 import com.kakao.sdk.user.UserApiClient
 import com.navercorp.nid.NaverIdLoginSDK
@@ -28,31 +29,28 @@ import kotlinx.coroutines.suspendCancellableCoroutine
 import javax.inject.Inject
 import kotlin.coroutines.resume
 
-class AutoSignInUseCase @Inject constructor ( // 사용자에게는 소셜 로그인의 기능만 제공하면 됨
+class AutoSignInUseCase @Inject constructor (
     private val authRepository: AuthRepository,
     private val memberRepository : MemberRepository,
-    private val manualSignInUseCase : ManualSignInUseCase,
     private val getMyInfoUseCase : GetMyInfoUseCase,
     @ApplicationContext private val context : Context,
 ) {
 
     // 자동로그인
-    suspend operator fun invoke(): MappingResult { //Result<DataBodyResponse<SignResponseDTO>> { //DataBodyResponse<SignResponseDTO> 보내거나 BaseRespomse
-        // 어떤 토큰이 저장되어 있는지 확인
+    suspend operator fun invoke(): MappingResult {
 
+        // SDK 로그인만 되어있을 수 있음 (실제 로컬에 정보 X)
         val userId = getMyInfoUseCase.getUserId()
 
         userId.let {
             when(it) {
                 is MappingResult.Error -> {
-                    return MappingResult.Error(null) // 로그인
+                    return MappingResult.Error(null)
                 }
-
                 is MappingResult.Success<*> -> {
-                    val user_id = it.data as String
 
+                    // 어떤 토큰이 저장되어 있는지 확인
                     val signType = authRepository.getSignTypeFromLocal()
-                    Log.d("AutoSignInUseCase","$signType")
                     val tokens = authRepository.getTokensFromLocal()
 
                     when (signType) {
@@ -69,8 +67,7 @@ class AutoSignInUseCase @Inject constructor ( // 사용자에게는 소셜 로�
                                 }
 
                                 "NEED_INIT" -> {
-                                    // 초기화 필요 (로그인 화면으로 돌아가야 하나?)
-                                    Log.d("AutoSignInUseCase:NAVER","초기화 필요")
+                                    // 초기화 필요
                                     val naverClientId = com.aviro.android.BuildConfig.NAVER_LOGIN_CLIENT_ID
                                     val naverClientSecret =  com.aviro.android.BuildConfig.NAVER_LOGIN_CLIENT_SECRET
                                     val naverClientName =  "NAVER_LOGIN_SERVICE"
@@ -86,7 +83,6 @@ class AutoSignInUseCase @Inject constructor ( // 사용자에게는 소셜 로�
                                 }
 
                                 "NEED_REFRESH_TOKEN" -> { // 액세스 토큰만 만료
-                                    Log.d("AutoSignInUseCase:NAVER","토큰 재생성 자동로그인")
                                     val oauthLoginCallback = object : OAuthLoginCallback {
                                         override fun onSuccess() {
                                         }
@@ -151,19 +147,13 @@ class AutoSignInUseCase @Inject constructor ( // 사용자에게는 소셜 로�
                         }
 
                         GOOGLE -> {
-
+                            return MappingResult.Success("", null)
                         }
 
                         else ->  return MappingResult.Error(null)
-
-
                 }
-
-
             }
         }
-
-
 
         }
         return MappingResult.Error(null)
@@ -179,10 +169,6 @@ class AutoSignInUseCase @Inject constructor ( // 사용자에게는 소셜 로�
             }
         }
     }
-
-
-
-
 
 
 }

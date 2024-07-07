@@ -11,9 +11,12 @@ import androidx.fragment.app.FragmentManager
 import com.aviro.android.R
 import com.aviro.android.databinding.ActivitySignBinding
 import com.aviro.android.domain.entity.key.APPLE
+import com.aviro.android.domain.entity.key.GOOGLE
 import com.aviro.android.presentation.BaseActivity
 import com.aviro.android.presentation.aviro_dialog.AviroDialogUtils
 import com.aviro.android.presentation.home.Home
+import com.google.android.gms.auth.api.signin.GoogleSignIn
+import com.google.android.gms.common.api.ApiException
 import dagger.hilt.android.AndroidEntryPoint
 import java.util.*
 
@@ -21,7 +24,6 @@ import java.util.*
 @AndroidEntryPoint
 class Sign : BaseActivity<ActivitySignBinding>(R.layout.activity_sign) {
 
-    //val viewModel by viewModels<SignViewModel>()
     private val viewmodel: SignViewModel by viewModels() //뷰모델 의존성 주입
 
     lateinit var fragmentManager: FragmentManager
@@ -29,13 +31,12 @@ class Sign : BaseActivity<ActivitySignBinding>(R.layout.activity_sign) {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-   
         val action = intent.getStringExtra("Action")
 
         fragmentManager = supportFragmentManager
         fragmentManager.beginTransaction()
             .replace(R.id.fragment_container_view, SignSocialFragment())
-            .addToBackStack("SignSocialFragment")
+            .addToBackStack(null)
             .commit()
 
         action?.let {
@@ -56,7 +57,7 @@ class Sign : BaseActivity<ActivitySignBinding>(R.layout.activity_sign) {
             if(it) {
                 fragmentManager.beginTransaction()
                     .replace(R.id.fragment_container_view, SignNicknameFragment())
-                    .addToBackStack("SignNicknameFragment")
+                    .addToBackStack(null)
                     .commit()
             } else {
                 startActivity(Intent(this, Home::class.java))
@@ -72,7 +73,6 @@ class Sign : BaseActivity<ActivitySignBinding>(R.layout.activity_sign) {
         viewmodel._isSignIn.value = false
 
         intent.data?.let { uri ->
-            Log.d("appleData","${uri}")
             parseUri(uri)
         }
     }
@@ -86,13 +86,26 @@ class Sign : BaseActivity<ActivitySignBinding>(R.layout.activity_sign) {
         if (idTokenParam != null && codeParam != null && email != null){
             // 로그인 처리할 동안 로그인 버튼 비활성화 및 프로그레스바 생성
             viewmodel.createTokens(APPLE, idTokenParam, codeParam, email, name)
-
         }
-
     }
 
 
+    override fun onDestroy() {
+        if(viewmodel.isCompleteSignUp.value == false) {
+            // SDK 로그인 정보 삭제
+            Log.d("Sign:onDestroy","cancelSignUp")
+            viewmodel.cancelSignUp()
 
+        }
+        super.onDestroy()
+    }
 
+    override fun onBackPressed() {
+        if (supportFragmentManager.backStackEntryCount > 0) {
+            supportFragmentManager.popBackStack()
+        } else {
+            super.onBackPressed()
+        }
+    }
 
 }

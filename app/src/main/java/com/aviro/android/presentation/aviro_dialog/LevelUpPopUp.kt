@@ -5,6 +5,9 @@ import android.content.Context
 import android.os.Bundle
 import android.view.LayoutInflater
 import android.view.ViewGroup
+import com.amplitude.core.Amplitude
+import com.aviro.android.R
+import com.aviro.android.common.AmplitudeUtils
 import com.aviro.android.databinding.LevelupPopupBinding
 import com.aviro.android.domain.entity.member.MemberLevelUp
 import com.aviro.android.presentation.home.HomeViewModel
@@ -18,17 +21,17 @@ class LevelUpPopUp(context : Context, val levelup : MemberLevelUp, val viewmodel
         binding = LevelupPopupBinding.inflate(LayoutInflater.from(context))
         setContentView(binding.root)
 
-        val widthInDp = 311
+        val widthInDp = 390
         val density = context.resources.displayMetrics.density
         val widthInPixels = (widthInDp * density).toInt()
         window?.setLayout(widthInPixels, ViewGroup.LayoutParams.WRAP_CONTENT)
-        //window?.setBackgroundDrawableResource(R.drawable.base_roundsquare_white_15)
+        window?.setBackgroundDrawableResource(android.R.color.transparent)
 
         binding.textview2.setText("레벨" + levelup.userLevel.toString() + "달성했어요!")
 
 
 
-        // 다이얼로그 바깥쪽 클릭시 종료되도록 함 (Cancel the dialog when you touch outside)
+        // 다이얼로그 바깥쪽 클릭시 종료되도록 함
         setCanceledOnTouchOutside(false)
 
         // 취소 가능 유무
@@ -45,9 +48,14 @@ class LevelUpPopUp(context : Context, val levelup : MemberLevelUp, val viewmodel
             viewmodel._currentNavigation.value = HomeViewModel.WhereToGo.MYPAGE
             viewmodel._isNavigation.value = true
             dismiss()
+
+            AmplitudeUtils.challengePresent()
+            AmplitudeUtils.levelupDidMove(levelup.userLevel)
         }
+
         binding.nextBtn.setOnClickListener {
             dismiss()
+            AmplitudeUtils.levelupDidNotMove(levelup.userLevel)
         }
     }
 

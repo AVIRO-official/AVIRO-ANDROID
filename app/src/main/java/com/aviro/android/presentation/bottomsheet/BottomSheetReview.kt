@@ -35,6 +35,7 @@ class BottomSheetReview(val setReviewAmount : (Int) -> Unit) : Fragment() {
 
         binding.lifecycleOwner = this
 
+        viewmodel.getNickname()
         setAdapter()
         initObserver()
         initLisenter()
@@ -50,7 +51,7 @@ class BottomSheetReview(val setReviewAmount : (Int) -> Unit) : Fragment() {
 
     fun setAdapter() {
 
-        reviewAdapter = ReviewAdapter(viewmodel.userNickname!!,
+        reviewAdapter = ReviewAdapter(viewmodel, //viewmodel.userNickname!!
             {item ->
                 viewmodel._selectedReviewForReport.value = item
 

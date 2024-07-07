@@ -338,8 +338,6 @@ class MapViewModel @Inject constructor (
                         if(it.data == null) {
                             _bookmarkList.value = null
                         } else {
-                            Log.d("BookMark","${it.data}")
-                            //val data = it.data as BookMark
                             val data = it.data.let { BookMark(it as List<String>)}
                             _bookmarkList.value = data.bookmarks
                         }
@@ -350,13 +348,32 @@ class MapViewModel @Inject constructor (
 
                             if (bookmarkList.value?.contains(markerOfMap.placeId) == false || bookmarkList.value?.contains(markerOfMap.placeId) == null) {
                                 markerOfMap.marker.map = null
+                                // 선택되어 있는 마커인 경우
+                                _selectedMarker.value?.let {
+                                    if(markerOfMap.placeId == _selectedMarker.value!!.placeId) {
+                                        cancelSelectedMarker(markerOfMap)
+                                    }
+                                }
 
                             } else {
 
-                                markerOfMap.marker.icon = getBookmarkMarkerIcon(markerOfMap.allVegan, markerOfMap.someMenuVegan, markerOfMap.ifRequestVegan)
-                                markerOfMap.marker.setOnClickListener {
+                                // 선택되어 있는 마커인 경우
+                                _selectedMarker.value?.let {
+                                    if(markerOfMap.placeId == _selectedMarker.value!!.placeId) {
+                                        markerOfMap.marker.icon = setBookmarkMarkerClickListener(markerOfMap.veganTypeColor)
+                                    } else {
+                                        markerOfMap.marker.icon = getBookmarkMarkerIcon(markerOfMap.allVegan, markerOfMap.someMenuVegan, markerOfMap.ifRequestVegan)
+                                    }
+                                } ?: run {
+                                    markerOfMap.marker.icon = getBookmarkMarkerIcon(markerOfMap.allVegan, markerOfMap.someMenuVegan, markerOfMap.ifRequestVegan)
+                                }
+
+                                // 북마크 마커 리스너
+                               markerOfMap.marker.setOnClickListener {
+
                                     // 이전 마커 변경
                                     cancelSelectedBookmarkMarker(_selectedMarker.value)
+
                                     markerOfMap.marker.icon = setBookmarkMarkerClickListener(markerOfMap.veganTypeColor)
                                     // 선택한 마커
                                     _selectedMarker.value = markerOfMap
@@ -379,9 +396,6 @@ class MapViewModel @Inject constructor (
 
     }
 
-    fun selectCategory() {
-
-    }
 
     fun cancelSelectedMarker(pre_selected_msrekr : MarkerOfMap?) {
         Log.d("cancelSelectedMarker", "$pre_selected_msrekr")
@@ -391,7 +405,6 @@ class MapViewModel @Inject constructor (
     }
 
     fun cancelSelectedBookmarkMarker(pre_selected_msrekr : MarkerOfMap?) {
-
         pre_selected_msrekr?.let{
             pre_selected_msrekr.marker.icon = getBookmarkMarkerIcon( pre_selected_msrekr.allVegan, pre_selected_msrekr.someMenuVegan, pre_selected_msrekr.ifRequestVegan)
         }
@@ -437,10 +450,9 @@ class MapViewModel @Inject constructor (
 
     fun onClickFavorite() {
         // 플로팅 아이콘 설정
-        _isFavorite.value = !isFavorite.value!!  // != true
+        _isFavorite.value = !isFavorite.value!!
 
-        Log.d("isFavorite","${_isFavorite.value}")
-        // 즐겨찾기 설정한 가게만 보이도록
+        // 즐겨찾기 설정한 가게만 보임
         if(_isFavorite.value == true) {
             getBookmarkList()
         } else {
@@ -452,13 +464,11 @@ class MapViewModel @Inject constructor (
 
 
     fun setReportCode(code : Int) {
-        Log.d("setReportCode","가게 신고 코드")
         _reportCode.value = code
         reportRestaurant()
     }
 
     fun reportRestaurant() {
-        Log.d("reportRestaurant","가게 신고 완료")
         viewModelScope.launch {
             reportRestaurantUseCase.invoke(selectedMarker.value!!.placeId, reportCode.value!!).let {
                 when(it) {

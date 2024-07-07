@@ -43,14 +43,20 @@
             </TextView>
         </androidx.appcompat.widget.Toolbar>
 
+    <ScrollView
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_marginTop="60dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/toolbar"
+        android:orientation="vertical">
+
     <LinearLayout
         android:id="@+id/MainLinearLayout"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_marginTop="20dp"
-        android:orientation="vertical"
-        app:layout_constraintTop_toBottomOf="@+id/toolbar">
-
+        android:orientation="vertical">
 
         <LinearLayout
             android:id="@+id/FirstLinearLayout"
@@ -82,14 +88,15 @@
             android:layout_height="wrap_content"
             android:orientation="vertical"
             android:background="@drawable/base_mypage_menubar">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:paddingStart="20dp"
                 android:paddingTop="10dp"
-                android:textSize="17sp"
+                android:text="어비로에 건의하기"
                 android:textColor="@color/Gray0"
-                android:text="문의사항" />
+                android:textSize="17sp" />
         </LinearLayout>
         <LinearLayout
             android:id="@+id/menubar_insta"
@@ -104,8 +111,25 @@
                 android:paddingTop="10dp"
                 android:textSize="17sp"
                 android:textColor="@color/Gray0"
-                android:text="어비로 인스타그램" />
+                android:text="어비로 인스타그램 놀러가기" />
         </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/menubar_tutorial"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="vertical"
+                android:background="@drawable/base_mypage_menubar">
+                <TextView
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingStart="20dp"
+                    android:paddingTop="10dp"
+                    android:textSize="17sp"
+                    android:textColor="@color/Gray0"
+                    android:text="튜토리얼 다시하기" />
+            </LinearLayout>
+
         </LinearLayout>
 
         <LinearLayout
@@ -229,15 +253,15 @@
                 android:textColor="@color/Warn_Red"
                 android:text="로그아웃" />
 
-
             <TextView
                 android:id="@+id/social_account"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_marginEnd="7dp"
-                android:textSize="15sp"
-                android:textColor="@color/Gray3"
-                android:text="@{viewmodel.socialType}"/>
+                android:layout_marginEnd="20dp"
+                android:paddingTop="5dp"
+                app:setSocialBG="@{viewmodel.socialType}"/>
+            <!--  android:background="@drawable/ic_sign_type_apple"-->
+
         </LinearLayout>
         <LinearLayout
             android:id="@+id/version"
@@ -245,6 +269,7 @@
             android:layout_height="50dp"
             android:orientation="horizontal"
             android:background="@drawable/base_mypage_menubar">
+
             <TextView
                 android:layout_width="match_parent"
                 android:layout_weight="1"
@@ -291,7 +316,9 @@
 
         </LinearLayout>
 
+
     </LinearLayout>
+    </ScrollView>
 
     <!--<ProgressBar
         android:id="@+id/mypage_progressBar"

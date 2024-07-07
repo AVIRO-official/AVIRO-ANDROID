@@ -9,6 +9,8 @@ import com.aviro.android.R
 import com.aviro.android.databinding.ReviewReportDialogBinding
 
 class ReviewReportDialog(context : Context, val onClickReport : () -> (Unit)) : Dialog(context)  {
+    // val onClickBlock :(String)->(Unit)
+    // val onClickUnBlock :(String)->(Unit)
 
     private lateinit var binding: ReviewReportDialogBinding
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -34,6 +36,20 @@ class ReviewReportDialog(context : Context, val onClickReport : () -> (Unit)) : 
             onClickReport()
             dismiss()
         }
+
+        /*
+        binding.item2.setOnClickListener {
+            // 사용자 차단
+            onClickBlock()
+            dismiss()
+        }
+
+        binding.item3.setOnClickListener {
+            // 사용자 차단 해제
+            onClickUnBlock()
+            dismiss()
+        }
+         */
 
         binding.cancel.setOnClickListener {
             dismiss()

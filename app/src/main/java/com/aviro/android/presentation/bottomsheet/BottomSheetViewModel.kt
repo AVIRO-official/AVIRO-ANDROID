@@ -34,7 +34,11 @@ class BottomSheetViewModel @Inject constructor (
     private val reportReviewUseCase : ReportReviewUseCase
 ) : ViewModel() {
 
-    var userNickname : String? = null
+    //var userNickname : String? = null
+
+    var _userNickname = MutableLiveData<String?>()
+    val userNickname : LiveData<String?>
+        get() = _userNickname
 
  /*   var _isFavoriteOfSelectedMarker = MutableLiveData<Boolean>()
     val isFavoriteOfSelectedMarker : LiveData<Boolean>
@@ -103,10 +107,15 @@ class BottomSheetViewModel @Inject constructor (
 
 
     init {
+        getNickname()
+    }
+
+
+    fun getNickname() {
         viewModelScope.launch {
             getMyInfoUseCase.getNickname().let {
                 when(it) {
-                    is MappingResult.Success<*> -> { userNickname = it.data.toString() }
+                    is MappingResult.Success<*> -> { _userNickname.value = it.data.toString() }
                     is MappingResult.Error -> _errorLiveData.value = it.message
                 }
             }

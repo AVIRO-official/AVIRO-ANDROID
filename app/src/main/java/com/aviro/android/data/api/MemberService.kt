@@ -43,8 +43,10 @@ interface MemberService {
 
     @POST("member/revoke")
     suspend fun deleteUser(
-        @Body refreshToken: MemberWithdrawRequest
+        @Body request: MemberWithdrawRequest
     ): Result<BaseResponse>
+
+
 
     @POST("member/update/nickname")
     suspend fun updateNickname(

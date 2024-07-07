@@ -11,7 +11,6 @@ class GetTokenUseCase @Inject constructor (
     private val authRepository: AuthRepository
 ) {
     suspend operator fun invoke() : List<Map<String, String?>> {
-        val signType = authRepository.getSignTypeFromLocal()
         val tokens = authRepository.getTokensFromLocal()
         return tokens
     }
