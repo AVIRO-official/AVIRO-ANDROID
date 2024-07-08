@@ -6,6 +6,7 @@ import android.os.Bundle
 import androidx.activity.viewModels
 import androidx.fragment.app.FragmentActivity
 import androidx.recyclerview.widget.RecyclerView
+import com.aviro.android.common.AmplitudeUtils
 import com.aviro.android.databinding.ActivitySearchBinding
 import com.aviro.android.domain.entity.search.SearchedRestaurantItem
 import com.aviro.android.presentation.aviro_dialog.SortingAccDisDialog
@@ -87,7 +88,9 @@ class Search : FragmentActivity() {
 
 
         viewmodel.selectedSearchedItem.observe(this) {
-            viewmodel.storeSearchedWord(it.placeName) // 가게 등록에는 필요 없음
+            AmplitudeUtils.placeSearch(it.placeName)  // 앱플리튜드 연결
+            viewmodel.storeSearchedWord(it.placeName) // 검색한 가게
+
             intent.putExtra("search_item", it)
             setResult(Activity.RESULT_OK, intent)
             finish()

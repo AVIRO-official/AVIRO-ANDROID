@@ -350,8 +350,6 @@ class SearchViewModel @Inject constructor(
 
     fun onClickItem(selected_search_item : SearchedRestaurantItem) {
         _selectedSearchedItem.value = selected_search_item
-
-        AmplitudeUtils.placeSearch(selected_search_item.placeName)
     }
 
     // 검색바 뒤로가기
