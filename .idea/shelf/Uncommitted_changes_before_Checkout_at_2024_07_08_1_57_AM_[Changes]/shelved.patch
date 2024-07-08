@@ -1,0 +1,193 @@
+Index: .idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"DesignSurface\">\n    <option name=\"filePathToZoomLevelMap\">\n      <map>\n        <entry key=\"app/src/main/res/drawable/bar_bottomsheet.xml\" value=\"0.186\" />\n        <entry key=\"app/src/main/res/drawable/base_edittext_non.xml\" value=\"0.1765\" />\n        <entry key=\"app/src/main/res/drawable/base_edittext_right.xml\" value=\"0.1765\" />\n        <entry key=\"app/src/main/res/drawable/base_edittext_round_square_activate.xml\" value=\"0.1685\" />\n        <entry key=\"app/src/main/res/drawable/base_edittext_roundsquare_default.xml\" value=\"0.216\" />\n        <entry key=\"app/src/main/res/drawable/base_edittext_wrong.xml\" value=\"0.1765\" />\n        <entry key=\"app/src/main/res/drawable/base_mypage_menubar.xml\" value=\"0.1685\" />\n        <entry key=\"app/src/main/res/drawable/base_round_square.xml\" value=\"0.216\" />\n        <entry key=\"app/src/main/res/drawable/base_round_square_activate.xml\" value=\"0.1765\" />\n        <entry key=\"app/src/main/res/drawable/base_roundsquare.xml\" value=\"0.216\" />\n        <entry key=\"app/src/main/res/drawable/base_roundsquare_border_cobalt_30.xml\" value=\"0.167\" />\n        <entry key=\"app/src/main/res/drawable/base_roundsquare_cobalt_30.xml\" value=\"0.2055\" />\n        <entry key=\"app/src/main/res/drawable/base_roundsquare_gray1.xml\" value=\"0.212\" />\n        <entry key=\"app/src/main/res/drawable/base_roundsquare_gray5.xml\" value=\"0.193\" />\n        <entry key=\"app/src/main/res/drawable/base_roundsquare_gray6.xml\" value=\"0.207\" />\n        <entry key=\"app/src/main/res/drawable/base_roundsquare_gray6_11.xml\" value=\"0.1765\" />\n        <entry key=\"app/src/main/res/drawable/base_roundsquare_gray6_30.xml\" value=\"0.2055\" />\n        <entry key=\"app/src/main/res/drawable/base_roundsquare_white.xml\" value=\"0.2325\" />\n        <entry key=\"app/src/main/res/drawable/base_roundsquare_white_10.xml\" value=\"0.2055\" />\n        <entry key=\"app/src/main/res/drawable/base_roundsquare_white_15.xml\" value=\"0.1915\" />\n        <entry key=\"app/src/main/res/drawable/base_roundsquare_white_20.xml\" value=\"0.1915\" />\n        <entry key=\"app/src/main/res/drawable/base_roundsquare_white_8.xml\" value=\"0.2055\" />\n        <entry key=\"app/src/main/res/drawable/base_top_roundsquare_white_20.xml\" value=\"0.2055\" />\n        <entry key=\"app/src/main/res/drawable/base_top_roundsquare_white_30.xml\" value=\"0.1385\" />\n        <entry key=\"app/src/main/res/drawable/berry_review.xml\" value=\"0.2615\" />\n        <entry key=\"app/src/main/res/drawable/berry_search.xml\" value=\"0.2615\" />\n        <entry key=\"app/src/main/res/drawable/border2cobalt_roundsquare30white.xml\" value=\"0.625\" />\n        <entry key=\"app/src/main/res/drawable/border_roundsquare.xml\" value=\"0.194\" />\n        <entry key=\"app/src/main/res/drawable/bottom_bar_color.xml\" value=\"0.156\" />\n        <entry key=\"app/src/main/res/drawable/bottom_bar_margin.xml\" value=\"0.156\" />\n        <entry key=\"app/src/main/res/drawable/btn_add_menu.xml\" value=\"0.2325\" />\n        <entry key=\"app/src/main/res/drawable/btn_gender_female_activate.xml\" value=\"0.1765\" />\n        <entry key=\"app/src/main/res/drawable/btn_gender_female_non.xml\" value=\"0.1765\" />\n        <entry key=\"app/src/main/res/drawable/btn_next_activate.xml\" value=\"0.1685\" />\n        <entry key=\"app/src/main/res/drawable/btn_next_non.xml\" value=\"0.207\" />\n        <entry key=\"app/src/main/res/drawable/btn_sign_apple.xml\" value=\"0.178\" />\n        <entry key=\"app/src/main/res/drawable/btn_sign_terms_approve_activate.xml\" value=\"0.1765\" />\n        <entry key=\"app/src/main/res/drawable/btn_sign_terms_approve_non.xml\" value=\"0.1765\" />\n        <entry key=\"app/src/main/res/drawable/btn_start.xml\" value=\"0.213\" />\n        <entry key=\"app/src/main/res/drawable/card_vegantype_green.xml\" value=\"0.2055\" />\n        <entry key=\"app/src/main/res/drawable/card_vegantype_green_default.xml\" value=\"0.2635\" />\n        <entry key=\"app/src/main/res/drawable/challenge_progressbar.xml\" value=\"0.2055\" />\n        <entry key=\"app/src/main/res/drawable/checkbox_activate.xml\" value=\"0.197\" />\n        <entry key=\"app/src/main/res/drawable/checkbox_non.xml\" value=\"0.197\" />\n        <entry key=\"app/src/main/res/drawable/dot_guide_non.xml\" value=\"0.1765\" />\n        <entry key=\"app/src/main/res/drawable/frame_challenge_circle.xml\" value=\"0.178\" />\n        <entry key=\"app/src/main/res/drawable/ic_arrow_full_down.xml\" value=\"0.1765\" />\n        <entry key=\"app/src/main/res/drawable/ic_arrow_right.xml\" value=\"0.178\" />\n        <entry key=\"app/src/main/res/drawable/ic_arrow_right_bold.xml\" value=\"0.178\" />\n        <entry key=\"app/src/main/res/drawable/ic_berry_signup.xml\" value=\"0.178\" />\n        <entry key=\"app/src/main/res/drawable/ic_bottomsheet_like_active.xml\" value=\"0.186\" />\n        <entry key=\"app/src/main/res/drawable/ic_bottomsheet_loc.xml\" value=\"0.178\" />\n        <entry key=\"app/src/main/res/drawable/ic_bottomsheet_review.xml\" value=\"0.186\" />\n        <entry key=\"app/src/main/res/drawable/ic_challenge_guide_first.xml\" value=\"0.178\" />\n        <entry key=\"app/src/main/res/drawable/ic_check_non.xml\" value=\"0.242\" />\n        <entry key=\"app/src/main/res/drawable/ic_dashboard_black_24dp.xml\" value=\"0.242\" />\n        <entry key=\"app/src/main/res/drawable/ic_delete.xml\" value=\"0.167\" />\n        <entry key=\"app/src/main/res/drawable/ic_floating_favorite_active.xml\" value=\"0.1775\" />\n        <entry key=\"app/src/main/res/drawable/ic_floating_location.xml\" value=\"0.1915\" />\n        <entry key=\"app/src/main/res/drawable/ic_floating_location_default.xml\" value=\"0.1915\" />\n        <entry key=\"app/src/main/res/drawable/ic_guide_register.xml\" value=\"0.242\" />\n        <entry key=\"app/src/main/res/drawable/ic_guide_review.xml\" value=\"0.1765\" />\n        <entry key=\"app/src/main/res/drawable/ic_guide_search.xml\" value=\"0.2635\" />\n        <entry key=\"app/src/main/res/drawable/ic_info.xml\" value=\"0.178\" />\n        <entry key=\"app/src/main/res/drawable/ic_menu_cancel.xml\" value=\"0.178\" />\n        <entry key=\"app/src/main/res/drawable/ic_pin_type_default.xml\" value=\"0.2345\" />\n        <entry key=\"app/src/main/res/drawable/ic_price_dot.xml\" value=\"0.264\" />\n        <entry key=\"app/src/main/res/drawable/ic_search.xml\" value=\"0.193\" />\n        <entry key=\"app/src/main/res/drawable/ic_search_cancle.xml\" value=\"0.178\" />\n        <entry key=\"app/src/main/res/drawable/ic_search_tutorial_store.xml\" value=\"0.178\" />\n        <entry key=\"app/src/main/res/drawable/ic_tapbar_home.xml\" value=\"0.1775\" />\n        <entry key=\"app/src/main/res/drawable/ic_vegantype_green.xml\" value=\"0.2635\" />\n        <entry key=\"app/src/main/res/drawable/ic_vegantype_yellow.xml\" value=\"0.1765\" />\n        <entry key=\"app/src/main/res/drawable/map_searchbar.xml\" value=\"0.194\" />\n        <entry key=\"app/src/main/res/drawable/register_searchbar.xml\" value=\"0.194\" />\n        <entry key=\"app/src/main/res/drawable/selector_checkbox.xml\" value=\"0.206\" />\n        <entry key=\"app/src/main/res/drawable/text_guide_menu.xml\" value=\"0.1765\" />\n        <entry key=\"app/src/main/res/drawable/text_guide_register.xml\" value=\"0.167\" />\n        <entry key=\"app/src/main/res/drawable/text_guide_review.xml\" value=\"0.167\" />\n        <entry key=\"app/src/main/res/drawable/text_guide_search.xml\" value=\"0.167\" />\n        <entry key=\"app/src/main/res/drawable/text_sign_social.xml\" value=\"0.178\" />\n        <entry key=\"app/src/main/res/layout/activity_guide.xml\" value=\"0.25\" />\n        <entry key=\"app/src/main/res/layout/activity_home.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/layout/activity_main.xml\" value=\"0.22573749465583584\" />\n        <entry key=\"app/src/main/res/layout/activity_mypage.xml\" value=\"0.165\" />\n        <entry key=\"app/src/main/res/layout/activity_search.xml\" value=\"0.165\" />\n        <entry key=\"app/src/main/res/layout/activity_sign.xml\" value=\"0.16075245831551946\" />\n        <entry key=\"app/src/main/res/layout/activity_sign_nickname.xml\" value=\"0.22573749465583584\" />\n        <entry key=\"app/src/main/res/layout/activity_sign_option.xml\" value=\"0.22573749465583584\" />\n        <entry key=\"app/src/main/res/layout/activity_sign_terms.xml\" value=\"0.22573749465583584\" />\n        <entry key=\"app/src/main/res/layout/activity_splash.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/layout/activity_update.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/layout/add_menu_layout.xml\" value=\"0.25\" />\n        <entry key=\"app/src/main/res/layout/add_mnu_layout.xml\" value=\"0.15177426250534418\" />\n        <entry key=\"app/src/main/res/layout/challenge_guide_bottomsheet_dialog.xml\" value=\"0.275\" />\n        <entry key=\"app/src/main/res/layout/content_main.xml\" value=\"0.12099187687045745\" />\n        <entry key=\"app/src/main/res/layout/fragment_bottomsheet_home.xml\" value=\"0.25\" />\n        <entry key=\"app/src/main/res/layout/fragment_bottomsheet_menu.xml\" value=\"0.3003250122070313\" />\n        <entry key=\"app/src/main/res/layout/fragment_bottomsheet_review.xml\" value=\"0.23893548737942227\" />\n        <entry key=\"app/src/main/res/layout/fragment_bottomsheet_step1.xml\" value=\"0.165\" />\n        <entry key=\"app/src/main/res/layout/fragment_bottomsheet_step2.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/layout/fragment_challenge.xml\" value=\"0.16064814814814815\" />\n        <entry key=\"app/src/main/res/layout/fragment_change_nickname.xml\" value=\"0.14792646430098333\" />\n        <entry key=\"app/src/main/res/layout/fragment_guide_menu.xml\" value=\"0.15885416666666666\" />\n        <entry key=\"app/src/main/res/layout/fragment_guide_register.xml\" value=\"0.165\" />\n        <entry key=\"app/src/main/res/layout/fragment_guide_review.xml\" value=\"0.1371684320252582\" />\n        <entry key=\"app/src/main/res/layout/fragment_guide_search.xml\" value=\"0.23796296296296296\" />\n        <entry key=\"app/src/main/res/layout/fragment_map.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/layout/fragment_mypage.xml\" value=\"0.26207275390625\" />\n        <entry key=\"app/src/main/res/layout/fragment_register.xml\" value=\"0.125\" />\n        <entry key=\"app/src/main/res/layout/fragment_search_registeration.xml\" value=\"0.1569046601111586\" />\n        <entry key=\"app/src/main/res/layout/fragment_sign_complete.xml\" value=\"0.17979610750695088\" />\n        <entry key=\"app/src/main/res/layout/fragment_sign_nickname.xml\" value=\"0.11720428466796876\" />\n        <entry key=\"app/src/main/res/layout/fragment_sign_option.xml\" value=\"0.18978118896484375\" />\n        <entry key=\"app/src/main/res/layout/fragment_sign_social.xml\" value=\"0.1608108108108108\" />\n        <entry key=\"app/src/main/res/layout/fragment_sign_terms.xml\" value=\"0.125\" />\n        <entry key=\"app/src/main/res/layout/fragment_update_homepage.xml\" value=\"0.1\" />\n        <entry key=\"app/src/main/res/layout/fragment_update_loc.xml\" value=\"0.165\" />\n        <entry key=\"app/src/main/res/layout/fragment_update_number.xml\" value=\"0.25\" />\n        <entry key=\"app/src/main/res/layout/fragment_update_timetable.xml\" value=\"0.25\" />\n        <entry key=\"app/src/main/res/layout/menu_item.xml\" value=\"0.2247863247863248\" />\n        <entry key=\"app/src/main/res/layout/review_item.xml\" value=\"0.2247863247863248\" />\n        <entry key=\"app/src/main/res/layout/search_restaurant.xml\" value=\"0.16106350866661884\" />\n        <entry key=\"app/src/main/res/layout/search_restaurant_item.xml\" value=\"0.165\" />\n        <entry key=\"app/src/main/res/layout/search_tutorial.xml\" value=\"0.22573749465583584\" />\n        <entry key=\"app/src/main/res/layout/search_word.xml\" value=\"0.25632781982421876\" />\n        <entry key=\"app/src/main/res/layout/searched_restaurant_item.xml\" value=\"0.165\" />\n        <entry key=\"app/src/main/res/layout/searched_word.xml\" value=\"0.18170158187259514\" />\n        <entry key=\"app/src/main/res/layout/searched_word_item.xml\" value=\"0.27775306130841837\" />\n        <entry key=\"app/src/main/res/menu/bottom_nav_menu.xml\" value=\"0.12099187687045745\" />\n        <entry key=\"app/src/main/res/menu/menu_main.xml\" value=\"0.14594594594594595\" />\n        <entry key=\"app/src/main/res/xml/network_security_config.xml\" value=\"0.14324324324324325\" />\n      </map>\n    </option>\n  </component>\n  <component name=\"ExternalStorageConfigurationManager\" enabled=\"true\" />\n  <component name=\"ProjectRootManager\" version=\"2\" languageLevel=\"JDK_11\" default=\"true\" project-jdk-name=\"corretto-11\" project-jdk-type=\"JavaSDK\" />\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/misc.xml b/.idea/misc.xml
+--- a/.idea/misc.xml	(revision 336a5eb31b33039405499449f4182724cc2e70b5)
++++ b/.idea/misc.xml	(date 1720371264925)
+@@ -1,4 +1,3 @@
+-<?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="DesignSurface">
+     <option name="filePathToZoomLevelMap">
+@@ -13,13 +12,16 @@
+         <entry key="app/src/main/res/drawable/base_round_square.xml" value="0.216" />
+         <entry key="app/src/main/res/drawable/base_round_square_activate.xml" value="0.1765" />
+         <entry key="app/src/main/res/drawable/base_roundsquare.xml" value="0.216" />
++        <entry key="app/src/main/res/drawable/base_roundsquare_bgblue_10.xml" value="0.2155" />
+         <entry key="app/src/main/res/drawable/base_roundsquare_border_cobalt_30.xml" value="0.167" />
+         <entry key="app/src/main/res/drawable/base_roundsquare_cobalt_30.xml" value="0.2055" />
+         <entry key="app/src/main/res/drawable/base_roundsquare_gray1.xml" value="0.212" />
++        <entry key="app/src/main/res/drawable/base_roundsquare_gray4_5.xml" value="0.106" />
+         <entry key="app/src/main/res/drawable/base_roundsquare_gray5.xml" value="0.193" />
+         <entry key="app/src/main/res/drawable/base_roundsquare_gray6.xml" value="0.207" />
+         <entry key="app/src/main/res/drawable/base_roundsquare_gray6_11.xml" value="0.1765" />
+         <entry key="app/src/main/res/drawable/base_roundsquare_gray6_30.xml" value="0.2055" />
++        <entry key="app/src/main/res/drawable/base_roundsquare_keywordblue_10.xml" value="0.106" />
+         <entry key="app/src/main/res/drawable/base_roundsquare_white.xml" value="0.2325" />
+         <entry key="app/src/main/res/drawable/base_roundsquare_white_10.xml" value="0.2055" />
+         <entry key="app/src/main/res/drawable/base_roundsquare_white_15.xml" value="0.1915" />
+@@ -33,6 +35,7 @@
+         <entry key="app/src/main/res/drawable/border_roundsquare.xml" value="0.194" />
+         <entry key="app/src/main/res/drawable/bottom_bar_color.xml" value="0.156" />
+         <entry key="app/src/main/res/drawable/bottom_bar_margin.xml" value="0.156" />
++        <entry key="app/src/main/res/drawable/bottomsheet_tab_underline.xml" value="0.227" />
+         <entry key="app/src/main/res/drawable/btn_add_menu.xml" value="0.2325" />
+         <entry key="app/src/main/res/drawable/btn_gender_female_activate.xml" value="0.1765" />
+         <entry key="app/src/main/res/drawable/btn_gender_female_non.xml" value="0.1765" />
+@@ -49,6 +52,7 @@
+         <entry key="app/src/main/res/drawable/checkbox_non.xml" value="0.197" />
+         <entry key="app/src/main/res/drawable/dot_guide_non.xml" value="0.1765" />
+         <entry key="app/src/main/res/drawable/frame_challenge_circle.xml" value="0.178" />
++        <entry key="app/src/main/res/drawable/ic_adding.xml" value="0.181" />
+         <entry key="app/src/main/res/drawable/ic_arrow_full_down.xml" value="0.1765" />
+         <entry key="app/src/main/res/drawable/ic_arrow_right.xml" value="0.178" />
+         <entry key="app/src/main/res/drawable/ic_arrow_right_bold.xml" value="0.178" />
+@@ -57,9 +61,11 @@
+         <entry key="app/src/main/res/drawable/ic_bottomsheet_loc.xml" value="0.178" />
+         <entry key="app/src/main/res/drawable/ic_bottomsheet_review.xml" value="0.186" />
+         <entry key="app/src/main/res/drawable/ic_challenge_guide_first.xml" value="0.178" />
++        <entry key="app/src/main/res/drawable/ic_check_activate.xml" value="0.1805" />
+         <entry key="app/src/main/res/drawable/ic_check_non.xml" value="0.242" />
+         <entry key="app/src/main/res/drawable/ic_dashboard_black_24dp.xml" value="0.242" />
+         <entry key="app/src/main/res/drawable/ic_delete.xml" value="0.167" />
++        <entry key="app/src/main/res/drawable/ic_dropdown.xml" value="0.1965" />
+         <entry key="app/src/main/res/drawable/ic_floating_favorite_active.xml" value="0.1775" />
+         <entry key="app/src/main/res/drawable/ic_floating_location.xml" value="0.1915" />
+         <entry key="app/src/main/res/drawable/ic_floating_location_default.xml" value="0.1915" />
+@@ -68,15 +74,23 @@
+         <entry key="app/src/main/res/drawable/ic_guide_search.xml" value="0.2635" />
+         <entry key="app/src/main/res/drawable/ic_info.xml" value="0.178" />
+         <entry key="app/src/main/res/drawable/ic_menu_cancel.xml" value="0.178" />
++        <entry key="app/src/main/res/drawable/ic_mypage.xml" value="0.1805" />
+         <entry key="app/src/main/res/drawable/ic_pin_type_default.xml" value="0.2345" />
+         <entry key="app/src/main/res/drawable/ic_price_dot.xml" value="0.264" />
+         <entry key="app/src/main/res/drawable/ic_search.xml" value="0.193" />
+         <entry key="app/src/main/res/drawable/ic_search_cancle.xml" value="0.178" />
+         <entry key="app/src/main/res/drawable/ic_search_tutorial_store.xml" value="0.178" />
+         <entry key="app/src/main/res/drawable/ic_tapbar_home.xml" value="0.1775" />
++        <entry key="app/src/main/res/drawable/ic_tapbar_mypage.xml" value="0.1805" />
++        <entry key="app/src/main/res/drawable/ic_vegantype_box_green.xml" value="0.1805" />
+         <entry key="app/src/main/res/drawable/ic_vegantype_green.xml" value="0.2635" />
+         <entry key="app/src/main/res/drawable/ic_vegantype_yellow.xml" value="0.1765" />
+         <entry key="app/src/main/res/drawable/map_searchbar.xml" value="0.194" />
++        <entry key="app/src/main/res/drawable/marker_bookmark_yellow.xml" value="0.1805" />
++        <entry key="app/src/main/res/drawable/marker_default_bread_part.xml" value="0.159" />
++        <entry key="app/src/main/res/drawable/marker_default_bread_request.xml" value="0.159" />
++        <entry key="app/src/main/res/drawable/marker_default_select_green.xml" value="0.1805" />
++        <entry key="app/src/main/res/drawable/marker_select_alcohol_all.xml" value="0.23991241455078116" />
+         <entry key="app/src/main/res/drawable/register_searchbar.xml" value="0.194" />
+         <entry key="app/src/main/res/drawable/selector_checkbox.xml" value="0.206" />
+         <entry key="app/src/main/res/drawable/text_guide_menu.xml" value="0.1765" />
+@@ -84,47 +98,59 @@
+         <entry key="app/src/main/res/drawable/text_guide_review.xml" value="0.167" />
+         <entry key="app/src/main/res/drawable/text_guide_search.xml" value="0.167" />
+         <entry key="app/src/main/res/drawable/text_sign_social.xml" value="0.178" />
++        <entry key="app/src/main/res/font/.xml" value="0.1470713980333476" />
+         <entry key="app/src/main/res/layout/activity_guide.xml" value="0.25" />
+         <entry key="app/src/main/res/layout/activity_home.xml" value="0.1" />
+         <entry key="app/src/main/res/layout/activity_main.xml" value="0.22573749465583584" />
+         <entry key="app/src/main/res/layout/activity_mypage.xml" value="0.165" />
+-        <entry key="app/src/main/res/layout/activity_search.xml" value="0.165" />
++        <entry key="app/src/main/res/layout/activity_review_script.xml" value="0.125" />
++        <entry key="app/src/main/res/layout/activity_search.xml" value="0.27009646302250806" />
+         <entry key="app/src/main/res/layout/activity_sign.xml" value="0.16075245831551946" />
+         <entry key="app/src/main/res/layout/activity_sign_nickname.xml" value="0.22573749465583584" />
+         <entry key="app/src/main/res/layout/activity_sign_option.xml" value="0.22573749465583584" />
+         <entry key="app/src/main/res/layout/activity_sign_terms.xml" value="0.22573749465583584" />
+-        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.1" />
++        <entry key="app/src/main/res/layout/activity_splash.xml" value="0.25" />
+         <entry key="app/src/main/res/layout/activity_update.xml" value="0.1" />
+         <entry key="app/src/main/res/layout/add_menu_layout.xml" value="0.25" />
+         <entry key="app/src/main/res/layout/add_mnu_layout.xml" value="0.15177426250534418" />
+         <entry key="app/src/main/res/layout/challenge_guide_bottomsheet_dialog.xml" value="0.275" />
++        <entry key="app/src/main/res/layout/challenge_promo_popup.xml" value="0.16673792218896966" />
+         <entry key="app/src/main/res/layout/content_main.xml" value="0.12099187687045745" />
+-        <entry key="app/src/main/res/layout/fragment_bottomsheet_home.xml" value="0.25" />
+-        <entry key="app/src/main/res/layout/fragment_bottomsheet_menu.xml" value="0.3003250122070313" />
+-        <entry key="app/src/main/res/layout/fragment_bottomsheet_review.xml" value="0.23893548737942227" />
+-        <entry key="app/src/main/res/layout/fragment_bottomsheet_step1.xml" value="0.165" />
++        <entry key="app/src/main/res/layout/custom_dialog.xml" value="0.1675929884566054" />
++        <entry key="app/src/main/res/layout/custom_list_dialog.xml" value="0.335" />
++        <entry key="app/src/main/res/layout/fragment_bottomsheet_home.xml" value="0.165" />
++        <entry key="app/src/main/res/layout/fragment_bottomsheet_menu.xml" value="0.165" />
++        <entry key="app/src/main/res/layout/fragment_bottomsheet_review.xml" value="0.125" />
++        <entry key="app/src/main/res/layout/fragment_bottomsheet_step1.xml" value="0.3601385498046875" />
+         <entry key="app/src/main/res/layout/fragment_bottomsheet_step2.xml" value="0.1" />
+-        <entry key="app/src/main/res/layout/fragment_challenge.xml" value="0.16064814814814815" />
++        <entry key="app/src/main/res/layout/fragment_challenge.xml" value="0.25" />
+         <entry key="app/src/main/res/layout/fragment_change_nickname.xml" value="0.14792646430098333" />
+         <entry key="app/src/main/res/layout/fragment_guide_menu.xml" value="0.15885416666666666" />
+         <entry key="app/src/main/res/layout/fragment_guide_register.xml" value="0.165" />
+         <entry key="app/src/main/res/layout/fragment_guide_review.xml" value="0.1371684320252582" />
+         <entry key="app/src/main/res/layout/fragment_guide_search.xml" value="0.23796296296296296" />
+         <entry key="app/src/main/res/layout/fragment_map.xml" value="0.1" />
+-        <entry key="app/src/main/res/layout/fragment_mypage.xml" value="0.26207275390625" />
+-        <entry key="app/src/main/res/layout/fragment_register.xml" value="0.125" />
++        <entry key="app/src/main/res/layout/fragment_mypage.xml" value="0.2057335581787521" />
++        <entry key="app/src/main/res/layout/fragment_register.xml" value="0.182000732421875" />
++        <entry key="app/src/main/res/layout/fragment_review_script.xml" value="0.19071411132812502" />
+         <entry key="app/src/main/res/layout/fragment_search_registeration.xml" value="0.1569046601111586" />
+         <entry key="app/src/main/res/layout/fragment_sign_complete.xml" value="0.17979610750695088" />
+         <entry key="app/src/main/res/layout/fragment_sign_nickname.xml" value="0.11720428466796876" />
+         <entry key="app/src/main/res/layout/fragment_sign_option.xml" value="0.18978118896484375" />
+-        <entry key="app/src/main/res/layout/fragment_sign_social.xml" value="0.1608108108108108" />
++        <entry key="app/src/main/res/layout/fragment_sign_social.xml" value="0.165" />
+         <entry key="app/src/main/res/layout/fragment_sign_terms.xml" value="0.125" />
+         <entry key="app/src/main/res/layout/fragment_update_homepage.xml" value="0.1" />
+         <entry key="app/src/main/res/layout/fragment_update_loc.xml" value="0.165" />
+         <entry key="app/src/main/res/layout/fragment_update_number.xml" value="0.25" />
+         <entry key="app/src/main/res/layout/fragment_update_timetable.xml" value="0.25" />
++        <entry key="app/src/main/res/layout/levelup_dialog.xml" value="0.25" />
++        <entry key="app/src/main/res/layout/levelup_popup.xml" value="0.1556997219647822" />
+         <entry key="app/src/main/res/layout/menu_item.xml" value="0.2247863247863248" />
+-        <entry key="app/src/main/res/layout/review_item.xml" value="0.2247863247863248" />
++        <entry key="app/src/main/res/layout/my_restaurant_item.xml" value="0.25" />
++        <entry key="app/src/main/res/layout/my_review_item.xml" value="0.33" />
++        <entry key="app/src/main/res/layout/mypage_list_frag.xml" value="0.165" />
++        <entry key="app/src/main/res/layout/pre_searched_word.xml" value="0.1675929884566054" />
++        <entry key="app/src/main/res/layout/review_item.xml" value="0.165" />
+         <entry key="app/src/main/res/layout/search_restaurant.xml" value="0.16106350866661884" />
+         <entry key="app/src/main/res/layout/search_restaurant_item.xml" value="0.165" />
+         <entry key="app/src/main/res/layout/search_tutorial.xml" value="0.22573749465583584" />
+@@ -132,12 +158,16 @@
+         <entry key="app/src/main/res/layout/searched_restaurant_item.xml" value="0.165" />
+         <entry key="app/src/main/res/layout/searched_word.xml" value="0.18170158187259514" />
+         <entry key="app/src/main/res/layout/searched_word_item.xml" value="0.27775306130841837" />
++        <entry key="app/src/main/res/layout/timetable_dialog.xml" value="0.25" />
++        <entry key="app/src/main/res/layout/two_choice_dialog.xml" value="0.1675929884566054" />
+         <entry key="app/src/main/res/menu/bottom_nav_menu.xml" value="0.12099187687045745" />
+         <entry key="app/src/main/res/menu/menu_main.xml" value="0.14594594594594595" />
++        <entry key="app/src/main/res/menu/register_price_menu_option.xml" value="0.16545532278751604" />
++        <entry key="app/src/main/res/menu/register_price_menu_popup.xml" value="0.13296749683410722" />
+         <entry key="app/src/main/res/xml/network_security_config.xml" value="0.14324324324324325" />
+       </map>
+     </option>
+   </component>
+   <component name="ExternalStorageConfigurationManager" enabled="true" />
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_11" default="true" project-jdk-name="corretto-11" project-jdk-type="JavaSDK" />
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_17" default="true" project-jdk-name="jbr-17" project-jdk-type="JavaSDK" />
+ </project>
+\ No newline at end of file
+Index: .idea/compiler.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.BaseRevisionTextPatchEP
+<+><?xml version=\"1.0\" encoding=\"UTF-8\"?>\n<project version=\"4\">\n  <component name=\"CompilerConfiguration\">\n    <bytecodeTargetLevel target=\"11\" />\n  </component>\n</project>
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+diff --git a/.idea/compiler.xml b/.idea/compiler.xml
+--- a/.idea/compiler.xml	(revision 336a5eb31b33039405499449f4182724cc2e70b5)
++++ b/.idea/compiler.xml	(date 1720371372435)
+@@ -1,6 +1,6 @@
+ <?xml version="1.0" encoding="UTF-8"?>
+ <project version="4">
+   <component name="CompilerConfiguration">
+-    <bytecodeTargetLevel target="11" />
++    <bytecodeTargetLevel target="17" />
+   </component>
+ </project>
+\ No newline at end of file
