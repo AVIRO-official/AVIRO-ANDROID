@@ -25,7 +25,7 @@ import com.aviro.android.presentation.aviro_dialog.AviroDialogUtils
 import com.aviro.android.presentation.aviro_dialog.LevelUpPopUp
 import com.aviro.android.presentation.home.ui.map.Map
 import com.aviro.android.presentation.home.ui.mypage.ChallengeFragment
-import com.aviro.android.presentation.home.ui.register.RegisterFragment
+import com.aviro.android.presentation.home.ui.register.RegisterActivity
 import com.naver.maps.map.NaverMapSdk
 import dagger.hilt.android.AndroidEntryPoint
 
@@ -105,7 +105,7 @@ class Home : FragmentActivity() {
                     }
 
                     HomeViewModel.WhereToGo.REGISTER -> {
-                        val intent = Intent(this, RegisterFragment::class.java)
+                        val intent = Intent(this, RegisterActivity::class.java)
                         intent.putExtra("NaverMapOfX", frag1.NaverMapOfX)
                         intent.putExtra("NaverMapOfY", frag1.NaverMapOfY)
                         intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)
@@ -155,7 +155,7 @@ class Home : FragmentActivity() {
                 }
 
                 R.id.navigation_register -> {
-                    val intent = Intent(this, RegisterFragment::class.java)
+                    val intent = Intent(this, RegisterActivity::class.java)
                     intent.putExtra("NaverMapOfX", frag1.NaverMapOfX)
                     intent.putExtra("NaverMapOfY", frag1.NaverMapOfY)
                     intent.addFlags(Intent.FLAG_ACTIVITY_NO_ANIMATION)

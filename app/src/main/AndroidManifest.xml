@@ -78,7 +78,7 @@
         <!--android:windowSoftInputMode="adjustResize|stateHidden|"-->
 
         <activity
-            android:name=".presentation.home.ui.register.RegisterFragment"
+            android:name=".presentation.home.ui.register.RegisterActivity"
             android:exported="true"
             android:screenOrientation="portrait">
         </activity>
