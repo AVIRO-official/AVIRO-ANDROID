@@ -16,13 +16,6 @@ android {
 
     namespace = "com.aviro.android"
     signingConfigs {
-        /*
-      release {
-          storeFile file('/Users/gangmini/AndroidStudioProjects/AppDev/aviro_key_apk')
-          storePassword "Kk@305903"
-          keyAlias "aviro_key_apk"
-          keyPassword "Kk@305903"
-        } */
     }
 
     compileSdk 34
@@ -30,8 +23,8 @@ android {
     defaultConfig {
         applicationId "com.aviro.android"
         minSdk 29
-        targetSdk 33
-        versionCode 27
+        targetSdk 34
+        versionCode 29
 
         versionName "1.0.0"
 
