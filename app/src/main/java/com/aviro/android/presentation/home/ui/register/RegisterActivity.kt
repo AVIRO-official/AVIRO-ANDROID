@@ -18,30 +18,18 @@ import androidx.activity.viewModels
 import androidx.core.app.ActivityCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.size
-import androidx.fragment.app.Fragment
 import androidx.fragment.app.FragmentActivity
-import androidx.fragment.app.activityViewModels
-import androidx.fragment.app.viewModels
-import androidx.viewpager2.widget.ViewPager2
 import com.aviro.android.R
 import com.aviro.android.domain.entity.menu.Menu
 import com.aviro.android.databinding.*
 import com.aviro.android.domain.entity.search.SearchedRestaurantItem
 import com.aviro.android.presentation.aviro_dialog.AviroDialogUtils
-import com.aviro.android.presentation.aviro_dialog.LevelUpPopUp
-import com.aviro.android.presentation.home.Home
-import com.aviro.android.presentation.home.HomeViewModel
 import dagger.hilt.android.AndroidEntryPoint
 import java.text.DecimalFormat
 import java.util.*
 
 @AndroidEntryPoint
-class RegisterFragment : FragmentActivity() { // Fragment()
-
-    /*
-    private var _binding: FragmentRegisterBinding? = null
-    private val binding get() = _binding!!
-     */
+class RegisterActivity : FragmentActivity() {
 
     private lateinit var binding: FragmentRegisterBinding
 

@@ -34,10 +34,12 @@ class SearchRegisteration : FragmentActivity() {
         // 기본 정렬 기준
         val SortingLoc = SortingLocEntity(X.toString(), Y.toString() , "accuracy")
         viewmodel._SrotingLocation.value = SortingLoc
-        Log.d("SortingLoc","${SortingLoc}")
 
 
         binding.searchRecyclerview.adapter = SearchAdapter(viewmodel)
+
+        initObserver()
+
 
         // 스크롤 발생할 때 호출
         binding.searchRecyclerview.addOnScrollListener(object : RecyclerView.OnScrollListener() {
@@ -60,6 +62,23 @@ class SearchRegisteration : FragmentActivity() {
             }
         })
 
+
+        binding.backBtn.setOnClickListener {
+            finish()
+        }
+
+        binding.searchbarCancleBtn.setOnClickListener {
+            binding.EditTextSearchBar.text = null
+        }
+
+
+
+
+    }
+
+
+    fun initObserver() {
+
         viewmodel.searchList.observe(this) {
             if (viewmodel.isNewKeyword == true) {
                 binding.searchRecyclerview.removeAllViews() // 기존 검색 리스트 삭제
@@ -81,55 +100,45 @@ class SearchRegisteration : FragmentActivity() {
         }
 
 
-
-
-        binding.backBtn.setOnClickListener {
-            finish()
-        }
-
-        binding.searchbarCancleBtn.setOnClickListener {
-            binding.EditTextSearchBar.text = null
-        }
-
-
         viewmodel.selectedSearchedItem.observe(this) { item ->
-            if (item.placeId != null) {
+        if (item.placeId != null) {
+            // 이미 등록된 가게
+            AviroDialogUtils.createOneDialog(
+                this,
+                "이미 등록된 가게예요",
+                "다른 유저가 이미 등록한 가게예요.\n" +
+                        "홈 화면에서 검색해보세요.",
+                "확인"
+            ).show()
+
+        } else {
+            // 어비로 서버에서 등록된 가게인지 한번 더 확인
+            viewmodel.checkIsRegister(item.placeName, item.addressName, item.x.toDouble(), item.y.toDouble())
+        }
+    }
+
+
+        // 해당 코드를 selectedSearchedItem observer 코드 안에 넣으면 매번 이 observer가 새롭게  등록되면서 정확한결과 나오지 않음
+        viewmodel.isRegistered.observe(this) {
+            if(it) {
                 // 이미 등록된 가게
                 AviroDialogUtils.createOneDialog(
-                   this,
+                    this,
                     "이미 등록된 가게예요",
                     "다른 유저가 이미 등록한 가게예요.\n" +
                             "홈 화면에서 검색해보세요.",
                     "확인"
                 ).show()
+
             } else {
-                // 어비로 서버에서 등록된 가게인지 한번 더 확인
-                viewmodel.checkIsRegister(item.placeName, item.addressName, item.x.toDouble(), item.y.toDouble())
-                viewmodel.isRegistered.observe(this) {
-
-                    if(it) {
-                        // 이미 등록된 가게
-                        AviroDialogUtils.createOneDialog(
-                            this,
-                            "이미 등록된 가게예요",
-                            "다른 유저가 이미 등록한 가게예요.\n" +
-                                    "홈 화면에서 검색해보세요.",
-                            "확인"
-                        ).show()
-
-                    } else {
-                        // Intent에 데이터 추가
-                        intent.putExtra("search_item", item)
-                        setResult(Activity.RESULT_OK, intent)
-                        finish()
-                    }
-                }
+                // Intent에 데이터 추가
+                intent.putExtra("search_item", viewmodel.selectedSearchedItem.value)
+                setResult(Activity.RESULT_OK, intent)
+                finish()
             }
-
         }
 
-    }
-
+}
 
 
 }
